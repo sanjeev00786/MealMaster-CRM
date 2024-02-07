@@ -1,0 +1,4 @@
+const supabaseUrlKey = "https://cvnlpinekwolqaratkmc.supabase.co";
+const supabaseKey_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2bmxwaW5la3dvbHFhcmF0a21jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDYwNTIyMDUsImV4cCI6MjAyMTYyODIwNX0.a1akmJbugYiuvcKKDfavqC7B5EfgzfYUOWc03dQS3do";
+
+export { supabaseUrlKey, supabaseKey_ANON };

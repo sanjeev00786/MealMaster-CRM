@@ -1,10 +1,10 @@
 const express = require('express');
 const app = express();
-const driverRoutes = require('./server/routes/Driver/driver_routes.js')
+const driverRoutes = require('./routes/Driver/driver_routes.js')
 
-const providerRoutes = require('./server/routes/provider_sign_up/provider_sign_up_route.js')
+const providerRoutes = require('./routes/provider_sign_up/provider_sign_up_route.js')
 
-const customerRoutes = require('./server/routes/customer/customer_routes.js')
+const customerRoutes = require('./routes/customer/customer_routes.js')
 
 
 const port = 3000;
