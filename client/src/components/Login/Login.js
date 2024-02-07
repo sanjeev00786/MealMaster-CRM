@@ -22,10 +22,12 @@ export default function Login() {
     return () => subscription.unsubscribe();
   }, []);
 
+  const providers = []; // You can customize this array based on your needs
+
   if (!session) {
     return (
       <div className="login-container">
-        <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} />
+        <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} providers={providers} />
       </div>
     );
   } else {

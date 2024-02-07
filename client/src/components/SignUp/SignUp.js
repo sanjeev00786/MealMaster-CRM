@@ -40,10 +40,12 @@ export default function SignUp() {
     }
   };
 
+  const providers = []; // Customize this array based on your needs
+
   if (!session) {
     return (
       <div className="signup-container">
-        <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} />
+        <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} providers={providers} />
         <div>
           <h2>Create New User</h2>
           <label>
@@ -70,4 +72,3 @@ export default function SignUp() {
     return <div className="signup-container">Logged in!</div>;
   }
 }
-
