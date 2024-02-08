@@ -15,10 +15,7 @@ app.use('/api/drivers', driverRoutes);
 app.use('/api/customer', customerRoutes);
 
 // Use the meal_plans routes acting as a middleware
-app.use('/api/meal_plans', meal_plan_Routes);
-
-// app.use('/api/')
-
+app.use('/api/provider/meal_plans', meal_plan_Routes);
 
 
 
