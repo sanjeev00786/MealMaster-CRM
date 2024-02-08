@@ -17,8 +17,6 @@ app.use('/api/customer', customerRoutes);
 // Use the meal_plans routes acting as a middleware
 app.use('/api/provider/meal_plans', meal_plan_Routes);
 
-
-
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
