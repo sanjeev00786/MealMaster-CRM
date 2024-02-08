@@ -108,6 +108,8 @@ exports.updateMealPlan = async (req, res) => {
         .status(400)
         .json({ status: 400, success: false, error: result.message });
     }
+
+    
   } catch (error) {
     // console.error(error);
     res
