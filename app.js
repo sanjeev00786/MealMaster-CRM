@@ -13,6 +13,7 @@ app.use('/api/drivers', driverRoutes);
 // Use the customer routes acting as a middleware
 app.use('/api/customer', customerRoutes);
 
+
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
