@@ -38,3 +38,27 @@ exports.createProvider = async (data) => {
     throw new Error("Failed to create provider");
   }
 };
+
+
+exports.getProvider = async (provider_id) => {
+  console.log('Received Data:', { provider_id });
+
+  try {
+      const { data, error } = await supabase
+          .from('providers')
+          .select('*')
+          .eq('id', provider_id);
+
+      if (error) {
+          console.error('Supabase Delete Error:', error.message);
+          return { success: false, message: 'Failed to fetch providers' }
+      }
+
+      console.log();
+
+      return { success: true, message: 'Provider fetched successfully', data };
+  } catch (error) {
+      console.error('Failed to fetch providers:', error.message);
+      throw new Error('Failed to fetch providers');
+  }
+};
