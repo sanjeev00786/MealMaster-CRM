@@ -114,7 +114,7 @@ exports.deleteDriver = async (req, res) => {
   }
 };
 
-exports.getDriver = async (req, res) => {
+exports.getDriver = async (req, res) => { 
   try {
     const { provider_id } = req.query;
 
