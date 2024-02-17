@@ -36,7 +36,7 @@ exports.createMealPlan = async (data) => {
   
       // console.log("Meal  plan created successfully.");
   
-      return { data, message: "Meal plan created successfully" };
+      return { success: true, message: "Meal plan created successfully", "data": data };
     } catch (error) {
       // console.error("Result from creating meal plan:", error.message);
       throw new Error("Failed to make meal plan");
@@ -57,7 +57,7 @@ exports.readMealPlan = async ({provider_id}) => {
 
     }
 
-    return { data, message: "Meal plan fetched successfully" };
+    return { success: true, message: "Meal plan fetched successfully", "data": data };
   } catch (error) {
     // console.error("Error fetching meal plan:", error.message);
     throw new Error("Failed to fetch meal plan");
@@ -102,7 +102,7 @@ exports.removeMealPlan = async({ plan_id})=>{
 
     }
 
-    return {message: "Meal plan deleted successfully" };
+    return { success: true, message: "Meal plan deleted successfully" };
 
   }catch(error){
     // console.error("Error deleting meal plan:",error.message);

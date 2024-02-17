@@ -41,13 +41,10 @@ exports.addMealPlan = async (req, res) => {
 
 exports.getMealPlan = async (req, res) => {
   try {
-    const { provider_id, plan_name, price, description } = req.query;
+    const { provider_id } = req.query;
 
     const result = await mealPlanModel.readMealPlan({
-      provider_id,
-      plan_name,
-      price,
-      description,
+      provider_id
     });
 
     if (result && result.success) {
