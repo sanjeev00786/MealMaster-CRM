@@ -54,7 +54,6 @@ exports.editCustomer = async (req, res) => {
     const customerId = req.params.customer_id; 
 
     const {
-      provider_id,
       name,
       email_id,
       contact,
@@ -73,7 +72,6 @@ exports.editCustomer = async (req, res) => {
     console.log(`Received data for editing customer with ID ${customerId}:`, req.body);
 
     const result = await customerModel.editCustomer(customerId, {
-      provider_id,
       name,
       email_id,
       contact,
@@ -123,7 +121,7 @@ exports.getCustomer = async (req, res) => {
 
     const customer = await customerModel.getCustomer(customerId);
 
-    if (result && result.success) {
+    if (customer && customer.success) {
       res.status(200).json({ status: 200, success: true, data: customer });
     } else {
       res.status(404).json({ status: 404, success: false, error: 'Customer not found' });
@@ -142,13 +140,14 @@ exports.getCustomersByProvider = async (req, res) => {
     const pageSize = 10;
 
     const customers = await customerModel.getCustomersByProvider(providerId);
+    console.log(customers);
 
-    const totalCustomers = customers.length;
+    const totalCustomers = customers.data.length;
     const totalPages = Math.ceil(totalCustomers / pageSize);
 
     const startIndex = (currentPage - 1) * pageSize;
     const endIndex = currentPage * pageSize;
-    const currentCustomers = customers.slice(startIndex, endIndex);
+    const currentCustomers = customers.data.slice(startIndex, endIndex);
 
     if (currentCustomers.length > 0) {
       res.status(200).json({
