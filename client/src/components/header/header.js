@@ -4,7 +4,7 @@ const Header = () => {
   return (
     <header style={headerStyle}>
       <div style={logoContainerStyle}>
-        <img src="" alt="Logo" style={logoStyle} />
+        <img src={`${process.env.PUBLIC_URL}/Assets/Images/logo.svg`} alt="Logo" style={logoStyle} />
       </div>
     </header>
   );
@@ -13,7 +13,7 @@ const Header = () => {
 const headerStyle = {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     padding: '10px 20px',
     backgroundColor: '#f0f0f0',
   };
@@ -24,7 +24,7 @@ const headerStyle = {
   };
   
   const logoStyle = {
-    width: '50px',
+    width: 'auto',
     height: 'auto',
     marginRight: '10px',
   };

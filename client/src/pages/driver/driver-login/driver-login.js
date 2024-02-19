@@ -1,29 +1,27 @@
-import React, { useState } from 'react';
+import React from 'react';
 import '../driver-login/driver-login.css';
 import Header from "../../../components/header/header";
 import TextField from '@mui/material/TextField';
-import LoadingButton from '@mui/lab/LoadingButton';
-import { CircularProgress } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import CustomButton from '../../../components/CustomButton/CustomButton';
+import "../../../components/CustomButton/CustomButton.css";
 
 const DriverLogin = () => {
     const navigate = useNavigate();
-    const [loading, setLoading] = useState(false);
 
-    const handleLogin = () => {
-        console.log('handleLogin is called');
-        setLoading(true);
-        setTimeout(() => {  
-          try {
-            console.log('testing');
+    const [isButtonLoading, setIsButtonLoading] = React.useState(
+        false
+    );
+
+    const handleLogin = (e) => {
+        e.preventDefault();
+        setIsButtonLoading(true);
+
+        setTimeout(() => {
+            setIsButtonLoading(false);
             navigate('/driver_dashboard');
-          } catch (error) {
-            console.error('Error:', error);
-          }
-          setLoading(false);
-        }, 2000);
+        }, 3000);
     };
-
 
     return (
         <div className="login-container">
@@ -42,19 +40,16 @@ const DriverLogin = () => {
                             className: 'login-input',
                             style: {
                                 borderBottom: '1px solid #C1C7CD',
+                                textAlign: 'center'
                             },
                         }}
                     />
-                    <LoadingButton
-                        variant="contained"
-                        color="primary"
+                    <CustomButton
+                        isLoading={isButtonLoading}
                         onClick={handleLogin}
-                        loading={loading}
-                        loadingIndicator={<CircularProgress size={24} />}
-                        id='login-button'
                     >
                         Get Started
-                    </LoadingButton>
+                    </CustomButton>
                 </form>
             </div>
         </div>
