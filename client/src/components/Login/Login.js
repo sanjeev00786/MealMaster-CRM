@@ -1,9 +1,10 @@
 import './Login.css'; // Create a CSS file for your Login component styles
 import { useState, useEffect } from 'react';
-import { createClient } from '@supabase/supabase-js';
+// import { createClient } from '@supabase/supabase-js';
 import { Auth } from '@supabase/auth-ui-react';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
 import supabase from '../../supabase';
+import { Navigate } from 'react-router-dom';
 
 export default function Login() {
   const [session, setSession] = useState(null);
@@ -31,6 +32,6 @@ export default function Login() {
       </div>
     );
   } else {
-    return <div className="login-container">Logged in!</div>;
+    return <Navigate to="/driver_login" />;
   }
 }

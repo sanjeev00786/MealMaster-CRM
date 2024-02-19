@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Login from './components/Login/Login';
 import SignUp from './components/SignUp/SignUp';
-// import CustomerTable from './components/Dashboard';
 import supabase from './supabase';
+import DriverDashboard from './pages/driver/driver-dashboard/driver-dashboard';
+import DriverLogin from './pages/driver/driver-login/driver-login'
 
 const PrivateRoute = ({ component: Component, session, ...rest }) => (
   <Route
     {...rest}
     render={(props) =>
-      session ? <Component {...props} /> : <Redirect to="/login" />
+      session ? <Component {...props} /> : <Navigate to="/login" />
     }
   />
 );
-
 const App = () => {
   const [session, setSession] = useState(null);
   useEffect(() => {
@@ -32,7 +32,6 @@ const App = () => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(authStateChangeHandler);
     return () => subscription.unsubscribe();
   }, []);
-
   const handleLogout = async () => {
     try {
       await supabase.auth.signOut();
@@ -42,22 +41,32 @@ const App = () => {
     }
   };
   return (
-    <Router>
-      <div className="App">
-        <Switch>
-          <Route path="/login" component={Login} />
-          {/* <Route path="/driver-login" component={Login} /> */}
-          <Route path="/signup" component={SignUp} />
-          {/* <PrivateRoute path="/dashboard" component={CustomerTable} session={session} />
+  <Router>
+  <div className="App">
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<SignUp />} />
+      {/* Use Navigate instead of Redirect */}
+      <Route
+        path="/driver_login"
+        element={session ? <DriverLogin /> : <Navigate to="/driver_login" />}
+      />
+      <Route
+        path="/driver_dashboard"
+        element={ <DriverDashboard /> }
+      />
+      {/* <PrivateRoute path="/dashboard" component={CustomerTable} session={session} />
           <PrivateRoute path="/customers" component={Customers} session={session} />
           <PrivateRoute path="/track-deliveries" component={TrackDeliveries} session={session} />
           <PrivateRoute path="/delivery-schedule" component={DeliverySchedule} session={session} />
           <PrivateRoute path="/social-media" component={SocialMedia} session={session} />
           <PrivateRoute path="/drivers-dashboard" component={Drivers} session={session} />
           <PrivateRoute path="/drivers-past-deliveries" component={Drivers} session={session} /> */}
-          <Redirect from="/" to={session ? '/dashboard' : '/login'} />
-        </Switch>
-      </div>
-    </Router>
+        <Route path="/" element={<Navigate to={session ? '/dashboard' : '/login'} />} />
+
+    </Routes>
+  </div>
+  </Router>
   );
 };
+export default App;

@@ -122,7 +122,7 @@ exports.getCustomer = async (req, res) => {
     const customer = await customerModel.getCustomer(customerId);
 
     if (customer && customer.success) {
-      res.status(200).json({ status: 200, success: true, data: customer });
+      res.status(200).json({ data: customer });
     } else {
       res.status(404).json({ status: 404, success: false, error: 'Customer not found' });
     }
