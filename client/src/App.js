@@ -5,6 +5,7 @@ import SignUp from './components/SignUp/SignUp';
 import supabase from './supabase';
 import DriverDashboard from './pages/driver/driver-dashboard/driver-dashboard';
 import DriverLogin from './pages/driver/driver-login/driver-login'
+import PastDeliveries from './pages/driver/past-deliveries/past-deliveries';
 
 const PrivateRoute = ({ component: Component, session, ...rest }) => (
   <Route
@@ -54,6 +55,10 @@ const App = () => {
       <Route
         path="/driver_dashboard"
         element={ <DriverDashboard /> }
+      />
+      <Route
+        path="/past_deliveries"
+        element={ <PastDeliveries /> }
       />
       {/* <PrivateRoute path="/dashboard" component={CustomerTable} session={session} />
           <PrivateRoute path="/customers" component={Customers} session={session} />
