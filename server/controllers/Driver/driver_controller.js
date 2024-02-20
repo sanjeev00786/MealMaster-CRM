@@ -116,6 +116,28 @@ exports.deleteDriver = async (req, res) => {
 
 exports.getDriver = async (req, res) => { 
   try {
+    const { login_token } = req.query;
+
+    if (!login_token) {
+      console.log(req.params);
+      return res.status(400).json({ status: 400, success: false, error: 'Missing login_token parameter' });
+    }
+
+    const result = await driverModel.getDriver(login_token);
+
+    if (result && result.success) {
+      res.status(200).json({ status: 200, success: true, message: 'Driver data fetched successfully', data: result.data });
+    } else {
+      res.status(404).json({ status: 404, success: false, error: 'Driver not found' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ status: 500, success: false, error: 'Internal Server Error' });
+  }
+};
+
+exports.getAllDrivers = async (req, res) => { 
+  try {
     const { provider_id } = req.query;
 
     if (!provider_id) {
@@ -123,7 +145,7 @@ exports.getDriver = async (req, res) => {
       return res.status(400).json({ status: 400, success: false, error: 'Missing provider_id parameter' });
     }
 
-    const result = await driverModel.getDriver(provider_id);
+    const result = await driverModel.getAllDrivers(provider_id);
 
     if (result && result.success) {
       res.status(200).json({ status: 200, success: true, message: 'Driver data fetched successfully', data: result.data });

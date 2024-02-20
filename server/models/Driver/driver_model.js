@@ -126,7 +126,30 @@ exports.deleteDriver = async (driver_id) => {
     }
 };
 
-exports.getDriver = async (provider_id) => {
+exports.getDriver = async (login_token) => {
+    console.log('Received Data:', { login_token });
+
+    try {
+        const { data, error } = await supabase
+            .from('drivers')
+            .select('*')
+            .eq('login_token', login_token);
+
+        if (error) {
+            console.error('Supabase Delete Error:', error.message);
+            return { success: false, message: 'Failed to fetch driver' }
+        }
+
+        console.log();
+
+        return { success: true, message: 'Driver fetched successfully', data };
+    } catch (error) {
+        console.error('Failed to fetch driver:', error.message);
+        throw new Error('Failed to fetch driver');
+    }
+};
+
+exports.getAllDrivers = async (provider_id) => {
     console.log('Received Data:', { provider_id });
 
     try {
