@@ -48,7 +48,7 @@ const App = () => {
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<SignUp />} />
-      {/* Use Navigate instead of Redirect */}
+      {/* Use Navigate instead of Redirect */} 
       <Route
         path="/meal-plan"
         element={session ? <MealSettingPage /> : <Navigate to="/meal-plan" />}
@@ -64,6 +64,10 @@ const App = () => {
       <Route
         path="/past_deliveries"
         element={ <PastDeliveries /> }
+      />
+      <Route
+        path="/driver_login"
+        element={ <DriverLogin /> }
       />
       {/* <PrivateRoute path="/dashboard" component={CustomerTable} session={session} />
           <PrivateRoute path="/customers" component={Customers} session={session} />

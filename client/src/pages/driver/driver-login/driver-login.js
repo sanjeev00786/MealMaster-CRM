@@ -5,6 +5,8 @@ import TextField from '@mui/material/TextField';
 import { useNavigate } from 'react-router-dom';
 import CustomButton from '../../../components/CustomButton/CustomButton';
 import "../../../components/CustomButton/CustomButton.css";
+import axios from 'axios'
+import { API_BASE_URL, ENDPOINTS } from '../../../apiConfig.js'
 
 
 const DriverLogin = () => {
@@ -13,15 +15,33 @@ const DriverLogin = () => {
     const [isButtonLoading, setIsButtonLoading] = React.useState(
         false
     );
+    const [token, setToken] = React.useState('');
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
         setIsButtonLoading(true);
+            try {
+                const response = await axios.get(`${API_BASE_URL}${ENDPOINTS.GET_DRIVER}?login_token=${token}`);
+                if (response.data.data.length === 0) {
+                    // Wrong token
+                    console.log("token is not valid")
+                } else {
+                    // right token
+                    const driverId = response.data.data[0].driver_id;
+                    sessionStorage.setItem('driverId', driverId);
+                    console.log(driverId);
+                    navigate('/driver_dashboard');
+                }
+                setIsButtonLoading(false);
+            } catch (error) {
+                setIsButtonLoading(false);
+            } finally {
+                setIsButtonLoading(false);
+            }
+    };
 
-        setTimeout(() => {
-            setIsButtonLoading(false);
-            navigate('/driver_dashboard');
-        }, 3000);
+    const handleTokenChange = (event) => {
+        setToken(event.target.value);
     };
 
     return (
@@ -45,6 +65,8 @@ const DriverLogin = () => {
                                 textAlign: 'center'
                             },
                         }}
+                        value={token}
+                        onChange={handleTokenChange}
                     />
                     <CustomButton
                         isLoading={isButtonLoading}

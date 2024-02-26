@@ -56,7 +56,7 @@ h2 {
     bottom: 0;
     left: 50%; /* Center the action sheet horizontally */
     transform: translateX(-50%);
-    width: 100%; /* Occupy the full width */
+    width: 90%; /* Occupy the full width */
     max-width: 400px; /* Limit the maximum width */
     background-color: #000000;
     box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.2);
@@ -72,8 +72,9 @@ h2 {
     padding: 12px;
     background-color: #000000;
     border: none;
-    text-align: left;
-    font-size: 16px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
     cursor: pointer;
     color: white;
     margin-top: 8px;
