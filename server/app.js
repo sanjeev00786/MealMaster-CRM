@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const driverRoutes = require('./routes/Driver/driver_routes.js')
 
@@ -8,9 +9,11 @@ const customerRoutes = require('./routes/customer/customer_routes.js')
 
 const meal_plan_Routes = require('./routes/meal_plans/meal_plans_route.js')
 
-const port = 3000;
+const port = 3001;
 
 app.use(express.json());
+app.use(cors());
+
 
 // Use the driver routes
 app.use('/api/drivers', driverRoutes);

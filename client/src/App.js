@@ -48,10 +48,7 @@ const App = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<SignUp />} />
       {/* Use Navigate instead of Redirect */}
-      <Route
-        path="/driver_login"
-        element={session ? <DriverLogin /> : <Navigate to="/driver_login" />}
-      />
+
       <Route
         path="/driver_dashboard"
         element={ <DriverDashboard /> }
@@ -59,6 +56,10 @@ const App = () => {
       <Route
         path="/past_deliveries"
         element={ <PastDeliveries /> }
+      />
+      <Route
+        path="/driver_login"
+        element={ <DriverLogin /> }
       />
       {/* <PrivateRoute path="/dashboard" component={CustomerTable} session={session} />
           <PrivateRoute path="/customers" component={Customers} session={session} />
