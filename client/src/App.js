@@ -6,6 +6,7 @@ import supabase from './supabase';
 import DriverDashboard from './pages/driver/driver-dashboard/driver-dashboard';
 import DriverLogin from './pages/driver/driver-login/driver-login'
 import PastDeliveries from './pages/driver/past-deliveries/past-deliveries';
+import MealSettingPage from './pages/provider/meal-plan/meal-plan';
 
 const PrivateRoute = ({ component: Component, session, ...rest }) => (
   <Route
@@ -47,8 +48,15 @@ const App = () => {
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<SignUp />} />
-      {/* Use Navigate instead of Redirect */}
-
+      {/* Use Navigate instead of Redirect */} 
+      <Route
+        path="/meal-plan"
+        element={session ? <MealSettingPage /> : <Navigate to="/meal-plan" />}
+      />
+      <Route
+        path="/driver_login"
+        element={session ? <DriverLogin /> : <Navigate to="/driver_login" />}
+      />
       <Route
         path="/driver_dashboard"
         element={ <DriverDashboard /> }

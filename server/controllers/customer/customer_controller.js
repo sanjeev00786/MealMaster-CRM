@@ -17,6 +17,7 @@ exports.addCustomer = async (req, res) => {
         billing_cycle,
         payment,
         is_veg,
+        diet_notes
     } = req.body;
 
     console.log('Received data for creating customer:', req.body);
@@ -36,6 +37,7 @@ exports.addCustomer = async (req, res) => {
         billing_cycle,
         payment,
         is_veg,
+        diet_notes
     });
 
     if (result && result.success) {
@@ -67,6 +69,7 @@ exports.editCustomer = async (req, res) => {
       billing_cycle,
       payment,
       is_veg,
+      diet_notes
     } = req.body;
 
     console.log(`Received data for editing customer with ID ${customerId}:`, req.body);
@@ -85,6 +88,7 @@ exports.editCustomer = async (req, res) => {
       billing_cycle,
       payment,
       is_veg,
+      diet_notes
     });
 
     if (result && result.success) {

@@ -29,9 +29,12 @@ export default function Login() {
     return (
       <div className="login-container">
         <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} providers={providers} />
-      </div>
+        
+</div>
     );
-  } else {
-    return <Navigate to="/driver_login" />;
+  } 
+  else {
+    return <Navigate to="/delivery-schedule" />;
   }
 }
+
