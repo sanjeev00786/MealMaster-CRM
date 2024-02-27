@@ -1,0 +1,46 @@
+.past-deliveries-container {
+    max-width: 400px;
+    margin: auto;
+    background-color: #fff;
+}
+
+.customer-list {
+    display: flex;
+    flex-direction: column;
+    margin: 1rem;
+}
+
+h2 {
+    margin: 1rem;
+}
+
+.customer-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    margin-bottom: 1rem;
+    border-radius: 8px;
+}
+
+.customer-info {
+    flex-grow: 1;
+}
+
+.customer-name {
+    font-weight: bold;
+}
+
+.delivery-image {
+    display: inline-block;
+    width: 70px; 
+    height: 50px; 
+    object-fit: fill; 
+    border-radius: 8px;
+    margin-left: 10px;
+}
+
+.location-icon {
+    display: inline-block;
+}

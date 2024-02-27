@@ -5,7 +5,7 @@ exports.createMealPlan = async (data) => {
 
     try {
         const { provider_id, plan_name, price,description } = data;
-
+        console.log(data);
         const existingPlans_name = await supabase
           .from("plans")
           .select('plan_name')
@@ -13,8 +13,7 @@ exports.createMealPlan = async (data) => {
           .eq('plan_name', plan_name);
 
     if (existingPlans_name.data && existingPlans_name.data.length > 0) {
-     
-      throw new Error(`A meal plan with the name '${plan_name}' already exists for the provider ID ${provider_id}.`);
+     return {success: false, message: `A meal plan with the name '${plan_name}' already exists for the provider ID ${provider_id}.`}
   }
 
     // console.log("Extracted Data:", { provider_id, plan_name, price, description });
@@ -93,11 +92,12 @@ exports.editMealPlan = async({plan_name,price,description,plan_id}) =>{
 exports.removeMealPlan = async({ plan_id})=>{
   try{
     const { error } = await supabase
+
     .from('plans')
     .delete()
     .eq('plan_id',plan_id)
     if (error) {
-      // console.error("Supabase Meal delete Error:", error.message);
+      console.error("Supabase Meal delete Error:   ", error.message);
       return { success: false, message: 'Failed to delete meal plans' };
 
     }

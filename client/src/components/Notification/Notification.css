@@ -1,0 +1,18 @@
+.snackbar{
+  display: flex !important;
+    align-items: center !important;
+
+}
+.custom-snackbar {
+  
+    background: #E9F6ED !important; 
+    color: black !important; 
+    box-shadow: -3px 0px 0px rgba(37, 162, 73, 1) !important; 
+   
+  }
+
+  
+  .logo {
+    margin-right: 10px ; 
+}
+

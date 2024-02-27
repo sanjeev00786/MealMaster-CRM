@@ -1,0 +1,41 @@
+.login-container {
+    max-width: 400px !important;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.welcome-container {
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    width: calc(100% - 40px);
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 5rem;
+}
+
+.login-input {
+    margin-bottom: 1.1rem;
+    text-align: center;
+}
+
+.login-input ::placeholder {
+    text-align: center !important;
+}
+
+#login-button {
+    background-color: #0d0d0d;
+    color: #fff;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.css-1c2i806-MuiFormLabel-root-MuiInputLabel-root.Mui-focused {
+    color: rgba(0, 0, 0, 0) !important;
+}

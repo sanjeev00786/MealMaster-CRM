@@ -76,7 +76,6 @@ exports.editCustomer = async (customerId, updatedData) => {
   
   try {
     const {
-      provider_id,
       name,
       email_id,
       contact,
@@ -93,7 +92,6 @@ exports.editCustomer = async (customerId, updatedData) => {
     } = updatedData;
 
     console.log("Updated Data:", {
-      provider_id,
       name,
       email_id,
       contact,
@@ -113,7 +111,6 @@ exports.editCustomer = async (customerId, updatedData) => {
       .from("customers")
       .update([
         {
-          provider_id,
           name,
           email_id,
           contact,
@@ -182,10 +179,11 @@ exports.getCustomer = async (customerId) => {
     }
 
     if (data && data.length > 0) {
+      console.log(data);
       console.log("Customer retrieved successfully.");
-      return { success: true, message: 'Customers feteched successfully', data: data[0] } 
+      return { success: true, message: 'Customers fetched successfully', data: data[0] } 
     } else {
-      return { success: true, message: 'Customers feteched successfully', data: null }
+      return { success: true, message: 'Customers fetched successfully', data: [] }
     }
   } catch (error) {
     console.error("Result from getting Customer:", error.message);
