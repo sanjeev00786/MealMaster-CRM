@@ -238,7 +238,7 @@ export default function DeliveryScheduleTable() {
 
   const fetchData = React.useCallback(async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/customer/provider/get-all-customers/5de05e6c-162f-4293-88d5-2aa6bd1bb8a3');
+      const response = await fetch('http://localhost:3001/api/customer/provider/get-all-customers/5de05e6c-162f-4293-88d5-2aa6bd1bb8a3');
 
       if (!response.ok) {
         throw new Error('Network response was not ok');

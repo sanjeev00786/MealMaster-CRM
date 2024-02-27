@@ -7,6 +7,9 @@ import DriverDashboard from './pages/driver/driver-dashboard/driver-dashboard';
 import DriverLogin from './pages/driver/driver-login/driver-login'
 import PastDeliveries from './pages/driver/past-deliveries/past-deliveries';
 import MealSettingPage from './pages/provider/meal-plan/meal-plan';
+import DeliveryScheduleTable from './pages/provider/delivery-schedule/delivery-schedule';
+import MealPlanListPage from './pages/provider/meal-plan/meal-plan-list';
+import CustomerForm from './pages/provider/customer/CustomerPage1';
 
 const PrivateRoute = ({ component: Component, session, ...rest }) => (
   <Route
@@ -68,6 +71,18 @@ const App = () => {
       <Route
         path="/driver_login"
         element={ <DriverLogin /> }
+      />
+      <Route
+        path="/delivery-schedule"
+        element={ <DeliveryScheduleTable /> }
+      />
+      <Route
+        path="/meal-plan-list"
+        element={session ? <MealPlanListPage /> : <Navigate to="/meal-plan-list" />}
+      />
+      <Route
+        path="/customers"
+        element={session ? <CustomerForm /> : <Navigate to="/customers" />}
       />
       {/* <PrivateRoute path="/dashboard" component={CustomerTable} session={session} />
           <PrivateRoute path="/customers" component={Customers} session={session} />
