@@ -76,6 +76,7 @@ const MealSettingPage = () => {
             <div className="actions">
               <CustomButton className={"submitBtn Btn"} onClick={handleSave}>
                 Save
+                
               </CustomButton>
               <CustomButton className={"cancelBtn Btn"} onClick={handleCancel}>
                 Cancel

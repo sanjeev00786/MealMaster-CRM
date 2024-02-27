@@ -70,6 +70,7 @@ const MultiActionAreaCard = ({ data, onCardButtonClickDelete, onCardButtonClickE
         </Button>
         </CardActions>
           </CardContent>
+          
         </CardActionArea>
         <CardActions>
           <Button size="small"  onClick={handleButtonClickEdit}>

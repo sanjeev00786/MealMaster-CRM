@@ -9,6 +9,7 @@ export default function DeleteComponent() {
       <IconButton>
         <DeleteIcon />
       </IconButton>
+      
     </Tooltip>
   );
 }
