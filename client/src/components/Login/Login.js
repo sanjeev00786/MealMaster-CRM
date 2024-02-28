@@ -30,8 +30,8 @@ export default function Login() {
   if (!session) {
     return (
       <div className="login-container">
-        <AnchorTemporaryDrawer />
-        {/* <MiniDrawer /> */}
+        {/* <AnchorTemporaryDrawer /> */}
+        <MiniDrawer />
         <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} providers={providers} />
         
 </div>

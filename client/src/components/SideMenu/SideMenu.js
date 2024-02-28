@@ -17,14 +17,15 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 
-import { ReactComponent as DashboardIcon } from '../../component-assets/dashboard_icon.svg';
-import { ReactComponent as CustomerIcon } from '../../component-assets/customer_icon.svg';
-import { ReactComponent as DriverIcon } from '../../component-assets/driver_icon.svg';
-import { ReactComponent as TrackIcon } from '../../component-assets/track_delivery_icon.svg';
-import { ReactComponent as ScheduleIcon } from '../../component-assets/schedule_delivery_icon.svg';
-import { ReactComponent as SocialIcon } from '../../component-assets/social_media_icon.svg';
-import { ReactComponent as MealIcon } from '../../component-assets/meal_setting_icon.svg';
+import "./SideMenu.css";
 
+import { ReactComponent as DashboardIcon } from "../../component-assets/dashboard_icon.svg";
+import { ReactComponent as CustomerIcon } from "../../component-assets/customer_icon.svg";
+import { ReactComponent as DriverIcon } from "../../component-assets/driver_icon.svg";
+import { ReactComponent as TrackIcon } from "../../component-assets/track_delivery_icon.svg";
+import { ReactComponent as ScheduleIcon } from "../../component-assets/schedule_delivery_icon.svg";
+import { ReactComponent as SocialIcon } from "../../component-assets/social_media_icon.svg";
+import { ReactComponent as MealIcon } from "../../component-assets/meal_setting_icon.svg";
 
 const drawerWidth = 240;
 
@@ -54,7 +55,6 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   alignItems: "center",
   justifyContent: "flex-end",
   padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }));
 
@@ -96,6 +96,7 @@ const Drawer = styled(MuiDrawer, {
 export default function MiniDrawer() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -105,6 +106,10 @@ export default function MiniDrawer() {
     setOpen(false);
   };
 
+  const handleListItemClick = (index) => {
+    setSelectedIndex(index);
+  };
+
   const iconArray = [
     <DashboardIcon />,
     <CustomerIcon />,
@@ -112,13 +117,13 @@ export default function MiniDrawer() {
     <TrackIcon />,
     <ScheduleIcon />,
     <SocialIcon />,
-    <MealIcon />
+    <MealIcon />,
   ];
 
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar position="fixed" open={open} className="AppBar">
         <Toolbar>
           <IconButton
             color="inherit"
@@ -156,9 +161,19 @@ export default function MiniDrawer() {
             "Track Delivery",
             "Schedule Deliveries",
             "Social Media",
-            "Meal Settings"
+            "Meal Settings",
           ].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: "block" }}>
+            <ListItem
+              key={text}
+              disablePadding
+              sx={{ display: "block" }}
+              onClick={() => handleListItemClick(index)} // Add onClick handler
+              className={
+                selectedIndex === index
+                  ? "selectedListItem"
+                  : "unselectedListItem"
+              }
+            >
               <ListItemButton
                 sx={{
                   minHeight: 48,
@@ -171,6 +186,7 @@ export default function MiniDrawer() {
                     minWidth: 0,
                     mr: open ? 3 : "auto",
                     justifyContent: "center",
+                    opacity: selectedIndex === index ? 1 : 0.55,
                   }}
                 >
                   {iconArray[index % iconArray.length]}
@@ -186,8 +202,6 @@ export default function MiniDrawer() {
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
       </Box>
-
     </Box>
-    
   );
 }
