@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Box, Typography, Button, Select, MenuItem } from '@mui/material';
 import axios from 'axios';
 
-const AssignDriverModalButton = ({ providerId, onAssignDriver }) => {
+const AssignDriverModalButton = ({ providerId, onAssignDriver}) => {
   const [openModal, setOpenModal] = useState(false);
   const [drivers, setDrivers] = useState([]);
   const [selectedDriver, setSelectedDriver] = useState('');
+
 
   const modalStyle = {
     position: 'absolute',
@@ -21,7 +22,7 @@ const AssignDriverModalButton = ({ providerId, onAssignDriver }) => {
     setOpenModal(true);
     // Fetch drivers from the API using the provided providerId
     try {
-      const response = await axios.get(`http://localhost:8000/api/drivers/get-driver?provider_id=${providerId}`);
+      const response = await axios.get(`http://localhost:3001/api/drivers/get-all-drivers?provider_id=${providerId}`);
       console.log(response.data)
       setDrivers(response.data.data); // Extracting the 'data' array from the response
     } catch (error) {
@@ -30,12 +31,15 @@ const AssignDriverModalButton = ({ providerId, onAssignDriver }) => {
   };
 
   const handleCloseModal = () => {
+    console.log(onAssignDriver())
+    console.log('DriverId and ProviderId')
+    console.log(selectedDriver, providerId)
     setOpenModal(false);
   };
 
   const handleAssignDriver = () => {
     // Pass the selected driver and providerId to the parent component
-    onAssignDriver(selectedDriver, providerId);
+    onAssignDriver();
     handleCloseModal();
   };
 

@@ -19,24 +19,87 @@ const PrivateRoute = ({ component: Component, session, ...rest }) => (
     }
   />
 );
+
+const linkRecords = async (userId, userEmail) => {
+  try {
+    const { data, error } = await supabase
+      .from('providers')
+      .upsert(
+        [{ id: userId, email_id: userEmail }],
+        { onConflict: ['id'] }
+      );
+
+    if (error) {
+      throw error;
+    }
+
+    console.log('Records linked successfully');
+  } catch (error) {
+    console.error('Error linking records:', error.message);
+  }
+};
+
 const App = () => {
   const [session, setSession] = useState(null);
+
   useEffect(() => {
     const fetchSession = async () => {
       try {
         const { data: { session } } = await supabase.auth.getSession();
         setSession(session);
+        // Link records here
+        const authDataString = localStorage.getItem('sb-cvnlpinekwolqaratkmc-auth-token');
+        if (authDataString) {
+          try {
+            const authData = JSON.parse(authDataString);
+            if (authData && authData.user && authData.user.id && authData.user.email) {
+              // authData is valid and has the necessary properties
+              linkRecords(authData.user.id, authData.user.email);
+            } else {
+              console.error('Invalid or incomplete authData structure. Skipping linking.');
+            }
+          } catch (error) {
+            console.error('Error parsing authData:', error.message);
+          }
+        } else {
+          console.error('authData not found in localStorage. Skipping linking.');
+        }
+
       } catch (error) {
         console.error('Error fetching session:', error.message);
       }
     };
+
     const authStateChangeHandler = (_event, session) => {
       setSession(session);
+
+      const authDataString = localStorage.getItem('sb-cvnlpinekwolqaratkmc-auth-token');
+      if (authDataString) {
+        try {
+          const authData = JSON.parse(authDataString);
+          if (authData && authData.user && authData.user.id && authData.user.email) {
+            // authData is valid and has the necessary properties
+            linkRecords(authData.user.id, authData.user.email);
+          } else {
+            console.error('Invalid or incomplete authData structure. Skipping linking.');
+          }
+        } catch (error) {
+          console.error('Error parsing authData:', error.message);
+        }
+      } else {
+        console.error('authData not found in localStorage. Skipping linking.');
+      }
     };
+
     fetchSession();
+
+    // Subscribe to auth state changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(authStateChangeHandler);
+
+    // Unsubscribe when component unmounts
     return () => subscription.unsubscribe();
   }, []);
+
   const handleLogout = async () => {
     try {
       await supabase.auth.signOut();
@@ -45,6 +108,7 @@ const App = () => {
       console.error('Logout failed:', error.message);
     }
   };
+
   return (
   <Router>
   <div className="App">

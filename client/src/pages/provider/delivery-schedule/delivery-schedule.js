@@ -124,7 +124,7 @@ EnhancedTableHead.propTypes = {
 };
 
 function EnhancedTableToolbar(props) {
-  const { numSelected } = props;
+  const { numSelected, onGetSelectedRows } = props;
   const [openModal, setOpenModal] = React.useState(false);
 
   const handleOpenModal = () => {
@@ -134,33 +134,12 @@ function EnhancedTableToolbar(props) {
   const handleCloseModal = () => {
     setOpenModal(false);
   };
-
+  
   const handleAssignDriver = (selectedDriver, providerId) => {
     // Do something with the selected driver and providerId in the parent component
     console.log('Selected driver:', selectedDriver);
     console.log('Provider ID:', providerId);
   };
-
-
-//   const AssignDriverModal = (
-//     <Modal
-//       open={openModal}
-//       onClose={handleCloseModal}
-//       aria-labelledby="assign-driver-modal"
-//       aria-describedby="assign-driver-modal-description"
-//     >
-//       <Box sx={{ ...modalStyle, width: 400 }}>
-//         <Typography id="assign-driver-modal" variant="h6" component="div">
-//           Assign Driver
-//         </Typography>
-//         <p id="assign-driver-modal-description">
-//           Add your form or content for assigning a driver here.
-//         </p>
-//         <Button onClick={handleCloseModal}>Cancel</Button>
-//         <Button onClick={handleCloseModal}>Assign Driver</Button>
-//       </Box>
-//     </Modal>
-//   );
 
   return (
     <Toolbar
@@ -196,7 +175,7 @@ function EnhancedTableToolbar(props) {
      {numSelected > 0 ? (
         <Tooltip title="Assign Driver">
           <IconButton onClick={handleOpenModal}>
-            <AssignDriverModalButton providerId="5de05e6c-162f-4293-88d5-2aa6bd1bb8a3" onAssignDriver={handleAssignDriver} />
+            <AssignDriverModalButton providerId="5de05e6c-162f-4293-88d5-2aa6bd1bb8a3" onAssignDriver={onGetSelectedRows} />
           </IconButton>
         </Tooltip>
       ) : (
@@ -206,7 +185,6 @@ function EnhancedTableToolbar(props) {
           </IconButton>
         </Tooltip>
       )}
-      {/* {AssignDriverModal} */}
     </Toolbar>
   );
 }
@@ -324,8 +302,15 @@ export default function DeliveryScheduleTable() {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
-    const visibleRows = stableSort(rows, getComparator(order, orderBy))
+  const visibleRows = stableSort(rows, getComparator(order, orderBy))
     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+
+  const getSelectedRows = () => {
+      const selectedDetails = rows.filter(row => selected.includes(row.id));
+      selectedDetails.push({'date':'today'});
+      console.log(selectedDetails);
+      return selectedDetails;
+    };
 
   if (loading) {
     return <p>Loading...</p>; // Render a loading indicator while data is being fetched
@@ -334,7 +319,7 @@ export default function DeliveryScheduleTable() {
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar numSelected={selected.length} onGetSelectedRows={getSelectedRows}/>
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
