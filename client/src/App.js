@@ -10,6 +10,7 @@ import MealSettingPage from './pages/provider/meal-plan/meal-plan';
 import DeliveryScheduleTable from './pages/provider/delivery-schedule/delivery-schedule';
 import MealPlanListPage from './pages/provider/meal-plan/meal-plan-list';
 import CustomerForm from './pages/provider/customer/CustomerPage1';
+import Dashboard from './pages/provider/dashboard/dashboard';
 
 const PrivateRoute = ({ component: Component, session, ...rest }) => (
   <Route
@@ -53,6 +54,14 @@ const App = () => {
       <Route path="/signup" element={<SignUp />} />
       {/* Use Navigate instead of Redirect */} 
       <Route
+        path="/dashboard"
+        element={session ? <Dashboard /> : <Navigate to="/dashboard" />}
+      />
+      <Route
+        path="/customers"
+        element={session ? <CustomerForm /> : <Navigate to="/customers" />}
+      />
+      <Route
         path="/meal-plan"
         element={session ? <MealSettingPage /> : <Navigate to="/meal-plan" />}
       />
@@ -79,10 +88,6 @@ const App = () => {
       <Route
         path="/meal-plan-list"
         element={session ? <MealPlanListPage /> : <Navigate to="/meal-plan-list" />}
-      />
-      <Route
-        path="/customers"
-        element={session ? <CustomerForm /> : <Navigate to="/customers" />}
       />
       {/* <PrivateRoute path="/dashboard" component={CustomerTable} session={session} />
           <PrivateRoute path="/customers" component={Customers} session={session} />

@@ -5,8 +5,6 @@ import { Auth } from '@supabase/auth-ui-react';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
 import supabase from '../../supabase';
 import { Navigate } from 'react-router-dom';
-import MiniDrawer from '../SideMenu/SideMenu';
-import AnchorTemporaryDrawer from '../MobileSideMenu/MobileSideMenu'
 
 export default function Login() {
   const [session, setSession] = useState(null);
@@ -30,8 +28,6 @@ export default function Login() {
   if (!session) {
     return (
       <div className="login-container">
-        {/* <AnchorTemporaryDrawer /> */}
-        <MiniDrawer />
         <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} providers={providers} />
         
 </div>

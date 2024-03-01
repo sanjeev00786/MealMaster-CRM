@@ -16,6 +16,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import { useNavigate } from "react-router-dom";
 
 import "./SideMenu.css";
 
@@ -106,8 +107,25 @@ export default function MiniDrawer() {
     setOpen(false);
   };
 
+  const navigate = useNavigate();
   const handleListItemClick = (index) => {
     setSelectedIndex(index);
+    
+    if (index == 0) {
+      navigate("/dashboard");
+    } else if (index == 1) {
+      navigate("/customers");
+    } else if (index == 2) {
+      navigate("/drivers");
+    } else if (index == 3) {
+      navigate("/track-deliveries");
+    } else if (index == 4) {
+      navigate("/delivery-schedule");
+    } else if (index == 5) {
+      navigate("/social-media");
+    } else if (index == 6) {
+      navigate("/meal-plan");
+    }
   };
 
   const iconArray = [
@@ -167,7 +185,7 @@ export default function MiniDrawer() {
               key={text}
               disablePadding
               sx={{ display: "block" }}
-              onClick={() => handleListItemClick(index)} // Add onClick handler
+              onClick={() => handleListItemClick(index)}
               className={
                 selectedIndex === index
                   ? "selectedListItem"
