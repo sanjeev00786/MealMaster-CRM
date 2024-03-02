@@ -7,6 +7,13 @@ import DriverDashboard from './pages/driver/driver-dashboard/driver-dashboard';
 import DriverLogin from './pages/driver/driver-login/driver-login'
 import PastDeliveries from './pages/driver/past-deliveries/past-deliveries';
 import MealSettingPage from './pages/provider/meal-plan/meal-plan';
+import DeliveryScheduleTable from './pages/provider/delivery-schedule/delivery-schedule';
+import MealPlanListPage from './pages/provider/meal-plan/meal-plan-list';
+import CustomerForm from './pages/provider/customer/CustomerPage1';
+import DriverPage from './pages/provider/drivers/add-driver';
+import DriverForm from './pages/provider/drivers/add-driver-form';
+import Dashboard from './pages/provider/dashboard/dashboard';
+import MealPlanUpdatePage from './pages/provider/meal-plan/meal-plan-update'
 
 const PrivateRoute = ({ component: Component, session, ...rest }) => (
   <Route
@@ -48,14 +55,26 @@ const App = () => {
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<SignUp />} />
-      {/* Use Navigate instead of Redirect */}
+      {/* Use Navigate instead of Redirect */} 
+      <Route
+        path="/drivers"
+        element={session ? <DriverPage /> : <Navigate to="/drivers" />}
+      />
+      <Route
+        path="/add-driver"
+        element={session ? <DriverForm /> : <Navigate to="/add-driver" />}
+      />
+      <Route
+        path="/dashboard"
+        element={session ? <Dashboard /> : <Navigate to="/dashboard" />}
+      />
+      <Route
+        path="/customers"
+        element={session ? <CustomerForm /> : <Navigate to="/customers" />}
+      />
       <Route
         path="/meal-plan"
         element={session ? <MealSettingPage /> : <Navigate to="/meal-plan" />}
-      />
-      <Route
-        path="/driver_login"
-        element={session ? <DriverLogin /> : <Navigate to="/driver_login" />}
       />
       <Route
         path="/driver_dashboard"
@@ -64,6 +83,26 @@ const App = () => {
       <Route
         path="/past_deliveries"
         element={ <PastDeliveries /> }
+      />
+      <Route
+        path="/driver_login"
+        element={ <DriverLogin /> }
+      />
+      <Route
+        path="/delivery-schedule"
+        element={ <DeliveryScheduleTable /> }
+      />
+      <Route
+        path="/customerList"
+        element={ <DeliveryScheduleTable /> }
+      />
+      <Route
+        path="/meal-plan-list"
+        element={session ? <MealPlanListPage /> : <Navigate to="/meal-plan-list" />}
+      />
+      <Route
+        path="/meal-plan-update/:plan_id"
+        element={session ? <MealPlanUpdatePage /> : <Navigate to="/meal-plan-update" />}
       />
       {/* <PrivateRoute path="/dashboard" component={CustomerTable} session={session} />
           <PrivateRoute path="/customers" component={Customers} session={session} />

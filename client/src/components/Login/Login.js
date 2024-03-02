@@ -32,8 +32,9 @@ export default function Login() {
         
 </div>
     );
-  } else {
-    return <Navigate to="/driver_login" />;
+  } 
+  else {
+    return <Navigate to="/delivery-schedule" />;
   }
 }
 

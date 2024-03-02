@@ -5,27 +5,49 @@ import TextField from '@mui/material/TextField';
 import { useNavigate } from 'react-router-dom';
 import CustomButton from '../../../components/CustomButton/CustomButton';
 import "../../../components/CustomButton/CustomButton.css";
-
+import axios from 'axios'
+import { API_BASE_URL, ENDPOINTS } from '../../../apiConfig.js'
+import Loader from '../../../components/Loader/Loader';
 
 const DriverLogin = () => {
     const navigate = useNavigate();
 
-    const [isButtonLoading, setIsButtonLoading] = React.useState(
-        false
-    );
+    const [token, setToken] = React.useState('');
+    const [loading, setLoading] = React.useState(false);
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
-        setIsButtonLoading(true);
-
-        setTimeout(() => {
-            setIsButtonLoading(false);
-            navigate('/driver_dashboard');
-        }, 3000);
+        setLoading(true);
+            try {
+                const response = await axios.get(`${API_BASE_URL}${ENDPOINTS.GET_DRIVER}?login_token=${token}`);
+                if (response.data.data.length === 0) {
+                    // Wrong token
+                    console.log("token is not valid")
+                    setLoading(false);
+                } else {
+                    // right token
+                    const driverId = response.data.data[0].driver_id;
+                    sessionStorage.setItem('driverId', driverId);
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('isLoaderShow', 'true');
+                    navigate('/driver_dashboard');
+                }
+                
+            } catch (error) {
+                setLoading(false);
+            } finally {
+                console.log('finally')
+                setLoading(false);
+            }
     };
 
+    const handleTokenChange = (event) => {
+        setToken(event.target.value);
+    };
+    
     return (
         <div className="login-container">
+            <Loader loading={loading} />
             <Header />
             <div className="welcome-container">
 
@@ -45,9 +67,10 @@ const DriverLogin = () => {
                                 textAlign: 'center'
                             },
                         }}
+                        value={token}
+                        onChange={handleTokenChange}
                     />
                     <CustomButton
-                        isLoading={isButtonLoading}
                         onClick={handleLogin}
                     >
                         Get Started

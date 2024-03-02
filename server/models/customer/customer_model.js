@@ -17,8 +17,9 @@ exports.createCustomer = async (data) => {
       dob,
       status,
       billing_cycle,
-      payment,
+      payment = "TRUE",
       is_veg,
+      diet_notes
     } = data;
 
     console.log("Extracted Data:", {
@@ -36,6 +37,7 @@ exports.createCustomer = async (data) => {
       billing_cycle,
       payment,
       is_veg,
+      diet_notes
     });
 
     const { error } = await supabase.from("customers").insert([
@@ -54,6 +56,7 @@ exports.createCustomer = async (data) => {
         billing_cycle,
         payment,
         is_veg,
+        diet_notes
       },
     ]);
 
@@ -89,6 +92,7 @@ exports.editCustomer = async (customerId, updatedData) => {
       billing_cycle,
       payment,
       is_veg,
+      diet_notes
     } = updatedData;
 
     console.log("Updated Data:", {
@@ -105,6 +109,7 @@ exports.editCustomer = async (customerId, updatedData) => {
       billing_cycle,
       payment,
       is_veg,
+      diet_notes
     });
 
     const { error } = await supabase
@@ -124,6 +129,7 @@ exports.editCustomer = async (customerId, updatedData) => {
           billing_cycle,
           payment,
           is_veg,
+          diet_notes
         },
       ])
       .eq("customer_id", customerId);

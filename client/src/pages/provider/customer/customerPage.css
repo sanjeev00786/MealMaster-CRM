@@ -1,0 +1,107 @@
+.customer-page-container_form {
+  margin: 10px 0px 10px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #F2F4F8;
+
+}
+
+.customerH2{
+  margin-left: 0px !important ;
+}
+
+.steeper{
+  height: 32px;
+  width: 144px;
+  align-items:center;
+}
+
+.form-stack {
+  margin-top: 20px;
+}
+
+.customerFormContainer{
+  background-color: #FFFFFF;
+  max-width: 375px; 
+  margin: auto;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+}
+
+
+.MuiFormLabel-root {
+  margin: 15px 0px 0px 0px   !important;
+}
+
+.MuiInputBase-input{
+  padding: 0px 0px 0px 10px  !important;
+  height: 48px !important;
+  width: 327px !important;
+  background-color: #F2F4F8 !important;
+  border-radius: 1px;
+}
+
+
+.MuiFormControlLabel-root{
+  margin: 0 !important;
+}
+
+
+.customerFormContainer {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.customerFormButton {
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.customerFormButton:hover {
+  background-color: #45a049;
+}
+
+.customerFormButton[type="submit"] {
+  background-color: #007bff;
+}
+
+.customerFormButton[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+
+.login {
+  max-width: 950px;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  margin-top: 50px;
+}
+
+@media screen and (max-width: 393px) {
+  .login {
+    max-width: 373px;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    margin-top: 50px;
+  }
+}
