@@ -1,99 +1,98 @@
 import React from "react";
+import myImg from "../../../component-assets/Stepper_2.svg";
+import {
+  Stack,
+  TextField,
+  InputLabel,
+  MenuItem,
+  Select,
+  FormControl,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  FormLabel,
+} from "@mui/material";
 
-export default function AdditionalInfoForm({ formData, handleChange, mealPlans }) {
-  
-  
-  return ( 
-  <div>
-  <label>
-    Meal Plan:
-    <select
-      type="uuid"
-      name="plan_id"
-      value={formData.value}
-      onChange={handleChange}
-    >
-      <option value="">Select a meal plan</option>
-      {mealPlans.length > 0 ? (
-        mealPlans.map((plan) => (
-          <option key={plan.plan_id} value={plan.plan_id}>
-            {plan.plan_name}
-          </option>
-        ))
-      ) : (
-        <option value="" disabled>
-          Loading meal plans...
-        </option>
-      )}
-    </select>
-  </label>
-  <label>
-    Diet Preference:
-    <select
-      type="text"
-      name="is_veg"
-      value={formData.value}
-      onChange={handleChange}
-    >
-      <option value="">Select a diet preference</option>
-      <option value="vegetarian">Vegetarian</option>
-      <option value="non-vegetarian">Non-Vegetarian</option>
-      <option value="vegan">Vegan</option>
-    </select>
-  </label>
-  <label>
-    Additional Notes(Optional)
-    <input
-      type="text"
-      name="diet_notes"
-      value={formData.value}
-      onChange={handleChange}
-    />
-  </label>
+export default function AdditionalInfoForm({
+  formData,
+  handleChange,
+  mealPlans,
+}) {
+  return (
+    <Stack spacing={2}>
+      <img className="steeper" src={myImg} alt="stepper" />
 
-  <label>
-    Meal Quantity:
-    <select
-      type="number"
-      name="tiffin_quantity"
-      value={formData.value}
-      onChange={handleChange}
-    >
-      <option value="">Select Meal Quantity</option>
-      <option value="1">1</option>
-      <option value="2">2</option>
-      <option value="3">3</option>
-      <option value="4">4</option>
-      <option value="5">5</option>
-    </select>
-  </label>
-  <label>
-    Billing Date (Start Date)
-    <input
-      type="date"
-      name="billing_cycle"
-      value={formData.value}
-      onChange={handleChange}
-    />
-  </label>
-  <label>
-   Customer's Subscription:
-    <input
-      type="radio"
-      name="status"
-      value="TRUE"
-      checked={formData.status === "TRUE"}
-      onChange={handleChange}
-    />
-    Active
-    <input
-      type="radio"
-      name="status"
-      value="FALSE"
-      checked={formData.status === "FALSE"}
-      onChange={handleChange}
-    />
-    Inactive
-  </label>
-  </div>);
+      <InputLabel htmlFor="plan_id">Meal Plan</InputLabel>
+      <Select name="plan_id" value={formData.value} onChange={handleChange}>
+        <MenuItem value="">Select a meal plan</MenuItem>
+        {mealPlans.length > 0 ? (
+          mealPlans.map((plan) => (
+            <MenuItem key={plan.plan_id} value={plan.plan_id}>
+              {plan.plan_name}
+            </MenuItem>
+          ))
+        ) : (
+          <MenuItem value="" disabled>
+            Loading meal plans...
+          </MenuItem>
+        )}
+      </Select>
+
+      <InputLabel htmlFor="is_veg">Diet Preference</InputLabel>
+      <Select name="is_veg" value={formData.is_veg} onChange={handleChange}>
+        <MenuItem value="">Select a diet preference</MenuItem>
+        <MenuItem value="vegetarian">Vegetarian</MenuItem>
+        <MenuItem value="non-vegetarian">Non-Vegetarian</MenuItem>
+        <MenuItem value="vegan">Vegan</MenuItem>
+      </Select>
+
+      <InputLabel htmlFor="diet_notes">Additional Notes (Optional)</InputLabel>
+      <TextField
+        type="text"
+        name="diet_notes"
+        value={formData.diet_notes}
+        onChange={handleChange}
+      />
+
+      <InputLabel htmlFor="tiffin_quantity">Meal Quantity</InputLabel>
+      <Select
+        name="tiffin_quantity"
+        value={formData.tiffin_quantity}
+        onChange={handleChange}
+      >
+        <MenuItem value="">Select Meal Quantity</MenuItem>
+        <MenuItem value="1">1</MenuItem>
+        <MenuItem value="2">2</MenuItem>
+        <MenuItem value="3">3</MenuItem>
+        <MenuItem value="4">4</MenuItem>
+        <MenuItem value="5">5</MenuItem>
+      </Select>
+
+      <InputLabel htmlFor="billing_cycle">Billing Date (Start Date)</InputLabel>
+      <TextField
+        type="date"
+        name="billing_cycle"
+        value={formData.billing_cycle}
+        onChange={handleChange}
+      />
+
+      <FormControl component="fieldset">
+        <FormLabel component="legend">Customer's Subscription:</FormLabel>
+        <RadioGroup
+          column
+          aria-label="status"
+          name="status"
+          value={formData.status}
+          onChange={handleChange}
+        >
+          <FormControlLabel value="TRUE" control={<Radio />} label="Active" />
+          <FormControlLabel
+            value="FALSE"
+            control={<Radio />}
+            label="Inactive"
+          />
+        </RadioGroup>
+      </FormControl>
+    </Stack>
+  );
 }

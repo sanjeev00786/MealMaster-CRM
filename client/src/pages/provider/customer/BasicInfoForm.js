@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import AutoComplete from "./AutoComplete"; 
+import AutoComplete from "./AutoComplete";
+import { TextField, Stack, InputLabel } from "@mui/material";
+import myImage from "../../../component-assets/Stepper_1.svg";
 
 function BasicInfoForm({ formData, handleChange, onPlaceSelect }) {
   const [place, setPlace] = useState(null);
@@ -7,57 +9,65 @@ function BasicInfoForm({ formData, handleChange, onPlaceSelect }) {
   const handlePlaceSelect = (selectedPlace) => {
     setPlace(selectedPlace);
     onPlaceSelect(selectedPlace);
-    // handleChange({
-    //   target: { name: "address", value: selectedPlace.address },
-    // });
   };
- 
 
+return (
+    <React.Fragment>
+      <div>
+        <Stack spacing={1}>
+          <img className="steeper" src={myImage} alt="stepper" />
+          <InputLabel htmlFor="Name"> Customer Name</InputLabel>
+          <TextField
+            type="text"
+            variant="outlined"
+            color="secondary"
+            name="name"
+            value={formData.value}
+            onChange={handleChange}
+            fullWidth
+            required
+          />
 
+          <InputLabel htmlFor="contactNumber">Contact Number</InputLabel>
+          <TextField
+            type="text"
+            variant="outlined"
+            color="secondary"
+            name="contact"
+            value={formData.value}
+            onChange={handleChange}
+            fullWidth
+            required
+          />
 
-  return (
-    <div>
-      <label>
-        Name
-        <input
-          type="text"
-          name="name"
-          value={formData.value}
-          onChange={handleChange}
-        />
-      </label>
-      <label>
-        Contact Number
-        <input
-          type="text"
-          name="contact"
-          value={formData.value}
-          onChange={handleChange}
-        />
-      </label>
-      <label>
-        Email
-        <input
-          type="email"
-          name="email_id"
-          value={formData.value}
-          onChange={handleChange}
-        />
-      </label>
-      <label>
-        Address
-        <AutoComplete onPlaceSelect={handlePlaceSelect} />
-      </label>
-      <label>
-        Date of Birth
-        <input
-          type="date"
-          name="dob"
-          value={formData.value}
-          onChange={handleChange}
-        />
-      </label>
-    </div>
+          <InputLabel htmlFor="email">Email</InputLabel>
+          <TextField
+            type="email"
+            variant="outlined"
+            color="secondary"
+            name="email_id"
+            value={formData.value}
+            onChange={handleChange}
+            fullWidth
+            required
+          />
+
+          <AutoComplete onPlaceSelect={handlePlaceSelect} />
+
+          <InputLabel htmlFor="dob">Date of Birth</InputLabel>
+          <TextField
+            type="date"
+            variant="outlined"
+            color="secondary"
+            name="dob"
+            value={formData.value}
+            onChange={handleChange}
+            fullWidth
+            required
+          />
+        </Stack>
+      </div>
+    </React.Fragment>
   );
 }
 
