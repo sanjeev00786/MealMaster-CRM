@@ -2,6 +2,13 @@
     max-width: 400px;
     margin: auto;
     background-color: #fff;
+    overflow-y: auto;
+    max-height: 100vh;
+}
+
+body {
+    margin: 0;
+    overflow-x: hidden;
 }
 
 .customer-list {
@@ -14,6 +21,23 @@ h2 {
     margin: 1rem;
 }
 
+p {
+    margin-left: 1rem;
+    margin-top: 0px;
+    padding-top: 10px;
+    margin-bottom: 10px;
+}
+
+.name-text {
+    padding-top: 20px;
+}
+
+h3 {
+    margin-left: 1rem;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
 .customer-item {
     display: flex;
     justify-content: space-between;
@@ -21,7 +45,7 @@ h2 {
     padding: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     margin-bottom: 1rem;
-    border-radius: 8px;
+    border-radius: 5px;
 }
 
 .customer-info {
@@ -47,47 +71,115 @@ h2 {
     margin-right: 10px;
 }
 
-.container {
-    position: relative;
-  }
-  
-  .action-sheet {
-    position: fixed;
-    bottom: 0;
-    left: 50%; /* Center the action sheet horizontally */
-    transform: translateX(-50%);
-    width: 90%; /* Occupy the full width */
-    max-width: 400px; /* Limit the maximum width */
-    background-color: #000000;
-    box-shadow: 0px -2px 8px rgba(0, 0, 0, 0.2);
-    display: flex;
-    flex-direction: column;
-    padding: 16px;
-    border-top-left-radius: 16px;
-    border-top-right-radius: 16px;
-    z-index: 1000;
-}
-
-.action-button {
+.camera-button {
     padding: 12px;
     background-color: #000000;
     border: none;
     text-align: center;
-    font-size: 24px;
+    font-size: 18px;
     font-weight: bold;
     cursor: pointer;
     color: white;
     margin-top: 8px;
+    margin-left: 1rem;
+    margin-right: 0rem;
+    margin-bottom: 1rem;
 }
 
-/* Add a rule to fix the action sheet when scrolling */
-body {
-    margin: 0;
-    overflow-x: hidden;
+.stop-navigation-button-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 1rem;
 }
 
-/* Add a rule to fix the container when scrolling */
-.dashboard-container {
-    overflow-y: auto;
-    max-height: 100vh;
+.stop-navigation-button {
+    color: black;
+    background-color: white;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: underline;
+    cursor: pointer;
 }
+
+.icon-text-container {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+}
+
+.icon-image {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+}
+
+
+.currently-navigating, .start-navigation {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    margin: 0.5rem;
+    border-radius: 5px;
+}
+
+.start-navigation {
+    padding-bottom: 1rem;
+}
+
+.start-navigation-button, .complete-button {
+    width: 90%;
+    margin-left: 1rem;
+    padding: 12px;
+    background-color: #000000;
+    border: none;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    color: white;
+    margin-top: 8px;
+    margin-bottom: 0rem;
+}
+
+.camera-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9); /* Semi-transparent black overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+  }
+
+  .image-preview-container {
+    padding: 0 1rem;
+    position: relative;
+  }
+  
+  .dashboard-image-container {
+    position: relative;
+  }
+  
+  .image-preview {
+    width: 100%;
+    height: auto;
+    border-radius: 8px; 
+  }
+  
+  .dashboard-image-container button {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 1rem;
+    padding: 8px 16px;
+    font-weight: bold;
+    background-color: #3498db00; 
+    color: #f80000;
+    text-decoration: underline;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }

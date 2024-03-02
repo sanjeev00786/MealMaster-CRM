@@ -1,0 +1,59 @@
+/* Camera modal */
+.camera-modal {
+  background: #ffffff;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+}
+
+/* Video styling */
+.camera-modal .camera-video {
+  height: 400px;
+  max-width: 100%;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* Capture button styling */
+
+.capture-button-container {
+  cursor: pointer;
+  align-items: center;
+  position: relative;
+  padding: 1rem;
+  height: 50px;
+}
+
+.capture-button {
+  position: relative;
+  padding: 8px 16px;
+  background: #3498db00;
+  color: #fff;
+  border: none;
+  border-radius: 50%; 
+  cursor: pointer;
+  overflow: hidden; 
+  width: 50px;
+  height: 50px;
+  margin-top: 5px;
+}
+
+/* Camera icon styling */
+ .camera-icon {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30px;
+  height: 30px;
+  padding: 10px;
+  background: #2980b9;
+  border-radius: 50%; 
+  margin-top: 5px;
+}
