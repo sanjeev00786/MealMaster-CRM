@@ -10,6 +10,8 @@ import MealSettingPage from './pages/provider/meal-plan/meal-plan';
 import DeliveryScheduleTable from './pages/provider/delivery-schedule/delivery-schedule';
 import MealPlanListPage from './pages/provider/meal-plan/meal-plan-list';
 import CustomerForm from './pages/provider/customer/CustomerPage1';
+import DriverPage from './pages/provider/drivers/add-driver';
+import DriverForm from './pages/provider/drivers/add-driver-form';
 import Dashboard from './pages/provider/dashboard/dashboard';
 
 const PrivateRoute = ({ component: Component, session, ...rest }) => (
@@ -54,6 +56,12 @@ const App = () => {
       <Route path="/signup" element={<SignUp />} />
       {/* Use Navigate instead of Redirect */} 
       <Route
+        path="/drivers"
+        element={session ? <DriverPage /> : <Navigate to="/drivers" />}
+      />
+      <Route
+        path="/add-driver"
+        element={session ? <DriverForm /> : <Navigate to="/add-driver" />}
         path="/dashboard"
         element={session ? <Dashboard /> : <Navigate to="/dashboard" />}
       />

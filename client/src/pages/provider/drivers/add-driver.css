@@ -1,0 +1,62 @@
+html{
+    background-color: rgba(242, 244, 248, 1);
+}
+
+.driver-page-container{
+    background-color: white;
+    /* padding-bottom: 1rem; */
+    margin-top: 1rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.addDriverBtn{
+    height: 150px;
+    width: 50px;
+}
+
+.tableContainer{
+    margin: 1rem;
+}
+
+.toolBar{
+    /* margin-right: 1rem ; */
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+}
+
+.search{
+    background-color: rgba(242, 244, 248, 1);
+    /* margin-left: 1rem;
+    padding-left: 1rem; */
+    max-width: 150px;
+}
+
+.below{
+    margin-right: 8px;
+}
+
+.below button{
+    background-color: black;
+} 
+
+.below button:hover {
+    background-color: darkgray;
+    color: black;
+}
+
+.driver-page-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .search-container {
+    display: flex;
+    justify-content: left;
+  }
+  
+  .search-input {
+    padding: 6px 10px;
+    margin: 6px 10px;
+  }
+  
