@@ -4,6 +4,7 @@ import axios from "axios";
 import BasicInfoForm from "./BasicInfoForm";
 import AdditionalInfoForm from "./AdditionalInfoForm";
 import "./customerPage.css";
+import Header from "../../../components/header/header";
 
 export default function CustomerForm() {
   const navigate = useNavigate();
@@ -33,18 +34,18 @@ export default function CustomerForm() {
     }
   }, []);
 
-  const datafromLocalStorage = localStorage.getItem(
-    "sb-cvnlpinekwolqaratkmc-auth-token"
-  );
-  const data = JSON.parse(datafromLocalStorage);
+  // const datafromLocalStorage = localStorage.getItem(
+  //   "sb-cvnlpinekwolqaratkmc-auth-token"
+  // );
+  // const data = JSON.parse(datafromLocalStorage);
   const provider_id = {
-    provider_id: data.user.id 
+    provider_id : "5de05e6c-162f-4293-88d5-2aa6bd1bb8a3",  
   };
   console.log(provider_id);
 
 
 
-  let finalDatatoSendToDB = Object.assign(formData, place);
+  let finalDatatoSendToDB = Object.assign(formData, place, provider_id);
 
   console.log(finalDatatoSendToDB);
 
@@ -70,7 +71,9 @@ export default function CustomerForm() {
 
     try {
       const response = await axios.post(serverApiEndpoint, finalDatatoSendToDB);
+      
       console.log(response.data.message);
+       navigate("/customerList")
     } catch (error) {
       console.error("Error adding customer:", error);
     }
@@ -78,6 +81,10 @@ export default function CustomerForm() {
 
   return (
     <React.Fragment>
+       <div className="login-container">
+        <Header />
+      </div>
+      <div className="meal-page-container">
       <h2 className="customerH2">Add New Customer</h2>
       <div className="customerFormContainer">
         <form onSubmit={step === 2 ? submitForm : handleNext}>
@@ -97,38 +104,39 @@ export default function CustomerForm() {
           )}
 
           {step === 1 && (
-            <>
+            <div className="actions">
               <button
-                className="customerFormButton"
+                className={"submitBtn Btn"}
                 type="button"
                 onClick={handleNext}
               >
                 Next
               </button>
               <button
-                className="customerFormButton"
+                className={"cancelBtn Btn"}
                 type="button"
-                onClick={() => navigate("/driver_login")}
+                onClick={() => navigate("/customerList")}
               >
                 Cancel
               </button>
-            </>
+            </div>
           )}
           {step === 2 && (
-            <>
+            <div className="actions">
               <button
-                className="customerFormButton"
+                className={"cancelBtn Btn"}
                 type="button"
                 onClick={handleBack}
               >
                 Back
               </button>
-              <button className="customerFormButton" type="submit">
+              <button className={"submitBtn Btn"}  type="submit"  >
                 Submit
               </button>
-            </>
+            </div>
           )}
         </form>
+        </div>
       </div>
     </React.Fragment>
   );

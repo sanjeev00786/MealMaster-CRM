@@ -19,12 +19,9 @@ const ViewCustomerDetailsModal = ({ customerId, onClose }) => {
     "name",
     "contact",
     "address",
-    "status",
-    "payment",
     "diet_notes",
     "dob",
     "tiffin_quantity",
-    // "plan_name", // Assuming plan_name is one of the properties you want to display
   ];
 
   useEffect(() => {

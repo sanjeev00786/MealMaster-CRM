@@ -1,12 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import tickmark from "../../../component-assets/tickmark.svg";
 import unpaidSign from "../../../component-assets/unpaidSign.svg";
 import editicon from "../../../component-assets/editicon.svg";
 import ViewCustomerDetailsModal from "./ViewCustomerDetailsModal";
-
+import Header from "../../../components/header/header";
 
 const customerUrl =
   "http://localhost:3001/api/customer/provider/get-all-customers/5de05e6c-162f-4293-88d5-2aa6bd1bb8a3";
@@ -20,6 +20,7 @@ export default function CustomerPage() {
   const [planName, setPlanName] = useState([]);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 400);
   const [selectedCustomerId, setSelectedCustomerId] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,6 +28,7 @@ export default function CustomerPage() {
         const res = await axios.get(customerUrl);
         const mealPlan = await axios.get(mealPlanUrl);
         setRecords(res.data.data.customers);
+        console.log(res.data.data.customers);
         setFilteredData(res.data.data.customers);
         setPlanName(mealPlan.data.data);
       } catch (error) {
@@ -54,7 +56,6 @@ export default function CustomerPage() {
 
   const handlePaymentClick = async (customerId, isPaid) => {
     try {
-      // Make PUT request to update customer status
       await axios.put(
         `http://localhost:3001/api/customer/edit-customer/${customerId}`,
         {
@@ -62,7 +63,6 @@ export default function CustomerPage() {
         }
       );
 
-      // Update the local state with the new payment status
       setRecords((prevRecords) =>
         prevRecords.map((record) =>
           record.customer_id === customerId
@@ -132,12 +132,12 @@ export default function CustomerPage() {
       name: "Actions",
       cell: (row) => (
         <>
-          <Link onClick={() => setSelectedCustomerId(row.customer_id)}>
-            View Details{" "}
-          </Link>
-          <Link onClick={() => setSelectedCustomerId(row.customer_id)}>
+          <div onClick={() => setSelectedCustomerId(row.customer_id)}>
+            View Details
+          </div>
+          <div onClick={() => navigate("/customers")}>
             <img src={editicon} alt="EditIcon" />
-          </Link>
+          </div>
         </>
       ),
       width: "100px",
@@ -150,20 +150,36 @@ export default function CustomerPage() {
     },
   };
 
-  console.log(filteredData)
+  console.log(filteredData);
 
   const handleFilter = (event) => {
-    const newData = filteredData.filter(row =>
+    const newData = filteredData.filter((row) =>
       row.name.toLowerCase().includes(event.target.value.toLowerCase())
     );
     setRecords(newData);
   };
 
   return (
-    <div className="customer-page-container" style={{ display: "flex", flexDirection: "column" }}>
-        <div style={{ display: "flex", justifyContent: "right"}}>
-            <input type="text" placeholder="Search...." onChange={handleFilter} style={{ padding: '5px 2px 5px 10px'}} /> 
-            </div>
+    <div
+      className="customer-page-container"
+      style={{ display: "flex", flexDirection: "column" }}
+    >
+      <div className="login-container">
+        <Header />
+      </div>
+      <h2 className="customerH2">Customer List</h2>
+      
+      <div><button onClick={() => navigate("/customers")}>Add New Customer</button></div>
+
+      <div style={{ display: "flex", justifyContent: "right" }}>
+        <input
+          type="text"
+          placeholder="Search...."
+          onChange={handleFilter}
+          style={{ padding: "5px 2px 5px 10px" }}
+        />
+      </div>
+      <div className="login">
       <DataTable
         columns={columns}
         data={records}
@@ -175,6 +191,7 @@ export default function CustomerPage() {
         customerId={selectedCustomerId}
         onClose={() => setSelectedCustomerId(null)}
       />
+    </div>
     </div>
   );
 }

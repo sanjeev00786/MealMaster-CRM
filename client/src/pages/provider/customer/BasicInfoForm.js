@@ -3,6 +3,7 @@ import AutoComplete from "./AutoComplete";
 import { TextField, Stack, InputLabel } from "@mui/material";
 import myImage from "../../../component-assets/Stepper_1.svg";
 
+
 function BasicInfoForm({ formData, handleChange, onPlaceSelect }) {
   const [place, setPlace] = useState(null);
 
@@ -11,10 +12,10 @@ function BasicInfoForm({ formData, handleChange, onPlaceSelect }) {
     onPlaceSelect(selectedPlace);
   };
 
-return (
+  return (
     <React.Fragment>
-      <div>
-        <Stack spacing={1}>
+      <div className="meal-page-container">
+        <Stack spacing={1} className="form-container">
           <img className="steeper" src={myImage} alt="stepper" />
           <InputLabel htmlFor="Name"> Customer Name</InputLabel>
           <TextField
@@ -26,6 +27,7 @@ return (
             onChange={handleChange}
             fullWidth
             required
+            className="form"
           />
 
           <InputLabel htmlFor="contactNumber">Contact Number</InputLabel>
@@ -38,6 +40,7 @@ return (
             onChange={handleChange}
             fullWidth
             required
+            className="form"
           />
 
           <InputLabel htmlFor="email">Email</InputLabel>
@@ -50,6 +53,7 @@ return (
             onChange={handleChange}
             fullWidth
             required
+            className="form"
           />
 
           <AutoComplete onPlaceSelect={handlePlaceSelect} />
@@ -64,8 +68,9 @@ return (
             onChange={handleChange}
             fullWidth
             required
+            className="form"
           />
-        </Stack>
+        </Stack>        
       </div>
     </React.Fragment>
   );
