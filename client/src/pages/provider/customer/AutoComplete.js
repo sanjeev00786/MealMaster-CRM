@@ -37,11 +37,7 @@ const AutoComplete = ({ onPlaceSelect }) => {
           types.includes("locality")
         ) {
           formatted_address += `${long_name}, `;
-        } else if (
-          types.includes("administrative_area_level_2") &&
-          types.includes("political")
-        ) {
-          city += `${long_name}`;
+          city = `${long_name}`;
         } else if (types.includes("country")) {
           formatted_address += `${long_name}, `;
         } else if (types.includes("postal_code")) {
