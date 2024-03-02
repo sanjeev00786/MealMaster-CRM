@@ -8,31 +8,70 @@ import MultiActionAreaCard from "../../../components/Meal-plan-card/Meal-plan-ca
 import "../meal-plan/meal-plan-list.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import MiniDrawer from "../../../components/SideMenu/SideMenu";
+import AnchorTemporaryDrawer from '../../../components/MobileSideMenu/MobileSideMenu'
+import "../dashboard/dashboard.css";
+import Loader from '../../../components/Loader/Loader';
 
 const MealPlanListPage = () => {
   const [cardData, setCardData] = useState([]);
-  const [dataLength, setDataLength] = useState(0);
   const [notificationMessage, setNotificationMessage] = useState("");
-  useEffect(() => {
-    // need to access provider id from session
-    axios
-      .get(
+  const [loading, setLoading] = React.useState(false);
+  const providerId = "5de05e6c-162f-4293-88d5-2aa6bd1bb8a3";
 
-        "http://localhost:3001/api/provider/meal_plans/get-meal-plan?provider_id=5de05e6c-162f-4293-88d5-2aa6bd1bb8a3"
-      )
+  const fetchMealPlans = (providerId) => {
+    setLoading(true);
+
+    axios
+      .get(`http://localhost:3001/api/provider/meal_plans/get-meal-plan?provider_id=${providerId}`)
       .then((response) => {
         const activePlans = response.data.data.filter((plan) => plan.is_active);
-
-        console.log(activePlans);
         setCardData(activePlans);
-        const length = activePlans.length;
-        setDataLength(length);
 
-        console.log("Number of entries in the database:", length);
+        setTimeout(() => {
+          setLoading(false);
+        }, 1000);
+
       })
       .catch((error) => {
+        setTimeout(() => {
+          setLoading(false);
+        }, 1000);
+
         console.error("Error fetching data:", error);
       });
+  };
+  
+  useEffect(() => {
+    // // need to access provider id from session
+    // setLoading(true);
+    // axios
+    //   .get(
+
+    //     "http://localhost:3001/api/provider/meal_plans/get-meal-plan?provider_id=5de05e6c-162f-4293-88d5-2aa6bd1bb8a3"
+    //   )
+    //   .then((response) => {
+    //     const activePlans = response.data.data.filter((plan) => plan.is_active);
+
+    //     console.log(activePlans);
+    //     setCardData(activePlans);
+    //     const length = activePlans.length;
+    //     setDataLength(length);
+    //     setTimeout(() => {
+    //       setLoading(false);
+    //     }, 1000);
+    //     console.log("Number of entries in the database:", length);
+    //   })
+    //   .catch((error) => {
+    //     setTimeout(() => {
+    //       setLoading(false);
+    //     }, 1000);
+    //     console.error("Error fetching data:", error);
+    //   });
+     // Replace with your actual function
+
+    // Call the API function with the retrieved provider ID
+    fetchMealPlans(providerId);
   }, []);
 
   const navigate = useNavigate();
@@ -45,9 +84,8 @@ const MealPlanListPage = () => {
       );
 
       console.log(`Meal plan with ID ${plan_id} deleted successfully`);
-
-      window.location.reload();
-      <CustomizedSnackbar customMessage="Meal Deleted Successfully" />;
+      setNotificationMessage('Meal Plan deleted.')
+     fetchMealPlans(providerId);
     } catch (error) {
       console.error("Error deleting meal plan:", error);
     }
@@ -63,12 +101,16 @@ const MealPlanListPage = () => {
 
   return (
     <div className="cardDisplay">
-      <div className="login-container">
-        <Header />
+      {notificationMessage && (
+      <CustomizedSnackbar customMessage={notificationMessage} />
+      )}
+      <Loader loading={loading}/>
+      <div className="mobileSideMenu">
+        <AnchorTemporaryDrawer />
       </div>
-      {/* <CustomizedSnackbar customMessage={"Hey"}/> */}
-
-      <h1>Meal Setting</h1>
+      <div className="sideMenu">
+        <MiniDrawer />
+      </div>
       <div className="meal-plan-list-container">
         {cardData.map((data, index) => (
           <MultiActionAreaCard

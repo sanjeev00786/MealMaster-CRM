@@ -161,7 +161,7 @@ export default function CustomerPage() {
 
   return (
     <div
-      className="customer-page-container"
+      className="customer-page-container_form"
       style={{ display: "flex", flexDirection: "column" }}
     >
       <div className="login-container">

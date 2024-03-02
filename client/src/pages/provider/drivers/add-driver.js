@@ -7,10 +7,17 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 import './add-driver.css';
+import MiniDrawer from "../../../components/SideMenu/SideMenu";
+import AnchorTemporaryDrawer from '../../../components/MobileSideMenu/MobileSideMenu'
+import "../dashboard/dashboard.css";
+import Loader from '../../../components/Loader/Loader';
+import CustomizedSnackbar from "../../../components/Notification/Notification";
 
 export default function DriverPage() {
   const [records, setRecords] = useState([]);
   const [filteredRecords, setFilteredRecords] = useState([]);
+  const [loading, setLoading] = React.useState(false);
+  const [notificationMessage, setNotificationMessage] = useState("");
 
   const columns = [
     {
@@ -37,6 +44,7 @@ export default function DriverPage() {
   ];
 
   useEffect(() => {
+    setLoading(true);
     const fetchData = async () => {
       try {
         const response = await axios.get(
@@ -44,8 +52,13 @@ export default function DriverPage() {
         );
         setRecords(response.data.data);
         setFilteredRecords(response.data.data);
-
+        setTimeout(() => {
+          setLoading(false);
+        }, 1000);
       } catch (error) {
+        setTimeout(() => {
+          setLoading(false);
+        }, 1000);
         console.error("Error fetching data:", error);
       }
     };
@@ -74,41 +87,31 @@ export default function DriverPage() {
 
   return (
     <div className="driver-page-container">
-      <div className="toolBar">
-          <Toolbar
-            sx={{
-              pl: { sm: 2 },
-              pr: { xs: 1, sm: 1 },
-              display: "flex",
-              justifyContent: "space-between",
-            }}
-          >
-            <Typography
-              sx={{ flex: "1 1 100%" }}
-              variant="h5"
-              id="tableTitle"
-              component="div"
-            >
-              Drivers
-            </Typography>
-            <AccountCircleIcon />
-          </Toolbar>
-        </div>
-        <div
-          className="below"
-          style={{ display: "flex", justifyContent: "space-between" }}
-        >
-      <div className="search-container">
-        <input
-          type="text"
-          placeholder="Search...."
-          onChange={handleFilter}
-          className="search-input"
-        />
+      {notificationMessage && (
+        <CustomizedSnackbar customMessage={notificationMessage} />
+      )}
+      <div className="mobileSideMenu">
+        <AnchorTemporaryDrawer />
       </div>
-      <Link to="/add-driver">
-      <Button variant="contained">+ New Driver</Button>
-      </Link>
+      <div className="sideMenu">
+        <MiniDrawer />
+      </div>
+      <Loader loading={loading} />
+      <div
+        className="below"
+        style={{ display: "flex", justifyContent: "space-between" }}
+      >
+        <div className="search-container">
+          <input
+            type="text"
+            placeholder="Search...."
+            onChange={handleFilter}
+            className="search-input"
+          />
+        </div>
+        <Link to="/add-driver">
+          <Button variant="contained">+ New Driver</Button>
+        </Link>
       </div>
       <DataTable
         columns={columns}

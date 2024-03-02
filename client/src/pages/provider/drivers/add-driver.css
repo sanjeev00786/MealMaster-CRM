@@ -5,9 +5,10 @@ html{
 .driver-page-container{
     background-color: white;
     /* padding-bottom: 1rem; */
-    margin-top: 1rem;
-    margin-left: 1rem;
+    margin-top: 4rem;
+    margin-left: 4.5rem;
     margin-right: 1rem;
+    padding-top: 1rem;
 }
 
 .addDriverBtn{

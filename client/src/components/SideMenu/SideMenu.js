@@ -98,6 +98,7 @@ export default function MiniDrawer() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const [headerName, setHeaderName] = React.useState("");
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -110,21 +111,25 @@ export default function MiniDrawer() {
   const navigate = useNavigate();
   const handleListItemClick = (index) => {
     setSelectedIndex(index);
-    
-    if (index == 0) {
+    console.log(index);
+    if (index === 0) {
+      setHeaderName('Dashboard')
       navigate("/dashboard");
-    } else if (index == 1) {
+    } else if (index === 1) {
+      setHeaderName('Customers')
       navigate("/customers");
-    } else if (index == 2) {
+    } else if (index === 2) {
+      setHeaderName('Driver')
       navigate("/drivers");
-    } else if (index == 3) {
+    } else if (index === 3) {
       navigate("/track-deliveries");
-    } else if (index == 4) {
+    } else if (index === 4) {
       navigate("/delivery-schedule");
-    } else if (index == 5) {
+    } else if (index === 5) {
       navigate("/social-media");
-    } else if (index == 6) {
-      navigate("/meal-plan");
+    } else if (index === 6) {
+      setHeaderName('Meal Setting')
+      navigate("/meal-plan-list");
     }
   };
 
@@ -156,7 +161,7 @@ export default function MiniDrawer() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            MealMasterCRM
+            {headerName}
           </Typography>
         </Toolbar>
       </AppBar>
@@ -215,11 +220,6 @@ export default function MiniDrawer() {
           ))}
         </List>
       </Drawer>
-
-      {/* Remove this code  */}
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <DrawerHeader />
-      </Box>
     </Box>
   );
 }

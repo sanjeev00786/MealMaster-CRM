@@ -28,6 +28,8 @@ const DriverLogin = () => {
                     // right token
                     const driverId = response.data.data[0].driver_id;
                     sessionStorage.setItem('driverId', driverId);
+                    localStorage.setItem('isLoggedIn', 'true');
+                    localStorage.setItem('isLoaderShow', 'true');
                     navigate('/driver_dashboard');
                 }
                 
@@ -42,10 +44,7 @@ const DriverLogin = () => {
     const handleTokenChange = (event) => {
         setToken(event.target.value);
     };
-
-    return (   
-        <div className="login-container">          
-            <Header />      
+    
     return (
         <div className="login-container">
             <Loader loading={loading} />

@@ -5,6 +5,9 @@ import BasicInfoForm from "./BasicInfoForm";
 import AdditionalInfoForm from "./AdditionalInfoForm";
 import "./customerPage.css";
 import Header from "../../../components/header/header";
+import MiniDrawer from "../../../components/SideMenu/SideMenu";
+import AnchorTemporaryDrawer from '../../../components/MobileSideMenu/MobileSideMenu'
+import "../dashboard/dashboard.css";
 
 export default function CustomerForm() {
   const navigate = useNavigate();
@@ -39,7 +42,7 @@ export default function CustomerForm() {
   // );
   // const data = JSON.parse(datafromLocalStorage);
   const provider_id = {
-    provider_id : "5de05e6c-162f-4293-88d5-2aa6bd1bb8a3",  
+    provider_id: "5de05e6c-162f-4293-88d5-2aa6bd1bb8a3",
   };
   console.log(provider_id);
 
@@ -71,9 +74,9 @@ export default function CustomerForm() {
 
     try {
       const response = await axios.post(serverApiEndpoint, finalDatatoSendToDB);
-      
+
       console.log(response.data.message);
-       navigate("/customerList")
+      navigate("/customerList")
     } catch (error) {
       console.error("Error adding customer:", error);
     }
@@ -81,61 +84,66 @@ export default function CustomerForm() {
 
   return (
     <React.Fragment>
-       <div className="login-container">
-        <Header />
+      <div className="login-container">
+        <div className="mobileSideMenu">
+          <AnchorTemporaryDrawer />
+        </div>
+        <div className="sideMenu">
+          <MiniDrawer />
+        </div>
       </div>
       <div className="meal-page-container">
-      <h2 className="customerH2">Add New Customer</h2>
-      <div className="customerFormContainer">
-        <form onSubmit={step === 2 ? submitForm : handleNext}>
-          {step === 1 && (
-            <BasicInfoForm
-              formData={formData}
-              handleChange={handleChange}
-              onPlaceSelect={handlePlaceSelect}
-            />
-          )}
-          {step === 2 && (
-            <AdditionalInfoForm
-              formData={formData}
-              handleChange={handleChange}
-              mealPlans={mealPlans}
-            />
-          )}
+        <h2 className="customerH2">Add New Customer</h2>
+        <div className="customerFormContainer">
+          <form onSubmit={step === 2 ? submitForm : handleNext}>
+            {step === 1 && (
+              <BasicInfoForm
+                formData={formData}
+                handleChange={handleChange}
+                onPlaceSelect={handlePlaceSelect}
+              />
+            )}
+            {step === 2 && (
+              <AdditionalInfoForm
+                formData={formData}
+                handleChange={handleChange}
+                mealPlans={mealPlans}
+              />
+            )}
 
-          {step === 1 && (
-            <div className="actions">
-              <button
-                className={"submitBtn Btn"}
-                type="button"
-                onClick={handleNext}
-              >
-                Next
-              </button>
-              <button
-                className={"cancelBtn Btn"}
-                type="button"
-                onClick={() => navigate("/customerList")}
-              >
-                Cancel
-              </button>
-            </div>
-          )}
-          {step === 2 && (
-            <div className="actions">
-              <button
-                className={"cancelBtn Btn"}
-                type="button"
-                onClick={handleBack}
-              >
-                Back
-              </button>
-              <button className={"submitBtn Btn"}  type="submit"  >
-                Submit
-              </button>
-            </div>
-          )}
-        </form>
+            {step === 1 && (
+              <div className="actions">
+                <button
+                  className={"submitBtn Btn"}
+                  type="button"
+                  onClick={handleNext}
+                >
+                  Next
+                </button>
+                <button
+                  className={"cancelBtn Btn"}
+                  type="button"
+                  onClick={() => navigate("/customerList")}
+                >
+                  Cancel
+                </button>
+              </div>
+            )}
+            {step === 2 && (
+              <div className="actions">
+                <button
+                  className={"cancelBtn Btn"}
+                  type="button"
+                  onClick={handleBack}
+                >
+                  Back
+                </button>
+                <button className={"submitBtn Btn"} type="submit"  >
+                  Submit
+                </button>
+              </div>
+            )}
+          </form>
         </div>
       </div>
     </React.Fragment>

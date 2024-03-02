@@ -6,8 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import supabase from '../../../supabase';
 import cameraIcon from '../../../component-assets/camera.svg';
 import CustomCamera from '../../../components/CustomCamera/CustomCamera';
-import { uploadImage } from '../../../util/firebase';
 import Loader from '../../../components/Loader/Loader';
+import CustomizedSnackbar from "../../../components/Notification/Notification";
 
 const customers = [
     {
@@ -39,6 +39,7 @@ const DriverDashboard = () => {
     const [isCameraOpen, setCameraOpen] = useState(false);
     const [imagePreview, setImagePreview] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [notificationMessage, setNotificationMessage] = useState("");
 
     const toggleNavigation = (isStop) => {
         console.log(isStop)
@@ -61,13 +62,13 @@ const DriverDashboard = () => {
         // try {
         //     const imageBlob = await fetch(imagePreview).then((res) => res.blob());
         //     const imageFile = new File([imageBlob], 'image_preview.png', { type: 'image/png' });
-        
+
         //     // Upload the image file
         //     const downloadURL = await uploadImage(imageFile);
-        
+
         //     // Do something with the download URL (e.g., save it to your database)
         //     console.log('Image uploaded successfully. URL:', downloadURL);
-        
+
         //     // Clear the imagePreview state
         //     setImagePreview(null);
         //   } catch (error) {
@@ -107,17 +108,26 @@ const DriverDashboard = () => {
     }, []);
 
     useEffect(() => {
+        const myBooleanValue = localStorage.getItem('isLoaderShow') === 'true';
+        if (myBooleanValue === true) {
+            setNotificationMessage('Logged In Successfully!')
+            localStorage.setItem('isLoaderShow', 'false');
+        }
         setTimeout(() => {
             setLoading(false);
-          }, 4000);
-        
+            setNotificationMessage('')
+        }, 4000);
+
     }, []);
-    
+
 
     return (
         <div className="dashboard-container">
-             <Loader loading={loading} />
+            <Loader loading={loading} />
             <Header />
+            {notificationMessage && (
+                <CustomizedSnackbar customMessage={notificationMessage} />
+            )}
             <h2>Dashboard</h2>
             <Maps customerData={customers} />
             {isCameraOpen && (

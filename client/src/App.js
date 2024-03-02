@@ -13,6 +13,7 @@ import CustomerForm from './pages/provider/customer/CustomerPage1';
 import DriverPage from './pages/provider/drivers/add-driver';
 import DriverForm from './pages/provider/drivers/add-driver-form';
 import Dashboard from './pages/provider/dashboard/dashboard';
+import MealPlanUpdatePage from './pages/provider/meal-plan/meal-plan-update'
 
 const PrivateRoute = ({ component: Component, session, ...rest }) => (
   <Route
@@ -62,6 +63,8 @@ const App = () => {
       <Route
         path="/add-driver"
         element={session ? <DriverForm /> : <Navigate to="/add-driver" />}
+      />
+      <Route
         path="/dashboard"
         element={session ? <Dashboard /> : <Navigate to="/dashboard" />}
       />
@@ -72,10 +75,6 @@ const App = () => {
       <Route
         path="/meal-plan"
         element={session ? <MealSettingPage /> : <Navigate to="/meal-plan" />}
-      />
-      <Route
-        path="/driver_login"
-        element={session ? <DriverLogin /> : <Navigate to="/driver_login" />}
       />
       <Route
         path="/driver_dashboard"
@@ -94,8 +93,16 @@ const App = () => {
         element={ <DeliveryScheduleTable /> }
       />
       <Route
+        path="/customerList"
+        element={ <DeliveryScheduleTable /> }
+      />
+      <Route
         path="/meal-plan-list"
         element={session ? <MealPlanListPage /> : <Navigate to="/meal-plan-list" />}
+      />
+      <Route
+        path="/meal-plan-update/:plan_id"
+        element={session ? <MealPlanUpdatePage /> : <Navigate to="/meal-plan-update" />}
       />
       {/* <PrivateRoute path="/dashboard" component={CustomerTable} session={session} />
           <PrivateRoute path="/customers" component={Customers} session={session} />

@@ -1,4 +1,7 @@
-
+.cardDisplay {
+    margin-left: 4.5rem;
+    margin-top: 4rem;
+}
 h1 {
     /* text-align: center; */
     margin-left: 20px;

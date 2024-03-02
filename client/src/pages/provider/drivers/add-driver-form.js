@@ -6,8 +6,13 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import supabase from '../../../supabase';
 import axios from "axios";
 import "./add-driver-form.css";
+import Loader from '../../../components/Loader/Loader';
+import CustomizedSnackbar from "../../../components/Notification/Notification";
 
 export default function DriverForm() {
+  const [loading, setLoading] = React.useState(false);
+  const [notificationMessage, setNotificationMessage] = useState("");
+
   const [formData, setFormData] = React.useState({
     name: "",
     photo_url: "",
@@ -37,6 +42,7 @@ export default function DriverForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
     try {
       // // Upload the image to Supabase storage
       // const { data, error } = await supabase.storage
@@ -60,8 +66,7 @@ export default function DriverForm() {
         "http://localhost:3001/api/drivers/add-driver?provider_id=5de05e6c-162f-4293-88d5-2aa6bd1bb8a3",
         formData
       );
-
-      console.log("Response:", response.data);
+      setLoading(false);
       setFormData({
         name: "",
         photo_url: "",
@@ -72,12 +77,18 @@ export default function DriverForm() {
   
       });
     } catch (error) {
+      setLoading(false);
       console.error("Error submitting form:", error);
+      setNotificationMessage('Something went wrong!!')
     }
   };
 
   return (
     <div className="form-page-container">
+       <Loader loading={loading} />
+       {notificationMessage && (
+                <CustomizedSnackbar customMessage={notificationMessage} />
+            )}
       <div className="toolBar">
         <Toolbar
           sx={{
