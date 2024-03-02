@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Header from "../../../components/header/header";
 import CustomButton from "../../../components/CustomButton/CustomButton";
 // import "../../../components/CustomButton/CustomButton.css";
+import CustomizedSnackbar from "../../../components/Notification/Notification";
 import "./meal-plan.css";
 import axios from "axios";
 
@@ -14,10 +15,14 @@ const MealSettingPage = () => {
   const handleSave = (e) => {
     e.preventDefault();
     const mealData = {
+
+      //need to fetch provider id from session ------pending 
       provider_id: "5de05e6c-162f-4293-88d5-2aa6bd1bb8a3", 
       plan_name: mealName,
       price: mealPrice,
       description: mealDescription,
+      
+
     };
 
     console.log(mealData);
@@ -43,9 +48,14 @@ const MealSettingPage = () => {
     <div>
       <div className="login-container">
         <Header />
+
       </div>
+
       <div className="meal-page-container">
         <h1>Meal Setting</h1>
+        {/* <CustomizedSnackbar /> */}
+
+        <CustomizedSnackbar customMessage="Custom message goes here" />
         <div className="form-container">
           <form>
             <label>Meal Name</label>

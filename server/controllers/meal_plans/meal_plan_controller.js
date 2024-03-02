@@ -2,7 +2,7 @@ const mealPlanModel = require("../../models/meal_plans/meal_plans_models");
 
 exports.addMealPlan = async (req, res) => {
   try {
-    const { provider_id, plan_name, price, description } = req.body;
+    const { provider_id, plan_name, price, description,is_active } = req.body;
     console.log('controller', req.body);
     // console.log("Received data for meal plan:", req.body);
 
@@ -11,6 +11,7 @@ exports.addMealPlan = async (req, res) => {
       plan_name,
       price,
       description,
+      is_active
     });
 
     if (result && result.success) {
@@ -72,14 +73,12 @@ exports.getMealPlan = async (req, res) => {
 
 exports.updateMealPlan = async (req, res) => {
   try {
-    const { plan_id, plan_name, price, description } = req.body;
+    const { plan_id } = req.body;
 
-    // console.log("here is id $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$4", plan_id);
+    console.log("here is id $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$4", plan_id);
 
     const result = await mealPlanModel.editMealPlan({
-      plan_name,
-      price,
-      description,
+      
       plan_id,
     });
 
