@@ -12,6 +12,8 @@ import MiniDrawer from "../../../components/SideMenu/SideMenu";
 import AnchorTemporaryDrawer from '../../../components/MobileSideMenu/MobileSideMenu'
 import "../dashboard/dashboard.css";
 import Loader from '../../../components/Loader/Loader';
+import Button from "@mui/material/Button";
+import { Link } from "react-router-dom";
 
 const MealPlanListPage = () => {
   const [cardData, setCardData] = useState([]);
@@ -41,36 +43,8 @@ const MealPlanListPage = () => {
         console.error("Error fetching data:", error);
       });
   };
-  
+
   useEffect(() => {
-    // // need to access provider id from session
-    // setLoading(true);
-    // axios
-    //   .get(
-
-    //     "http://localhost:3001/api/provider/meal_plans/get-meal-plan?provider_id=5de05e6c-162f-4293-88d5-2aa6bd1bb8a3"
-    //   )
-    //   .then((response) => {
-    //     const activePlans = response.data.data.filter((plan) => plan.is_active);
-
-    //     console.log(activePlans);
-    //     setCardData(activePlans);
-    //     const length = activePlans.length;
-    //     setDataLength(length);
-    //     setTimeout(() => {
-    //       setLoading(false);
-    //     }, 1000);
-    //     console.log("Number of entries in the database:", length);
-    //   })
-    //   .catch((error) => {
-    //     setTimeout(() => {
-    //       setLoading(false);
-    //     }, 1000);
-    //     console.error("Error fetching data:", error);
-    //   });
-     // Replace with your actual function
-
-    // Call the API function with the retrieved provider ID
     fetchMealPlans(providerId);
   }, []);
 
@@ -85,26 +59,31 @@ const MealPlanListPage = () => {
 
       console.log(`Meal plan with ID ${plan_id} deleted successfully`);
       setNotificationMessage('Meal Plan deleted.')
-     fetchMealPlans(providerId);
+      fetchMealPlans(providerId);
     } catch (error) {
       console.error("Error deleting meal plan:", error);
     }
   };
 
   const handleCardButtonClickEdit = async (plan_id) => {
-    
+
     navigate(`/meal-plan-update/${plan_id}`);
     console.log(`Meal plan with Edit ID ${plan_id} sent`);
 
-    
+
   };
 
   return (
     <div className="cardDisplay">
+      <div className="new-plan-button-container">
+        <Link to="/meal-plan" className="new-plan-button">
+          <Button variant="contained">+ Add Plan</Button>
+        </Link>
+      </div>
       {notificationMessage && (
-      <CustomizedSnackbar customMessage={notificationMessage} />
+        <CustomizedSnackbar customMessage={notificationMessage} />
       )}
-      <Loader loading={loading}/>
+      <Loader loading={loading} />
       <div className="mobileSideMenu">
         <AnchorTemporaryDrawer />
       </div>

@@ -14,6 +14,8 @@ import DriverPage from './pages/provider/drivers/add-driver';
 import DriverForm from './pages/provider/drivers/add-driver-form';
 import Dashboard from './pages/provider/dashboard/dashboard';
 import MealPlanUpdatePage from './pages/provider/meal-plan/meal-plan-update'
+import CustomerPage from './pages/provider/customer/customer';
+import SocialMedia from './pages/provider/social-media/social-media';
 
 const PrivateRoute = ({ component: Component, session, ...rest }) => (
   <Route
@@ -93,16 +95,21 @@ const App = () => {
         element={ <DeliveryScheduleTable /> }
       />
       <Route
-        path="/customerList"
-        element={ <DeliveryScheduleTable /> }
-      />
-      <Route
         path="/meal-plan-list"
         element={session ? <MealPlanListPage /> : <Navigate to="/meal-plan-list" />}
       />
       <Route
         path="/meal-plan-update/:plan_id"
         element={session ? <MealPlanUpdatePage /> : <Navigate to="/meal-plan-update" />}
+      />
+      <Route
+        path="/customerList"
+        element={session ? <CustomerPage /> : <Navigate to="/customerList" />}
+      />
+
+<Route
+        path="/social-media"
+        element={session ? <SocialMedia /> : <Navigate to="/social-media" />}
       />
       {/* <PrivateRoute path="/dashboard" component={CustomerTable} session={session} />
           <PrivateRoute path="/customers" component={Customers} session={session} />

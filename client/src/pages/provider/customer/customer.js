@@ -7,6 +7,10 @@ import unpaidSign from "../../../component-assets/unpaidSign.svg";
 import editicon from "../../../component-assets/editicon.svg";
 import ViewCustomerDetailsModal from "./ViewCustomerDetailsModal";
 import Header from "../../../components/header/header";
+import MiniDrawer from "../../../components/SideMenu/SideMenu";
+import AnchorTemporaryDrawer from '../../../components/MobileSideMenu/MobileSideMenu'
+import "../dashboard/dashboard.css";
+import Loader from '../../../components/Loader/Loader';
 
 const customerUrl =
   "http://localhost:3001/api/customer/provider/get-all-customers/5de05e6c-162f-4293-88d5-2aa6bd1bb8a3";
@@ -20,10 +24,12 @@ export default function CustomerPage() {
   const [planName, setPlanName] = useState([]);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 400);
   const [selectedCustomerId, setSelectedCustomerId] = useState(null);
+  const [loading, setLoading] = React.useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true)
       try {
         const res = await axios.get(customerUrl);
         const mealPlan = await axios.get(mealPlanUrl);
@@ -31,7 +37,9 @@ export default function CustomerPage() {
         console.log(res.data.data.customers);
         setFilteredData(res.data.data.customers);
         setPlanName(mealPlan.data.data);
+        setLoading(false)
       } catch (error) {
+        setLoading(false)
         console.log(error);
       }
     };
@@ -164,11 +172,13 @@ export default function CustomerPage() {
       className="customer-page-container_form"
       style={{ display: "flex", flexDirection: "column" }}
     >
-      <div className="login-container">
-        <Header />
-      </div>
-      <h2 className="customerH2">Customer List</h2>
-      
+      <div className="mobileSideMenu">
+          <AnchorTemporaryDrawer />
+        </div>
+        <div className="sideMenu">
+          <MiniDrawer />
+        </div>
+        <Loader loading={loading} />
       <div><button onClick={() => navigate("/customers")}>Add New Customer</button></div>
 
       <div style={{ display: "flex", justifyContent: "right" }}>
@@ -180,18 +190,18 @@ export default function CustomerPage() {
         />
       </div>
       <div className="login">
-      <DataTable
-        columns={columns}
-        data={records}
-        customStyles={customStyles}
-        pagination
-      />
+        <DataTable
+          columns={columns}
+          data={records}
+          customStyles={customStyles}
+          pagination
+        />
 
-      <ViewCustomerDetailsModal
-        customerId={selectedCustomerId}
-        onClose={() => setSelectedCustomerId(null)}
-      />
-    </div>
+        <ViewCustomerDetailsModal
+          customerId={selectedCustomerId}
+          onClose={() => setSelectedCustomerId(null)}
+        />
+      </div>
     </div>
   );
 }

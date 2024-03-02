@@ -2,6 +2,18 @@
 .sideMenu{
     visibility: hidden;
 }
+.dashboard-container {
+    margin-top: 4rem;
+}
+.WIP {
+    align-items: center;
+}
+
+.dashboard-header {
+    margin-top: 4rem;
+    text-align: center;
+    margin-bottom: 0;
+}
 
 /* Desktop View */
 @media screen and (min-width: 700px) {
