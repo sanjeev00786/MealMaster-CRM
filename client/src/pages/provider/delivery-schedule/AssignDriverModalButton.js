@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Box, Typography, Button, Select, MenuItem } from '@mui/material';
+import supabase from '../../../supabase';
 import axios from 'axios';
 
-const AssignDriverModalButton = ({ providerId, onAssignDriver}) => {
+const AssignDriverModalButton = ({ providerId, onAssignDriver, updateParent}) => {
   const [openModal, setOpenModal] = useState(false);
   const [drivers, setDrivers] = useState([]);
   const [selectedDriver, setSelectedDriver] = useState('');
@@ -18,6 +19,55 @@ const AssignDriverModalButton = ({ providerId, onAssignDriver}) => {
     p: 4,
   };
 
+  const pushToAssignedTiffin = async (providerId, driverId, data) => {
+    try {
+      if (!data || data.length === 0) {
+        console.log('No data to process.');
+        return;
+      }
+  
+      const records = data.map(customer => ({
+        driver_id: driverId,
+        provider_id: providerId,
+        plan_id: customer.plan_id,
+        customer_id: customer.id,
+      }));
+  
+      // Insert new records or update existing ones in assigned_tiffin table
+      const { error: insertError } = await supabase
+        .from('assigned_tiffin')
+        .upsert(records);
+  
+      if (insertError) {
+        throw new Error(`Error inserting/updating records in assigned_tiffin table: ${insertError.message}`);
+      }
+  
+      console.log('Records inserted/updated successfully.');
+  
+      // Update is_assigned_driver to true for the assigned customers in the customers table
+      const customerIdsToUpdate = data.map(customer => customer.id);
+  
+      if (customerIdsToUpdate.length > 0) {
+        const { data: updateResult, error: updateError } = await supabase
+          .from('customers')
+          .update({ is_assigned_driver: true })
+          .in('customer_id', customerIdsToUpdate);
+  
+        if (updateError) {
+          console.error('Error updating is_assigned_driver in customers table:', updateError);
+          throw new Error(`Error updating is_assigned_driver in customers table: ${updateError.message}`);
+        }
+  
+        console.log('is_assigned_driver updated for assigned customers:', updateResult);
+        updateParent();
+      } else {
+        console.log('No customers to update.');
+      }
+    } catch (error) {
+      console.error('Error pushing data to assigned_tiffin table:', error);
+    }
+  };
+
   const handleOpenModal = async () => {
     setOpenModal(true);
     // Fetch drivers from the API using the provided providerId
@@ -31,16 +81,17 @@ const AssignDriverModalButton = ({ providerId, onAssignDriver}) => {
   };
 
   const handleCloseModal = () => {
-    console.log(onAssignDriver())
-    console.log('DriverId and ProviderId')
-    console.log(selectedDriver, providerId)
     setOpenModal(false);
   };
 
   const handleAssignDriver = () => {
-    // Pass the selected driver and providerId to the parent component
-    onAssignDriver();
-    handleCloseModal();
+    if (selectedDriver) {
+      let customerData = onAssignDriver()
+      pushToAssignedTiffin(providerId, selectedDriver, customerData)
+      handleCloseModal();
+    } else {
+      alert('Please select a driver before assigning.');
+    }
   };
 
   useEffect(() => {
