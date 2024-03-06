@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { Auth } from '@supabase/auth-ui-react';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
 import supabase from '../../supabase';
-import { Navigate } from 'react-router-dom';
 import FinishSignUp from '../FinishSignUp/FinishSignUp';
 
 export default function Login() {

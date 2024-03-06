@@ -65,7 +65,7 @@ export default function FinishSignUp({ session }) {
         const { business_name, contact, address } = data[0];
         console.log(business_name, contact, address)
         if (business_name && contact && address) {
-          navigate('/delivery-schedule');
+          navigate('/dashboard');
         }
       }
     } catch (error) {
@@ -93,7 +93,7 @@ export default function FinishSignUp({ session }) {
         ]);
 
         // return <Navigate to="/delivery-schedule" />;
-        navigate('/delivery-schedule');
+        navigate('/dashboard');
         setFormError(false);
       } catch (error) {
         console.error('Error inserting data:', error);
