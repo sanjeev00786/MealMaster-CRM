@@ -11,5 +11,6 @@ router.delete('/delete-driver/:driver_id', driverController.deleteDriver);
 router.get('/get-past-delivery-tiffins', driverController.getPastDeliveryTiffins);
 
 router.post('/move-to-past-delivery', driverController.moveToPastDelivery);
+router.put('/update-delivery-status-and-photo', driverController.updateDeliveryStatusAndPhoto);
 
 module.exports = router;
