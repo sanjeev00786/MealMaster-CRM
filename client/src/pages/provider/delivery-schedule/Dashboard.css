@@ -1,4 +1,9 @@
 /* Add these styles for centering the table */
+.MuiBox-root {
+  margin-left: 4.5rem;
+  margin-top: 2rem;
+}
+
 .centeredContainer {
     display: flex;
     justify-content: center;

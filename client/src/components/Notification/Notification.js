@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import Button from '@mui/material/Button';
+
+import React, { useState, useEffect } from 'react';
 import Snackbar from '@mui/material/Snackbar';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
@@ -8,6 +8,10 @@ import './Notification.css';
 
 export default function CustomizedSnackbar({ customMessage }) {
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    handleClick();
+  }, []);
 
   const handleClick = () => {
     setOpen(true);
@@ -32,27 +36,24 @@ export default function CustomizedSnackbar({ customMessage }) {
   );
 
   return (
-    <div>
-      <Button onClick={handleClick}>Open Snackbar</Button>
-      <Snackbar
-        open={open}
-        autoHideDuration={6000}
-        onClose={handleClose}
-        message={
-          <div className="snackbar">
-            <img src={logo} alt="Logo" className="logo" />
-            <div className="message">{customMessage}</div>
-          </div>
-        }
-        action={action}
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
-        }}
-        ContentProps={{
-          className: 'custom-snackbar', 
-        }}
-      />
-    </div>
+    <Snackbar
+      open={open}
+      autoHideDuration={3000}
+      onClose={handleClose}
+      message={
+        <div className="snackbar">
+          <img src={logo} alt="Logo" className="logo" />
+          <div className="message">{customMessage}</div>
+        </div>
+      }
+      action={action}
+      anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'center',
+      }}
+      ContentProps={{
+        className: 'custom-snackbar', 
+      }}
+    />
   );
 }
