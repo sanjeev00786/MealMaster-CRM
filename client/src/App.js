@@ -25,24 +25,35 @@ const PrivateRoute = ({ component: Component, session, ...rest }) => (
     }
   />
 );
+
+
 const App = () => {
   const [session, setSession] = useState(null);
+
   useEffect(() => {
     const fetchSession = async () => {
       try {
         const { data: { session } } = await supabase.auth.getSession();
         setSession(session);
+
       } catch (error) {
         console.error('Error fetching session:', error.message);
       }
     };
+
     const authStateChangeHandler = (_event, session) => {
       setSession(session);
     };
+
     fetchSession();
+
+    // Subscribe to auth state changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(authStateChangeHandler);
+
+    // Unsubscribe when component unmounts
     return () => subscription.unsubscribe();
   }, []);
+
   const handleLogout = async () => {
     try {
       await supabase.auth.signOut();
@@ -51,6 +62,7 @@ const App = () => {
       console.error('Logout failed:', error.message);
     }
   };
+
   return (
   <Router>
   <div className="App">

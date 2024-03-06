@@ -22,8 +22,12 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
 import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
+import { TextField } from '@mui/material';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import AssignDriverModalButton from './AssignDriverModalButton';
+// import DatePicker from "react-datepicker";
+
+// import "react-datepicker/dist/react-datepicker.css";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -90,7 +94,7 @@ function EnhancedTableHead(props) {
         </TableCell>
         {headCells.map((headCell) => (
           <TableCell
-            key={headCell.id}
+            key={headCell.id} 
             align={headCell.numeric ? 'right' : 'left'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
@@ -124,7 +128,7 @@ EnhancedTableHead.propTypes = {
 };
 
 function EnhancedTableToolbar(props) {
-  const { numSelected } = props;
+  const { numSelected, onGetSelectedRows, onUpdateParent } = props;
   const [openModal, setOpenModal] = React.useState(false);
 
   const handleOpenModal = () => {
@@ -134,33 +138,12 @@ function EnhancedTableToolbar(props) {
   const handleCloseModal = () => {
     setOpenModal(false);
   };
-
-  const handleAssignDriver = (selectedDriver, providerId) => {
+  
+  // const handleAssignDriver = (selectedDriver, providerId) => {
     // Do something with the selected driver and providerId in the parent component
-    console.log('Selected driver:', selectedDriver);
-    console.log('Provider ID:', providerId);
-  };
-
-
-//   const AssignDriverModal = (
-//     <Modal
-//       open={openModal}
-//       onClose={handleCloseModal}
-//       aria-labelledby="assign-driver-modal"
-//       aria-describedby="assign-driver-modal-description"
-//     >
-//       <Box sx={{ ...modalStyle, width: 400 }}>
-//         <Typography id="assign-driver-modal" variant="h6" component="div">
-//           Assign Driver
-//         </Typography>
-//         <p id="assign-driver-modal-description">
-//           Add your form or content for assigning a driver here.
-//         </p>
-//         <Button onClick={handleCloseModal}>Cancel</Button>
-//         <Button onClick={handleCloseModal}>Assign Driver</Button>
-//       </Box>
-//     </Modal>
-//   );
+  //   console.log('Selected driver:', selectedDriver);
+  //   console.log('Provider ID:', providerId);
+  // };
 
   return (
     <Toolbar
@@ -196,7 +179,7 @@ function EnhancedTableToolbar(props) {
      {numSelected > 0 ? (
         <Tooltip title="Assign Driver">
           <IconButton onClick={handleOpenModal}>
-            <AssignDriverModalButton providerId="5de05e6c-162f-4293-88d5-2aa6bd1bb8a3" onAssignDriver={handleAssignDriver} />
+            <AssignDriverModalButton providerId="5de05e6c-162f-4293-88d5-2aa6bd1bb8a3" onAssignDriver={onGetSelectedRows} updateParent={onUpdateParent}/>
           </IconButton>
         </Tooltip>
       ) : (
@@ -206,7 +189,6 @@ function EnhancedTableToolbar(props) {
           </IconButton>
         </Tooltip>
       )}
-      {/* {AssignDriverModal} */}
     </Toolbar>
   );
 }
@@ -235,41 +217,66 @@ export default function DeliveryScheduleTable() {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [rows, setRows] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
+  const [updateFlag, setUpdateFlag] = React.useState(false);
+
+  const toggleUpdateFlag = () => {
+    setUpdateFlag((prevFlag) => !prevFlag);
+    setSelected([]);
+  };
+
 
   const fetchData = React.useCallback(async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/customer/provider/get-all-customers/5de05e6c-162f-4293-88d5-2aa6bd1bb8a3');
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
+      // First request to get meal plans
+      const mealPlanResponse = await fetch('http://localhost:3001/api/provider/meal_plans/get-meal-plan?provider_id=5de05e6c-162f-4293-88d5-2aa6bd1bb8a3');
+  
+      if (!mealPlanResponse.ok) {
+        throw new Error('Network response was not ok for meal plans');
       }
+  
+      const mealPlanData = await mealPlanResponse.json();
+  
+      // Assuming the first plan in the response is the correct one
+      const selectedMealPlan = mealPlanData.data[0];
+  
+      // Second request to get customer information
+      const customerResponse = await fetch(`http://localhost:3001/api/customer/provider/get-all-customers/${selectedMealPlan.provider_id}`);
+  
+      if (!customerResponse.ok) {
+        throw new Error('Network response was not ok for customers');
+      }
+  
+      const customerData = await customerResponse.json();
 
-      const data = await response.json();
-
-      // Assuming 'customers' property contains an array of customer objects
-      const transformedData = data.data.customers.map((customer) => {
+  
+      // Transform data using the plan information
+      const transformedData = customerData.data.customers.filter(customer => customer.is_assigned_driver != true).map((customer) => {
+        // Find the matching plan_id in mealPlanData
+        const matchedPlan = mealPlanData.data.find(plan => plan.plan_id === customer.plan_id);
+  
         return {
           id: customer.customer_id,
           name: customer.name,
           contact: customer.contact,
-          plan: 'Premium', // You can replace this with the actual plan information from the API
+          plan_id: customer.plan_id,
+          plan: matchedPlan ? matchedPlan.plan_name : 'Unknown Plan',
           city: 'City', // You can replace this with the actual city information from the API
           address: customer.address,
         };
       });
-
+  
       setRows(transformedData);
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
       setLoading(false); // Set loading state to false after fetching data, regardless of success or error
     }
-  }, []);  // Empty dependency array means this function will not change between renders
+  }, [updateFlag]);  
+  
 
   React.useEffect(() => {
     fetchData();
   }, [fetchData]);  // Pass the fetchData function as a dependency
-
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -324,18 +331,31 @@ export default function DeliveryScheduleTable() {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
-    const visibleRows = stableSort(rows, getComparator(order, orderBy))
+  const visibleRows = stableSort(rows, getComparator(order, orderBy))
     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+
+  const getSelectedRows = () => {
+      const selectedDetails = rows.filter(row => selected.includes(row.id));
+      console.log(selectedDetails);
+      return selectedDetails;
+    };
 
   if (loading) {
     return <p>Loading...</p>; // Render a loading indicator while data is being fetched
   }
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: '100%' }}>      
       <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar numSelected={selected.length} onGetSelectedRows={getSelectedRows} onUpdateParent={toggleUpdateFlag}/>
         <TableContainer>
+        {/* <div style={{ marginLeft: '2vw' }}>
+          <DatePicker
+            selected={selectedDate}
+            minDate={new Date()}
+            onChange={(date) => setSelectedDate(date)}
+          />
+        </div> */}
           <Table
             sx={{ minWidth: 750 }}
             aria-labelledby="tableTitle"

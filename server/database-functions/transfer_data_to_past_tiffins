@@ -1,0 +1,19 @@
+--  Function handles data cleanup at the end of the day
+
+
+BEGIN
+    -- Insert all data from assigned_tiffin to past_delivery_tiffins
+    INSERT INTO past_delivery_tiffins (id, created_at, provider_id, plan_id, driver_id, delivery_status, delivery_photo_url, customer_id)
+    SELECT id, created_at, provider_id, plan_id, driver_id, delivery_status, delivery_photo_url, customer_id
+    FROM assigned_tiffin;
+
+    -- Set is_assigned_driver to false in customers table
+    UPDATE customers SET is_assigned_driver = false;
+
+    -- Delete all rows from assigned_tiffin
+    DELETE FROM assigned_tiffin;
+
+END;
+
+-- Schedule the function to run every day at 12 AM
+SELECT cron.schedule('0 0 * * *', 'SELECT transfer_data_to_past_tiffins()');
