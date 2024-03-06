@@ -215,3 +215,24 @@ exports.moveToPastDelivery = async (req, res) => {
     res.status(500).json({ status: 500, success: false, error: 'Internal Server Error' });
   }
 };
+
+exports.updateDeliveryStatusAndPhoto = async (req, res) => {
+  try {
+    const { customer_id, delivery_status, delivery_photo_url } = req.body;
+
+    if (!customer_id || !delivery_status || !delivery_photo_url) {
+      return res.status(400).json({ status: 400, success: false, error: 'Missing required parameters' });
+    }
+
+    const result = await driverModel.updateDeliveryStatusAndPhotoByCustomerId({ customer_id, delivery_status, delivery_photo_url });
+
+    if (result && result.success) {
+      res.status(200).json({ status: 200, success: true, message: 'Delivery status and photo updated successfully', data: result.data });
+    } else {
+      res.status(404).json({ status: 404, success: false, error: 'Failed to update delivery status and photo' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ status: 500, success: false, error: 'Internal Server Error' });
+  }
+};
