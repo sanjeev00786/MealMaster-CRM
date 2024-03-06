@@ -238,3 +238,35 @@ exports.createPastDelivery = async (data) => {
     throw new Error("Failed to create driver");
   }
 };
+
+exports.updateDeliveryStatusAndPhotoByCustomerId = async (data) => {
+  console.log("Received Data:", data);
+
+  try {
+    const {
+      customer_id,
+      delivery_status,
+      delivery_photo_url,
+    } = data;
+
+    const { data: updatedData, error } = await supabase
+      .from("assigned_tiffin")
+      .update({
+        delivery_status,
+        delivery_photo_url,
+      })
+      .eq('customer_id', customer_id);
+
+    if (error) {
+      console.error("Supabase Update Error:", error.message);
+      return { success: false, message: "Failed to update delivery status and photo" };
+    }
+
+    console.log("Updated Data:", updatedData);
+
+    return { success: true, message: "Delivery status and photo updated successfully" };
+  } catch (error) {
+    console.error("Result from updating delivery status and photo:", error.message);
+    throw new Error("Failed to update delivery status and photo");
+  }
+};
