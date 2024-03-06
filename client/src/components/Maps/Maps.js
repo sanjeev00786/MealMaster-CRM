@@ -88,7 +88,7 @@ const Maps = ({ customerData }) => {
               } else {
                 console.error(`Directions request failed: ${status}`);
               }
-              // simulateDriverMovement(response.routes[0].overview_path);
+              simulateDriverMovement(response.routes[0].overview_path);
             }
           );
           
@@ -99,23 +99,23 @@ const Maps = ({ customerData }) => {
       );
     };
 
-    // const simulateDriverMovement = (path) => {
-    //   let index = 0;
-    //   const moveDriver = () => {
-    //     if (index < path.length) {
-    //       const newPosition = {
-    //         position: {
-    //           lat: path[index].lat(),
-    //           lng: path[index].lng(),
-    //         },
-    //       };
-    //       setUserLocation(newPosition);
-    //       index++;
-    //       setTimeout(moveDriver, 5000);
-    //     }
-    //   };
-    //   moveDriver();
-    // };
+    const simulateDriverMovement = (path) => {
+      let index = 0;
+      const moveDriver = () => {
+        if (index < path.length) {
+          const newPosition = {
+            position: {
+              lat: path[index].lat(),
+              lng: path[index].lng(),
+            },
+          };
+          setUserLocation(newPosition);
+          index++;
+          setTimeout(moveDriver, 5000);
+        }
+      };
+      moveDriver();
+    };
 
     fetchUserLocation();
   }, [customerData, map]);
