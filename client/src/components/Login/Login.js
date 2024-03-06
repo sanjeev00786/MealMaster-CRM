@@ -5,6 +5,7 @@ import { Auth } from '@supabase/auth-ui-react';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
 import supabase from '../../supabase';
 import { Navigate } from 'react-router-dom';
+import FinishSignUp from '../FinishSignUp/FinishSignUp';
 
 export default function Login() {
   const [session, setSession] = useState(null);
@@ -12,6 +13,7 @@ export default function Login() {
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
+      console.log(session)
     });
 
     const {
@@ -34,7 +36,8 @@ export default function Login() {
     );
   } 
   else {
-    return <Navigate to="/delivery-schedule" />;
+    // console.log(session)
+    return <FinishSignUp session={session} />;
   }
 }
 
