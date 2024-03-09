@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Header from "../../../components/header/header";
 import CustomButton from "../../../components/CustomButton/CustomButton";
 import axios from "axios";
+import { navigate } from "react-router-dom";
 
 const MealPlanUpdatePage = () => {
   const { plan_id } = useParams();
@@ -101,17 +102,18 @@ const MealPlanUpdatePage = () => {
       }
     
   };
+  const handleCancel = () => {
+    console.log("Cancelled");
+   navigate("/meal-plan-list");
+
+  };
   
 
   return (
     <div>
-      <div className="login-container">
-        <Header />
-      </div>
+      <h1>Edit Meal Plan</h1>
 
       <div className="meal-page-container">
-        <h1>Meal Setting</h1>
-        {/* <CustomizedSnackbar /> */}
 
         <div className="form-container">
           <form>
@@ -144,11 +146,14 @@ const MealPlanUpdatePage = () => {
               <CustomButton className={"submitBtn Btn"} onClick={handleUpdate}>
                 Update
               </CustomButton>
-              <CustomButton className={"cancelBtn Btn"}>Cancel</CustomButton>
+              <CustomButton className={"cancelBtn Btn"} onClick={handleCancel}
+              >Cancel</CustomButton>
             </div>
           </form>
         </div>
       </div>
+
+      <>.</>
     </div>
   );
 
