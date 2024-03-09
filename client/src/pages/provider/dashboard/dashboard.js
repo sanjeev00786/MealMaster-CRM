@@ -1,6 +1,10 @@
 import React from "react";
 import AnchorTemporaryDrawer from "../../../components/MobileSideMenu/MobileSideMenu";
 import "./dashboard.css";
+import Lottie from 'react-lottie';
+import progressAnimation from '../../../component-assets/progressAnimation.json';
+import RevenueGraph from "./revenue-graph";
+import CustomerGraph from "./new-customers-graph";
 import Lottie from "react-lottie";
 import progressAnimation from "../../../component-assets/progressAnimation.json";
 // import MiniDrawer from "../../../components/SideMenu/SideMenu";
@@ -25,6 +29,14 @@ const Dashboard = () => {
         <h1 className="dashboard-header">Work In Progress</h1>
         <Lottie options={defaultOptions} height={350} width={350} />
       </div>
+    </div>
+    <div className="WIP">
+    <h1 className="dashboard-header">Work In Progress</h1>
+    {/* <Lottie options={defaultOptions} height={350} width={350} /> */}
+    <RevenueGraph/>
+    <CustomerGraph/>
+    </div>
+    
     </div>
   );
 };

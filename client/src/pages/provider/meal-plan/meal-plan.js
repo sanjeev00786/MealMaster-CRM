@@ -2,12 +2,10 @@ import React, { useState } from "react";
 import Header from "../../../components/header/header";
 import CustomButton from "../../../components/CustomButton/CustomButton";
 // import "../../../components/CustomButton/CustomButton.css";
-import CustomizedSnackbar from "../../../components/Notification/Notification";
 import "./meal-plan.css";
 import axios from "axios";
 import Loader from '../../../components/Loader/Loader';
 import { useNavigate } from "react-router-dom";
-
 
 const MealSettingPage = () => {
   const [mealName, setMealName] = useState("");
@@ -18,15 +16,11 @@ const MealSettingPage = () => {
 
   const handleSave = (e) => {
     e.preventDefault();
-    setLoading(true);
     const mealData = {
-
-      //need to fetch provider id from session ------pending 
-      provider_id: "5de05e6c-162f-4293-88d5-2aa6bd1bb8a3",
+      provider_id: "5de05e6c-162f-4293-88d5-2aa6bd1bb8a3", 
       plan_name: mealName,
       price: mealPrice,
       description: mealDescription,
-
     };
 
     console.log(mealData);
@@ -37,13 +31,11 @@ const MealSettingPage = () => {
         mealData
       )
       .then((response) => {
-        setLoading(false);
         console.log("Meal data saved successfully:", response.data);
         navigate("/meal-plan-list");
 
       })
       .catch((error) => {
-        setLoading(false);
         console.error("Error saving meal data:", error);
       });
   };
@@ -53,9 +45,12 @@ const MealSettingPage = () => {
     navigate("/meal-plan-list");
 
   };
-
+  
   return (
     <div>
+      <div className="login-container">
+        <Header />
+      </div>
       <h1>New Meal Plan</h1>
 
       <div className="meal-page-container">
@@ -90,7 +85,7 @@ const MealSettingPage = () => {
             <div className="actions">
               <CustomButton className={"submitBtn Btn"} onClick={handleSave}>
                 Save
-
+                
               </CustomButton>
               <CustomButton className={"cancelBtn Btn"} onClick={handleCancel}>
                 Cancel
