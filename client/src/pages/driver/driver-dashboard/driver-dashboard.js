@@ -43,6 +43,8 @@ const DriverDashboard = () => {
     const [imagePreview, setImagePreview] = useState(null);
     const [loading, setLoading] = useState(true);
     const [notificationMessage, setNotificationMessage] = useState("");
+    let assignTiffinData = {};
+
     const cloudinaryConfig = {
         cloudName: 'djencgbub',
         uploadPreset: 's8ygrkym',
@@ -69,15 +71,14 @@ const DriverDashboard = () => {
         }
         await cloudinaryFilePath.uploadToCloudinary(imagePreview);
         setTimeout(() => {
-            setLoading(false);
-            console.log("*******", cloudinaryFilePath.filePath);
+            updateDeliveryImage(cloudinaryFilePath.filePath);
+            console.log("*******", cloudinaryFilePath.filePath, cloudinaryFilePath);
             setImagePreview(null);
-        }, 1);
+        }, 1000);
     };
 
     // Call Update Driver Api
     const updateDriver = async () => {
-        setLoading(true);
         try {
             const data = {
               "driver_id": '725b34cc-bdc1-444c-9f56-d84d9cc70976',
@@ -101,6 +102,82 @@ const DriverDashboard = () => {
             console.error(error.message);
           }
     }
+
+    // Get Assigned Tiffin
+    const getAssignedTiffin = async (driver_id) => {
+        setLoading(true);
+        try {
+            const responseData = await apiHelper.get(`${ENDPOINTS.GET_ASSIGNED_TIFFIN}?driver_id=${driver_id}`);
+            console.log('Response Data:', responseData);
+            if (responseData.success === true) {
+                assignTiffinData = responseData.data;
+            }
+            setLoading(false);
+          } catch (error) {
+            setLoading(false);
+            setNotificationMessage(error.message);
+            console.error(error.message);
+          }
+    }
+
+    // Update assign Tiffin 
+    const updateDeliveryImage = async (imgPath) => {
+        setLoading(true);
+        try {
+            const data = {
+              "customer_id": '62f87964-4ec5-4466-b156-78c9679e24c8',
+              "delivery_status": true,
+              "delivery_photo_url": imgPath
+            };
+
+            const responseData = await apiHelper.put(`${ENDPOINTS.UPDATE_DELIVERY_STATUS}`, data);
+            console.log('Response Data:', responseData);
+            setLoading(false);
+          } catch (error) {
+            setLoading(false);
+            setNotificationMessage(error.message);
+            console.error(error.message);
+          }
+    }
+
+    // Delete Assign Tiffin Api
+    const deleteAssignTiffin = async (id) => {
+        setLoading(true);
+        try {
+            const responseData = await apiHelper.delete(`${ENDPOINTS.UPDATE_DELIVERY_STATUS}/${id}`);
+            console.log('Response Data:', responseData);
+            setLoading(false);
+          } catch (error) {
+            setLoading(false);
+            setNotificationMessage(error.message);
+            console.error(error.message);
+          }
+    }
+
+    // Move to past delivery Api
+    const moveToPostDelivery = async (tiffinData, imgPathUrl) => {
+        setLoading(true);
+        try {
+            const data = {
+                id: tiffinData.id,
+                provider_id: tiffinData.provider_id,
+                plan_id: tiffinData.plan_id,
+                driver_id: tiffinData.driver_id,
+                delivery_status: true,
+                delivery_photo_url: imgPathUrl,
+                customer_id: tiffinData.customer_id
+              };
+
+            const responseData = await apiHelper.put(`${ENDPOINTS.MOVE_TO_PAST_DELIVERY}`, data);
+            console.log('Response Data:', responseData);
+            setLoading(false);
+          } catch (error) {
+            setLoading(false);
+            setNotificationMessage(error.message);
+            console.error(error.message);
+          }
+    }
+
     // Toggle Camera
     const toggleCamera = () => {
         setCameraOpen(!isCameraOpen);
@@ -137,6 +214,7 @@ const DriverDashboard = () => {
             setNotificationMessage('Logged In Successfully!')
             localStorage.setItem('isLoaderShow', 'false');
         }
+        getAssignedTiffin('725b34cc-bdc1-444c-9f56-d84d9cc70976')
         setTimeout(() => {
             setLoading(false);
             setNotificationMessage('')
