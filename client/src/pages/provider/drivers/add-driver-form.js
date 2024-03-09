@@ -3,17 +3,22 @@ import Button from "@mui/material/Button";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import supabase from '../../../supabase';
 import axios from "axios";
 import "./add-driver-form.css";
-import Loader from '../../../components/Loader/Loader';
+import Loader from "../../../components/Loader/Loader";
 import CustomizedSnackbar from "../../../components/Notification/Notification";
+import useCloudinaryUpload from "../../../util/FileUpload/FileUpload";
+// import  DragAndDrop  from "../../../util/DragAndDrop/DragAndDrop";
 
 export default function DriverForm() {
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
+  const { filePath, uploadToCloudinary } = useCloudinaryUpload({
+    cloudName: "djencgbub",
+    uploadPreset: "s8ygrkym",
+  });
 
-  const [formData, setFormData] = React.useState({
+  const [formData, setFormData] = useState({
     name: "",
     photo_url: "",
     contact: "",
@@ -21,7 +26,6 @@ export default function DriverForm() {
     address: "",
     login_token: "",
     provider_id: "5de05e6c-162f-4293-88d5-2aa6bd1bb8a3",
- 
   });
 
   const handleChange = (event) => {
@@ -29,43 +33,21 @@ export default function DriverForm() {
     setFormData({
       ...formData,
       [name]: value,
+      photo_url: filePath,
     });
   };
-
-  // const handleImageChange = (event) => {
-  //   const file = event.target.files[0];
-  //   setFormData({
-  //     ...formData,
-  //     image: file,
-  //   });
-  // };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
     try {
-      // // Upload the image to Supabase storage
-      // const { data, error } = await supabase.storage
-      //   .from("Media/driver_images")
-      //   .upload(`public/${formData.image.name}`, formData.image);
-
-      // if (error) {
-      //   throw error;
-      // }
-
-      // // Get the URL of the uploaded image
-      // const imageUrl = data.Location;
-
-      // // Include the image URL in the formData
-      // setFormData({
-      //   ...formData,
-      //   photo_url: imageUrl,
-      // });
+      console.log(formData);
 
       const response = await axios.post(
         "http://localhost:3001/api/drivers/add-driver?provider_id=5de05e6c-162f-4293-88d5-2aa6bd1bb8a3",
         formData
       );
+
       setLoading(false);
       setFormData({
         name: "",
@@ -74,21 +56,20 @@ export default function DriverForm() {
         email_id: "",
         address: "",
         login_token: "",
-  
       });
     } catch (error) {
       setLoading(false);
       console.error("Error submitting form:", error);
-      setNotificationMessage('Something went wrong!!')
+      setNotificationMessage("Something went wrong!!");
     }
   };
 
   return (
     <div className="form-page-container">
-       <Loader loading={loading} />
-       {notificationMessage && (
-                <CustomizedSnackbar customMessage={notificationMessage} />
-            )}
+      <Loader loading={loading} />
+      {notificationMessage && (
+        <CustomizedSnackbar customMessage={notificationMessage} />
+      )}
       <div className="toolBar">
         <Toolbar
           sx={{
@@ -120,14 +101,13 @@ export default function DriverForm() {
             placeholder="Enter name"
             required
           />
-          {/* <label>Driver's Image</label>
+          <label>Driver's Image</label>
           <input
             type="file"
-            name="image"
-            onChange={handleImageChange}
             accept="image/*"
-            required
-          /> */}
+            onChange={uploadToCloudinary}
+            // required
+          />
           <label>Driver's Contact Number</label>
           <input
             type="text"
@@ -192,6 +172,6 @@ export default function DriverForm() {
           </Button>
         </form>
       </div>
-      </div>
+    </div>
   );
 }

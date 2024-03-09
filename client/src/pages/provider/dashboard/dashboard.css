@@ -1,27 +1,35 @@
 /* Mobile View */
-.sideMenu{
-    visibility: hidden;
+.sideMenu {
+  visibility: hidden;
 }
-.dashboard-container {
-    margin-top: 4rem;
+
+.dashboardPage {
+  background-color:rgba(241, 240, 247, 1);
+  display: flex;
 }
+
+.sideBarMenu {
+  flex: 0 0 25%;
+  /* margin-right: 2rem; */
+}
+
 .WIP {
-    align-items: center;
+  flex: 1 75%;
+  align-items: center;
 }
 
 .dashboard-header {
-    margin-top: 4rem;
-    text-align: center;
-    margin-bottom: 0;
+  margin-top: 4rem;
+  text-align: center;
+  margin-bottom: 0;
 }
 
 /* Desktop View */
 @media screen and (min-width: 700px) {
-    .sideMenu{
-        visibility: visible;
-    }
-    .mobileSideMenu{
-        visibility: visible;
-    }
-
+  .sideMenu {
+    visibility: visible;
+  }
+  .mobileSideMenu {
+    visibility: visible;
+  }
 }

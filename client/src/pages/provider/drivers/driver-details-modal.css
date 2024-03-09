@@ -1,0 +1,13 @@
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 2rem;
+}
+
+.button-container .edit-btn{
+    border: 1px solid black;
+}
+
+.button-container .close-btn{
+    border: 1px solid black;
+}

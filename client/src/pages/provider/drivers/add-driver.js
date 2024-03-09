@@ -1,23 +1,23 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import DataTable from "react-data-table-component";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { Link } from "react-router-dom";
-import './add-driver.css';
-import MiniDrawer from "../../../components/SideMenu/SideMenu";
-import AnchorTemporaryDrawer from '../../../components/MobileSideMenu/MobileSideMenu'
-import "../dashboard/dashboard.css";
-import Loader from '../../../components/Loader/Loader';
+import { Link, useNavigate } from "react-router-dom";
+import ModalComponent from "./driver-details-modal";
+import AnchorTemporaryDrawer from "../../../components/MobileSideMenu/MobileSideMenu";
+import Loader from "../../../components/Loader/Loader";
 import CustomizedSnackbar from "../../../components/Notification/Notification";
+import SideBarMenu from "../../../components/NewSideMenu/NewSideMenu";
+import editicon from "../../../component-assets/editicon.svg";
+
+import "./add-driver.css";
 
 export default function DriverPage() {
   const [records, setRecords] = useState([]);
   const [filteredRecords, setFilteredRecords] = useState([]);
   const [loading, setLoading] = React.useState(false);
-  const [notificationMessage, setNotificationMessage] = useState("");
+  const [selectedDriverId, setSelectedDriverId] = useState(null);
+  const navigate = useNavigate();
 
   const columns = [
     {
@@ -32,15 +32,21 @@ export default function DriverPage() {
       width: "auto",
     },
     {
-      name: "Email",
-      selector: (row) => row.email_id,
+      name: "Address",
+      selector: (row) => row.address,
     },
     {
       name: "Actions",
       cell: (row) => (
-        <a href="#" onClick={() => handleViewDetails(row)}>View Details</a>
+        <>
+          <div onClick={() => setSelectedDriverId(row.login_token)}>
+            <a href="#">View Details</a>
+          </div>
+          <div onClick={() => navigate("/drivers")}>
+          </div>
+        </>
       ),
-    }
+    },
   ];
 
   useEffect(() => {
@@ -51,14 +57,11 @@ export default function DriverPage() {
           "http://localhost:3001/api/drivers/get-all-drivers?provider_id=5de05e6c-162f-4293-88d5-2aa6bd1bb8a3"
         );
         setRecords(response.data.data);
+        // console.log(response.data.data);
         setFilteredRecords(response.data.data);
-        setTimeout(() => {
-          setLoading(false);
-        }, 1000);
+        setLoading(false);
       } catch (error) {
-        setTimeout(() => {
-          setLoading(false);
-        }, 1000);
+        setLoading(false);
         console.error("Error fetching data:", error);
       }
     };
@@ -68,57 +71,51 @@ export default function DriverPage() {
 
   const handleFilter = (event) => {
     const searchTerm = event.target.value.toLowerCase();
-    const newData = records.filter(row =>
+    const newData = records.filter((row) =>
       row.name.toLowerCase().includes(searchTerm)
     );
     setFilteredRecords(newData);
   };
 
-  const handleViewDetails = (row) => {
-
-    axios.get(`http://localhost:3001/api/drivers/get-driver?login_token=${row.login_token}`)
-      .then((response) => {
-        console.log("Driver details:", response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching driver details:", error);
-      });
-  };
-
   return (
     <div className="driver-page-container">
-      {notificationMessage && (
-        <CustomizedSnackbar customMessage={notificationMessage} />
-      )}
-      <div className="mobileSideMenu">
+      <CustomizedSnackbar />
+      <div className="mobileSideBarMenu">
         <AnchorTemporaryDrawer />
       </div>
-      <div className="sideMenu">
-        <MiniDrawer />
+      <div className="sideBarMenu">
+        <SideBarMenu />
       </div>
       <Loader loading={loading} />
-      <div
-        className="below"
-        style={{ display: "flex", justifyContent: "space-between" }}
-      >
-        <div className="search-container">
-          <input
-            type="text"
-            placeholder="Search...."
-            onChange={handleFilter}
-            className="search-input"
-          />
+      <div className="driver-page">
+        <div className="page-heading">
+          <h1>Drivers</h1>
         </div>
-        <Link to="/add-driver">
-          <Button variant="contained">+ New Driver</Button>
-        </Link>
+        <div className="search-addButtton-container">
+          <div className="search-container">
+            <input type="text" placeholder="Search" onChange={handleFilter} />
+          </div>
+          <Link to="/add-driver" className="add-driver-button-container">
+            <Button variant="contained" style={{ textTransform: "none" }}>
+              + Add New Driver
+            </Button>
+          </Link>
+        </div>
+        <div className="data-table-parent-container">
+          <h2>List of Drivers</h2>
+          <div className="data-table-container">
+            <DataTable
+              columns={columns}
+              data={filteredRecords}
+              // pagination
+            />
+          </div>
+        </div>
+        <ModalComponent
+          login_token={selectedDriverId}
+          onClose={() => setSelectedDriverId(null)}
+        />
       </div>
-      <DataTable
-        columns={columns}
-        data={filteredRecords}
-        pagination
-      />
     </div>
   );
 }
-

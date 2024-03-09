@@ -1,22 +1,21 @@
 .listContainer {
-    width: 393px !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    padding-bottom: 18px;
-  }
-  
-  .unselected {
-    text-align: center !important;
-    align-items: center !important;
-  }
-  
-  .selected {
-    background-color: rgba(229, 229, 229, 1)!important;
-    text-align: center !important;
-    align-items: center !important;
-    border-radius: 25px !important;
-  }
-  
+  width: 100% !important; 
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  padding-bottom: 18px !important;
+}
 
+.unselected, .selected {
+  text-align: center !important; 
+  align-items: center !important; 
+  margin: 0 5px !important; 
+  margin-bottom: 10px !important;
+}
 
+.selected {
+  background-color: rgba(229, 229, 229, 1) !important;
+  border-radius: 8px !important;
+  background-color: #6f59da !important;
+  color: white !important;
+}

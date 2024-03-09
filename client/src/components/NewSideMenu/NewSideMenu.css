@@ -1,0 +1,64 @@
+.selectedMenuItem,
+.ps-menu-button:hover {
+  background-color: #6f59da !important;
+  color: white !important;
+  border-radius: 10px;
+}
+
+/* .selectedMenuItem {
+  width: auto !important; 
+} */
+
+.ps-menu-button {
+  margin-top: 15px !important;
+  height: 45px !important;
+  padding-left: 5px !important;
+}
+
+.ps-menu-button:hover {
+  background-color: #9885ec !important;
+}
+
+.ps-menu-root {
+  margin-top: 15px;
+  margin-bottom: 18rem;
+  width: 100%;
+}
+
+.ps-sidebar-container {
+  width: 17.5rem;
+  padding-right: 20px !important;
+  /* margin-right: 20px !important; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.css-ewdv3l {
+  margin-left: 1.2rem !important;
+  align-items: center;
+}
+
+.css-1wvake5 {
+  position: relative;
+  border-right-width: 0px !important;
+  border-right-style: none !important;
+  border-color: none !important;
+  width: none !important;
+  min-width: none !important;
+}
+
+.logo-container {
+  margin-right: 50px;
+  margin-top: 1rem;
+  margin-left: 3rem !important;
+  padding: 0 !important;
+  width: 250px;
+  height: 80px;
+}
+
+.logo-container > svg {
+  width: 220px;
+  margin: 0;
+  padding: 0;
+}
