@@ -7,3 +7,43 @@
 
   
 }
+.plan_name{
+  font-weight: 500;
+  line-height: 28.8px;
+  /* text-align: center; */
+}
+
+.description {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  line-height: 20px;
+  font-weight: 400;
+  font-size: 16px;
+}
+.description_flipped{
+  line-height: 20px;
+  font-weight: 400;
+  font-size: 16px;
+
+}
+.price{
+  text-align: right;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  font-size: 16px;
+  line-height: 16px;
+}
+.view-details button{
+
+  font-weight:700 ;
+  line-height: 16px ;
+  font-size: 16px;
+  /* color: red; */
+  text-decoration: underline;
+}
+.view-details{
+  /* display: flex; */
+  justify-content: center;
+}
