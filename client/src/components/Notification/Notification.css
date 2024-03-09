@@ -3,16 +3,31 @@
     align-items: center !important;
 
 }
+/* .absolute-snackbar{
+  position: relative !important;
+} */
+/* .absolute-snackbar {
+  position: absolute !important;
+  top: 3% !important;
+ right: 10% !important;
+  transform: translateX(-50%, -50%);
+} */
 .custom-snackbar {
   
     background: #E9F6ED !important; 
     color: black !important; 
-    box-shadow: -3px 0px 0px rgba(37, 162, 73, 1) !important; 
-   
+    /* box-shadow: -3px 0px 0px rgba(37, 162, 73, 1) !important;  */
+   border: 1px solid rgba(37, 162, 73, 1) ;
+   margin-top: 20%;
+   /* width: 10px; */
   }
 
+  .css-1exqwzz-MuiSnackbarContent-message {
+    padding: 0 !important;
+}
   
   .logo {
     margin-right: 10px ; 
+
 }
 
