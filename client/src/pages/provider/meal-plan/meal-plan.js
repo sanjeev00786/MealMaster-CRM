@@ -6,12 +6,15 @@ import CustomizedSnackbar from "../../../components/Notification/Notification";
 import "./meal-plan.css";
 import axios from "axios";
 import Loader from '../../../components/Loader/Loader';
+import { useNavigate } from "react-router-dom";
+
 
 const MealSettingPage = () => {
   const [mealName, setMealName] = useState("");
   const [mealPrice, setMealPrice] = useState("");
   const [mealDescription, setMealDescription] = useState("");
   const [loading, setLoading] = React.useState(false);
+  const navigate = useNavigate();
 
   const handleSave = (e) => {
     e.preventDefault();
@@ -36,6 +39,8 @@ const MealSettingPage = () => {
       .then((response) => {
         setLoading(false);
         console.log("Meal data saved successfully:", response.data);
+        navigate("/meal-plan-list");
+
       })
       .catch((error) => {
         setLoading(false);
@@ -45,16 +50,19 @@ const MealSettingPage = () => {
 
   const handleCancel = () => {
     console.log("Cancelled");
+    navigate("/meal-plan-list");
+
   };
 
   return (
     <div>
+      <h1>New Meal Plan</h1>
 
       <div className="meal-page-container">
-        <h1>Meal Setting</h1>
+        
         <div className="form-container">
           <form>
-            <label>Meal Name</label>
+            <label>Meal Name<span class="required">*</span></label>
             <input
               type="text"
               value={mealName}
@@ -63,7 +71,7 @@ const MealSettingPage = () => {
               required
             />
 
-            <label>Meal Price Per Month </label>
+            <label>Meal Price Per Month<span class="required">*</span> </label>
             <input
               type="number"
               value={mealPrice}
@@ -72,7 +80,7 @@ const MealSettingPage = () => {
               required
             />
 
-            <label>Description </label>
+            <label>Description<span class="required">*</span> </label>
             <textarea
               value={mealDescription}
               onChange={(e) => setMealDescription(e.target.value)}
@@ -91,6 +99,9 @@ const MealSettingPage = () => {
           </form>
         </div>
       </div>
+     
+      <>.</>
+
     </div>
   );
 };
