@@ -4,6 +4,8 @@ import AnchorTemporaryDrawer from '../../../components/MobileSideMenu/MobileSide
 import "./dashboard.css";
 import Lottie from 'react-lottie';
 import progressAnimation from '../../../component-assets/progressAnimation.json';
+import RevenueGraph from "./revenue-graph";
+import CustomerGraph from "./new-customers-graph";
 
 // import Header from "../../../components/header/header";
 
@@ -28,7 +30,9 @@ const Dashboard=()=> {
     </div>
     <div className="WIP">
     <h1 className="dashboard-header">Work In Progress</h1>
-    <Lottie options={defaultOptions} height={350} width={350} />
+    {/* <Lottie options={defaultOptions} height={350} width={350} /> */}
+    <RevenueGraph/>
+    <CustomerGraph/>
     </div>
     
     </div>

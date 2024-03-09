@@ -2,28 +2,22 @@ import React, { useState } from "react";
 import Header from "../../../components/header/header";
 import CustomButton from "../../../components/CustomButton/CustomButton";
 // import "../../../components/CustomButton/CustomButton.css";
-import CustomizedSnackbar from "../../../components/Notification/Notification";
 import "./meal-plan.css";
 import axios from "axios";
-import Loader from '../../../components/Loader/Loader';
 
 const MealSettingPage = () => {
   const [mealName, setMealName] = useState("");
   const [mealPrice, setMealPrice] = useState("");
   const [mealDescription, setMealDescription] = useState("");
-  const [loading, setLoading] = React.useState(false);
+
 
   const handleSave = (e) => {
     e.preventDefault();
-    setLoading(true);
     const mealData = {
-
-      //need to fetch provider id from session ------pending 
-      provider_id: "5de05e6c-162f-4293-88d5-2aa6bd1bb8a3",
+      provider_id: "5de05e6c-162f-4293-88d5-2aa6bd1bb8a3", 
       plan_name: mealName,
       price: mealPrice,
       description: mealDescription,
-
     };
 
     console.log(mealData);
@@ -34,11 +28,9 @@ const MealSettingPage = () => {
         mealData
       )
       .then((response) => {
-        setLoading(false);
         console.log("Meal data saved successfully:", response.data);
       })
       .catch((error) => {
-        setLoading(false);
         console.error("Error saving meal data:", error);
       });
   };
@@ -46,10 +38,12 @@ const MealSettingPage = () => {
   const handleCancel = () => {
     console.log("Cancelled");
   };
-
+  
   return (
     <div>
-
+      <div className="login-container">
+        <Header />
+      </div>
       <div className="meal-page-container">
         <h1>Meal Setting</h1>
         <div className="form-container">
@@ -82,7 +76,7 @@ const MealSettingPage = () => {
             <div className="actions">
               <CustomButton className={"submitBtn Btn"} onClick={handleSave}>
                 Save
-
+                
               </CustomButton>
               <CustomButton className={"cancelBtn Btn"} onClick={handleCancel}>
                 Cancel
