@@ -4,20 +4,15 @@ import axios from "axios";
 import BasicInfoForm from "./BasicInfoForm";
 import AdditionalInfoForm from "./AdditionalInfoForm";
 import "./customerPage.css";
-import Header from "../../../components/header/header";
-import MiniDrawer from "../../../components/SideMenu/SideMenu";
-import AnchorTemporaryDrawer from '../../../components/MobileSideMenu/MobileSideMenu'
-import "../dashboard/dashboard.css";
 
-export default function CustomerForm() {
+export default function CustomerForm({ customerData }) {
   const navigate = useNavigate();
-
-  const [formData, setFormData] = useState({});
+  const [isEditMode, setIsEditMode] = useState(false);
+  const initialFormData = isEditMode ? customerData : { name: "", contact: "", email_id: "", dob: "" };
+  const [formData, setFormData] = useState(initialFormData);
   const [mealPlans, setMealData] = useState([]);
   const [step, setStep] = useState(1);
   const [place, setPlace] = useState({});
-
-  let checkApi = false;
 
   useEffect(() => {
     const fetchMealPlans = async () => {
@@ -31,29 +26,41 @@ export default function CustomerForm() {
       }
     };
 
-    if (checkApi === false) {
-      checkApi = true;
+    if (!isEditMode) {
       fetchMealPlans();
     }
-  }, []);
+  }, [isEditMode]);
 
-  // const datafromLocalStorage = localStorage.getItem(
-  //   "sb-cvnlpinekwolqaratkmc-auth-token"
-  // );
-  // const data = JSON.parse(datafromLocalStorage);
-  const provider_id = {
+  useEffect(() => {
+    if (customerData) {
+      setIsEditMode(true);
+      setFormData(customerData);
+      setPlace({
+        address: customerData.address,
+        city: customerData.city,
+        latitude: customerData.latitude,
+        longitude: customerData.longitude,
+      });
+    }
+  }, [customerData]);
+
+  let finalDatatoSendToDB = Object.assign(formData, place, {
     provider_id: "5de05e6c-162f-4293-88d5-2aa6bd1bb8a3",
-  };
-  console.log(provider_id);
+  });
 
+  // const handleChange = (e) => {
+  //   setFormData({ ...formData, [e.target.name]: e.target.value });
+  // };
+  
 
-
-  let finalDatatoSendToDB = Object.assign(formData, place, provider_id);
-
-  console.log(finalDatatoSendToDB);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+  
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
   };
 
   const handlePlaceSelect = (selectedPlace) => {
@@ -70,27 +77,31 @@ export default function CustomerForm() {
 
   const submitForm = async (e) => {
     e.preventDefault();
-    const serverApiEndpoint = "http://localhost:3001/api/customer/add-customer";
+    const serverApiEndpoint = isEditMode
+      ? `http://localhost:3001/api/customer/edit-customer/${customerData.customer_id}`
+      : "http://localhost:3001/api/customer/add-customer";
 
     try {
-      const response = await axios.post(serverApiEndpoint, finalDatatoSendToDB);
+      const response = isEditMode
+        ? await axios.put(serverApiEndpoint, finalDatatoSendToDB)
+        : await axios.post(serverApiEndpoint, finalDatatoSendToDB);
 
       console.log(response.data.message);
-      navigate("/customerList")
+      navigate("/customerList");
     } catch (error) {
-      console.error("Error adding customer:", error);
+      console.error(`Error ${isEditMode ? "updating" : "adding"} customer:`, error);
     }
   };
 
   return (
     <React.Fragment>
       <div className="login-container">
-        <div className="mobileSideMenu">
+        {/* <div className="mobileSideMenu">
           <AnchorTemporaryDrawer />
         </div>
         <div className="sideMenu">
           <MiniDrawer />
-        </div>
+        </div> */}
       </div>
       <div className="meal-page-container">
         <h2 className="customerH2">Add New Customer</h2>
@@ -99,8 +110,11 @@ export default function CustomerForm() {
             {step === 1 && (
               <BasicInfoForm
                 formData={formData}
+                customerData={customerData}
                 handleChange={handleChange}
                 onPlaceSelect={handlePlaceSelect}
+                isEditMode={isEditMode}
+                
               />
             )}
             {step === 2 && (
@@ -108,6 +122,8 @@ export default function CustomerForm() {
                 formData={formData}
                 handleChange={handleChange}
                 mealPlans={mealPlans}
+                isEditMode={isEditMode}
+                customerData={customerData}
               />
             )}
 

@@ -4,7 +4,7 @@ import { TextField, Stack, InputLabel } from "@mui/material";
 import myImage from "../../../component-assets/Stepper_1.svg";
 
 
-function BasicInfoForm({ formData, handleChange, onPlaceSelect }) {
+function BasicInfoForm({ formData, handleChange, onPlaceSelect, isEditMode, customerData  }) {
   const [place, setPlace] = useState(null);
 
   const handlePlaceSelect = (selectedPlace) => {
@@ -17,26 +17,26 @@ function BasicInfoForm({ formData, handleChange, onPlaceSelect }) {
       <div className="meal-page-container">
         <Stack spacing={1} className="form-container">
           <img className="steeper" src={myImage} alt="stepper" />
-          <InputLabel htmlFor="Name"> Customer Name</InputLabel>
+          <InputLabel htmlFor="Name" > Customer Name</InputLabel>
           <TextField
             type="text"
             variant="outlined"
             color="secondary"
             name="name"
-            value={formData.value}
+            value={isEditMode ? formData.name : formData.value}
             onChange={handleChange}
             fullWidth
             required
             className="form"
           />
 
-          <InputLabel htmlFor="contactNumber">Contact Number</InputLabel>
+          <InputLabel  htmlFor="contactNumber">Contact Number</InputLabel>
           <TextField
             type="text"
             variant="outlined"
             color="secondary"
             name="contact"
-            value={formData.value}
+            value={isEditMode ? formData.contact : formData.value}
             onChange={handleChange}
             fullWidth
             required
@@ -49,7 +49,7 @@ function BasicInfoForm({ formData, handleChange, onPlaceSelect }) {
             variant="outlined"
             color="secondary"
             name="email_id"
-            value={formData.value}
+            value={isEditMode ? formData.email_id : formData.value}
             onChange={handleChange}
             fullWidth
             required
@@ -64,7 +64,7 @@ function BasicInfoForm({ formData, handleChange, onPlaceSelect }) {
             variant="outlined"
             color="secondary"
             name="dob"
-            value={formData.value}
+            value={isEditMode ? formData.dob : formData.value}
             onChange={handleChange}
             fullWidth
             required
