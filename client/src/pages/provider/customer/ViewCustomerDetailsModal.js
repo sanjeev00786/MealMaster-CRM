@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Box, Typography, Button } from "@mui/material";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 const ViewCustomerDetailsModal = ({ customerId, onClose }) => {
@@ -53,6 +54,11 @@ const ViewCustomerDetailsModal = ({ customerId, onClose }) => {
       aria-describedby="view-customer-modal-description"
     >
       <Box sx={{ ...modalStyle, width: 400 }}>
+      
+      <Link to={`/edit-customer/${customerId}`}>
+          <Button variant="outlined">Edit Customer</Button>
+        </Link>
+
         <Typography id="view-customer-modal" variant="h6" component="div">
           Customer Details
         </Typography>
