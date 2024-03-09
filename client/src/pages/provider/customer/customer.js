@@ -11,8 +11,9 @@ import MiniDrawer from "../../../components/SideMenu/SideMenu";
 import AnchorTemporaryDrawer from "../../../components/MobileSideMenu/MobileSideMenu";
 import Loader from "../../../components/Loader/Loader";
 import Button from "@mui/material/Button";
-import ConfirmationModal from "./ConfirmationModal"; 
+import ConfirmationModal from "./ConfirmationModal";
 import "./customerPage.css";
+import SideBarMenu from "../../../components/NewSideMenu/NewSideMenu";
 
 const customerUrl =
   "http://localhost:3001/api/customer/provider/get-all-customers/5de05e6c-162f-4293-88d5-2aa6bd1bb8a3?page=2";
@@ -90,8 +91,7 @@ export default function CustomerPage() {
       );
 
       console.log(
-        `Customer ID: ${customerIdToUpdate} marked as ${
-          isPaidToUpdate ? "Paid" : "Unpaid"
+        `Customer ID: ${customerIdToUpdate} marked as ${isPaidToUpdate ? "Paid" : "Unpaid"
         }`
       );
 
@@ -181,61 +181,56 @@ export default function CustomerPage() {
 
   return (
     <div className="customer-page-container">
-      {/* <div className="mobileSideMenu">
-        <AnchorTemporaryDrawer />
-      </div> */}
-      <div className="sideMenu">
-        {/* <MiniDrawer /> */}
+      <div className="sideBarMenu">
+        <SideBarMenu currentPage='/customerList' />
       </div>
-      {/* <Loader loading={loading} /> */}
 
       <ConfirmationModal
         open={confirmationModalOpen}
         onClose={handleCancel}
         onConfirm={handleConfirmation}
-        message={`Are you sure you want to mark this customer as ${
-          isPaidToUpdate ? "Paid" : "Unpaid"
-        }?`}
+        message={`Are you sure you want to mark this customer as ${isPaidToUpdate ? "Paid" : "Unpaid"
+          }?`}
       />
 
       <div className="customer-page">
-      <div className="page-heading">
+        <div className="page-heading">
           <h1 className=" underline">Customers</h1>
         </div>
-      <div
-        className="search-addButtton-container"
-        style={{ display: "flex", justifyContent: "space-between" }}
-      >
-        <div className="search-container">
-          <input
-            type="text"
-            placeholder="Search"
-            onChange={handleFilter}
-            className="search-input"
-          />
+        <div
+          className="search-addButtton-container"
+          style={{ display: "flex", justifyContent: "space-between" }}
+        >
+          <div className="search-container">
+            <input
+              type="text"
+              placeholder="Search"
+              onChange={handleFilter}
+              className="search-input"
+            />
+          </div>
+          <div>
+            <Button variant="contained" onClick={() => navigate("/customers")}>Add New Customer</Button>
+          </div>
         </div>
-      <div>
-        <Button variant="contained" onClick={() => navigate("/customers")}>Add New Customer</Button>
-      </div>
-      </div>
 
-      <div className="data-table-parent-container">
-      <h2> List of Customers</h2>
-      <div className="data-table-container">
-        
-        <DataTable
-          columns={columns}
-          data={records}
-          customStyles={customStyles}
-          pagination
-        />
+        <div className="data-table-parent-container">
+          <h2> List of Customers</h2>
+          <div className="data-table-container">
 
-        <ViewCustomerDetailsModal
-          customerId={selectedCustomerId}
-          onClose={() => setSelectedCustomerId(null)}
-        />
-      </div>
-      </div>
+            <DataTable
+              columns={columns}
+              data={records}
+              customStyles={customStyles}
+              pagination
+            />
+
+            <ViewCustomerDetailsModal
+              customerId={selectedCustomerId}
+              onClose={() => setSelectedCustomerId(null)}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );

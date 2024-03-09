@@ -15,6 +15,7 @@ import Loader from "../../../components/Loader/Loader";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 import TransitionsModal from "../../../components/MealModal/MealModal";
+import SideBarMenu from "../../../components/NewSideMenu/NewSideMenu";
 
 const MealPlanListPage = () => {
   const [cardData, setCardData] = useState([]);
@@ -150,17 +151,12 @@ const MealPlanListPage = () => {
   };
 
   return (
+    <div className="meal-plan-page">
+    <div className="sideBarMenu">
+        <SideBarMenu currentPage='meal-plan-list' />
+      </div>
     <div className="cardDisplay">
       <h1>Meal Plans</h1>
-
-      <TransitionsModal
-        modalTitle="Delete Meal Plan"
-        modalDescription="Are you sure you want to delete selected meal plan(s)?"
-        onCancel={handleCancel}
-        onConfirm={handleConfirm}
-        isOpen={isModalOpen}
-        setModalOpen={setModalOpen}
-      />
       <div className="meal-plan-buttons">
       <div className="new-plan-button-container plan-page-button ">
         <Button
@@ -207,12 +203,10 @@ const MealPlanListPage = () => {
         <CustomizedSnackbar decisionMessage={notificationMessage} updateMessage={notificationMessage1} />
       )}
       <Loader loading={loading} />
-      <div className="mobileSideMenu">
+      {/* <div className="mobileSideMenu">
         <AnchorTemporaryDrawer />
-      </div>
-      <div className="sideMenu">
-        <MiniDrawer />
-      </div>
+      </div> */}
+      
       <div className="meal-plan-list-container">
         {cardData.map((data, index) => (
           <MultiActionAreaCard
@@ -223,8 +217,19 @@ const MealPlanListPage = () => {
             onCardButtonclickCheckBox={handleCardButtonCheckbox}
           />
         ))}
+
+        
       </div>
+      <TransitionsModal
+        modalTitle="Delete Meal Plan"
+        modalDescription="Are you sure you want to delete selected meal plan(s)?"
+        onCancel={handleCancel}
+        onConfirm={handleConfirm}
+        isOpen={isModalOpen}
+        setModalOpen={setModalOpen}
+      />
     </div>
+   </div>
   );
 };
 

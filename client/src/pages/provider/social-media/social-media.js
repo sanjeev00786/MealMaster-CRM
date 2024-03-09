@@ -4,7 +4,7 @@ import AnchorTemporaryDrawer from '../../../components/MobileSideMenu/MobileSide
 import "./social-media.css";
 import Lottie from 'react-lottie';
 import progressAnimation from '../../../component-assets/progressAnimation.json';
-
+import SideBarMenu from "../../../components/NewSideMenu/NewSideMenu";
 // import Header from "../../../components/header/header";
 
 const SocialMedia=()=> {
@@ -23,9 +23,9 @@ const SocialMedia=()=> {
     <div className = "mobileSideMenu">
     <AnchorTemporaryDrawer />
     </div>
-    <div className = "sideMenu">
-      <MiniDrawer />
-    </div>
+    <div className="sideBarMenu">
+        <SideBarMenu currentPage='social-media'/>
+      </div> 
     <div className="WIP">
     <h1 className="dashboard-header">Work In Progress</h1>
     <Lottie options={defaultOptions} height={350} width={350} />

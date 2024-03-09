@@ -23,6 +23,7 @@ import { visuallyHidden } from '@mui/utils';
 import AssignDriverModalButton from './AssignDriverModalButton';
 import MiniDrawer from '../../../components/SideMenu/SideMenu';
 import Loader from '../../../components/Loader/Loader';
+import SideBarMenu from '../../../components/NewSideMenu/NewSideMenu';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -342,7 +343,9 @@ export default function DeliveryScheduleTable() {
   return (
     <div>
       <Box sx={{ width: '100%', display: "flex", justifyContent: "space-between"}}>
-        <MiniDrawer />           
+      <div className="sideBarMenu">
+        <SideBarMenu currentPage='delivery-schedule'/>
+      </div>      
         <Paper sx={{ width: '100%', mt:8}}>
           <EnhancedTableToolbar numSelected={selected.length} onGetSelectedRows={getSelectedRows} onUpdateParent={toggleUpdateFlag}/>
           <TableContainer>

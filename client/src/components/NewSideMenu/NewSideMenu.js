@@ -29,14 +29,11 @@ export default function SideBarMenu({ currentPage }) {
       case "/dashboard":
         setSelectedIndex(0);
         break;
-      case "/customers":
+      case "/customerList":
         setSelectedIndex(1);
         break;
       case "/drivers":
         setSelectedIndex(2);
-        break;
-      case "/dashboard":
-          setSelectedIndex(3);
         break;
       case "/delivery-schedule":
         setSelectedIndex(4);
@@ -61,7 +58,7 @@ export default function SideBarMenu({ currentPage }) {
         navigate("/dashboard");
         break;
       case 1:
-        navigate("/dashboard");
+        navigate("/customerList");
         break;
       case 2:
         navigate("/drivers");
@@ -70,13 +67,13 @@ export default function SideBarMenu({ currentPage }) {
         navigate("/dashboard");
         break;
       case 4:
-        navigate("/dashboard");
+        navigate("/delivery-schedule");
         break;
       case 5:
-        navigate("/dashboard");
+        navigate("/social-media");
         break;
       case 6:
-        navigate("/dashboard");
+        navigate("/meal-plan-list");
         break;
       default:
         break;

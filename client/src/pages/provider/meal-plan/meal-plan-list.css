@@ -58,8 +58,24 @@ h1 {
 }
 
 @media screen and (min-width: 800px) {
+
+    .meal-plan-container {
+        background-color: rgba(241, 240, 247, 1);
+        display: flex;
+      }
+    
+      .sideBarMenu {
+        flex: 0 0 20%;
+      }
+    
+      .cardDisplay {
+        flex: 1 80%;
+        align-items: center;
+        padding-top: 2.2rem;
+      }
+
     .meal-plan-list-container {
-        display: grid;
+        display: grid; 
         grid-template-columns: 1fr 1fr 1fr;
     }
 }
