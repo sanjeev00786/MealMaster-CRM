@@ -7,6 +7,8 @@ import "../dashboard/dashboard.css";
 import Loader from "../../../components/Loader/Loader";
 import apiHelper from "../../../util/ApiHelper/ApiHelper";
 import { ENDPOINTS } from "../../../apiConfig.js";
+import SideBarMenu from "../../../components/NewSideMenu/NewSideMenu";
+import "./track-deliveries.css";
 
 export default function TrackDeliveries() {
   const [records, setRecords] = useState([]);
@@ -86,11 +88,15 @@ export default function TrackDeliveries() {
   };
 
   return (
-    <div
-      className="customer-page-container_form"
-      style={{ display: "flex", flexDirection: "column" }}
-    >
-      {/* <div className="mobileSideMenu">
+    <div className="customer-page-container">
+      <div className="sideBarMenu">
+        <SideBarMenu currentPage="/meal-plan-list" />
+      </div>
+      <div
+        className="customer-page"
+        // style={{ display: "flex", flexDirection: "column" }}
+      >
+        {/* <div className="mobileSideMenu">
           <AnchorTemporaryDrawer />
         </div>
         <div className="sideMenu">
@@ -98,23 +104,28 @@ export default function TrackDeliveries() {
         </div>
         <Loader loading={loading} />
       <div><button onClick={() => navigate("/customers")}>Add New Customer</button></div> */}
-
-      <div className="flex justify-centre">
-        <input
-          type="text"
-          placeholder="Search...."
-          onChange={handleFilter}
-          className="p-10 pl-10"
-        />
-      </div>
-      <p >Hello Tailwind!</p>
-      <div className="mt-30">
-      <DataTable
-        columns={columns}
-        data={records}
-        customStyles={customStyles}
-        pagination
-      />
+        <div className="search-addButton-container">
+          <div className="search-container">
+            <input
+              type="text"
+              placeholder="Search...."
+              onChange={handleFilter}
+              className="search-input"
+            />
+          </div>
+        </div>
+        <div className="data-table-parent-container">
+          <h2>Track Deliveries</h2>
+      
+        <div className="data-table-container">
+          <DataTable
+            columns={columns}
+            data={records}
+            customStyles={customStyles}
+            pagination
+          />
+        </div>
+        </div>
       </div>
     </div>
   );
