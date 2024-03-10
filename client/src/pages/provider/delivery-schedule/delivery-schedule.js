@@ -344,7 +344,7 @@ export default function DeliveryScheduleTable() {
     <div>
       <Box sx={{ width: '100%', display: "flex", justifyContent: "space-between"}}>
       <div className="sideBarMenu">
-        <SideBarMenu currentPage='delivery-schedule'/>
+        <SideBarMenu currentPage='/delivery-schedule'/>
       </div>      
         <Paper sx={{ width: '100%', mt:8}}>
           <EnhancedTableToolbar numSelected={selected.length} onGetSelectedRows={getSelectedRows} onUpdateParent={toggleUpdateFlag}/>

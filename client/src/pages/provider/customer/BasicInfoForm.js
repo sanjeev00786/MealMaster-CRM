@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import AutoComplete from "./AutoComplete";
 import { TextField, Stack, InputLabel } from "@mui/material";
 import myImage from "../../../component-assets/Stepper_1.svg";
+import "./BasicInfoForm.css"
 
 
 function BasicInfoForm({ formData, handleChange, onPlaceSelect, isEditMode, customerData  }) {
@@ -16,7 +17,7 @@ function BasicInfoForm({ formData, handleChange, onPlaceSelect, isEditMode, cust
     <React.Fragment>
       <div className="meal-page-container">
         <Stack spacing={1} className="form-container">
-          <img className="steeper" src={myImage} alt="stepper" />
+          {/* <img className="steeper" src={myImage} alt="stepper" /> */}
           <InputLabel htmlFor="Name" > Customer Name</InputLabel>
           <TextField
             type="text"

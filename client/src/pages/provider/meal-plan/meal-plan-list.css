@@ -1,6 +1,10 @@
 .cardDisplay {
     margin-left: 4.5rem;
-    margin-top: 5rem;
+    /* margin-top: 5rem; */
+}
+body{
+    background-color: #F1F0F7
+    ;
 }
 
 h1 {
@@ -54,6 +58,9 @@ h1 {
     .delete_plan,.disabled_delete{
         margin-right: 0 !important;
     }
+    .meal-plan-page {
+        display: flex; 
+      }
     
 }
 
@@ -63,6 +70,7 @@ h1 {
         background-color: rgba(241, 240, 247, 1);
         display: flex;
       }
+      
     
       .sideBarMenu {
         flex: 0 0 20%;
@@ -71,7 +79,7 @@ h1 {
       .cardDisplay {
         flex: 1 80%;
         align-items: center;
-        padding-top: 2.2rem;
+        /* padding-top: 2.2rem; */
       }
 
     .meal-plan-list-container {

@@ -43,6 +43,8 @@ const DriverDashboard = () => {
     const [imagePreview, setImagePreview] = useState(null);
     const [loading, setLoading] = useState(true);
     const [notificationMessage, setNotificationMessage] = useState("");
+    const [notificationMessage1, setNotificationMessage1] = useState("");
+
     let assignTiffinData = {};
 
     const cloudinaryConfig = {
@@ -89,7 +91,11 @@ const DriverDashboard = () => {
             
             // Handle the response data
             if (isNavigationStarted === true) {
-                setNotificationMessage('Navigation Stopped.')
+                // setNotificationMessage('Navigation Stopped.')
+                setNotificationMessage("Navigation");
+                setNotificationMessage1(
+                  ` Navigation stopped Sucessfully! `
+                );
             } else {
                 setNotificationMessage('Navigation Started.')
             }

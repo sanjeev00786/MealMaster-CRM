@@ -90,7 +90,10 @@ export default function DriverForm() {
           <AccountCircleIcon />
         </Toolbar>
       </div>
-      <div className="form">
+      {/* <div className="form"> */}
+      <div className="meal-page-container">
+
+      <div className="form-container">
         <form onSubmit={handleSubmit}>
           <label>Driver's Name</label>
           <input
@@ -144,11 +147,12 @@ export default function DriverForm() {
             placeholder="Enter login token"
             required
           />
+          <div className="actions">
           <Button
             type="submit"
             variant="contained"
             color="primary"
-            className="submit-button"
+            className="submit-button  Btn"
           >
             Submit
           </Button>
@@ -156,7 +160,7 @@ export default function DriverForm() {
             type="button"
             variant="outlined"
             color="secondary"
-            className="clear-button"
+            className="clear-button Btn"
             onClick={() =>
               setFormData({
                 name: "",
@@ -170,7 +174,9 @@ export default function DriverForm() {
           >
             Clear
           </Button>
+          </div>
         </form>
+      </div>
       </div>
     </div>
   );

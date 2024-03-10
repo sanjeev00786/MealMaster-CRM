@@ -95,14 +95,13 @@ export default function CustomerForm({ customerData }) {
 
   return (
     <React.Fragment>
-      <div className="login-container">
+      
         {/* <div className="mobileSideMenu">
           <AnchorTemporaryDrawer />
         </div>
         <div className="sideMenu">
           <MiniDrawer />
         </div> */}
-      </div>
       <div className="meal-page-container">
         <h2 className="customerH2">Add New Customer</h2>
         <div className="customerFormContainer">

@@ -84,7 +84,7 @@ export default function DriverPage() {
         <AnchorTemporaryDrawer />
       </div>
       <div className="sideBarMenu">
-        <SideBarMenu currentPage='drivers'/>
+        <SideBarMenu currentPage='/drivers'/>
       </div>
       <Loader loading={loading} />
       <div className="driver-page">

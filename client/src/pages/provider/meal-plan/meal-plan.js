@@ -4,7 +4,7 @@ import CustomButton from "../../../components/CustomButton/CustomButton";
 // import "../../../components/CustomButton/CustomButton.css";
 import "./meal-plan.css";
 import axios from "axios";
-import Loader from '../../../components/Loader/Loader';
+import Loader from "../../../components/Loader/Loader";
 import { useNavigate } from "react-router-dom";
 
 const MealSettingPage = () => {
@@ -17,7 +17,7 @@ const MealSettingPage = () => {
   const handleSave = (e) => {
     e.preventDefault();
     const mealData = {
-      provider_id: "5de05e6c-162f-4293-88d5-2aa6bd1bb8a3", 
+      provider_id: "5de05e6c-162f-4293-88d5-2aa6bd1bb8a3",
       plan_name: mealName,
       price: mealPrice,
       description: mealDescription,
@@ -33,7 +33,6 @@ const MealSettingPage = () => {
       .then((response) => {
         console.log("Meal data saved successfully:", response.data);
         navigate("/meal-plan-list");
-
       })
       .catch((error) => {
         console.error("Error saving meal data:", error);
@@ -43,9 +42,8 @@ const MealSettingPage = () => {
   const handleCancel = () => {
     console.log("Cancelled");
     navigate("/meal-plan-list");
-
   };
-  
+
   return (
     <div>
       <div className="login-container">
@@ -54,10 +52,11 @@ const MealSettingPage = () => {
       <h1>New Meal Plan</h1>
 
       <div className="meal-page-container">
-        
         <div className="form-container">
           <form>
-            <label>Meal Name<span class="required">*</span></label>
+            <label>
+              Meal Name<span class="required">*</span>
+            </label>
             <input
               type="text"
               value={mealName}
@@ -66,7 +65,9 @@ const MealSettingPage = () => {
               required
             />
 
-            <label>Meal Price Per Month<span class="required">*</span> </label>
+            <label>
+              Meal Price Per Month<span class="required">*</span>{" "}
+            </label>
             <input
               type="number"
               value={mealPrice}
@@ -75,7 +76,9 @@ const MealSettingPage = () => {
               required
             />
 
-            <label>Description<span class="required">*</span> </label>
+            <label>
+              Description<span class="required">*</span>{" "}
+            </label>
             <textarea
               value={mealDescription}
               onChange={(e) => setMealDescription(e.target.value)}
@@ -85,7 +88,6 @@ const MealSettingPage = () => {
             <div className="actions">
               <CustomButton className={"submitBtn Btn"} onClick={handleSave}>
                 Save
-                
               </CustomButton>
               <CustomButton className={"cancelBtn Btn"} onClick={handleCancel}>
                 Cancel
@@ -94,9 +96,8 @@ const MealSettingPage = () => {
           </form>
         </div>
       </div>
-     
-      <>.</>
 
+      <>.</>
     </div>
   );
 };
