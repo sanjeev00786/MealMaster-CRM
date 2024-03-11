@@ -94,10 +94,13 @@ const DriverDashboard = () => {
                 // setNotificationMessage('Navigation Stopped.')
                 setNotificationMessage("Navigation");
                 setNotificationMessage1(
-                  ` Navigation stopped Sucessfully! `
+                  ` Navigation stopped! `
                 );
             } else {
-                setNotificationMessage('Navigation Started.')
+                setNotificationMessage('Navigation')
+                setNotificationMessage1(
+                    ` Navigation started! `
+                  );
             }
             console.log('Response Data:', responseData);
             setNavigationStarted(!isNavigationStarted);
@@ -217,10 +220,11 @@ const DriverDashboard = () => {
     useEffect(() => {
         const myBooleanValue = localStorage.getItem('isLoaderShow') === 'true';
         if (myBooleanValue === true) {
-            setNotificationMessage('Logged In Successfully!')
+            setNotificationMessage('Success!')
+            setNotificationMessage1('Logged In Successfully!')
             localStorage.setItem('isLoaderShow', 'false');
         }
-        getAssignedTiffin('725b34cc-bdc1-444c-9f56-d84d9cc70976')
+        // getAssignedTiffin('725b34cc-bdc1-444c-9f56-d84d9cc70976')
         setTimeout(() => {
             setLoading(false);
             setNotificationMessage('')
@@ -234,7 +238,8 @@ const DriverDashboard = () => {
             <Loader loading={loading} />
             <Header />
             {notificationMessage && (
-                <CustomizedSnackbar customMessage={notificationMessage} />
+                <CustomizedSnackbar decisionMessage={notificationMessage}
+                updateMessage={notificationMessage1} />
             )}
             <h2>Dashboard</h2>
             <Maps customerData={customers} />
