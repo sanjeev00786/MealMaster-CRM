@@ -84,9 +84,9 @@ export default function DriverPage() {
   return (
     <div className="driver-page-container">
       <CustomizedSnackbar />
-      <div className="mobileSideBarMenu">
+      {/* <div className="mobileSideBarMenu">
         <AnchorTemporaryDrawer />
-      </div>
+      </div> */}
       <div className="sideBarMenu">
         <SideBarMenu currentPage='/drivers'/>
       </div>
