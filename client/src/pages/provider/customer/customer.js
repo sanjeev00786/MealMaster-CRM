@@ -14,12 +14,15 @@ import Button from "@mui/material/Button";
 import ConfirmationModal from "./ConfirmationModal";
 import "./customerPage.css";
 import SideBarMenu from "../../../components/NewSideMenu/NewSideMenu";
+import { ENDPOINTS } from '../../../apiConfig.js';
+import apiHelper from '../../../util/ApiHelper/ApiHelper';
+import { provider_id } from "../../../util/localStorage.js";
 
 const customerUrl =
-  "http://localhost:3001/api/customer/provider/get-all-customers/5de05e6c-162f-4293-88d5-2aa6bd1bb8a3?page=2";
+  `${ENDPOINTS.GET_ALL_CUSTOMER}${provider_id}?page=1`;
 
 const mealPlanUrl =
-  "http://localhost:3001/api/provider/meal_plans/get-meal-plan?provider_id=5de05e6c-162f-4293-88d5-2aa6bd1bb8a3";
+  `${ENDPOINTS.GET_MEAL_PLAN}provider_id=${provider_id}`;
 
 export default function CustomerPage() {
   const [records, setRecords] = useState([]);
@@ -37,11 +40,11 @@ export default function CustomerPage() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const res = await axios.get(customerUrl);
-        const mealPlan = await axios.get(mealPlanUrl);
-        setRecords(res.data.data.customers);
-        setFilteredData(res.data.data.customers);
-        setPlanName(mealPlan.data.data);
+        const res = await apiHelper.get(customerUrl);
+        const mealPlan = await apiHelper.get(mealPlanUrl);
+        setRecords(res.data.customers);
+        setFilteredData(res.data.customers);
+        setPlanName(mealPlan.data);
         setLoading(false);
       } catch (error) {
         setLoading(false);
@@ -76,7 +79,7 @@ export default function CustomerPage() {
   const handleConfirmation = async () => {
     try {
       await axios.put(
-        `http://localhost:3001/api/customer/edit-customer/${customerIdToUpdate}`,
+        `${ENDPOINTS.EDIT_CUSTOMER}${customerIdToUpdate}`,
         {
           payment: isPaidToUpdate,
         }

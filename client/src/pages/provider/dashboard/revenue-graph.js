@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import axios from 'axios';
+import { ENDPOINTS } from '../../../apiConfig.js';
+
+import apiHelper from '../../../util/ApiHelper/ApiHelper.js';
+import { provider_id } from "../../../util/localStorage.js";
 
 const RevenueGraph = () => {
   const [revenueData, setRevenueData] = useState([]);
@@ -9,16 +13,17 @@ const RevenueGraph = () => {
     const fetchData = async () => {
       try {
         // Fetch customer data
-        const customerResponse = await axios.get(
-          'http://localhost:3001/api/customer/provider/get-all-customers/5de05e6c-162f-4293-88d5-2aa6bd1bb8a3'
+        const customerResponse = await apiHelper.get(
+          `${ENDPOINTS.GET_ALL_CUSTOMER}${provider_id}`
         );
-        const customers = customerResponse.data.data.customers;
+
+        const customers = customerResponse.data.customers;
 
         // Fetch meal plan data
-        const mealPlanResponse = await axios.get(
-          'http://localhost:3001/api/provider/meal_plans/get-meal-plan?provider_id=5de05e6c-162f-4293-88d5-2aa6bd1bb8a3'
+        const mealPlanResponse = await apiHelper.get(
+          `${ENDPOINTS.GET_MEAL_PLAN}provider_id=${provider_id}`
         );
-        const mealPlans = mealPlanResponse.data.data;
+        const mealPlans = mealPlanResponse.data;
 
         // Process data to calculate revenue per month
         const monthlyRevenue = customers.reduce((acc, customer) => {

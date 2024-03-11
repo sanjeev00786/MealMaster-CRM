@@ -6,6 +6,9 @@ import "./meal-plan.css";
 import axios from "axios";
 import Loader from "../../../components/Loader/Loader";
 import { useNavigate } from "react-router-dom";
+import { ENDPOINTS } from "../../../apiConfig.js";
+import apiHelper from "../../../util/ApiHelper/ApiHelper.js";
+import { provider_id } from "../../../util/localStorage.js";
 
 const MealSettingPage = () => {
   const [mealName, setMealName] = useState("");
@@ -17,7 +20,7 @@ const MealSettingPage = () => {
   const handleSave = (e) => {
     e.preventDefault();
     const mealData = {
-      provider_id: "5de05e6c-162f-4293-88d5-2aa6bd1bb8a3",
+      provider_id: provider_id,
       plan_name: mealName,
       price: mealPrice,
       description: mealDescription,
@@ -25,9 +28,9 @@ const MealSettingPage = () => {
 
     console.log(mealData);
 
-    axios
+    apiHelper
       .post(
-        "http://localhost:3001/api/provider/meal_plans/add-meal-plan",
+        `${ENDPOINTS.ADD_PLAN}`,
         mealData
       )
       .then((response) => {

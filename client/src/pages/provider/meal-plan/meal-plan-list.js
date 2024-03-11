@@ -16,6 +16,10 @@ import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 import TransitionsModal from "../../../components/MealModal/MealModal";
 import SideBarMenu from "../../../components/NewSideMenu/NewSideMenu";
+import { ENDPOINTS } from '../../../apiConfig.js';
+
+import apiHelper from "../../../util/ApiHelper/ApiHelper.js";
+import { provider_id } from "../../../util/localStorage.js";
 
 const MealPlanListPage = () => {
   const [cardData, setCardData] = useState([]);
@@ -23,7 +27,6 @@ const MealPlanListPage = () => {
   const [notificationMessage1, setNotificationMessage1] = useState("");
   const [loading, setLoading] = React.useState(false);
   const [selectedPlans, setSelectedPlans] = useState([]);
-  const providerId = "5de05e6c-162f-4293-88d5-2aa6bd1bb8a3"; //need to fecth from session
   const [isModalOpen, setModalOpen] = useState(false);
   const [delete_selected_plan, set_delete_selected_plan] = useState([]);
   const [planNameData, setPlanNameData] = useState([]);
@@ -31,17 +34,17 @@ const MealPlanListPage = () => {
 
   const [CheckId, setCheckId] = useState([]);
 
-  const fetchMealPlans = (providerId) => {
+  const fetchMealPlans = () => {
     setLoading(true);
 
-    axios
+    apiHelper
       .get(
-        `http://localhost:3001/api/provider/meal_plans/get-meal-plan?provider_id=${providerId}`
+        `${ENDPOINTS.GET_MEAL_PLAN}provider_id=${provider_id}`
       )
       .then((response) => {
-        const activePlans = response.data.data.filter((plan) => plan.is_active);
+        const activePlans = response.data.filter((plan) => plan.is_active);
         setCardData(activePlans);
-        setPlanNameData(response.data.data);
+        setPlanNameData(response.data);
         setTimeout(() => {
           setLoading(false);
         }, 1000);
@@ -56,7 +59,7 @@ const MealPlanListPage = () => {
   };
 
   useEffect(() => {
-    fetchMealPlans(providerId);
+    fetchMealPlans();
   }, []);
 
   const navigate = useNavigate();
@@ -128,8 +131,8 @@ const MealPlanListPage = () => {
     // console.log(selectedPlans[0].plan_name, "planName");
 
     try {
-      await axios.delete(
-        "http://localhost:3001/api/provider/meal_plans/delete-meal-plan",
+      await apiHelper.delete(
+        `${ENDPOINTS.GET_MEAL_PLAN}`,
         { data: { plan_id } }
       );
 
@@ -140,7 +143,7 @@ const MealPlanListPage = () => {
       );
       // console.log(selectedPlans[0].plan_name, "planNamebelow");
 
-      fetchMealPlans(providerId);
+      fetchMealPlans();
       setCheckId([0]);
     } catch (error) {
       console.error("Error deleting meal plan:", error);

@@ -7,7 +7,7 @@ const AutoComplete = ({ onPlaceSelect }) => {
   const inputRef = useRef();
 
   const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: "AIzaSyCkPMQbY9-dA9BdFECSTIxwZqa7mXIwOgY",
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries: ["places"],
   });
 

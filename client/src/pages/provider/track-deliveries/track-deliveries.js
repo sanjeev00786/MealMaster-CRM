@@ -9,6 +9,7 @@ import apiHelper from "../../../util/ApiHelper/ApiHelper";
 import { ENDPOINTS } from "../../../apiConfig.js";
 import SideBarMenu from "../../../components/NewSideMenu/NewSideMenu";
 import "./track-deliveries.css";
+import { provider_id } from "../../../util/localStorage.js";
 
 export default function TrackDeliveries() {
   const [records, setRecords] = useState([]);
@@ -23,7 +24,7 @@ export default function TrackDeliveries() {
       setLoading(true);
       try {
         const res = await apiHelper.get(
-          `${ENDPOINTS.GET_ASSIGNED_DELIVERIES}/get-all-drivers?provider_id=${id}`
+          `${ENDPOINTS.GET_ASSIGNED_DELIVERIES}provider_id=${id}`
         );
         console.log(res);
         setRecords(res.data);
@@ -33,7 +34,7 @@ export default function TrackDeliveries() {
         console.log(error);
       }
     };
-    driverData("5de05e6c-162f-4293-88d5-2aa6bd1bb8a3");
+    driverData("${provider_id}");
   }, []);
 
   const columns = [

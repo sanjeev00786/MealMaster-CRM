@@ -9,6 +9,10 @@ import Loader from "../../../components/Loader/Loader";
 import CustomizedSnackbar from "../../../components/Notification/Notification";
 import useCloudinaryUpload from "../../../util/FileUpload/FileUpload";
 // import  DragAndDrop  from "../../../util/DragAndDrop/DragAndDrop";
+import { ENDPOINTS } from '../../../apiConfig.js';
+import { provider_id } from "../../../util/localStorage.js";
+import apiHelper from "../../../util/ApiHelper/ApiHelper.js";
+
 
 export default function DriverForm() {
   const [loading, setLoading] = useState(false);
@@ -25,7 +29,7 @@ export default function DriverForm() {
     email_id: "",
     address: "",
     login_token: "",
-    provider_id: "5de05e6c-162f-4293-88d5-2aa6bd1bb8a3",
+    provider_id: provider_id,
   });
 
   const handleChange = (event) => {
@@ -43,8 +47,8 @@ export default function DriverForm() {
     try {
       console.log(formData);
 
-      const response = await axios.post(
-        "http://localhost:3001/api/drivers/add-driver?provider_id=5de05e6c-162f-4293-88d5-2aa6bd1bb8a3",
+      const response = await apiHelper.post(
+        `${ENDPOINTS.ADD_DRIVER}`,
         formData
       );
 

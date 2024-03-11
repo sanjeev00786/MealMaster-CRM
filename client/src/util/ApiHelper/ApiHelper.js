@@ -12,6 +12,7 @@ const apiHelper = {
     get: async (endpoint) => {
         try {
             const response = await axiosInstance.get(endpoint);
+            console.log('*********GET API', response)
             return response.data;
         } catch (error) {
             throw new Error(`API Error: ${error.message}`);

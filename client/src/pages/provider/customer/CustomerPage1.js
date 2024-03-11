@@ -4,6 +4,9 @@ import axios from "axios";
 import BasicInfoForm from "./BasicInfoForm";
 import AdditionalInfoForm from "./AdditionalInfoForm";
 import "./customerPage.css";
+import { ENDPOINTS } from "../../../apiConfig.js";
+import apiHelper from "../../../util/ApiHelper/ApiHelper.js";
+import { provider_id } from "../../../util/localStorage.js";
 
 export default function CustomerForm({ customerData }) {
   const navigate = useNavigate();
@@ -17,10 +20,9 @@ export default function CustomerForm({ customerData }) {
   useEffect(() => {
     const fetchMealPlans = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:3001/api/provider/meal_plans/get-meal-plan?provider_id=5de05e6c-162f-4293-88d5-2aa6bd1bb8a3"
+        const response = await apiHelper.get( `${ENDPOINTS.GET_MEAL_PLAN}provider_id=${provider_id}`
         );
-        setMealData(response.data.data);
+        setMealData(response.data);
       } catch (error) {
         console.error("Error fetching meal plans:", error);
       }
@@ -45,7 +47,7 @@ export default function CustomerForm({ customerData }) {
   }, [customerData]);
 
   let finalDatatoSendToDB = Object.assign(formData, place, {
-    provider_id: "5de05e6c-162f-4293-88d5-2aa6bd1bb8a3",
+    provider_id: provider_id,
   });
 
   // const handleChange = (e) => {
@@ -78,15 +80,15 @@ export default function CustomerForm({ customerData }) {
   const submitForm = async (e) => {
     e.preventDefault();
     const serverApiEndpoint = isEditMode
-      ? `http://localhost:3001/api/customer/edit-customer/${customerData.customer_id}`
-      : "http://localhost:3001/api/customer/add-customer";
+      ? `${ENDPOINTS.EDIT_CUSTOMER}${customerData.customer_id}`
+      : `${ENDPOINTS.ADD_CUSTOMER}`;
 
     try {
       const response = isEditMode
-        ? await axios.put(serverApiEndpoint, finalDatatoSendToDB)
-        : await axios.post(serverApiEndpoint, finalDatatoSendToDB);
+        ? await apiHelper.put(serverApiEndpoint, finalDatatoSendToDB)
+        : await apiHelper.post(serverApiEndpoint, finalDatatoSendToDB);
 
-      console.log(response.data.message);
+      console.log(response.message);
       navigate("/customerList");
     } catch (error) {
       console.error(`Error ${isEditMode ? "updating" : "adding"} customer:`, error);

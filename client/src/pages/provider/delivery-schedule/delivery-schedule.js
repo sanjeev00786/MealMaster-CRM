@@ -24,6 +24,10 @@ import AssignDriverModalButton from './AssignDriverModalButton';
 import MiniDrawer from '../../../components/SideMenu/SideMenu';
 import Loader from '../../../components/Loader/Loader';
 import SideBarMenu from '../../../components/NewSideMenu/NewSideMenu';
+import { ENDPOINTS } from '../../../apiConfig.js';
+
+import apiHelper from '../../../util/ApiHelper/ApiHelper.js';
+import { provider_id } from "../../../util/localStorage.js";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -175,7 +179,7 @@ function EnhancedTableToolbar(props) {
      {numSelected > 0 ? (
         <Tooltip title="Assign Driver">
           <IconButton onClick={handleOpenModal}>
-            <AssignDriverModalButton providerId="5de05e6c-162f-4293-88d5-2aa6bd1bb8a3" onAssignDriver={onGetSelectedRows} updateParent={onUpdateParent}/>
+            <AssignDriverModalButton providerId="${provider_id}" onAssignDriver={onGetSelectedRows} updateParent={onUpdateParent}/>
           </IconButton>
         </Tooltip>
       ) : (
@@ -224,19 +228,18 @@ export default function DeliveryScheduleTable() {
   const fetchData = React.useCallback(async () => {
     try {
       // First request to get meal plans
-      const mealPlanResponse = await fetch('http://localhost:3001/api/provider/meal_plans/get-meal-plan?provider_id=5de05e6c-162f-4293-88d5-2aa6bd1bb8a3');
-  
+      const mealPlanResponse = await apiHelper.get(`${ENDPOINTS.GET_MEAL_PLAN}provider_id=${provider_id}`);
       if (!mealPlanResponse.ok) {
         throw new Error('Network response was not ok for meal plans');
       }
-  
+      console.log('******', mealPlanResponse)
       const mealPlanData = await mealPlanResponse.json();
   
       // Assuming the first plan in the response is the correct one
       const selectedMealPlan = mealPlanData.data[0];
   
       // Second request to get customer information
-      const customerResponse = await fetch(`http://localhost:3001/api/customer/provider/get-all-customers/${selectedMealPlan.provider_id}`);
+      const customerResponse = await apiHelper.get(`${ENDPOINTS.GET_ALL_CUSTOMER}${selectedMealPlan.provider_id}`);
   
       if (!customerResponse.ok) {
         throw new Error('Network response was not ok for customers');
@@ -246,7 +249,7 @@ export default function DeliveryScheduleTable() {
 
   
       // Transform data using the plan information
-      const transformedData = customerData.data.customers.filter(customer => customer.is_assigned_driver != true).map((customer) => {
+      const transformedData = customerData.data.customers.filter(customer => customer.is_assigned_driver !== true).map((customer) => {
         // Find the matching plan_id in mealPlanData
         const matchedPlan = mealPlanData.data.find(plan => plan.plan_id === customer.plan_id);
   

@@ -9,8 +9,12 @@ import Loader from "../../../components/Loader/Loader";
 import CustomizedSnackbar from "../../../components/Notification/Notification";
 import SideBarMenu from "../../../components/NewSideMenu/NewSideMenu";
 import editicon from "../../../component-assets/editicon.svg";
+import { ENDPOINTS } from '../../../apiConfig.js';
+import { provider_id } from "../../../util/localStorage.js";
+
 
 import "./add-driver.css";
+import apiHelper from "../../../util/ApiHelper/ApiHelper.js";
 
 export default function DriverPage() {
   const [records, setRecords] = useState([]);
@@ -53,12 +57,12 @@ export default function DriverPage() {
     setLoading(true);
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:3001/api/drivers/get-all-drivers?provider_id=5de05e6c-162f-4293-88d5-2aa6bd1bb8a3"
+        const response = await apiHelper.get(
+          `${ENDPOINTS.GET_ALL_DRIVER}provider_id=${provider_id}`
         );
-        setRecords(response.data.data);
-        // console.log(response.data.data);
-        setFilteredRecords(response.data.data);
+        setRecords(response.data);
+        console.log(response.data);
+        setFilteredRecords(response.data);
         setLoading(false);
       } catch (error) {
         setLoading(false);

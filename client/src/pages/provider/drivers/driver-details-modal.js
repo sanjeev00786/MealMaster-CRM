@@ -5,6 +5,10 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 import "./driver-details-modal.css";
+import { ENDPOINTS } from '../../../apiConfig.js';
+import { provider_id } from "../../../util/localStorage.js";
+import apiHelper from "../../../util/ApiHelper/ApiHelper.js";
+
 
 const ViewDriverDetailsModal = ({ login_token, onClose }) => {
   const [driverDetails, setDriverDetails] = useState(null);
@@ -25,8 +29,8 @@ const ViewDriverDetailsModal = ({ login_token, onClose }) => {
   useEffect(() => {
     const fetchDriverDetails = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:3001/api/drivers/get-driver?login_token=${login_token}`
+        const response = await apiHelper.get(
+          `${ENDPOINTS.GET_DRIVER}?login_token=${login_token}`
         );
         setDriverDetails(response.data.data);
         // console.log(response.data.data);

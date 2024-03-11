@@ -11,6 +11,8 @@ import CustomizedSnackbar from "../../../components/Notification/Notification";
 import useCloudinaryUpload from '../../../util/FileUpload/FileUpload';
 import apiHelper from '../../../util/ApiHelper/ApiHelper';
 import { ENDPOINTS } from '../../../apiConfig.js';
+import { provider_id } from "../../../util/localStorage.js";
+
 
 const customers = [
     {
