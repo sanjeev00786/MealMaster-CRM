@@ -1,19 +1,22 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const driverRoutes = require('./routes/Driver/driver_routes.js')
-
-const providerRoutes = require('./routes/provider_sign_up/provider_sign_up_route.js')
-
-const customerRoutes = require('./routes/customer/customer_routes.js')
-
-const meal_plan_Routes = require('./routes/meal_plans/meal_plans_route.js')
-
+const driverRoutes = require('./routes/Driver/driver_routes.js');
+const providerRoutes = require('./routes/provider_sign_up/provider_sign_up_route.js');
+const customerRoutes = require('./routes/customer/customer_routes.js');
+const meal_plan_Routes = require('./routes/meal_plans/meal_plans_route.js');
 const port = 3001;
 
-app.use(express.json());
-app.use(cors());
+const corsOptions = {
+  origin: '*', // Allow requests from any origin
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  optionsSuccessStatus: 204,
+};
 
+app.use(cors(corsOptions)); // Apply cors with the specified options globally
+
+app.use(express.json());
 
 // Use the driver routes
 app.use('/api/drivers', driverRoutes);
@@ -28,4 +31,3 @@ app.use('/api/provider/meal_plans', meal_plan_Routes);
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
-
