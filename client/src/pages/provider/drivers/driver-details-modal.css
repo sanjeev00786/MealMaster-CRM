@@ -8,6 +8,10 @@
     border: 1px solid black;
 }
 
+.button-container .delete-btn{
+    border: 1px solid black;
+}
+
 .button-container .close-btn{
     border: 1px solid black;
 }

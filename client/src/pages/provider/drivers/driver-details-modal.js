@@ -32,7 +32,7 @@ const ViewDriverDetailsModal = ({ login_token, onClose }) => {
         const response = await apiHelper.get(
           `${ENDPOINTS.GET_DRIVER}?login_token=${login_token}`
         );
-        setDriverDetails(response.data.data);
+        setDriverDetails(response.data);
         // console.log(response.data.data);
       } catch (error) {
         console.error("Error fetching driver details:", error);
@@ -43,6 +43,15 @@ const ViewDriverDetailsModal = ({ login_token, onClose }) => {
       fetchDriverDetails();
     }
   }, [login_token]);
+
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`http://localhost:3001/api/drivers/delete-driver/${driverDetails[0].driver_id}`);
+      onClose();
+    } catch (error) {
+      console.error("Error deleting driver:", error);
+    }
+  };
 
   return (
     <Modal
@@ -69,12 +78,16 @@ const ViewDriverDetailsModal = ({ login_token, onClose }) => {
           <Typography>Loading driver details...</Typography>
         )}
         <div className="button-container">
-          <Button
+        <Button
             className="edit-btn"
             component={Link}
-            to={`/add-driver`} // Pass login_token as a URL parameter
+            to={`/edit-driver?login_token=${login_token}`}
           >
-            Edit Driver
+             Edit Driver
+          </Button>
+
+          <Button className="delete-btn" onClick={handleDelete}>
+            Delete Driver
           </Button>
 
           <Button className="close-btn" onClick={() => onClose()}>
