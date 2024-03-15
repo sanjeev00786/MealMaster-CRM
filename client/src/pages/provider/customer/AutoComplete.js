@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from "react";
 import { useLoadScript } from "@react-google-maps/api";
 import { TextField, InputLabel } from "@mui/material";
 
-const AutoComplete = ({ onPlaceSelect }) => {
+const AutoComplete = ({ onPlaceSelect, isEditMode }) => {
   const autoCompleteRef = useRef();
   const inputRef = useRef();
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import myImg from "../../../component-assets/Stepper_2.svg";
 import {
   Stack,
@@ -20,6 +20,13 @@ export default function AdditionalInfoForm({
   isEditMode,
   customerData,
 }) {
+
+  // const [isRadioActive, setRadioActive] = useState(true);
+
+  // useEffect (() => {
+  //   setRadioActive(formData.status);
+  // }, []);
+
   return (
     <div className="meal-page-container">
       <Stack spacing={2} className="form-container">
@@ -102,12 +109,16 @@ export default function AdditionalInfoForm({
             column
             aria-label="status"
             name="status"
-            value={isEditMode ? formData.status : formData.status}
+            value={isEditMode ? true : formData.status}
             onChange={handleChange}
           >
-            <FormControlLabel value="TRUE" control={<Radio />} label="Active" />
+            <FormControlLabel 
+            value='true'
+            control={<Radio />} 
+            label="Active" 
+            />
             <FormControlLabel
-              value="FALSE"
+              value='false'
               control={<Radio />}
               label="Inactive"
             />

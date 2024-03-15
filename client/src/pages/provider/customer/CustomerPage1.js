@@ -11,7 +11,9 @@ import { provider_id } from "../../../util/localStorage.js";
 export default function CustomerForm({ customerData }) {
   const navigate = useNavigate();
   const [isEditMode, setIsEditMode] = useState(false);
-  const initialFormData = isEditMode ? customerData : { name: "", contact: "", email_id: "", dob: "" };
+  const initialFormData = isEditMode
+    ? customerData
+    : { name: "", contact: "", email_id: "", dob: "" };
   const [formData, setFormData] = useState(initialFormData);
   const [mealPlans, setMealData] = useState([]);
   const [step, setStep] = useState(1);
@@ -20,7 +22,8 @@ export default function CustomerForm({ customerData }) {
   useEffect(() => {
     const fetchMealPlans = async () => {
       try {
-        const response = await apiHelper.get( `${ENDPOINTS.GET_MEAL_PLAN}provider_id=${provider_id}`
+        const response = await apiHelper.get(
+          `${ENDPOINTS.GET_MEAL_PLAN}provider_id=${provider_id}`
         );
         setMealData(response.data);
       } catch (error) {
@@ -53,12 +56,10 @@ export default function CustomerForm({ customerData }) {
   // const handleChange = (e) => {
   //   setFormData({ ...formData, [e.target.name]: e.target.value });
   // };
-  
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-  
+
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]: value,
@@ -91,14 +92,17 @@ export default function CustomerForm({ customerData }) {
       console.log(response.message);
       navigate("/customerList");
     } catch (error) {
-      console.error(`Error ${isEditMode ? "updating" : "adding"} customer:`, error);
+      console.error(
+        `Error ${isEditMode ? "updating" : "adding"} customer:`,
+        error
+      );
     }
   };
+  console.log(formData)
 
   return (
     <React.Fragment>
-      
-        {/* <div className="mobileSideMenu">
+      {/* <div className="mobileSideMenu">
           <AnchorTemporaryDrawer />
         </div>
         <div className="sideMenu">
@@ -115,7 +119,6 @@ export default function CustomerForm({ customerData }) {
                 handleChange={handleChange}
                 onPlaceSelect={handlePlaceSelect}
                 isEditMode={isEditMode}
-                
               />
             )}
             {step === 2 && (
@@ -155,7 +158,11 @@ export default function CustomerForm({ customerData }) {
                 >
                   Back
                 </button>
-                <button className={"submitBtn Btn"} type="submit"  >
+                <button
+                  className={"submitBtn Btn"}
+                  type="submit"
+                  // onClick={() => navigate("/customerList")}
+                >
                   Submit
                 </button>
               </div>
