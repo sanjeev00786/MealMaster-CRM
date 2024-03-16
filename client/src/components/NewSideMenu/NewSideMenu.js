@@ -35,6 +35,12 @@ export default function SideBarMenu({ currentPage }) {
       case "/drivers":
         setSelectedIndex(2);
         break;
+      case "/trackdeliveries":
+        setSelectedIndex(3);
+        break;
+      case "/trackDriver":
+        setSelectedIndex(3);
+        break;  
       case "/delivery-schedule":
         setSelectedIndex(4);
         break;
@@ -64,7 +70,7 @@ export default function SideBarMenu({ currentPage }) {
         navigate("/drivers");
         break;
       case 3:
-        navigate("/dashboard");
+        navigate("/trackdeliveries");
         break;
       case 4:
         navigate("/delivery-schedule");

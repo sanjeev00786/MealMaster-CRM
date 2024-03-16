@@ -11,31 +11,10 @@ import CustomizedSnackbar from "../../../components/Notification/Notification";
 import useCloudinaryUpload from '../../../util/FileUpload/FileUpload';
 import apiHelper from '../../../util/ApiHelper/ApiHelper';
 import { ENDPOINTS } from '../../../apiConfig.js';
-import { provider_id } from "../../../util/localStorage.js";
-
-
-const customers = [
-    {
-        id: 1,
-        name: 'John Doe',
-        address: '123 Main St, Surrey',
-        deliveryStatus: 'Pending',
-        position: { lat: 49.2250, lng: -123.1076 }
-    },
-    {
-        id: 2,
-        name: 'Manpreet',
-        address: '80 Ave, Surrey',
-        deliveryStatus: 'Pending',
-        position: { lat: 49.2814, lng: -123.1113 }
-    }, {
-        id: 3,
-        name: 'John Doe',
-        address: '123 Main St, Surrey',
-        deliveryStatus: 'Pending',
-        position: { lat: 49.2842, lng: -123.1144 }
-    }
-];
+import { driver_id } from "../../../util/localStorage.js";
+import NoDeliveries from '../../../component-assets/NoDeliveries.svg';
+import WithoutRouteMaps from '../../../components/Maps/WithoutRouteMap.js';
+import { Link } from 'react-router-dom';
 
 const DriverDashboard = () => {
     // const navigate = useNavigate();
@@ -46,8 +25,11 @@ const DriverDashboard = () => {
     const [loading, setLoading] = useState(true);
     const [notificationMessage, setNotificationMessage] = useState("");
     const [notificationMessage1, setNotificationMessage1] = useState("");
-
-    let assignTiffinData = {};
+    const [notificationTriggered, setNotificationTriggered] = useState(false);
+    const [assignTiffinData, setAssignTiffinData] = useState([]);
+    const [customerData, setCustomerData] = useState([]);
+    const [totalRouteDistance, setTotalRouteDistance] = useState(0);
+    let isGetAssignTiffinApiCall = false;
 
     const cloudinaryConfig = {
         cloudName: 'djencgbub',
@@ -74,99 +56,139 @@ const DriverDashboard = () => {
             return;
         }
         await cloudinaryFilePath.uploadToCloudinary(imagePreview);
-        setTimeout(() => {
-            updateDeliveryImage(cloudinaryFilePath.filePath);
-            console.log("*******", cloudinaryFilePath.filePath, cloudinaryFilePath);
-            setImagePreview(null);
-        }, 1000);
+        const filePath = cloudinaryFilePath.filePath;
+        console.log(filePath)
+        if (filePath) {
+            updateDeliveryImage(filePath);
+        } else {
+            setLoading(false);
+            setNotification('Alert!', 'Something went wrong, please try again.')
+        }
+
+
     };
 
     // Call Update Driver Api
     const updateDriver = async () => {
         try {
             const data = {
-              "driver_id": '725b34cc-bdc1-444c-9f56-d84d9cc70976',
-              "driver_status": !isNavigationStarted,
+                "driver_id": driver_id,
+                "driver_status": !isNavigationStarted,
             };
 
             const responseData = await apiHelper.put(`${ENDPOINTS.UPDATE_DRIVER}`, data);
-            
+
             // Handle the response data
             if (isNavigationStarted === true) {
-                // setNotificationMessage('Navigation Stopped.')
-                setNotificationMessage("Navigation");
-                setNotificationMessage1(
-                  ` Navigation stopped! `
-                );
+                setNotification('Navigation', ` Navigation stopped! `)
             } else {
-                setNotificationMessage('Navigation')
-                setNotificationMessage1(
-                    ` Navigation started! `
-                  );
+                setNotification('Navigation', ` Navigation started! `)
             }
             console.log('Response Data:', responseData);
             setNavigationStarted(!isNavigationStarted);
             setLoading(false);
-          } catch (error) {
+        } catch (error) {
             setLoading(false);
-            setNotificationMessage(error.message);
+            setNotification('Error!', error.message)
             console.error(error.message);
-          }
+        }
     }
 
     // Get Assigned Tiffin
     const getAssignedTiffin = async (driver_id) => {
+        if (isGetAssignTiffinApiCall === true) {
+            return;
+        }
         setLoading(true);
         try {
-            const responseData = await apiHelper.get(`${ENDPOINTS.GET_ASSIGNED_TIFFIN}?driver_id=${driver_id}`);
-            console.log('Response Data:', responseData);
+            const responseData = await apiHelper.get(`${ENDPOINTS.GET_ASSIGNED_TIFFIN}driver_id=${driver_id}`);
             if (responseData.success === true) {
-                assignTiffinData = responseData.data;
+                setAssignTiffinData(responseData.data);
+                const customers = responseData.data.map(i => ({
+                    id: i.customers.customer_id,
+                    name: i.customers.name,
+                    address: i.customers.address,
+                    deliveryStatus: 'Pending',
+                    position: { lat: i.customers.latitude, lng: i.customers.longitude }
+                }));
+                console.log(customers);
+                setCustomerData([]);
+                setCustomerData(prevCustomerData => [...prevCustomerData, ...customers]);
+                if (customers.length === 0) {
+                    setNavigationStarted(false);
+                }
+                isGetAssignTiffinApiCall = true;
             }
             setLoading(false);
-          } catch (error) {
+        } catch (error) {
             setLoading(false);
-            setNotificationMessage(error.message);
+            setNotification('Error!', error.message)
             console.error(error.message);
-          }
+        }
     }
+
+    const CustomerItem = ({ customer }) => {
+        return (
+            <div className="customer-item">
+                <img src={`${process.env.PUBLIC_URL}/assets/images/location_icon.svg`} alt="Location Icon" className="location-icon" />
+                <div className="customer-info">
+                    <div className="customer-name">{customer.customers.name}</div>
+                    <div className="customer-address">{customer.customers.address}</div>
+                    <div className="delivery-status">{customer.deliveryStatus}</div>
+                </div>
+            </div>
+        );
+    };
+
+    const generateCustomerItems = () => {
+        return assignTiffinData.map((customer) => (
+            <CustomerItem key={customer.id} customer={customer} />
+        ));
+    };
 
     // Update assign Tiffin 
     const updateDeliveryImage = async (imgPath) => {
         setLoading(true);
+        console.log("**********", assignTiffinData[0].customers.customer_id)
         try {
             const data = {
-              "customer_id": '62f87964-4ec5-4466-b156-78c9679e24c8',
-              "delivery_status": true,
-              "delivery_photo_url": imgPath
+                "customer_id": assignTiffinData[0].customers.customer_id,
+                "delivery_status": true,
+                "delivery_photo_url": imgPath
             };
 
             const responseData = await apiHelper.put(`${ENDPOINTS.UPDATE_DELIVERY_STATUS}`, data);
             console.log('Response Data:', responseData);
+            moveToPastDelivery(assignTiffinData[0], imgPath);
+        } catch (error) {
             setLoading(false);
-          } catch (error) {
-            setLoading(false);
-            setNotificationMessage(error.message);
+            setNotification('Error!', error.message)
             console.error(error.message);
-          }
+        }
     }
 
     // Delete Assign Tiffin Api
     const deleteAssignTiffin = async (id) => {
         setLoading(true);
         try {
-            const responseData = await apiHelper.delete(`${ENDPOINTS.UPDATE_DELIVERY_STATUS}/${id}`);
+            const responseData = await apiHelper.delete(`${ENDPOINTS.DELETE_ASSIGN_TIFFIN}${id}`);
             console.log('Response Data:', responseData);
+            setTimeout(() => {
+                setLoading(false);
+                setImagePreview(null);
+            }, 1000);
+            // Show Modal for completion of delivery
+            isGetAssignTiffinApiCall = false;
+            getAssignedTiffin(driver_id);
+        } catch (error) {
             setLoading(false);
-          } catch (error) {
-            setLoading(false);
-            setNotificationMessage(error.message);
+            setNotification('Error!', error.message)
             console.error(error.message);
-          }
+        }
     }
 
     // Move to past delivery Api
-    const moveToPostDelivery = async (tiffinData, imgPathUrl) => {
+    const moveToPastDelivery = async (tiffinData, imgPathUrl) => {
         setLoading(true);
         try {
             const data = {
@@ -177,16 +199,16 @@ const DriverDashboard = () => {
                 delivery_status: true,
                 delivery_photo_url: imgPathUrl,
                 customer_id: tiffinData.customer_id
-              };
+            };
 
-            const responseData = await apiHelper.put(`${ENDPOINTS.MOVE_TO_PAST_DELIVERY}`, data);
+            const responseData = await apiHelper.post(`${ENDPOINTS.MOVE_TO_PAST_DELIVERY}`, data);
             console.log('Response Data:', responseData);
+            deleteAssignTiffin(assignTiffinData[0].id)
+        } catch (error) {
             setLoading(false);
-          } catch (error) {
-            setLoading(false);
-            setNotificationMessage(error.message);
+            setNotification('Error!', error.message)
             console.error(error.message);
-          }
+        }
     }
 
     // Toggle Camera
@@ -194,87 +216,81 @@ const DriverDashboard = () => {
         setCameraOpen(!isCameraOpen);
     };
 
-   // Handshake with channel to retrieve the driver location
-    useEffect(() => {
-
-        const driverLocation = supabase
-            .channel('custom-all-channel')
-            .on(
-                'postgres_changes',
-                {
-                    event: '*',
-                    schema: 'public',
-                    table: 'driver_location',
-                },
-                (payload) => {
-                    if (payload.new.driver_id === "725b34cc-bdc1-444c-9f56-d84d9cc70976") {
-                        console.log('Updated Location:', { latitude: payload.new.lat, longitude: payload.new.lng });
-                    }
-                }
-            )
-            .subscribe();
-
-        return () => {
-            driverLocation.unsubscribe();
-        };
-    }, []);
-
     useEffect(() => {
         const myBooleanValue = localStorage.getItem('isLoaderShow') === 'true';
         if (myBooleanValue === true) {
-            setNotificationMessage('Success!')
-            setNotificationMessage1('Logged In Successfully!')
+            setNotification('Success!', 'Logged In Successfully!')
             localStorage.setItem('isLoaderShow', 'false');
         }
-        // getAssignedTiffin('725b34cc-bdc1-444c-9f56-d84d9cc70976')
-        setTimeout(() => {
-            setLoading(false);
-            setNotificationMessage('')
-        }, 4000);
+        getAssignedTiffin(driver_id)
 
     }, []);
 
+    const setNotification = (message, message1) => {
+        if (!notificationTriggered) {
+            setNotificationMessage(message);
+            setNotificationMessage1(message1);
+            setNotificationTriggered(true);
+            setTimeout(() => {
+                setNotificationTriggered(false);
+            }, 2000);
+        }
+    };
 
     return (
         <div className="dashboard-container">
             <Loader loading={loading} />
             <Header />
-            {notificationMessage && (
+            {notificationTriggered && (
                 <CustomizedSnackbar decisionMessage={notificationMessage}
-                updateMessage={notificationMessage1} />
+                    updateMessage={notificationMessage1} />
             )}
             <h2>Dashboard</h2>
-            <Maps customerData={customers} />
+            {customerData.length !== 0 ? (
+                <Maps customerData={customerData} setTotalRouteDistance={setTotalRouteDistance} driver_id={driver_id} />
+            ) : (
+                <WithoutRouteMaps />
+            )}
+
             {isCameraOpen && (
                 <div className="camera-modal-overlay">
                     <CustomCamera onImageCapture={handleImageCapture} onClose={toggleCamera} />
                 </div>
             )}
-            {isNavigationStarted ? (
-                <div>
+
+            {assignTiffinData.length === 0 ? (
+                <div className="no-delivery">
+                    <h2>Delivery List</h2>
+                    <img src={NoDeliveries} alt="Placeholder" className="placeholder-image" />
+                </div>
+            ) : (
+                isNavigationStarted ? (
+                    <div>
                     <h2>Current Navigating To</h2>
                     <div className='currently-navigating'>
-                        <p className='name-text'>Samuel Peterson</p>
-                        <h3>1234, 120 Street Surrey, BC, V3M 5J8</h3>
-                        <p>1 Deluxe Lunchbox</p>
-                        {imagePreview ? (
-                            <div className="image-preview-container">
-                                <div className='dashboard-image-container'>
-                                    <img src={imagePreview} alt="Preview" className="image-preview" />
-                                    <button onClick={() => setCameraOpen(true)}>Retake Photo</button>
+                        <>
+                            <p className='name-text'>{assignTiffinData[0].customers.name}</p>
+                            <h3>{assignTiffinData[0].customers.address}</h3>
+                            <p>{assignTiffinData[0].plans.plan_name}</p>
+                            {imagePreview ? (
+                                <div className="image-preview-container">
+                                    <div className='dashboard-image-container'>
+                                        <img src={imagePreview} alt="Preview" className="image-preview" />
+                                        <button onClick={() => setCameraOpen(true)}>Retake Photo</button>
+                                    </div>
+                                    <div className="button-container">
+                                        <button className='complete-button' onClick={completeDeliveryAndStartNext}>Complete and Start Next</button>
+                                    </div>
                                 </div>
-                                <div className="button-container">
-                                    <button className='complete-button' onClick={completeDeliveryAndStartNext}>Complete and Start Next</button>
-                                </div>
-                            </div>
-                        ) : (
-                            <button className="camera-button" onClick={() => setCameraOpen(true)}>
-                                <span className="icon-text-container">
-                                    <img src={cameraIcon} alt="camera icon" className="icon-image" />
-                                    Click Photo to Complete Delivery
-                                </span>
-                            </button>
-                        )};
+                            ) : (
+                                <button className="camera-button" onClick={() => setCameraOpen(true)}>
+                                    <span className="icon-text-container">
+                                        <img src={cameraIcon} alt="camera icon" className="icon-image" />
+                                        Click Photo to Complete Delivery
+                                    </span>
+                                </button>
+                            )}
+                        </>
 
                         <div className='stop-navigation-button-container' onClick={() => toggleNavigation(true)}>
                             <button className="stop-navigation-button">
@@ -285,39 +301,25 @@ const DriverDashboard = () => {
                     <h2>Next in Queue</h2>
                     <div className="customer-list">{generateCustomerItems()}</div>
                 </div>
-            ) : (
-                <div className='start-navigation-container'>
-                    <h2>Delivery List</h2>
-                    <div className='start-navigation'>
-                        <p className='name-text'>Today</p>
-                        <h3>5 Locations (13km)</h3>
-                        <button className="start-navigation-button" onClick={() => toggleNavigation(false)}>
-                            Start Navigation
-                        </button>
+                ) : (
+                    <div className='start-navigation-container'>
+                        <h2>Delivery List</h2>
+                        <div className='start-navigation'>
+                            <p className='name-text'>Today</p>
+                            <h3>{customerData.length} Locations ({totalRouteDistance} km)</h3>
+                            <button className="start-navigation-button" onClick={() => toggleNavigation(false)}>
+                                Start Navigation
+                            </button>
+                        </div>
                     </div>
-                </div>
-            )};
-        </div>
-    );
-};
-
-const CustomerItem = ({ customer }) => {
-    return (
-        <div className="customer-item">
-            <img src={`${process.env.PUBLIC_URL}/assets/images/location_icon.svg`} alt="Location Icon" className="location-icon" />
-            <div className="customer-info">
-                <div className="customer-name">{customer.name}</div>
-                <div className="customer-address">{customer.address}</div>
-                <div className="delivery-status">{customer.deliveryStatus}</div>
+                )
+            )}
+            <div className='past-delivery-link-container'>
+            <Link to="/past_deliveries" className="past-delivery-link">View Past Deliveries</Link>
             </div>
         </div>
     );
 };
 
-const generateCustomerItems = () => {
-    return customers.map((customer) => (
-        <CustomerItem key={customer.id} customer={customer} />
-    ));
-};
 
 export default DriverDashboard;
