@@ -1,15 +1,15 @@
 .cardDisplay {
-    margin-left: 4.5rem;
+    margin-left: 2.5rem;
     /* margin-top: 5rem; */
 }
-body{
-    background-color: #F1F0F7
-    ;
+.wholeContent{
+    background-color: #F1F0F7 ;
 }
 
 h1 {
     /* text-align: center; */
     margin-left: 20px;
+    margin-top: 3.2rem;
 
 }
 
@@ -41,7 +41,7 @@ h1 {
 
 }
 .add_plan{
-    background-color:black !important;
+    background-color:#6F59DA !important;
 
 }
 
@@ -67,7 +67,7 @@ h1 {
 @media screen and (min-width: 800px) {
 
     .meal-plan-container {
-        background-color: rgba(241, 240, 247, 1);
+        background-color: #F1F0F7;
         display: flex;
       }
       
