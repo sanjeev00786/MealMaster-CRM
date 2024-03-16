@@ -7,6 +7,8 @@ import ReactCardFlip from "react-card-flip";
 import DeleteComponent from "../Delete/Delete";
 import EditComponent from "../EditButton/EditButton";
 import "./Meal-plan-card.css";
+import { pink } from '@mui/material/colors';
+
 
 const MultiActionAreaCard = ({
   data,
@@ -60,6 +62,16 @@ const MultiActionAreaCard = ({
             >
               <Checkbox onClick={handleButtonClickCheckbox} checked={isChecked}
               // style={{ position: "absolute", top: 0, left: 0, zIndex: 1 }}
+              sx={{
+                color:"#AEAEAE",
+                '&.Mui-checked': {
+                  color: isChecked ? "#6F59DA" : "#AEAEAE", // Change color when checked
+                },
+               
+               
+              }}
+              
+
               />
               {data.plan_name}
             </Typography>
