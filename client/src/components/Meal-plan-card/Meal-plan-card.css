@@ -4,9 +4,13 @@
 
   align-items: center;
   margin: 20px;
+  /* height: 200px; */
+    position: relative; 
 
   
 }
+
+
 .plan_name{
   font-weight: 500;
   line-height: 28.8px;
@@ -47,3 +51,7 @@
   /* display: flex; */
   justify-content: center;
 }
+.view-details-button{
+  color: #6F59DA !important;
+}
+
