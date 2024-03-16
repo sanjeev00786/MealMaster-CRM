@@ -45,6 +45,7 @@ exports.getMealPlan = async (req, res) => {
     const result = await mealPlanModel.readMealPlan({
       provider_id,
     });
+    console.log("from controller",result)
 
     if (result && result.success) {
       res.status(201).json({
