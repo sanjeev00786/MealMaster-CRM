@@ -59,7 +59,17 @@ export default function BarsDataset() {
   }
 
   console.log("Rendering BarChart with revenue data:", revenueData);
-  const dataset = revenueData.map((entry) => ({
+  
+  // Sort data by month
+  const sortedData = revenueData.sort((a, b) => {
+    const monthsOrder = [
+      "Jan", "Feb", "Mar", "Apr", "May", "Jun", 
+      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
+    return monthsOrder.indexOf(a.calculation_month) - monthsOrder.indexOf(b.calculation_month);
+  });
+
+  const dataset = sortedData.map((entry) => ({
     month: entry.calculation_month,
     revenue: entry.total_revenue,
   }));
