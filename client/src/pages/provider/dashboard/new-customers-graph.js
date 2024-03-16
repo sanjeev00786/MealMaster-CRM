@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import supabase from '../../../supabase'; // assuming you have configured Supabase client
 import { BarChart } from "@mui/x-charts/BarChart";
 import { axisClasses } from "@mui/x-charts";
+import { provider_id } from "../../../util/localStorage";
 
 const chartSetting = {
   yAxis: [
@@ -30,7 +31,7 @@ export default function BarsDataset() {
           .from("provider_analytics")
           .select("calculation_month, total_customers")
           .eq("calculation_year", 2023)
-          .eq("provider_id", "5de05e6c-162f-4293-88d5-2aa6bd1bb8a3") // Provider ID for Nandu Tiffin Hub
+          .eq("provider_id", provider_id) // Provider ID for Nandu Tiffin Hub
           .order("calculation_month");
 
         console.log("Data fetched:", data);

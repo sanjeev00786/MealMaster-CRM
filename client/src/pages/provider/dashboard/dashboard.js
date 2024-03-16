@@ -18,7 +18,7 @@ const Dashboard = () => {
           <CustomerGraph />
         </div>
         <div className="WIP">
-          <VegPieChart providerId="5de05e6c-162f-4293-88d5-2aa6bd1bb8a3" />
+          <VegPieChart/>
         </div>
       </div>
     </div>

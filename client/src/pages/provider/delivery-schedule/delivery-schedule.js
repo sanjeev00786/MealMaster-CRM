@@ -28,9 +28,7 @@ import AssignDriverModalButton from './AssignDriverModalButton';
 import MiniDrawer from '../../../components/SideMenu/SideMenu';
 import Loader from '../../../components/Loader/Loader';
 import SideBarMenu from '../../../components/NewSideMenu/NewSideMenu';
-import { ENDPOINTS } from '../../../apiConfig.js';
-
-import apiHelper from '../../../util/ApiHelper/ApiHelper.js';
+import { API_BASE_URL,ENDPOINTS } from '../../../apiConfig.js';
 import { provider_id } from "../../../util/localStorage.js";
 import './delivery-schedule.css'
 
@@ -223,7 +221,7 @@ export default function DeliveryScheduleTable() {
   const fetchData = React.useCallback(async () => {
     try {
       // First request to get meal plans
-      const mealPlanResponse = await fetch('http://localhost:3001/api/provider/meal_plans/get-meal-plan?provider_id=5de05e6c-162f-4293-88d5-2aa6bd1bb8a3');
+      const mealPlanResponse = await fetch(`${API_BASE_URL}${ENDPOINTS.GET_MEAL_PLAN}provider_id=${provider_id}`);
   
       if (!mealPlanResponse.ok) {
         throw new Error('Network response was not ok for meal plans');
@@ -235,7 +233,7 @@ export default function DeliveryScheduleTable() {
       const selectedMealPlan = mealPlanData.data[0];
   
       // Second request to get customer information
-      const customerResponse = await fetch(`http://localhost:3001/api/customer/provider/get-all-customers/${selectedMealPlan.provider_id}`);
+      const customerResponse = await fetch(`${API_BASE_URL}${ENDPOINTS.GET_ALL_CUSTOMER}${selectedMealPlan.provider_id}`);
   
       if (!customerResponse.ok) {
         throw new Error('Network response was not ok for customers');

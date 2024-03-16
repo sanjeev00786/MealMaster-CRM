@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Box, Typography, Button, Select, MenuItem } from '@mui/material';
+import apiHelper from "../../../util/ApiHelper/ApiHelper.js";
 import supabase from '../../../supabase';
-import axios from 'axios';
+import { ENDPOINTS } from '../../../apiConfig.js';
 
 const AssignDriverModalButton = ({ providerId, onAssignDriver, updateParent}) => {
   const [openModal, setOpenModal] = useState(false);
@@ -71,7 +72,7 @@ const pushToAssignedTiffin = async (providerId, driverId, data) => {
     setOpenModal(true);
     // Fetch drivers from the API using the provided providerId
     try {
-      const response = await axios.get(`http://localhost:3001/api/drivers/get-all-drivers?provider_id=${providerId}`);
+      const response = await apiHelper.get(`${ENDPOINTS.GET_ALL_DRIVER}provider_id=${providerId}`);
       console.log(response.data)
       setDrivers(response.data.data); // Extracting the 'data' array from the response
     } catch (error) {
