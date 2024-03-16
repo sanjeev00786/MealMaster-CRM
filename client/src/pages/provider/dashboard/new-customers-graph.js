@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import supabase from '../../../supabase'; // assuming you have configured Supabase client
 import { BarChart } from "@mui/x-charts/BarChart";
-import { axisClasses } from "@mui/x-charts";
+import { LineChart, axisClasses } from "@mui/x-charts";
 import { provider_id } from "../../../util/localStorage";
 
 const chartSetting = {
@@ -64,7 +64,7 @@ export default function BarsDataset() {
 
   return (
     <div className="customer-graph">
-      <BarChart
+      <LineChart
         dataset={dataset}
         xAxis={[{ scaleType: "band", dataKey: "month" }]}
         series={[{ dataKey: "customers", label: "Number of Customers" }]}
