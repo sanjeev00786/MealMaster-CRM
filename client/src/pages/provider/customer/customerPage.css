@@ -17,7 +17,7 @@
   margin-left: 10px;
 }
 .search-addButtton-container button {
-  background-color: #6F59DA !important;
+  background-color: #6f59da !important;
   padding-left: 2rem !important;
   padding-right: 2rem !important;
   padding: 0.5rem;
@@ -62,3 +62,28 @@
   border-bottom-right-radius: 10px;
 }
 
+/* filter buttons */
+/* 
+.css-1rwt2y5-MuiButtonBase-root-MuiButton-root{
+  margin-bottom: 20px !important;
+  margin-left: 15px !important;
+  background-color: #6F59DA !important;
+  color: white !important;
+} */
+
+.filterButtons {
+  margin-bottom: 20px !important;
+  margin-left: 15px !important;
+  background-color: #aa9af8 !important;
+  color: white !important;
+}
+
+.filterButtons.active {
+  background-color: #6f59da !important;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px; /* Adjust as needed */
+}

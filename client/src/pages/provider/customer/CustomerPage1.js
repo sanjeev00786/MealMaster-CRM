@@ -80,6 +80,7 @@ export default function CustomerForm({ customerData }) {
 
   const submitForm = async (e) => {
     e.preventDefault();
+     
     const serverApiEndpoint = isEditMode
       ? `${ENDPOINTS.EDIT_CUSTOMER}${customerData.customer_id}`
       : `${ENDPOINTS.ADD_CUSTOMER}`;
@@ -90,7 +91,8 @@ export default function CustomerForm({ customerData }) {
         : await apiHelper.post(serverApiEndpoint, finalDatatoSendToDB);
 
       console.log(response.message);
-      navigate("/customerList");
+
+      navigate("/customerList/1");
     } catch (error) {
       console.error(
         `Error ${isEditMode ? "updating" : "adding"} customer:`,
@@ -143,7 +145,7 @@ export default function CustomerForm({ customerData }) {
                 <button
                   className={"cancelBtn Btn"}
                   type="button"
-                  onClick={() => navigate("/customerList")}
+                  onClick={() => navigate("/customerList/1")}
                 >
                   Cancel
                 </button>
@@ -161,7 +163,6 @@ export default function CustomerForm({ customerData }) {
                 <button
                   className={"submitBtn Btn"}
                   type="submit"
-                  // onClick={() => navigate("/customerList")}
                 >
                   Submit
                 </button>
