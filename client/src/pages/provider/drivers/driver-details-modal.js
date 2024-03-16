@@ -8,6 +8,7 @@ import "./driver-details-modal.css";
 import { ENDPOINTS } from '../../../apiConfig.js';
 import { provider_id } from "../../../util/localStorage.js";
 import apiHelper from "../../../util/ApiHelper/ApiHelper.js";
+import CloseIcon from '@mui/icons-material/Close';
 
 
 const ViewDriverDetailsModal = ({ login_token, onClose }) => {
@@ -64,35 +65,59 @@ const ViewDriverDetailsModal = ({ login_token, onClose }) => {
       aria-describedby="view-driver-modal-description"
     >
       <Box sx={{ ...modalStyle, width: 400 }}>
-        <Typography id="view-driver-modal" variant="h6" component="div">
+        <div className="modal-header-container">
+        <Typography id="view-driver-modal" variant="h3" component="div">
           Driver Details
         </Typography>
+        <CloseIcon onClick={onClose} style={{ cursor: "pointer", paddingTop: "5px" }}/>
+        </div>
+
         {driverDetails ? (
           <>
-            <Typography>Name: {driverDetails[0].name}</Typography>
-            <Typography>Address: {driverDetails[0].address}</Typography>
-            <Typography>Email: {driverDetails[0].email_id}</Typography>
-            <Typography>Contact: {driverDetails[0].contact}</Typography>
+            <div className="driver-details">
+          <div className="detail-row">
+            <Typography className="detail-label">Driver's Name:</Typography>
+            <Typography className="detail-data">{driverDetails[0].name}</Typography>
+          </div>
+          <div className="detail-row">
+            <Typography className="detail-label">Driver's DOB:</Typography>
+            <Typography className="detail-data">{driverDetails[0].dob}</Typography>
+          </div>
+          <div className="detail-row">
+            <Typography className="detail-label">Driver's Address:</Typography>
+            <Typography className="detail-data">{driverDetails[0].address}</Typography>
+          </div>
+          <div className="detail-row">
+            <Typography className="detail-label">Driver's Contact:</Typography>
+            <Typography className="detail-data">{driverDetails[0].contact}</Typography>
+          </div>
+          <div className="detail-row">
+            <Typography className="detail-label">Driver's Email:</Typography>
+            <Typography className="detail-data">{driverDetails[0].email_id}</Typography>
+          </div>
+          
+          <div className="detail-row">
+            <Typography className="detail-label">Driver's Login Token:</Typography>
+            <Typography className="detail-data">{driverDetails[0].login_token}</Typography>
+          </div>
+        </div>
           </>
         ) : (
           <Typography>Loading driver details...</Typography>
         )}
         <div className="button-container">
-        <Button
-            className="edit-btn"
+
+        <Link className="delete-link" onClick={handleDelete}>
+            Delete Driver
+        </Link>
+
+        <Link
+            className="edit-link"
             component={Link}
             to={`/edit-driver?login_token=${login_token}`}
           >
              Edit Driver
-          </Button>
-
-          <Button className="delete-btn" onClick={handleDelete}>
-            Delete Driver
-          </Button>
-
-          <Button className="close-btn" onClick={() => onClose()}>
-            Close
-          </Button>
+          </Link>
         </div>
       </Box>
     </Modal>
