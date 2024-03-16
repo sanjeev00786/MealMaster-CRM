@@ -1,67 +1,74 @@
-import React, { useEffect, useState } from 'react';
-import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import axios from 'axios';
-import { ENDPOINTS } from '../../../apiConfig.js';
+import React, { useEffect, useState } from "react";
+import supabase from '../../../supabase'; // assuming you have configured Supabase client
+import { BarChart } from "@mui/x-charts/BarChart";
+import { axisClasses } from "@mui/x-charts";
 
-import apiHelper from '../../../util/ApiHelper/ApiHelper.js';
-import { provider_id } from "../../../util/localStorage.js";
-
-const CustomerGraph = () => {
-  const [customerData, setCustomerData] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Fetch customer data
-        const customerResponse = await apiHelper.get(
-          `${ENDPOINTS.GET_ALL_CUSTOMER}${provider_id}`
-        );
-        const customers = customerResponse.data.customers;
-
-        // Process data to count new customers per month
-        const monthlyCustomers = customers.reduce((acc, customer) => {
-          const billingMonth = new Date(customer.billing_cycle).toLocaleString('en-US', { month: 'long', year: 'numeric' });
-
-          if (!acc[billingMonth]) {
-            acc[billingMonth] = 1;
-          } else {
-            acc[billingMonth]++;
-          }
-
-          return acc;
-        }, {});
-
-        // Prepare data for chart
-        const chartData = Object.entries(monthlyCustomers).map(([month, value]) => ({
-          month,
-          customers: value,
-        }));
-
-        setCustomerData(chartData);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  return (
-    <div>
-      <h2>New Customers per Month</h2>
-      <div style={{ width: '80%', height: 400 }}>
-        <ResponsiveContainer>
-          <BarChart data={customerData}>
-            <XAxis dataKey="month" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Bar dataKey="customers" fill="#82ca9d" />
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
-    </div>
-  );
+const chartSetting = {
+  yAxis: [
+    {
+      label: "Number of Customers",
+    },
+  ],
+  width: 500,
+  height: 300,
+  sx: {
+    [`.${axisClasses.left} .${axisClasses.label}`]: {
+      transform: "translate(-20px, 0)",
+    },
+  },
 };
 
-export default CustomerGraph;
+export default function BarsDataset() {
+  const [customerData, setCustomerData] = useState(null); // Initialize with null
+
+  useEffect(() => {
+    async function fetchCustomerData() {
+      try {
+        console.log("Fetching customer data for 2023...");
+        
+        let { data, error } = await supabase
+          .from("provider_analytics")
+          .select("calculation_month, total_customers")
+          .eq("calculation_year", 2023)
+          .eq("provider_id", "5de05e6c-162f-4293-88d5-2aa6bd1bb8a3") // Provider ID for Nandu Tiffin Hub
+          .order("calculation_month");
+
+        console.log("Data fetched:", data);
+        console.log("Error:", error);
+        if (error) {
+          console.error("Error fetching customer data:", error.message);
+          throw error;
+        }
+        setCustomerData(data);
+      } catch (error) {
+        console.error("Error fetching customer data:", error.message);
+      }
+    }
+
+    fetchCustomerData();
+  }, []);
+
+  console.log("Current state of customerData:", customerData);
+
+  if (customerData === null) {
+    console.log("Customer data is null, rendering loading...");
+    return <div>Loading...</div>; // Add a loading indicator while data is being fetched
+  }
+
+  console.log("Rendering BarChart with customer data:", customerData);
+  const dataset = customerData.map((entry) => ({
+    month: entry.calculation_month,
+    customers: entry.total_customers,
+  }));
+
+  return (
+    <div className="customer-graph">
+      <BarChart
+        dataset={dataset}
+        xAxis={[{ scaleType: "band", dataKey: "month" }]}
+        series={[{ dataKey: "customers", label: "Number of Customers" }]}
+        {...chartSetting}
+      />
+    </div>
+  );
+}
