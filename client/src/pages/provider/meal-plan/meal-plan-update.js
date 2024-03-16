@@ -10,7 +10,7 @@ import { ENDPOINTS } from "../../../apiConfig.js";
 import apiHelper from "../../../util/ApiHelper/ApiHelper.js";
 import { provider_id } from "../../../util/localStorage.js";
 import SideBarMenu from "../../../components/NewSideMenu/NewSideMenu";
-import './meal-plan-update.css';
+import "./meal-plan-update.css";
 
 const MealPlanUpdatePage = () => {
   const { plan_id } = useParams();
@@ -87,6 +87,7 @@ const MealPlanUpdatePage = () => {
         price: mealPrice,
         description: mealDescription,
       });
+      console.log("newData", newData);
 
       let newConfig = {
         method: "post",
@@ -103,6 +104,7 @@ const MealPlanUpdatePage = () => {
         `${ENDPOINTS.ADD_PLAN}`,
         newData
       );
+      console.log("add respose", addResponse);
 
       if (addResponse.success) {
         console.log("Meal plan added successfully");
