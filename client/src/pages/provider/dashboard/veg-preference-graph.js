@@ -3,10 +3,6 @@ import { PieChart } from '@mui/x-charts/PieChart';
 import supabase from '../../../supabase'; // Import your configured Supabase client
 import { provider_id } from "../../../util/localStorage.js"; // Import provider_id from localStorage
 
-const chartSetting = {
-  width: 400,
-  height: 200,
-};
 
 export default function VegPieChart() {
   const [vegCustomers, setVegCustomers] = useState(0);
@@ -58,7 +54,7 @@ export default function VegPieChart() {
           data: dataset,
         },
       ]}
-      width={400}
+      width={500}
       height={200}
       slotProps={{
         legend: {
