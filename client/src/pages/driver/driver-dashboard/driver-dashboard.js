@@ -15,6 +15,8 @@ import { driver_id } from "../../../util/localStorage.js";
 import NoDeliveries from '../../../component-assets/NoDeliveries.svg';
 import WithoutRouteMaps from '../../../components/Maps/WithoutRouteMap.js';
 import { Link } from 'react-router-dom';
+import AnchorTemporaryDrawer from "../../../components/MobileSideMenu/MobileSideMenu.js";
+
 
 const DriverDashboard = () => {
     // const navigate = useNavigate();
@@ -239,19 +241,17 @@ const DriverDashboard = () => {
 
     return (
         <div className="dashboard-container">
-            <Loader loading={loading} />
-            <Header />
-            {notificationTriggered && (
-                <CustomizedSnackbar decisionMessage={notificationMessage}
-                    updateMessage={notificationMessage1} />
-            )}
-            <h2>Dashboard</h2>
+                       {/* <Header /> */}
+                       <AnchorTemporaryDrawer />
+{/* talk with designer about below line */}
+            <h2>Change Delivery today</h2>
+            <div className="driver-maps">
             {customerData.length !== 0 ? (
-                <Maps customerData={customerData} setTotalRouteDistance={setTotalRouteDistance} driver_id={driver_id} />
+                <Maps  customerData={customerData} setTotalRouteDistance={setTotalRouteDistance} driver_id={driver_id}  />
             ) : (
                 <WithoutRouteMaps />
             )}
-
+    </div>
             {isCameraOpen && (
                 <div className="camera-modal-overlay">
                     <CustomCamera onImageCapture={handleImageCapture} onClose={toggleCamera} />
@@ -305,11 +305,13 @@ const DriverDashboard = () => {
                     <div className='start-navigation-container'>
                         <h2>Delivery List</h2>
                         <div className='start-navigation'>
-                            <p className='name-text'>Today</p>
-                            <h3>{customerData.length} Locations ({totalRouteDistance} km)</h3>
-                            <button className="start-navigation-button" onClick={() => toggleNavigation(false)}>
+                        <button className="start-navigation-button" onClick={() => toggleNavigation(false)}>
                                 Start Navigation
                             </button>
+                            {/* <p className='name-text'>Today</p> */}
+                            <h3>{customerData.length} Locations ({totalRouteDistance} km)</h3>
+                            
+                            
                         </div>
                     </div>
                 )
@@ -317,6 +319,11 @@ const DriverDashboard = () => {
             <div className='past-delivery-link-container'>
             <Link to="/past_deliveries" className="past-delivery-link">View Past Deliveries</Link>
             </div>
+            <Loader loading={loading} />
+            {notificationTriggered && (
+                <CustomizedSnackbar decisionMessage={notificationMessage}
+                    updateMessage={notificationMessage1} />
+            )}
         </div>
     );
 };
