@@ -42,6 +42,7 @@ const MultiActionAreaCard = ({
     setIsChecked(!isChecked);
     onCardButtonclickCheckBox(data.plan_id);
     
+    
   }
   
 
@@ -60,7 +61,7 @@ const MultiActionAreaCard = ({
               component="div"
               className="plan_name"
             >
-              <Checkbox onClick={handleButtonClickCheckbox} checked={isChecked}
+              <Checkbox  onClick={handleButtonClickCheckbox} checked={isChecked}
               // style={{ position: "absolute", top: 0, left: 0, zIndex: 1 }}
               sx={{
                 color:"#AEAEAE",

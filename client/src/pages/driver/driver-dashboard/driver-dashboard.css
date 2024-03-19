@@ -219,6 +219,7 @@ h3 {
     width: 100%;
     /* padding: 15px !important; */
     text-align: center !important;
+    /* margin: 20px; */
 
 
   }
@@ -226,7 +227,7 @@ h3 {
     text-align: center !important;
 }
 
-.start-navigation h3{
+.start-navigation , .currently-navigating h3{
     font-weight: 400;
     margin-top: 10px;
 }
@@ -236,10 +237,25 @@ h3 {
     border: 10px sol;
 
 } */
-.withoutroute-map-container{
+.withoutroute-map-container,.map-container{
     /* box-shadow: none !important; */
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2) !important;
 
 
+}
+.name-text{
+    font-weight: 700;
+
+}
+
+.camera-button{
+    background-color: #6F59DA;
+    margin-left: 0;
+    border-radius: .25rem;
+
+}
+.stop-navigation-button{
+    border: none;
+    color: #6F59DA;
 }
