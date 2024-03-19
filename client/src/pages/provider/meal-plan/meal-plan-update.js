@@ -67,7 +67,7 @@ const MealPlanUpdatePage = () => {
         },
         data: updateData,
       };
-
+      // console.log(updateData,"updatedtaa")
       // const updateResponse = await apiHelper.put(updateConfig);
       const updateResponse = await apiHelper.put(
         `${ENDPOINTS.UPDATE_MEAL_PLAN}`,
