@@ -13,6 +13,8 @@ function BasicInfoForm({ formData, handleChange, onPlaceSelect, isEditMode, cust
     onPlaceSelect(selectedPlace);
   };
 
+  const address = isEditMode ? customerData.address : "";
+
   return (
     <React.Fragment>
       <div className="meal-page-container">
@@ -57,7 +59,7 @@ function BasicInfoForm({ formData, handleChange, onPlaceSelect, isEditMode, cust
             className="form"
           />
 
-          <AutoComplete onPlaceSelect={handlePlaceSelect} />
+          <AutoComplete onPlaceSelect={handlePlaceSelect} isEditMode={isEditMode} customerData={customerData} />
 
           <InputLabel htmlFor="dob">Date of Birth</InputLabel>
           <TextField
