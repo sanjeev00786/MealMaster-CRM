@@ -20,14 +20,17 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
+import Modal from '@mui/material/Modal';
+import Button from '@mui/material/Button';
+import { TextField } from '@mui/material';
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import AssignDriverModalButton from './AssignDriverModalButton';
 import MiniDrawer from '../../../components/SideMenu/SideMenu';
 import Loader from '../../../components/Loader/Loader';
 import SideBarMenu from '../../../components/NewSideMenu/NewSideMenu';
-import { ENDPOINTS } from '../../../apiConfig.js';
-
-import apiHelper from '../../../util/ApiHelper/ApiHelper.js';
+import { API_BASE_URL,ENDPOINTS } from '../../../apiConfig.js';
 import { provider_id } from "../../../util/localStorage.js";
+import './delivery-schedule.css'
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -179,7 +182,7 @@ function EnhancedTableToolbar(props) {
      {numSelected > 0 ? (
         <Tooltip title="Assign Driver">
           <IconButton onClick={handleOpenModal}>
-            <AssignDriverModalButton providerId="${provider_id}" onAssignDriver={onGetSelectedRows} updateParent={onUpdateParent}/>
+            <AssignDriverModalButton providerId={provider_id} onAssignDriver={onGetSelectedRows} updateParent={onUpdateParent}/>
           </IconButton>
         </Tooltip>
       ) : (
@@ -196,17 +199,6 @@ function EnhancedTableToolbar(props) {
 EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
-
-const modalStyle = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    boxShadow: 24,
-    p: 4,
-  };
 
 export default function DeliveryScheduleTable() {
   const [order, setOrder] = React.useState('asc');
@@ -225,21 +217,23 @@ export default function DeliveryScheduleTable() {
   };
 
 
+  // ${ENDPOINTS.GET_MEAL_PLAN}
   const fetchData = React.useCallback(async () => {
     try {
       // First request to get meal plans
-      const mealPlanResponse = await apiHelper.get(`${ENDPOINTS.GET_MEAL_PLAN}provider_id=${provider_id}`);
+      const mealPlanResponse = await fetch(`${API_BASE_URL}${ENDPOINTS.GET_MEAL_PLAN}provider_id=${provider_id}`);
+  
       if (!mealPlanResponse.ok) {
         throw new Error('Network response was not ok for meal plans');
       }
-      console.log('******', mealPlanResponse)
+  
       const mealPlanData = await mealPlanResponse.json();
   
       // Assuming the first plan in the response is the correct one
       const selectedMealPlan = mealPlanData.data[0];
   
       // Second request to get customer information
-      const customerResponse = await apiHelper.get(`${ENDPOINTS.GET_ALL_CUSTOMER}${selectedMealPlan.provider_id}`);
+      const customerResponse = await fetch(`${API_BASE_URL}${ENDPOINTS.GET_ALL_CUSTOMER}${selectedMealPlan.provider_id}`);
   
       if (!customerResponse.ok) {
         throw new Error('Network response was not ok for customers');
@@ -249,7 +243,7 @@ export default function DeliveryScheduleTable() {
 
   
       // Transform data using the plan information
-      const transformedData = customerData.data.customers.filter(customer => customer.is_assigned_driver !== true).map((customer) => {
+      const transformedData = customerData.data.customers.filter(customer => customer.is_assigned_driver != true).map((customer) => {
         // Find the matching plan_id in mealPlanData
         const matchedPlan = mealPlanData.data.find(plan => plan.plan_id === customer.plan_id);
   
@@ -340,98 +334,98 @@ export default function DeliveryScheduleTable() {
     };
 
   if (loading) {
-    return <Loader loading={loading}/>; // Render a loading indicator while data is being fetched
+    return <p>Loading...</p>; // Render a loading indicator while data is being fetched
   }
 
   return (
-    <div>
-      <Box sx={{ width: '100%', display: "flex", justifyContent: "space-between"}}>
+    <div className='delivery-schedule-container'>
       <div className="sideBarMenu">
         <SideBarMenu currentPage='/delivery-schedule'/>
-      </div>      
-        <Paper sx={{ width: '100%', mt:8}}>
-          <EnhancedTableToolbar numSelected={selected.length} onGetSelectedRows={getSelectedRows} onUpdateParent={toggleUpdateFlag}/>
-          <TableContainer>
-            <Table
-              sx={{ minWidth: 750 }}
-              aria-labelledby="tableTitle"
-              size={dense ? 'small' : 'medium'}
-            >
-              <EnhancedTableHead
-                numSelected={selected.length}
-                order={order}
-                orderBy={orderBy}
-                onSelectAllClick={handleSelectAllClick}
-                onRequestSort={handleRequestSort}
-                rowCount={rows.length}
-              />
-              <TableBody>
-                {visibleRows.map((row, index) => {
-                  const isItemSelected = isSelected(row.id);
-                  const labelId = `enhanced-table-checkbox-${index}`;
+      </div>
+    <Box sx={{ width: '100%' }} className='delivery-schedule-table'>        
+      <Paper sx={{ width: '100%', mb: 2 }}>
+        <EnhancedTableToolbar numSelected={selected.length} onGetSelectedRows={getSelectedRows} onUpdateParent={toggleUpdateFlag}/>
+        <TableContainer>
+          <Table
+            sx={{ minWidth: 750 }}
+            aria-labelledby="tableTitle"
+            size={dense ? 'small' : 'medium'}
+          >
+            <EnhancedTableHead
+              numSelected={selected.length}
+              order={order}
+              orderBy={orderBy}
+              onSelectAllClick={handleSelectAllClick}
+              onRequestSort={handleRequestSort}
+              rowCount={rows.length}
+            />
+            <TableBody>
+              {visibleRows.map((row, index) => {
+                const isItemSelected = isSelected(row.id);
+                const labelId = `enhanced-table-checkbox-${index}`;
 
-                  return (
-                    <TableRow
-                      hover
-                      onClick={(event) => handleClick(event, row.id)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.id}
-                      selected={isItemSelected}
-                      sx={{ cursor: 'pointer' }}
-                    >
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          color="primary"
-                          checked={isItemSelected}
-                          inputProps={{
-                            'aria-labelledby': labelId,
-                          }}
-                        />
-                      </TableCell>
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
-                      >
-                      </TableCell>
-                      <TableCell align="left">{row.name}</TableCell>
-                      <TableCell align="left">{row.contact}</TableCell>
-                      <TableCell align="left">{row.plan}</TableCell>
-                      <TableCell align="left">{row.city}</TableCell>
-                      <TableCell align="left">{row.address}</TableCell>
-                    </TableRow>
-                  );
-                })}
-                {emptyRows > 0 && (
+                return (
                   <TableRow
-                    style={{
-                      height: (dense ? 33 : 53) * emptyRows,
-                    }}
+                    hover
+                    onClick={(event) => handleClick(event, row.id)}
+                    role="checkbox"
+                    aria-checked={isItemSelected}
+                    tabIndex={-1}
+                    key={row.id}
+                    selected={isItemSelected}
+                    sx={{ cursor: 'pointer' }}
                   >
-                    <TableCell colSpan={6} />
+                    <TableCell padding="checkbox">
+                      <Checkbox
+                        color="primary"
+                        checked={isItemSelected}
+                        inputProps={{
+                          'aria-labelledby': labelId,
+                        }}
+                      />
+                    </TableCell>
+                    <TableCell
+                      component="th"
+                      id={labelId}
+                      scope="row"
+                      padding="none"
+                    >
+                    </TableCell>
+                    <TableCell align="left">{row.name}</TableCell>
+                    <TableCell align="left">{row.contact}</TableCell>
+                    <TableCell align="left">{row.plan}</TableCell>
+                    <TableCell align="left">{row.city}</TableCell>
+                    <TableCell align="left">{row.address}</TableCell>
                   </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            rowsPerPageOptions={[5, 10, 25]}
-            component="div"
-            count={rows.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-          />
-          <FormControlLabel
-          control={<Switch checked={dense} onChange={handleChangeDense} />}
-          label="Dense padding"
+                );
+              })}
+              {emptyRows > 0 && (
+                <TableRow
+                  style={{
+                    height: (dense ? 33 : 53) * emptyRows,
+                  }}
+                >
+                  <TableCell colSpan={6} />
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={rows.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
         />
-        </Paper>
-      </Box>
+      </Paper>
+      <FormControlLabel
+        control={<Switch checked={dense} onChange={handleChangeDense} />}
+        label="Dense padding"
+      />
+    </Box>
     </div>
   );
 }
