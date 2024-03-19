@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import BasicInfoForm from "./BasicInfoForm";
 import AdditionalInfoForm from "./AdditionalInfoForm";
 import "./customerPage.css";
@@ -11,9 +10,7 @@ import { provider_id } from "../../../util/localStorage.js";
 export default function CustomerForm({ customerData }) {
   const navigate = useNavigate();
   const [isEditMode, setIsEditMode] = useState(false);
-  const initialFormData = isEditMode
-    ? customerData
-    : { name: "", contact: "", email_id: "", dob: "" };
+  const initialFormData = isEditMode ? customerData : {};
   const [formData, setFormData] = useState(initialFormData);
   const [mealPlans, setMealData] = useState([]);
   const [step, setStep] = useState(1);
@@ -53,10 +50,6 @@ export default function CustomerForm({ customerData }) {
     provider_id: provider_id,
   });
 
-  // const handleChange = (e) => {
-  //   setFormData({ ...formData, [e.target.name]: e.target.value });
-  // };
-
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -80,7 +73,7 @@ export default function CustomerForm({ customerData }) {
 
   const submitForm = async (e) => {
     e.preventDefault();
-     
+
     const serverApiEndpoint = isEditMode
       ? `${ENDPOINTS.EDIT_CUSTOMER}${customerData.customer_id}`
       : `${ENDPOINTS.ADD_CUSTOMER}`;
@@ -92,7 +85,7 @@ export default function CustomerForm({ customerData }) {
 
       console.log(response.message);
 
-      navigate("/customerList/1");
+      navigate("/customerList/2");
     } catch (error) {
       console.error(
         `Error ${isEditMode ? "updating" : "adding"} customer:`,
@@ -100,7 +93,7 @@ export default function CustomerForm({ customerData }) {
       );
     }
   };
-  console.log(formData)
+  console.log(formData);
 
   return (
     <React.Fragment>
@@ -160,10 +153,7 @@ export default function CustomerForm({ customerData }) {
                 >
                   Back
                 </button>
-                <button
-                  className={"submitBtn Btn"}
-                  type="submit"
-                >
+                <button className={"submitBtn Btn"} type="submit">
                   Submit
                 </button>
               </div>

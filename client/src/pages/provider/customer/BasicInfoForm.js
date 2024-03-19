@@ -1,11 +1,17 @@
 import React, { useState } from "react";
 import AutoComplete from "./AutoComplete";
+import EditAutoComplete from "./EditAutoComplete";
 import { TextField, Stack, InputLabel } from "@mui/material";
 import myImage from "../../../component-assets/Stepper_1.svg";
-import "./BasicInfoForm.css"
+import "./BasicInfoForm.css";
 
-
-function BasicInfoForm({ formData, handleChange, onPlaceSelect, isEditMode, customerData  }) {
+function BasicInfoForm({
+  formData,
+  handleChange,
+  onPlaceSelect,
+  isEditMode,
+  customerData,
+}) {
   const [place, setPlace] = useState(null);
 
   const handlePlaceSelect = (selectedPlace) => {
@@ -13,31 +19,32 @@ function BasicInfoForm({ formData, handleChange, onPlaceSelect, isEditMode, cust
     onPlaceSelect(selectedPlace);
   };
 
+
   return (
     <React.Fragment>
       <div className="meal-page-container">
         <Stack spacing={1} className="form-container">
           {/* <img className="steeper" src={myImage} alt="stepper" /> */}
-          <InputLabel htmlFor="Name" > Customer Name</InputLabel>
+          <InputLabel htmlFor="Name"> Customer Name</InputLabel>
           <TextField
             type="text"
             variant="outlined"
             color="secondary"
             name="name"
-            value={isEditMode ? formData.name : formData.value}
+            value={isEditMode ? formData.name : formData.name}
             onChange={handleChange}
             fullWidth
             required
             className="form"
           />
 
-          <InputLabel  htmlFor="contactNumber">Contact Number</InputLabel>
+          <InputLabel htmlFor="contactNumber">Contact Number</InputLabel>
           <TextField
             type="text"
             variant="outlined"
             color="secondary"
             name="contact"
-            value={isEditMode ? formData.contact : formData.value}
+            value={isEditMode ? formData.contact : formData.contact}
             onChange={handleChange}
             fullWidth
             required
@@ -50,14 +57,26 @@ function BasicInfoForm({ formData, handleChange, onPlaceSelect, isEditMode, cust
             variant="outlined"
             color="secondary"
             name="email_id"
-            value={isEditMode ? formData.email_id : formData.value}
+            value={isEditMode ? formData.email_id : formData.email_id}
             onChange={handleChange}
             fullWidth
             required
             className="form"
           />
 
-          <AutoComplete onPlaceSelect={handlePlaceSelect} />
+          {isEditMode ? (
+            <EditAutoComplete
+              onPlaceSelect={handlePlaceSelect}
+              isEditMode={isEditMode}
+              customerData={customerData}
+            />
+          ) : (
+            <AutoComplete
+              onPlaceSelect={handlePlaceSelect}
+              isEditMode={isEditMode}
+              customerData={customerData}
+            />
+          )}
 
           <InputLabel htmlFor="dob">Date of Birth</InputLabel>
           <TextField
@@ -65,13 +84,13 @@ function BasicInfoForm({ formData, handleChange, onPlaceSelect, isEditMode, cust
             variant="outlined"
             color="secondary"
             name="dob"
-            value={isEditMode ? formData.dob : formData.value}
+            value={isEditMode ? formData.dob : formData.dob}
             onChange={handleChange}
             fullWidth
             required
             className="form"
           />
-        </Stack>        
+        </Stack>
       </div>
     </React.Fragment>
   );
