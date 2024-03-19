@@ -16,6 +16,8 @@ import NoDeliveries from "../../../component-assets/NoDeliveries.svg";
 import WithoutRouteMaps from "../../../components/Maps/WithoutRouteMap.js";
 import { Link } from "react-router-dom";
 import AnchorTemporaryDrawer from "../../../components/MobileSideMenu/MobileSideMenu.js";
+// import  from ""
+import deliveryLocationIcon from "../../../component-assets/makerlocation.svg";
 
 const DriverDashboard = () => {
   // const navigate = useNavigate();
@@ -136,12 +138,15 @@ const DriverDashboard = () => {
 
   const CustomerItem = ({ customer }) => {
     return (
-      <div className="customer-item">
+      <div className="customer-item navigation-page-customer-list">
+        <div>
         <img
-          src={`${process.env.PUBLIC_URL}/assets/images/location_icon.svg`}
+              src={`${deliveryLocationIcon}`}
+          // src={`${process.env.PUBLIC_URL}/assets/images/location_icon.svg`}
           alt="Location Icon"
           className="location-icon"
         />
+        </div>
         <div className="customer-info">
           <div className="customer-name">{customer.customers.name}</div>
           <div className="customer-address">{customer.customers.address}</div>
@@ -306,7 +311,7 @@ const DriverDashboard = () => {
                       alt="Preview"
                       className="image-preview"
                     />
-                    <button onClick={() => setCameraOpen(true)}>
+                    <button className="retakeButtom" onClick={() => setCameraOpen(true)}>
                       Retake Photo
                     </button>
                   </div>
