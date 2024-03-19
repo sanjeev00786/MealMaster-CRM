@@ -46,7 +46,7 @@ export default function CustomerPage() {
         const mealPlan = await apiHelper.get(mealPlanUrl);
         setRecords(res.data.customers);
         setFilteredData(res.data.customers);
-        setTotalPages(res.data.totalPage);
+        setTotalPages(res.data.totalPages);
         setPlanName(mealPlan.data);
         setLoading(false);
       } catch (error) {
@@ -80,14 +80,16 @@ export default function CustomerPage() {
   }, []);
 
   const handlePaymentClick = (customerId, isPaid) => {
+    console.log(customerId);
     setCustomerIdToUpdate(customerId);
     setIsPaidToUpdate(isPaid);
+    
     setConfirmationModalOpen(true);
   };
 
   const handleConfirmation = async () => {
     try {
-      await axios.put(`${ENDPOINTS.EDIT_CUSTOMER}${customerIdToUpdate}`, {
+      await apiHelper.put(`${ENDPOINTS.EDIT_CUSTOMER}${customerIdToUpdate}`, {
         payment: isPaidToUpdate,
       });
 
@@ -287,7 +289,6 @@ export default function CustomerPage() {
           <div className="pagination-container">
             <Pagination
               count={totalPages}
-              page={parseInt(page)}
               onChange={handlePageChange}
             />
           </div>
