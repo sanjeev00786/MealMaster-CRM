@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { useLoadScript } from "@react-google-maps/api";
 import { TextField, InputLabel } from "@mui/material";
 
-const AutoComplete = ({ onPlaceSelect, isEditMode, customerData }) => {
+const EditAutoComplete = ({ onPlaceSelect, isEditMode, customerData }) => {
   const autoCompleteRef = useRef();
   const inputRef = useRef();
 
@@ -10,6 +10,7 @@ const AutoComplete = ({ onPlaceSelect, isEditMode, customerData }) => {
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries: ["places"],
   });
+
 
   useEffect(() => {
     if (!isLoaded || loadError) return;
@@ -63,14 +64,14 @@ const AutoComplete = ({ onPlaceSelect, isEditMode, customerData }) => {
     <InputLabel htmlFor="address">Address</InputLabel>
      <TextField
      inputRef={inputRef}
+     defaultValue={customerData.address}
      type="text"
      name="address"
      fullWidth
-     required
 />
      
     </React.Fragment>
   );
 };
 
-export default AutoComplete;
+export default EditAutoComplete;

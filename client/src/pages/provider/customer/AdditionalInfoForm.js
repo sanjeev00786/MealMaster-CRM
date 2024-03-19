@@ -36,7 +36,7 @@ export default function AdditionalInfoForm({
         <Select
           className="form"
           name="plan_id"
-          value={isEditMode ? formData.plan_id : formData.value}
+          value={isEditMode ? formData.plan_id : formData.plan_id}
           onChange={handleChange}
         >
           <MenuItem value="">Select a meal plan</MenuItem>
