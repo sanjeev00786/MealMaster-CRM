@@ -31,7 +31,8 @@ const MealPlanListPage = () => {
   const [delete_selected_plan, set_delete_selected_plan] = useState([]);
   const [planNameData, setPlanNameData] = useState([]);
   const [value, setValue] = useState([]);
-
+  const [deleteSelectedMealPlans, setDeleteSelectedMealPlans] = useState([]);
+  const [finalDeleteMealPlans, setFinalDeleteMealPlans] = useState([]);
   const [CheckId, setCheckId] = useState([]);
 
   const fetchMealPlans = () => {
@@ -41,12 +42,14 @@ const MealPlanListPage = () => {
       .get(`${ENDPOINTS.GET_MEAL_PLAN}provider_id=${provider_id}`)
       .then((response) => {
         const activePlans = response.data.filter((plan) => plan.is_active);
+        console.log(activePlans, "heyguys");
         setCardData(activePlans);
+        console.log(cardData, "fliteredinside");
+
         setPlanNameData(response.data);
         setTimeout(() => {
           setLoading(false);
         }, 1000);
-        /// change timer for loader
       })
       .catch((error) => {
         setTimeout(() => {
@@ -60,6 +63,21 @@ const MealPlanListPage = () => {
   useEffect(() => {
     fetchMealPlans();
   }, []);
+
+  // *********************************is it necessary **************************************
+  useEffect(() => {
+    if (notificationMessage && notificationMessage1) {
+      const timer = setTimeout(() => {
+        setNotificationMessage("");
+        setNotificationMessage1("");
+      }, 3000); // Adjust the duration as needed (in milliseconds)
+      
+      return () => clearTimeout(timer); // Clear the timer when component unmounts
+    }
+  }, [notificationMessage, notificationMessage1]);
+    // ***********************************************************************
+
+  console.log(cardData, "fliteredoutside");
 
   const navigate = useNavigate();
 
@@ -84,30 +102,102 @@ const MealPlanListPage = () => {
     navigate(`/meal-plan-update/${plan_id}`);
     console.log(`Meal plan with Edit ID ${plan_id} sent`);
   };
-  const handleCardButtonCheckbox = async (plan_id, upd) => {
-    set_delete_selected_plan([plan_id]);
-    console.log(plan_id, "checkedbox");
-    setCheckId([1]);
-  };
+  // const handleCardButtonCheckbox = async (plan_id, upd) => {
+  //   set_delete_selected_plan([plan_id]);
+  //   console.log(plan_id, "checkedbox");
+  //   setCheckId([1]);
 
+  // };
+
+  const handleCardButtonCheckbox = async (plan_id, index) => {
+    if (CheckId.includes(index)) {
+      // If the checkbox is checked remove its index 
+      console.log(CheckId, "if");
+
+      setCheckId(CheckId.filter((id) => id !== index));
+      console.log(CheckId, "if");
+      setDeleteSelectedMealPlans(
+        deleteSelectedMealPlans.filter((id) => id !== index)
+      );
+      // console.log(deleteSelectedMealPlans,"new list")
+    } else {
+      // If the checkbox is unchecked add its index
+      setCheckId([...CheckId, index]);
+      console.log(CheckId, "else");
+      console.log(index, "else3");
+      // setDeleteSelectedMealPlans(index);
+      setDeleteSelectedMealPlans([...deleteSelectedMealPlans, index]);
+      console.log(deleteSelectedMealPlans, "delete");
+      console.log(CheckId, "elseffff");
+    }
+  };
+  console.log(deleteSelectedMealPlans, "selecteddata");
+  
+
+  // const findPlanId=()=>{
+  //   console.log(deleteSelectedMealPlans,"in find");
+  //   setFinalDeleteMealPlans(cardData.plan_id);
+  //   console.log(finalDeleteMealPlans,"inside  find")
+
+  // }
+
+  // console.log(finalDeleteMealPlans,"inside  --find")
+
+  // const handleButtonDeleteMealPlan = () => {
+  //   setCheckId([1]);
+  //   if (CheckId.length > 0) {
+  //     setModalOpen(true);
+  //   }
+  // };
   const handleButtonDeleteMealPlan = () => {
-    setCheckId([5]);
-    if (CheckId.length > 0) {
+    setCheckId([1]);
+    if (deleteSelectedMealPlans.length > 0) {
+      // Gather data of selected meal plans based on the index
+      const selectedMealPlansData = deleteSelectedMealPlans.map(
+        (index) => cardData[index]
+      );
+      console.log(selectedMealPlansData, "seletectplan from delete");
+      setFinalDeleteMealPlans(selectedMealPlansData);
       setModalOpen(true);
     }
   };
+  console.log(finalDeleteMealPlans, "finally deleteed find");
   const handleCancel = () => {
     console.log("Cancelled");
     setModalOpen(false);
   };
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     console.log("Confirmed");
-    const plan_id = delete_selected_plan;
+
+    // const plan_id = delete_selected_plan;
     console.log(delete_selected_plan, "from checckbox");
+    const planIdsToDelete = finalDeleteMealPlans.map((plan) => 
+
+    ({
+      plan_id: plan.plan_id,
+      plan_name: plan.plan_name
+    }));
+    // const planNameToDelete = finalDeleteMealPlans.map((plan) => plan.plan_name );
+    // const confirmedPlanId = planIdsToDelete;
+    console.log(planIdsToDelete, "confirmw@@@---");
 
     try {
-      deleteMealPlan(plan_id);
+      // deleteMealPlan(planIdsToDelete);
+      // for (const planId of planIdsToDelete) {
+      //   await deleteMealPlan(planId);
+      for (const { plan_id, plan_name } of planIdsToDelete) {
+        await deleteMealPlan(plan_id, plan_name);
+        
+      }
+      setCheckId([]);
+      console.log(CheckId,"after loop")
+      console.log(deleteSelectedMealPlans,"before loop")
+
+    setDeleteSelectedMealPlans([]);
+    console.log(deleteSelectedMealPlans,"after loop")
+
+      
     } catch (error) {
       console.error("Error deleting meal plan:", error);
     }
@@ -115,37 +205,45 @@ const MealPlanListPage = () => {
     setModalOpen(false);
   };
 
-  const deleteMealPlan = async (plan_id) => {
-    console.log("Button clicked for plan with ID:", plan_id);
-    console.log("length", plan_id.length);
+  const deleteMealPlan = async (plan_id,plan_name) => {
+    // console.log("Button clicked for plan with ID:", plan_id);
+    // console.log("length", plan_id.length);
 
-    console.log(planNameData, "wholedata");
+    // console.log(planNameData, "wholedata");
 
-    const selectedPlans = planNameData.filter((plan) =>
-      plan_id.includes(plan.plan_id)
-    );
-    console.log(selectedPlans, "seletedplan");
+    // const selectedPlans = planNameData.filter((plan) =>
+    //   plan_id.includes(plan.plan_id)
+    // );
+    // console.log(selectedPlans, "seletedplan");
     // const planNames = selectedPlans.map((selectedPlan) => selectedPlan.plan_name);
     // console.log(planNames, "planNames");
     // console.log(selectedPlans[0].plan_name, "planName");
 
     try {
-      await apiHelper.delete(`${ENDPOINTS.DELETE_PLAN}`, { data: { plan_id } });
+     
+      // **************Change below api***********************************************
+    
+      // await apiHelper.delete(`${ENDPOINTS.DELETE_PLAN}`, { data: { plan_id } });
+      await axios.delete(
+        "http://localhost:3001/api/provider/meal_plans/delete-meal-plan",
+        { data: { plan_id } }
+      );
 
       // console.log(`Meal plan with ID ${plan_id} deleted successfully`);
+      setCheckId([]);
+
       setNotificationMessage("Deleted");
       setNotificationMessage1(
-        `"${selectedPlans[0].plan_name}" Meal plan Sucessfully Deleted! `
+        `"${plan_name}" Meal plan Sucessfully Deleted! `
       );
       // console.log(selectedPlans[0].plan_name, "planNamebelow");
-      setCheckId([0]);
 
       fetchMealPlans();
     } catch (error) {
       console.error("Error deleting meal plan:", error);
       setNotificationMessage("Error");
       setNotificationMessage1(
-        `"${selectedPlans[0].plan_name}" unable to delete Meal plan`
+        `"${plan_name}" unable to delete Meal plan`
       );
       throw error;
     }
@@ -215,12 +313,20 @@ const MealPlanListPage = () => {
 
           <div className="meal-plan-list-container">
             {cardData.map((data, index) => (
+              // <MultiActionAreaCard
+              //   key={index}
+              //   data={data}
+              //   // onCardButtonClickDelete={handleCardButtonClickDelete}
+              //   onCardButtonClickEdit={handleCardButtonClickEdit}
+              //   onCardButtonclickCheckBox={handleCardButtonCheckbox}
+              // />
               <MultiActionAreaCard
                 key={index}
                 data={data}
-                // onCardButtonClickDelete={handleCardButtonClickDelete}
                 onCardButtonClickEdit={handleCardButtonClickEdit}
-                onCardButtonclickCheckBox={handleCardButtonCheckbox}
+                onCardButtonclickCheckBox={(plan_id) =>
+                  handleCardButtonCheckbox(plan_id, index)
+                }
               />
             ))}
           </div>
