@@ -49,6 +49,7 @@ const ViewDriverDetailsModal = ({ login_token, onClose }) => {
     try {
       await axios.delete(`http://localhost:3001/api/drivers/delete-driver/${driverDetails[0].driver_id}`);
       onClose();
+      window.location.href = "/drivers";
     } catch (error) {
       console.error("Error deleting driver:", error);
     }
@@ -74,7 +75,7 @@ const ViewDriverDetailsModal = ({ login_token, onClose }) => {
 
         {driverDetails ? (
           <>
-            <div className="driver-details">
+          <div className="driver-details">
           <div className="detail-row">
             <Typography className="detail-label">Driver's Name:</Typography>
             <Typography className="detail-data">{driverDetails[0].name}</Typography>

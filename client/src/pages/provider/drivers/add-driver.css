@@ -101,13 +101,14 @@
   }
 
   .sideBarMenu {
-    flex: 0 0 20%;
+    flex: 0 0 15%;
   }
 
   .driver-page {
-    flex: 1 80%;
+    flex: 1 85%;
     align-items: center;
     padding-top: 2.2rem;
+    padding-left: 1rem;
   }
 
   .search-addButtton-container {

@@ -9,13 +9,13 @@
 }
 
 .sideBarMenu {
-  flex: 0 0 25%;
-  /* margin-right: 2rem; */
+  flex: 0 0 15%;
 }
 
 .WIP {
-  flex: 1 75%;
+  flex: 1 85%;
   align-items: center;
+  padding-left: 1rem;
 }
 
 .dashboard-header {
