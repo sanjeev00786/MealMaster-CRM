@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../../../components/header/header";
 import CustomButton from "../../../components/CustomButton/CustomButton";
 // import "../../../components/CustomButton/CustomButton.css";
@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { ENDPOINTS } from "../../../apiConfig.js";
 import apiHelper from "../../../util/ApiHelper/ApiHelper.js";
 import { provider_id } from "../../../util/localStorage.js";
+import SideBarMenu from "../../../components/NewSideMenu/NewSideMenu";
 
 const MealSettingPage = () => {
   const [mealName, setMealName] = useState("");
@@ -16,6 +17,21 @@ const MealSettingPage = () => {
   const [mealDescription, setMealDescription] = useState("");
   const [loading, setLoading] = React.useState(false);
   const navigate = useNavigate();
+  const [isFormValid, setIsFormValid] = useState(false);
+
+  // const handleSave = (e) => {
+  //   e.preventDefault();
+  //   const mealData = {
+  //     provider_id: provider_id,
+  //     plan_name: mealName,
+  //     price: mealPrice,
+  //     description: mealDescription,
+  //   };
+  useEffect(() => {
+    // Check if all fields are filled
+    const isValid = mealName && mealPrice && mealDescription;
+    setIsFormValid(isValid);
+  }, [mealName, mealPrice, mealDescription]);
 
   const handleSave = (e) => {
     e.preventDefault();
@@ -25,16 +41,13 @@ const MealSettingPage = () => {
       price: mealPrice,
       description: mealDescription,
     };
-
     console.log(mealData);
 
     apiHelper
-      .post(
-        `${ENDPOINTS.ADD_PLAN}`,
-        mealData
-      )
+      .post(`${ENDPOINTS.ADD_PLAN}`, mealData)
       .then((response) => {
         console.log("Meal data saved successfully:", response.data);
+
         navigate("/meal-plan-list");
       })
       .catch((error) => {
@@ -48,55 +61,75 @@ const MealSettingPage = () => {
   };
 
   return (
-    <div>
-      <div className="login-container">
-        <Header />
-      </div>
-      <h1>New Meal Plan</h1>
+    <div className="wholeContent-mealplanpage">
+      <div className="meal-plan-formpage">
+        {/* <div className="meal-plan-page"> */}
+        <div className="sideBarMenu">
+          <SideBarMenu currentPage="/meal-plan-list" />
+        </div>
 
-      <div className="meal-page-container">
-        <div className="form-container">
-          <form>
-            <label>
-              Meal Name<span class="required">*</span>
-            </label>
-            <input
-              type="text"
-              value={mealName}
-              onChange={(e) => setMealName(e.target.value)}
-              placeholder="Enter Meal Name"
-              required
-            />
+        <div className="content-mealplan">
+          {/* <div className="cardDisplay"> */}
 
-            <label>
-              Meal Price Per Month<span class="required">*</span>{" "}
-            </label>
-            <input
-              type="number"
-              value={mealPrice}
-              onChange={(e) => setMealPrice(e.target.value)}
-              placeholder="Enter Meal Price Per Month"
-              required
-            />
+          <h1>New Meal Plan</h1>
 
-            <label>
-              Description<span class="required">*</span>{" "}
-            </label>
-            <textarea
-              value={mealDescription}
-              onChange={(e) => setMealDescription(e.target.value)}
-              placeholder="Enter Meal Description"
-              required
-            />
-            <div className="actions">
-              <CustomButton className={"submitBtn Btn"} onClick={handleSave}>
-                Save
-              </CustomButton>
-              <CustomButton className={"cancelBtn Btn"} onClick={handleCancel}>
-                Cancel
-              </CustomButton>
+          <div className="meal-page-container">
+            <div className="form-container">
+              <form>
+                <label>
+                  Meal Name<span class="required">*</span>
+                </label>
+                <input
+                  type="text"
+                  value={mealName}
+                  onChange={(e) => setMealName(e.target.value)}
+                  placeholder="Enter Meal Name"
+                  required
+                />
+
+                <label>
+                  Meal Price Per Month<span class="required">*</span>{" "}
+                </label>
+                <input
+                  type="number"
+                  value={mealPrice}
+                  onChange={(e) => setMealPrice(e.target.value)}
+                  placeholder="Enter Meal Price Per Month"
+                  required
+                />
+
+                <label>
+                  Description<span class="required">*</span>{" "}
+                </label>
+                <textarea
+                  value={mealDescription}
+                  onChange={(e) => setMealDescription(e.target.value)}
+                  placeholder="Enter Meal Description"
+                  rows="4" // Adjust the number of rows as needed
+                  cols="50"
+                  required
+                />
+                <div className="actions">
+                  <CustomButton
+                    className={"submitBtn Btn"}
+                    //      className={`delete_plan ${
+                    //   CheckId.length === 0 ? "disabled_delete" : ""
+                    // }`}
+                    onClick={handleSave}
+                    disabled={!isFormValid}
+                  >
+                    Save
+                  </CustomButton>
+                  <CustomButton
+                    className={"cancelBtn Btn"}
+                    onClick={handleCancel}
+                  >
+                    Cancel
+                  </CustomButton>
+                </div>
+              </form>
             </div>
-          </form>
+          </div>
         </div>
       </div>
 

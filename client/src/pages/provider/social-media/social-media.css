@@ -1,0 +1,8 @@
+.WIP {
+    flex: 1 75%;
+    align-items: center;
+  }
+  
+  .social-media-container {
+    display: flex;
+  }

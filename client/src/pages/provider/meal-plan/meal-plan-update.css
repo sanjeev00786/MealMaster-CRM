@@ -1,0 +1,12 @@
+.meal-plan-formpage{
+    display: flex !important;
+    flex: 1
+  }
+
+.wholeContent-mealplanUpdatepage{
+    background-color: #F1F0F7 !important;
+}
+.sideBarMenu {
+    flex: 0 0 20%;
+  }
+  
