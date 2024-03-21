@@ -64,8 +64,8 @@ const LandingPage = () => {
                         </div>
                     </div>
                 </section>
-                <section className="landing-page-section" data-aos="fade-left">
-                    <img src={Section1Image} alt="Tiffin Business" className="landing-page-image" />
+                <section className="landing-page-section">
+                    <img src={Section1Image} alt="Tiffin Business" className="landing-page-image"/>
                 </section>
             </div>
 
