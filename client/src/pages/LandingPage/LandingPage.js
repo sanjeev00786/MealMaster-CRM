@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import './LandingPage.css';
 import LandingPageHeader from "./LandingPageHeader";
-import Section1Image from '../../component-assets/landing-page-1.svg';
+import Section1Image from '../../component-assets/Graph-no-bg.png';
 import CustomerDataImage from '../../component-assets/customer-data-image.svg';
 import TrackingImage from '../../component-assets/TrackDelivery.svg';
 import Scooter from '../../component-assets/scooter.png';
@@ -23,7 +23,7 @@ const LandingPage = () => {
             const scrollTop = window.scrollY;
             const windowHeight = window.innerHeight;
             const documentHeight = document.body.clientHeight;
-            const minOffset = 150;
+            const minOffset = 50;
 
             if (scooterRef.current) {
                 const maxOffset = documentHeight - windowHeight;
@@ -64,7 +64,7 @@ const LandingPage = () => {
                         </div>
                     </div>
                 </section>
-                <section className="landing-page-section" data-aos="zoom-in">
+                <section className="landing-page-section" data-aos="fade-left">
                     <img src={Section1Image} alt="Tiffin Business" className="landing-page-image" />
                 </section>
             </div>
