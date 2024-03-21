@@ -1,0 +1,60 @@
+CREATE OR REPLACE FUNCTION populate_provider_analytics()
+RETURNS VOID AS $$
+BEGIN
+    INSERT INTO provider_analytics (provider_id, provider_name, calculation_month, calculation_year, total_customers, veg_customers, total_revenue)
+    WITH total_customers_data AS (
+        SELECT 
+            p.id AS provider_id,
+            c.customer_id,
+            COUNT(c.customer_id) FILTER (WHERE c.is_veg = 'true') AS veg_customers,
+            COUNT(c.customer_id) AS total_customers
+        FROM 
+            providers p
+        LEFT JOIN 
+            customers c ON p.id = c.provider_id
+        GROUP BY 
+            p.id, c.customer_id
+    ),
+    revenue_data AS (
+        SELECT 
+            p.id AS provider_id,
+            COALESCE(SUM(COALESCE(NULLIF(pl.price, ''), '0')::numeric), 0) AS total_revenue
+        FROM 
+            providers p
+        LEFT JOIN 
+            plans pl ON p.id = pl.provider_id
+        GROUP BY 
+            p.id
+    )
+    SELECT 
+        p.id AS provider_id,
+        p.business_name AS provider_name,
+        CASE
+            WHEN EXTRACT(MONTH FROM CURRENT_DATE) = 1 THEN 'Jan'
+            WHEN EXTRACT(MONTH FROM CURRENT_DATE) = 2 THEN 'Feb'
+            WHEN EXTRACT(MONTH FROM CURRENT_DATE) = 3 THEN 'Mar'
+            WHEN EXTRACT(MONTH FROM CURRENT_DATE) = 4 THEN 'Apr'
+            WHEN EXTRACT(MONTH FROM CURRENT_DATE) = 5 THEN 'May'
+            WHEN EXTRACT(MONTH FROM CURRENT_DATE) = 6 THEN 'Jun'
+            WHEN EXTRACT(MONTH FROM CURRENT_DATE) = 7 THEN 'Jul'
+            WHEN EXTRACT(MONTH FROM CURRENT_DATE) = 8 THEN 'Aug'
+            WHEN EXTRACT(MONTH FROM CURRENT_DATE) = 9 THEN 'Sep'
+            WHEN EXTRACT(MONTH FROM CURRENT_DATE) = 10 THEN 'Oct'
+            WHEN EXTRACT(MONTH FROM CURRENT_DATE) = 11 THEN 'Nov'
+            ELSE 'Dec'
+        END AS calculation_month,
+        EXTRACT(YEAR FROM CURRENT_DATE) AS calculation_year,
+        SUM(tcd.total_customers) AS total_customers,
+        SUM(tcd.veg_customers) AS veg_customers,
+        COALESCE(rd.total_revenue, 0) AS total_revenue
+    FROM 
+        providers p
+    LEFT JOIN 
+        total_customers_data tcd ON p.id = tcd.provider_id
+    LEFT JOIN 
+        revenue_data rd ON p.id = rd.provider_id
+    GROUP BY 
+        p.id, p.business_name, calculation_month, calculation_year, rd.total_revenue;
+END;
+$$ LANGUAGE plpgsql;
+

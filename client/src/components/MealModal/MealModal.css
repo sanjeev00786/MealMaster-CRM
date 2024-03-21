@@ -4,8 +4,8 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 360px;
-    height:208px;
+    width: 430px;
+    height:230px;
     background-color: #FFFFFF;
     border-radius: 8px;
     box-shadow: 24px;
@@ -28,6 +28,8 @@
     line-height: 28px;
     margin-bottom: 10px;
     text-align: center;
+    margin-top: 1.5rem !important;
+    color: #24024F;
 
   }
   
@@ -43,8 +45,10 @@
   
   .modal-buttons {
     margin-top: 20px;
-    display: flex;
-    justify-content: space-between;
+    /* display: flex; */
+    /* align-items: center; */
+    /* justify-content: center; */
+    text-align: center
   }
   
   .BtnModal{
@@ -55,8 +59,15 @@
     ;
   }
   .cancelBtnModal{
-    background-color:black;
+    background-color:#6F59DA;
     color: #FFFFFF;
+    border: 1px solid  #FFFFFF;
+    margin-right: 10px;
+
   }
   
   
+  .confirmBtnModal{
+    background-color:#FFFFFF;
+
+  }

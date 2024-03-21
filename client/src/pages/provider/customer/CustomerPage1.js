@@ -1,29 +1,39 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import BasicInfoForm from "./BasicInfoForm";
 import AdditionalInfoForm from "./AdditionalInfoForm";
 import "./customerPage.css";
 import { ENDPOINTS } from "../../../apiConfig.js";
 import apiHelper from "../../../util/ApiHelper/ApiHelper.js";
 import { provider_id } from "../../../util/localStorage.js";
+import formSchema from "./formschema";
+import SideBarMenu from "../../../components/NewSideMenu/NewSideMenu";
+import Loader from "../../../components/Loader/Loader";
+
+
 
 export default function CustomerForm({ customerData }) {
   const navigate = useNavigate();
   const [isEditMode, setIsEditMode] = useState(false);
-  const initialFormData = isEditMode ? customerData : { name: "", contact: "", email_id: "", dob: "" };
+  const initialFormData = isEditMode ? customerData : {};
   const [formData, setFormData] = useState(initialFormData);
+  const [loading, setLoading] = React.useState(false);
   const [mealPlans, setMealData] = useState([]);
   const [step, setStep] = useState(1);
   const [place, setPlace] = useState({});
-
+  const [formErrors, setFormErrors] = useState({});
+  
   useEffect(() => {
     const fetchMealPlans = async () => {
       try {
-        const response = await apiHelper.get( `${ENDPOINTS.GET_MEAL_PLAN}provider_id=${provider_id}`
+        setLoading(true)
+        const response = await apiHelper.get(
+          `${ENDPOINTS.GET_MEAL_PLAN}provider_id=${provider_id}`
         );
+        setLoading(false)
         setMealData(response.data);
       } catch (error) {
+        setLoading(false)
         console.error("Error fetching meal plans:", error);
       }
     };
@@ -50,15 +60,9 @@ export default function CustomerForm({ customerData }) {
     provider_id: provider_id,
   });
 
-  // const handleChange = (e) => {
-  //   setFormData({ ...formData, [e.target.name]: e.target.value });
-  // };
-  
-
-
   const handleChange = (e) => {
     const { name, value } = e.target;
-  
+
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]: value,
@@ -70,7 +74,27 @@ export default function CustomerForm({ customerData }) {
   };
 
   const handleNext = () => {
-    setStep(step + 1);
+    const currentStepSchema = formSchema[step === 1 ? "basicInfo" : "additionalInfo"];
+    const fieldsToValidate = Object.keys(currentStepSchema);
+    let isValid = true;
+
+    const updatedFormErrors = {};
+
+    fieldsToValidate.forEach((fieldName) => {
+      const fieldSchema = currentStepSchema[fieldName];
+      if (fieldSchema.required && !formData[fieldName]) {
+        updatedFormErrors[fieldName] = fieldSchema.errorMessage;
+        isValid = false;
+      }
+    });
+
+    setFormErrors(updatedFormErrors);
+
+    if (isValid) {
+      setLoading(true)
+      setStep(step + 1);
+      setLoading(false)
+    }
   };
 
   const handleBack = () => {
@@ -79,6 +103,7 @@ export default function CustomerForm({ customerData }) {
 
   const submitForm = async (e) => {
     e.preventDefault();
+
     const serverApiEndpoint = isEditMode
       ? `${ENDPOINTS.EDIT_CUSTOMER}${customerData.customer_id}`
       : `${ENDPOINTS.ADD_CUSTOMER}`;
@@ -89,22 +114,29 @@ export default function CustomerForm({ customerData }) {
         : await apiHelper.post(serverApiEndpoint, finalDatatoSendToDB);
 
       console.log(response.message);
-      navigate("/customerList");
+      setLoading(true)
+      navigate("/customerList/1");
+      setLoading(false)
     } catch (error) {
-      console.error(`Error ${isEditMode ? "updating" : "adding"} customer:`, error);
+      console.error(
+        setLoading(false)
+        `Error ${isEditMode ? "updating" : "adding"} customer:`,
+        error
+      );
     }
   };
+  console.log(formData);
 
   return (
     <React.Fragment>
-      
-        {/* <div className="mobileSideMenu">
-          <AnchorTemporaryDrawer />
-        </div>
-        <div className="sideMenu">
-          <MiniDrawer />
-        </div> */}
-      <div className="meal-page-container">
+      <div className="customer-page-container">
+      <Loader loading={loading} />
+      <div className="sideBarMenu">
+        <SideBarMenu currentPage="/customers" />
+      </div>
+
+        <div className="customer-page">
+        <div className="meal-page-container">
         <h2 className="customerH2">Add New Customer</h2>
         <div className="customerFormContainer">
           <form onSubmit={step === 2 ? submitForm : handleNext}>
@@ -115,7 +147,7 @@ export default function CustomerForm({ customerData }) {
                 handleChange={handleChange}
                 onPlaceSelect={handlePlaceSelect}
                 isEditMode={isEditMode}
-                
+                formErrors={formErrors} 
               />
             )}
             {step === 2 && (
@@ -140,7 +172,7 @@ export default function CustomerForm({ customerData }) {
                 <button
                   className={"cancelBtn Btn"}
                   type="button"
-                  onClick={() => navigate("/customerList")}
+                  onClick={() => navigate("/customerList/1")}
                 >
                   Cancel
                 </button>
@@ -155,13 +187,15 @@ export default function CustomerForm({ customerData }) {
                 >
                   Back
                 </button>
-                <button className={"submitBtn Btn"} type="submit"  >
+                <button className={"submitBtn Btn"} type="submit">
                   Submit
                 </button>
               </div>
             )}
           </form>
         </div>
+      </div>
+      </div>
       </div>
     </React.Fragment>
   );

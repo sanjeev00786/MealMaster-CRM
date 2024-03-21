@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import CloseIcon from '@mui/icons-material/Close';
 import "./driver-details-modal.css";
-import { ENDPOINTS } from '../../../apiConfig.js';
+import { ENDPOINTS } from "../../../apiConfig.js";
 import { provider_id } from "../../../util/localStorage.js";
 import apiHelper from "../../../util/ApiHelper/ApiHelper.js";
 
@@ -28,6 +28,12 @@ const ViewDriverDetailsModal = ({ login_token, onClose }) => {
   useEffect(() => {
     const fetchDriverDetails = async () => {
       try {
+        if (login_token && login_token.driver_id) {
+          const response = await apiHelper.get(
+            `${ENDPOINTS.GET_DRIVER}?login_token=${login_token.login_token}`
+          );
+          setDriverDetails(response.data);
+        }
         const response = await apiHelper.get(
           `${ENDPOINTS.GET_DRIVER}?login_token=${login_token}`
         );
@@ -37,11 +43,18 @@ const ViewDriverDetailsModal = ({ login_token, onClose }) => {
       }
     };
 
-    if (login_token) {
-      fetchDriverDetails();
-    }
+    fetchDriverDetails();
   }, [login_token]);
 
+  const deleteDriver = async () => {
+    try {
+      if (login_token && login_token.driver_id) {
+        await apiHelper.delete(
+          `${ENDPOINTS.DELETE_DRIVER}/${login_token.driver_id}`
+        );
+        setDriverDetails(null);
+        alert("Driver deleted successfully");
+      }
   const handleDelete = async () => {
     try {
       await axios.delete(`http://localhost:3001/api/drivers/delete-driver/${driverDetails[0].driver_id}`);
@@ -54,7 +67,7 @@ const ViewDriverDetailsModal = ({ login_token, onClose }) => {
 
   return (
     <Modal
-      open={!!login_token}
+    open={!!login_token && !!login_token.login_token}
       onClose={() => {
         setDriverDetails(null);
         onClose();
@@ -113,6 +126,18 @@ const ViewDriverDetailsModal = ({ login_token, onClose }) => {
           <Link
             className="edit-link"
             component={Link}
+            to={`/edit-driver/${login_token.login_token}`} // Pass login_token as a URL parameter
+          >
+            Edit Driver
+          </Button>
+
+          <Button className="delete-btn" onClick={deleteDriver}>
+            Delete Driver
+          </Button>
+
+          <Button className="close-btn" onClick={() => onClose()}>
+            Close
+          </Button>
             to={`/edit-driver?login_token=${login_token}`}
           >
             Edit Driver

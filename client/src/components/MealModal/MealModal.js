@@ -74,7 +74,7 @@ const TransitionsModal = ({
                 {" "}
                 Cancel{" "}
               </button>
-              <button className="BtnModal" onClick={onConfirm}>
+              <button className="BtnModal confirmBtnModal" onClick={onConfirm}>
                 Confirm
               </button>
             </div>

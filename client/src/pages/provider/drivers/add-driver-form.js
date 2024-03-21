@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -8,12 +8,18 @@ import "./add-driver-form.css";
 import Loader from "../../../components/Loader/Loader";
 import CustomizedSnackbar from "../../../components/Notification/Notification";
 import useCloudinaryUpload from "../../../util/FileUpload/FileUpload";
+// import  DragAndDrop  from "../../../util/DragAndDrop/DragAndDrop";
 import { ENDPOINTS } from "../../../apiConfig.js";
 import { provider_id } from "../../../util/localStorage.js";
 import apiHelper from "../../../util/ApiHelper/ApiHelper.js";
 
+export default function DriverForm(driverData) {
+
+  console.log(driverData);
+
 export default function DriverForm() {
   const [loading, setLoading] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
   const [previewImage, setPreviewImage] = useState(null);
   const { filePath, uploadToCloudinary } = useCloudinaryUpload({
@@ -21,15 +27,25 @@ export default function DriverForm() {
     uploadPreset: "s8ygrkym",
   });
 
-  const [formData, setFormData] = useState({
-    name: "",
-    photo_url: "",
-    contact: "",
-    email_id: "",
-    address: "",
-    login_token: "",
-    provider_id: provider_id,
-  });
+  const initialFormData = isEditMode
+    ? driverData[0]
+    : {
+        name: "",
+        photo_url: "",
+        contact: "",
+        email_id: "",
+        address: "",
+        login_token: "",
+        provider_id: provider_id,
+      };
+  const [formData, setFormData] = useState(initialFormData);
+
+  useEffect(() => {
+    if (driverData) {
+      setIsEditMode(true);
+      setFormData(driverData.driverData[0]);
+    }
+  }, [driverData]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -39,17 +55,49 @@ export default function DriverForm() {
       photo_url: filePath,
     });
   };
+  console.log(driverData.driverData[0])
+  console.log(formData)
+
+  // const handleSubmit = async (event) => {
+  //   event.preventDefault();
+  //   setLoading(true);
+  //   try {
+  //     console.log(formData);
+
+  //     const response = await apiHelper.post(
+  //       `${ENDPOINTS.ADD_DRIVER}`,
+  //       formData
+  //     );
+
+  //     setLoading(false);
+  //     setFormData({
+  //       name: "",
+  //       photo_url: "",
+  //       contact: "",
+  //       email_id: "",
+  //       address: "",
+  //       login_token: "",
+  //     });
+  //   } catch (error) {
+  //     setLoading(false);
+  //     console.error("Error submitting form:", error);
+  //     setNotificationMessage("Something went wrong!!");
+  //   }
+  // };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setLoading(true);
-    try {
-      console.log(formData);
+    const serverApiEndpoint = isEditMode
+      ? `${ENDPOINTS.UPDATE_DRIVER}`
+      : `${ENDPOINTS.ADD_DRIVER}`;
 
-      const response = await apiHelper.post(
-        `${ENDPOINTS.ADD_DRIVER}`,
-        formData
-      );
+    try {
+      const response = isEditMode
+        ? await apiHelper.put(serverApiEndpoint, formData)
+        : await apiHelper.post(serverApiEndpoint, formData);
+
+      console.log(response.message);
+      // navigate("/driverList/1");
 
       setLoading(false);
       setFormData({
@@ -63,9 +111,10 @@ export default function DriverForm() {
 
       window.location.href = "/drivers";
     } catch (error) {
-      setLoading(false);
-      console.error("Error submitting form:", error);
-      setNotificationMessage("Something went wrong!!");
+      console.error(
+        `Error ${isEditMode ? "updating" : "adding"} driver:`,
+        error
+      );
     }
   };
 
@@ -133,12 +182,19 @@ export default function DriverForm() {
             <input
               type="text"
               name="name"
+              value={isEditMode ? formData.name : formData.value}
               value={formData.name}
               onChange={handleChange}
               placeholder="Enter name"
               required
             />
             <label>Driver's Image</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={uploadToCloudinary}
+              required
+            />
             <div
               style={{
                 width: "90%",
@@ -185,6 +241,7 @@ export default function DriverForm() {
             <input
               type="text"
               name="contact"
+              value={isEditMode ? formData.contact : formData.value}
               value={formData.contact}
               onChange={handleChange}
               placeholder="Enter contact number"
@@ -194,6 +251,7 @@ export default function DriverForm() {
             <input
               type="email"
               name="email_id"
+              value={isEditMode ? formData.email_id : formData.value}
               value={formData.email_id}
               onChange={handleChange}
               placeholder="Enter email"
@@ -203,6 +261,7 @@ export default function DriverForm() {
             <input
               type="text"
               name="address"
+              value={isEditMode ? formData.address : formData.value}
               value={formData.address}
               onChange={handleChange}
               placeholder="Enter address"
@@ -212,6 +271,7 @@ export default function DriverForm() {
             <input
               type="text"
               name="login_token"
+              value={isEditMode ? formData.login_token : formData.value}
               value={formData.login_token}
               onChange={handleChange}
               placeholder="Enter login token"

@@ -2,7 +2,8 @@ import React from "react";
 import "./dashboard.css";
 import RevenueGraph from "./revenue-graph";
 import CustomerGraph from "./new-customers-graph";
-// import MiniDrawer from "../../../components/SideMenu/SideMenu";
+import VegPieChart from "./veg-preference-graph";
+import MealPlanPieChart from "./meal-plan-chart";
 import SideBarMenu from "../../../components/NewSideMenu/NewSideMenu";
 import AnchorTemporaryDrawer from "../../../components/MobileSideMenu/MobileSideMenu";
 
@@ -13,12 +14,18 @@ const Dashboard = () => {
         <AnchorTemporaryDrawer />
       </div>
       <div className="sideBarMenu">
-        <SideBarMenu currentPage='/dashboard' />
+        <SideBarMenu currentPage="/dashboard" />
       </div>
 
-      <div className="WIP">
-        <RevenueGraph />
-        <CustomerGraph />
+      <div className="WIPContainer">
+        <div className="WIP">
+          <RevenueGraph />
+          <VegPieChart/>
+        </div>
+        <div className="WIP">
+          <CustomerGraph />
+         <MealPlanPieChart/>
+        </div>
       </div>
     </div>
   );

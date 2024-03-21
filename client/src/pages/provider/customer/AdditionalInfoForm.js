@@ -1,36 +1,31 @@
 import React from "react";
-import myImg from "../../../component-assets/Stepper_2.svg";
-import {
-  Stack,
-  TextField,
-  InputLabel,
-  MenuItem,
-  Select,
-  FormControl,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-  FormLabel,
-} from "@mui/material";
+import { Stack, TextField, InputLabel, MenuItem, Select, FormControl, RadioGroup, FormControlLabel, Radio, FormLabel } from "@mui/material";
+import formSchema from "./formschema";
 
-export default function AdditionalInfoForm({
-  formData,
-  handleChange,
-  mealPlans,
-  isEditMode,
-  customerData,
-}) {
+export default function AdditionalInfoForm({ formData, handleChange, mealPlans, isEditMode }) {
+
+  const validateField = (fieldName) => {
+    const fieldSchema = formSchema.additionalInfo[fieldName];
+    const fieldValue = formData[fieldName];
+
+    if (fieldSchema.required && !fieldValue) {
+      return fieldSchema.errorMessage;
+    }
+
+    return "";
+  };
+
   return (
     <div className="meal-page-container">
       <Stack spacing={2} className="form-container">
-        {/* <img className="steeper" src={myImg} alt="stepper" /> */}
-
         <InputLabel htmlFor="plan_id">Meal Plan</InputLabel>
         <Select
           className="form"
           name="plan_id"
-          value={isEditMode ? formData.plan_id : formData.value}
+          value={formData.plan_id}
           onChange={handleChange}
+          error={validateField("plan_id") !== ""}
+          helperText={validateField("plan_id")}
         >
           <MenuItem value="">Select a meal plan</MenuItem>
           {mealPlans.length > 0 ? (
@@ -50,8 +45,10 @@ export default function AdditionalInfoForm({
         <Select
           className="form"
           name="is_veg"
-          value={isEditMode ? formData.is_veg : formData.is_veg}
+          value={formData.is_veg}
           onChange={handleChange}
+          error={validateField("is_veg") !== ""}
+          helperText={validateField("is_veg")}
         >
           <MenuItem value="">Select a diet preference</MenuItem>
           <MenuItem value="vegetarian">Vegetarian</MenuItem>
@@ -65,24 +62,28 @@ export default function AdditionalInfoForm({
         <TextField
           type="text"
           name="diet_notes"
-          value={isEditMode ? formData.diet_notes : formData.diet_notes}
+          value={formData.diet_notes}
           onChange={handleChange}
           className="form"
+          error={validateField("diet_notes") !== ""}
+          helperText={validateField("diet_notes")}
         />
 
         <InputLabel htmlFor="tiffin_quantity">Meal Quantity</InputLabel>
         <Select
           className="form"
           name="tiffin_quantity"
-          value={isEditMode ? formData.tiffin_quantity : formData.tiffin_quantity}
+          value={formData.tiffin_quantity}
           onChange={handleChange}
+          error={validateField("tiffin_quantity") !== ""}
+          helperText={validateField("tiffin_quantity")}
         >
           <MenuItem value="">Select Meal Quantity</MenuItem>
-          <MenuItem value="1">1</MenuItem>
-          <MenuItem value="2">2</MenuItem>
-          <MenuItem value="3">3</MenuItem>
-          <MenuItem value="4">4</MenuItem>
-          <MenuItem value="5">5</MenuItem>
+          {[1, 2, 3, 4, 5].map((quantity) => (
+            <MenuItem key={quantity} value={quantity}>
+              {quantity}
+            </MenuItem>
+          ))}
         </Select>
 
         <InputLabel htmlFor="billing_cycle">
@@ -91,9 +92,11 @@ export default function AdditionalInfoForm({
         <TextField
           type="date"
           name="billing_cycle"
-          value={isEditMode ? formData.billing_cycle : formData.billing_cycle}
+          value={formData.billing_cycle}
           onChange={handleChange}
           className="form"
+          error={validateField("billing_cycle") !== ""}
+          helperText={validateField("billing_cycle")}
         />
 
         <FormControl className="form" component="fieldset">
@@ -102,15 +105,13 @@ export default function AdditionalInfoForm({
             column
             aria-label="status"
             name="status"
-            value={isEditMode ? formData.status : formData.status}
+            value={formData.status}
             onChange={handleChange}
+            error={validateField("status") !== ""}
+            helperText={validateField("status")}
           >
-            <FormControlLabel value="TRUE" control={<Radio />} label="Active" />
-            <FormControlLabel
-              value="FALSE"
-              control={<Radio />}
-              label="Inactive"
-            />
+            <FormControlLabel value="true" control={<Radio />} label="Active" />
+            <FormControlLabel value="false" control={<Radio />} label="Inactive" />
           </RadioGroup>
         </FormControl>
       </Stack>

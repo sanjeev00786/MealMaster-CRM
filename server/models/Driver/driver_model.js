@@ -177,7 +177,11 @@ exports.getPastDeliveryTiffins = async (driver_id) => {
   try {
     const { data, error } = await supabase
       .from("past_delivery_tiffins")
-      .select("*")
+      .select(`
+      *,
+      plans:plan_id(*),
+      customers:customer_id(*)
+    `)
       .eq("driver_id", driver_id);
 
     if (error) {
@@ -300,7 +304,11 @@ exports.getAssignTiffin = async (driver_id) => {
   try {
     const { data, error } = await supabase
       .from("assigned_tiffin")
-      .select("*")
+      .select(`
+      *,
+      plans:plan_id(*),
+      customers:customer_id(*)
+    `)
       .eq("driver_id", driver_id);
 
     if (error) {

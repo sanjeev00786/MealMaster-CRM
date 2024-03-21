@@ -29,12 +29,18 @@ export default function SideBarMenu({ currentPage }) {
       case "/dashboard":
         setSelectedIndex(0);
         break;
-      case "/customerList":
+      case "/customerList/1":
         setSelectedIndex(1);
         break;
       case "/drivers":
         setSelectedIndex(2);
         break;
+      case "/trackdeliveries":
+        setSelectedIndex(3);
+        break;
+      case "/trackDriver":
+        setSelectedIndex(3);
+        break;  
       case "/delivery-schedule":
         setSelectedIndex(4);
         break;
@@ -64,7 +70,7 @@ export default function SideBarMenu({ currentPage }) {
         navigate("/drivers");
         break;
       case 3:
-        navigate("/dashboard");
+        navigate("/trackdeliveries");
         break;
       case 4:
         navigate("/delivery-schedule");
