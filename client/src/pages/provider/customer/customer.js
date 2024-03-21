@@ -114,7 +114,7 @@ export default function CustomerPage() {
         )
       );
 
-      fetchData(page);
+      fetchData(page, currentFilter);
 
       console.log(
         `Customer ID: ${customerIdToUpdate} marked as ${
@@ -146,7 +146,7 @@ export default function CustomerPage() {
             : record
         )
       );
-      fetchData(page);
+      fetchData(page, currentFilter);
       setSelectedCustomerId(null);
       console.log(`Customer with ID ${customerId.name} Disabled successfully.`);
     } catch (error) {
