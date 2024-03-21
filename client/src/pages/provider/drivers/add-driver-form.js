@@ -17,7 +17,6 @@ export default function DriverForm(driverData) {
 
   console.log(driverData);
 
-export default function DriverForm() {
   const [loading, setLoading] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
@@ -57,33 +56,6 @@ export default function DriverForm() {
   };
   console.log(driverData.driverData[0])
   console.log(formData)
-
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault();
-  //   setLoading(true);
-  //   try {
-  //     console.log(formData);
-
-  //     const response = await apiHelper.post(
-  //       `${ENDPOINTS.ADD_DRIVER}`,
-  //       formData
-  //     );
-
-  //     setLoading(false);
-  //     setFormData({
-  //       name: "",
-  //       photo_url: "",
-  //       contact: "",
-  //       email_id: "",
-  //       address: "",
-  //       login_token: "",
-  //     });
-  //   } catch (error) {
-  //     setLoading(false);
-  //     console.error("Error submitting form:", error);
-  //     setNotificationMessage("Something went wrong!!");
-  //   }
-  // };
 
   const handleSubmit = async (event) => {
     event.preventDefault();

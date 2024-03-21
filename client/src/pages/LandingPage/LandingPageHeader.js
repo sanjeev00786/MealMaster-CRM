@@ -28,8 +28,8 @@ const LandingPageHeader = () => {
                 </ul>
             </nav>
             <div className="header__actions">
-                <Link to="/auth" className="header__button header__login">Login</Link>
-                <Link to="/auth" className="header__button header__signup">Sign Up</Link>
+                <Link to="/login-page" className="header__button header__login">Login</Link>
+                <Link to="/login-page" className="header__button header__signup">Sign Up</Link>
             </div>
         </header>
     );

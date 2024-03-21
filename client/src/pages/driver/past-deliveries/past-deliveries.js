@@ -5,35 +5,7 @@ import apiHelper from "../../../util/ApiHelper/ApiHelper";
 import { ENDPOINTS } from "../../../apiConfig.js";
 import Loader from "../../../components/Loader/Loader.jsx";
 import { useState, useEffect } from "react";
-import delete_photo from "../../../component-assets/delete_this_photo.jpg";
 import deliveryDone from "../../../component-assets/pastDeliveryDone.svg";
-
-const customers = [
-  {
-    id: 1,
-    name: "John Doe",
-    address: "123 Main St, Surrey",
-    deliveryStatus: "Delivered",
-  },
-  {
-    id: 2,
-    name: "Manpreet",
-    address: "80 Ave, Surrey",
-    deliveryStatus: "Delivered",
-  },
-  {
-    id: 3,
-    name: "John Doe",
-    address: "123 Main St, Surrey",
-    deliveryStatus: "Delivered",
-  },
-  {
-    id: 4,
-    name: "Manpreet",
-    address: "80 Ave, Surrey",
-    deliveryStatus: "Delivered",
-  },
-];
 
 const PastDeliveries = () => {
   const [loading, setLoading] = useState(true);

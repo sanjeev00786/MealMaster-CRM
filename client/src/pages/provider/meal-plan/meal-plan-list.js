@@ -81,33 +81,10 @@ const MealPlanListPage = () => {
 
   const navigate = useNavigate();
 
-  // const handleCardButtonClickDelete = async (plan_id) => {
-  //   console.log("Button clicked for plan with ID:", plan_id);
-  //   try {
-  //     await axios.delete(
-  //       "http://localhost:3001/api/provider/meal_plans/delete-meal-plan",
-  //       { data: { plan_id } }
-  //     );
-
-  //     console.log(`Meal plan with ID ${plan_id} deleted successfully`);
-  //     setNotificationMessage("Meal Plan deleted.");
-  //     fetchMealPlans(providerId);
-  //     setModalOpen(false);
-  //   } catch (error) {
-  //     console.error("Error deleting meal plan:", error);
-  //   }
-  // };
-
   const handleCardButtonClickEdit = async (plan_id) => {
     navigate(`/meal-plan-update/${plan_id}`);
     console.log(`Meal plan with Edit ID ${plan_id} sent`);
   };
-  // const handleCardButtonCheckbox = async (plan_id, upd) => {
-  //   set_delete_selected_plan([plan_id]);
-  //   console.log(plan_id, "checkedbox");
-  //   setCheckId([1]);
-
-  // };
 
   const handleCardButtonCheckbox = async (plan_id, index) => {
     if (CheckId.includes(index)) {
@@ -206,19 +183,6 @@ const MealPlanListPage = () => {
   };
 
   const deleteMealPlan = async (plan_id,plan_name) => {
-    // console.log("Button clicked for plan with ID:", plan_id);
-    // console.log("length", plan_id.length);
-
-    // console.log(planNameData, "wholedata");
-
-    // const selectedPlans = planNameData.filter((plan) =>
-    //   plan_id.includes(plan.plan_id)
-    // );
-    // console.log(selectedPlans, "seletedplan");
-    // const planNames = selectedPlans.map((selectedPlan) => selectedPlan.plan_name);
-    // console.log(planNames, "planNames");
-    // console.log(selectedPlans[0].plan_name, "planName");
-
     try {
      
       // **************Change below api***********************************************
@@ -365,6 +329,7 @@ const MealPlanListPage = () => {
                 onCardButtonclickCheckBox={(plan_id) =>
                   handleCardButtonCheckbox(plan_id, index)
                 }
+                checked={false}
               />
             ))}
           </div>

@@ -15,6 +15,7 @@ const MultiActionAreaCard = ({
   onCardButtonClickDelete,
   onCardButtonClickEdit,
   onCardButtonclickCheckBox,
+  checked
 }) => {
   const [isFlipped, setIsFlipped] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
@@ -41,8 +42,6 @@ const MultiActionAreaCard = ({
   const handleButtonClickCheckbox =()=>{
     setIsChecked(!isChecked);
     onCardButtonclickCheckBox(data.plan_id);
-    
-    
   }
   
 
@@ -66,13 +65,11 @@ const MultiActionAreaCard = ({
               sx={{
                 color:"#AEAEAE",
                 '&.Mui-checked': {
-                  color: isChecked ? "#6F59DA" : "#AEAEAE", // Change color when checked
+                  color: isChecked ? "#6F59DA" : "#AEAEAE", 
                 },
                
                
               }}
-              
-
               />
               {data.plan_name}
             </Typography>

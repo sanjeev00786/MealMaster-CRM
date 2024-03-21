@@ -1,9 +1,9 @@
-.login-container {
+.driver-login-container {
   max-width: 400px !important;
   margin: 0 auto;
   padding: 20px;
 }
-.wholeContentDriverLogin {
+.driver-login-container {
     background-color: #fff !important;
   }
   

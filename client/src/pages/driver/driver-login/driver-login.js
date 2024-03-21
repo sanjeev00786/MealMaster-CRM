@@ -1,7 +1,5 @@
 import React from "react";
 import "../driver-login/driver-login.css";
-import Header from "../../../components/header/header";
-import TextField from "@mui/material/TextField";
 import { useNavigate } from "react-router-dom";
 import CustomButton from "../../../components/CustomButton/CustomButton";
 import "../../../components/CustomButton/CustomButton.css";
@@ -20,14 +18,14 @@ const DriverLogin = () => {
   const [notificationMessage, setNotificationMessage] = useState("");
   const [notificationMessage1, setNotificationMessage1] = useState("");
   const [notificationTriggered, setNotificationTriggered] = useState(false);
-  const [isValidToken, setIsValidToken] = React.useState(true); // track token validity
+  const [isValidToken, setIsValidToken] = React.useState(true); 
   const [isEnterToken, setIsEnterToken] = React.useState(true);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     if(token === ""){
-        // alert("emnter details");
         setIsEnterToken(false);
+        return;
     }
     setLoading(true);
     try {
@@ -39,11 +37,8 @@ const DriverLogin = () => {
       
       if (response.data.length === 0) {
         // Wrong token
-        console.log("token is not valid");
         setIsValidToken(false);
-
         setLoading(false);
-        // setNotification("Alert", "Token is not valid");
       } else {
         setIsValidToken(true);
         const driverId = response.data.data[0].driver_id;
@@ -56,11 +51,14 @@ const DriverLogin = () => {
       }
     } catch (error) {
       setLoading(false);
-    //   setNotification("Alert", "Token is not valid");
+      setIsValidToken(false);
     } finally {
       console.log("finally");
       setLoading(false);
     }
+    setTimeout(() => {
+      setIsValidToken(true);
+    }, 2000);
   };
 
   const handleTokenChange = (event) => {
@@ -79,8 +77,7 @@ const DriverLogin = () => {
   };
 
   return (
-    // <div className="login-container">
-    <div className="wholeContentDriverLogin">
+    <div className="driver-login-container">
       {/* <Header /> */}
       
       <div className="welcome-container">
@@ -97,8 +94,7 @@ const DriverLogin = () => {
             type="text"
             variant="standard"
             fullWidth
-            // className="login-input"
-            className={`login-input ${!isValidToken ? "invalid" : ""}`} // Apply 'invalid' class when token is not valid
+            className={`login-input ${!isValidToken ? "invalid" : ""}`}
             value={token}
             onChange={handleTokenChange}
             placeholder="Example : A76F46"
@@ -111,22 +107,6 @@ const DriverLogin = () => {
           {!isEnterToken && (<p className="Enter_token">
               Please enter token.
             </p> )}
-         
-          {/* <TextField
-            type="text"
-            label="Enter your token"
-            variant="standard"
-            fullWidth
-            InputProps={{
-              className: "login-input",
-              style: {
-                borderBottom: "1px solid #C1C7CD",
-                textAlign: "center",
-              },
-            }}
-            value={token}
-            onChange={handleTokenChange}
-          /> */}
           <CustomButton
             className="btnDriverLogin driverlogingetStartedBtn"
             onClick={handleLogin}

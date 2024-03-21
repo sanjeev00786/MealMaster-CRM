@@ -11,6 +11,7 @@ import apiHelper from "../../../util/ApiHelper/ApiHelper.js";
 import { provider_id } from "../../../util/localStorage.js";
 import SideBarMenu from "../../../components/NewSideMenu/NewSideMenu";
 import "./meal-plan-update.css";
+import Loader from "../../../components/Loader/Loader";
 
 const MealPlanUpdatePage = () => {
   const { plan_id } = useParams();
@@ -19,6 +20,7 @@ const MealPlanUpdatePage = () => {
   const [mealPrice, setMealPrice] = useState("");
   const [mealDescription, setMealDescription] = useState("");
   const navigate = useNavigate();
+  const [loading, setLoading] = React.useState(false);
 
   useEffect(() => {
     const fetchMealPlan = async () => {
@@ -56,65 +58,25 @@ const MealPlanUpdatePage = () => {
 
   const handleUpdate = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
-      let updateData = JSON.stringify({ plan_id: plan_id });
-      let updateConfig = {
-        method: "put",
-        maxBodyLength: Infinity,
-        url: `${ENDPOINTS.UPDATE_MEAL_PLAN}`,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: updateData,
-      };
+      let updateData = {plan_id: plan_id };
+      console.log('MEAL ID', updateData)
+      let url = `${ENDPOINTS.UPDATE_MEAL_PLAN}`;
       // console.log(updateData,"updatedtaa")
-      // const updateResponse = await apiHelper.put(updateConfig);
-      const updateResponse = await apiHelper.put(
-        `${ENDPOINTS.UPDATE_MEAL_PLAN}`,
-        updateData
-      );
-
+      const updateResponse = await apiHelper.put(url, updateData);
+      console.log("*********UPDATE",updateResponse);
       if (updateResponse.success) {
-        console.log("Meal plan updated successfully");
+        addNewPlan();
       } else {
+        setLoading(false);
         console.error("Failed to update meal plan:", updateResponse.message);
         return;
       }
-      // have to pass dynamic provider_id
-      let newData = JSON.stringify({
-        provider_id: `${provider_id}`,
-        plan_name: mealName,
-        price: mealPrice,
-        description: mealDescription,
-      });
-      console.log("newData", newData);
-
-      let newConfig = {
-        method: "post",
-        maxBodyLength: Infinity,
-        url: `${ENDPOINTS.ADD_PLAN}`,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: newData,
-      };
-
       // const addResponse = await axios.post(newConfig);
-      const addResponse = await apiHelper.post(
-        `${ENDPOINTS.ADD_PLAN}`,
-        newData
-      );
-      console.log("add respose", addResponse);
-
-      if (addResponse.success) {
-        console.log("Meal plan added successfully");
-        navigate("/meal-plan-list");
-      } else {
-        console.error("Failed to add meal plan:", addResponse.message);
-        return;
-      }
     } catch (error) {
-      console.error("Error updating and adding meal plan:", error);
+      setLoading(false);
+      console.log("Error updating and adding meal plan:", error);
     }
   };
   const handleCancel = () => {
@@ -122,8 +84,32 @@ const MealPlanUpdatePage = () => {
     navigate("/meal-plan-list");
   };
 
+  async function addNewPlan() {
+    let newData = {
+      provider_id: `${provider_id}`,
+      plan_name: mealName,
+      price: mealPrice,
+      description: mealDescription,
+    };
+    console.log("newData", newData);
+    let url = `${ENDPOINTS.ADD_PLAN}` 
+
+    const addResponse = await apiHelper.post(url, newData);
+    console.log("add respose", addResponse);
+    if (addResponse.success) {
+      console.log("Meal plan added successfully");
+      setLoading(false);
+      navigate("/meal-plan-list");
+    } else {
+      setLoading(false);
+      console.error("Failed to add meal plan:", addResponse.message);
+      return;
+    }
+  }
+
   return (
     <div className="wholeContent-mealplanUpdatepage">
+      <Loader loading={loading} />
       <div className="meal-plan-formpage">
         <div className="sideBarMenu">
           <SideBarMenu currentPage="/meal-plan-list" />
