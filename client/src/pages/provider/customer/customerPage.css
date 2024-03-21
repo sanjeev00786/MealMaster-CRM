@@ -2,13 +2,14 @@
   background-color: rgba(241, 240, 247, 1);
   display: flex;
 }
-/* .sideBarMenu {
-  flex: 0 0 20%;
-} */
+.sideBarMenu {
+  flex: 0 0 15%;
+}
 .customer-page {
-  flex: 1 80%;
+  flex: 1 85%;
   align-items: center;
   padding-top: 2.2rem;
+  padding-left: 1rem;
 }
 
 .search-addButtton-container {

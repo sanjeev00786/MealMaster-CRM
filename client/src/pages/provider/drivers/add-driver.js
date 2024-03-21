@@ -95,14 +95,15 @@ export default function DriverPage() {
 
   return (
     <div className="driver-page-container">
-      <CustomizedSnackbar />
-      {/* <div className="mobileSideBarMenu">
+      
+      <div className="mobileSideBarMenu">
         <AnchorTemporaryDrawer />
-      </div> */}
+      </div>
       <div className="sideBarMenu">
         <SideBarMenu currentPage="/drivers" />
       </div>
       <Loader loading={loading} />
+
       <div className="driver-page">
         <div className="page-heading">
           <h1>Drivers</h1>

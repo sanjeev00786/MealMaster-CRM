@@ -17,9 +17,11 @@ export default function DriverForm(driverData) {
 
   console.log(driverData);
 
+export default function DriverForm() {
   const [loading, setLoading] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
+  const [previewImage, setPreviewImage] = useState(null);
   const { filePath, uploadToCloudinary } = useCloudinaryUpload({
     cloudName: "djencgbub",
     uploadPreset: "s8ygrkym",
@@ -96,6 +98,18 @@ export default function DriverForm(driverData) {
 
       console.log(response.message);
       // navigate("/driverList/1");
+
+      setLoading(false);
+      setFormData({
+        name: "",
+        photo_url: "",
+        contact: "",
+        email_id: "",
+        address: "",
+        login_token: "",
+      });
+
+      window.location.href = "/drivers";
     } catch (error) {
       console.error(
         `Error ${isEditMode ? "updating" : "adding"} driver:`,
@@ -103,6 +117,36 @@ export default function DriverForm(driverData) {
       );
     }
   };
+
+  function handleFileDrop(event) {
+    event.preventDefault();
+    const files = event.dataTransfer.files;
+    if (files.length > 0) {
+      const file = files[0];
+      const reader = new FileReader();
+      reader.onload = () => {
+        setPreviewImage(reader.result);
+        uploadToCloudinary(file);
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  function handleDragOver(event) {
+    event.preventDefault();
+  }
+  function handleFileSelect(event) {
+    event.preventDefault();
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setPreviewImage(reader.result);
+        uploadToCloudinary(file);
+      };
+      reader.readAsDataURL(file);
+    }
+  }
 
   return (
     <div className="form-page-container">
@@ -139,6 +183,7 @@ export default function DriverForm(driverData) {
               type="text"
               name="name"
               value={isEditMode ? formData.name : formData.value}
+              value={formData.name}
               onChange={handleChange}
               placeholder="Enter name"
               required
@@ -150,11 +195,54 @@ export default function DriverForm(driverData) {
               onChange={uploadToCloudinary}
               required
             />
+            <div
+              style={{
+                width: "90%",
+                height: "200px",
+                border: "2px dashed #ccc",
+                textAlign: "center",
+                padding: "20px",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                position: "relative",
+                backgroundColor: "#F2F4F8"
+              }}
+              onDragOver={handleDragOver}
+              onDrop={handleFileDrop}
+            >
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleFileSelect}
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                  opacity: 0,
+                  cursor: "pointer",
+                }}
+              />
+              {previewImage ? (
+                <img
+                  src={previewImage}
+                  alt="Preview"
+                  style={{ maxWidth: "100%", maxHeight: "100%" }}
+                />
+              ) : (
+                <p>Drop your file(s) here or click and browse</p>
+              )}
+            </div>
+
             <label>Driver's Contact Number</label>
             <input
               type="text"
               name="contact"
               value={isEditMode ? formData.contact : formData.value}
+              value={formData.contact}
               onChange={handleChange}
               placeholder="Enter contact number"
               required
@@ -164,6 +252,7 @@ export default function DriverForm(driverData) {
               type="email"
               name="email_id"
               value={isEditMode ? formData.email_id : formData.value}
+              value={formData.email_id}
               onChange={handleChange}
               placeholder="Enter email"
               required
@@ -173,6 +262,7 @@ export default function DriverForm(driverData) {
               type="text"
               name="address"
               value={isEditMode ? formData.address : formData.value}
+              value={formData.address}
               onChange={handleChange}
               placeholder="Enter address"
               required
@@ -182,6 +272,7 @@ export default function DriverForm(driverData) {
               type="text"
               name="login_token"
               value={isEditMode ? formData.login_token : formData.value}
+              value={formData.login_token}
               onChange={handleChange}
               placeholder="Enter login token"
               required

@@ -1,4 +1,4 @@
-@media only screen and (max-width: 450px) {
+@media only screen and (max-width: 768px) {
   .driver-page-container {
     background-color: rgba(241, 240, 247, 1);
   }
@@ -87,7 +87,7 @@
   }
 }
 
-@media only screen and (min-width: 450px) {
+@media only screen and (min-width: 768px) {
   .mobileSideBarMenu {
     display: none;
   }
@@ -101,14 +101,14 @@
   }
 
   .sideBarMenu {
-    flex: 0 0 20%;
+    flex: 0 0 15%;
   }
 
   .driver-page {
-    flex: 1 80%;
+    flex: 1 85%;
     align-items: center;
     padding-top: 2.2rem;
-
+    padding-left: 1rem;
   }
 
   .search-addButtton-container {
@@ -161,6 +161,7 @@
     margin: 1rem;
     background-color: white;
     border-radius: 10px;
+    
   }
 
   .sc-dmyCSP {
@@ -176,4 +177,16 @@
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
   }
+
+  .data-table-parent-container {
+    flex: 1; /* Ensure the data table container takes up remaining space */
+    display: flex;
+    flex-direction: column;
+}
+
+.data-table-container {
+    flex: 1; /* Ensure the data table takes up remaining space */
+    overflow: auto; /* Add overflow for scrolling if needed */
+}
+
 }

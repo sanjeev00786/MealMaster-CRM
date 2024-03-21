@@ -18,6 +18,8 @@ import SocialMedia from './pages/provider/social-media/social-media';
 import TrackDeliveries from './pages/provider/track-deliveries/track-deliveries'
 import TrackDriver from './pages/provider/track-deliveries/track-driver/track-driver';
 import LandingPage from './pages/LandingPage/LandingPage';
+import EditDriverForm from './pages/provider/drivers/edit-driver-form';
+import LoginPage from './pages/provider/authentication/login-page';
 
 const PrivateRoute = ({ component: Component, session, ...rest }) => (
   <Route
@@ -70,6 +72,12 @@ const App = () => {
       <div className="App">
         <Routes>
           <Route path="/auth" element={<Login />} />
+
+          <Route
+            path="/login-page"
+            element={<LoginPage />}
+          />
+
           <Route
             path="/drivers"
             element={session ? <DriverPage /> : <Navigate to="/drivers" />}
@@ -77,6 +85,10 @@ const App = () => {
           <Route
             path="/add-driver"
             element={session ? <DriverForm /> : <Navigate to="/add-driver" />}
+          />
+          <Route
+            path="/edit-driver"
+            element={session ? <EditDriverForm /> : <Navigate to="/edit-driver" />}
           />
           <Route
             path="/trackdeliveries"

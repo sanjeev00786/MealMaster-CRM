@@ -5,10 +5,14 @@ import CustomerGraph from "./new-customers-graph";
 import VegPieChart from "./veg-preference-graph";
 import MealPlanPieChart from "./meal-plan-chart";
 import SideBarMenu from "../../../components/NewSideMenu/NewSideMenu";
+import AnchorTemporaryDrawer from "../../../components/MobileSideMenu/MobileSideMenu";
 
 const Dashboard = () => {
   return (
     <div className="dashboardPage">
+      <div className="mobileSideBarMenu">
+        <AnchorTemporaryDrawer />
+      </div>
       <div className="sideBarMenu">
         <SideBarMenu currentPage="/dashboard" />
       </div>

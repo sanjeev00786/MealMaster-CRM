@@ -24,7 +24,7 @@ export default function Login() {
     return () => subscription.unsubscribe();
   }, []);
 
-  const providers = []; // You can customize this array based on your needs
+  const providers = []; 
 
   if (!session) {
     return (
