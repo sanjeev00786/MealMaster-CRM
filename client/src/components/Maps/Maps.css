@@ -1,5 +1,14 @@
-.google-maps-container {
+.map-container {
     height: 400px;
+    width: 90%;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  .withoutroute-map-container {
+    height: 400px;
+    width: 90%;
     margin-left: 1rem;
     margin-right: 1rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);

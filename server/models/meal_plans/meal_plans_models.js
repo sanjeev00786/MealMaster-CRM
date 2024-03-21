@@ -20,7 +20,7 @@ exports.createMealPlan = async (data) => {
     //   };
     // }
 
-    // console.log("Extracted Data:", { provider_id, plan_name, price, description });
+    console.log("Extracted Data:", { provider_id, plan_name, price, description });
     const { error } = await supabase.from("plans").insert([
       {
         provider_id,
@@ -32,11 +32,11 @@ exports.createMealPlan = async (data) => {
     ]);
 
     if (error) {
-      // console.error("Supabase Meal Insert Error:", error.message);
+      console.error("Supabase Meal Insert Error:", error.message);
       return { success: false, message: "Failed to create meal plans" };
     }
 
-    // console.log("Meal  plan created successfully.");
+    console.log("Meal  plan created successfully 1.");
 
     return {
       success: true,
@@ -44,7 +44,7 @@ exports.createMealPlan = async (data) => {
       data: data,
     };
   } catch (error) {
-    // console.error("Result from creating meal plan:", error.message);
+    console.error("Result from creating meal plan:", error.message);
     throw new Error("Failed to make meal plan");
   }
 };

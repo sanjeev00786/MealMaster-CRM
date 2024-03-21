@@ -1,5 +1,5 @@
 // apiConfig.js
-const API_BASE_URL = 'http://localhost:3001';
+const API_BASE_URL = 'https://meal-master-crm-server.onrender.com';
 
 const ENDPOINTS = {
   // Driver
@@ -9,11 +9,13 @@ const ENDPOINTS = {
   ADD_DRIVER: 'api/drivers/add-driver',
   GET_ALL_DRIVER: '/api/drivers/get-all-drivers?',
   DELETE_DRIVER:'/api/drivers/delete-driver',
+  DELETE_ASSIGN_TIFFIN: '/api/drivers/delete-assign-tiffin/',
 
   // Schedule
-  MOVE_TO_PAST_DELIVERY: '/move-to-past-delivery',
-  GET_ASSIGNED_TIFFIN: '/get-assign-tiffin',
+  MOVE_TO_PAST_DELIVERY: '/api/drivers//move-to-past-delivery',
+  GET_ASSIGNED_TIFFIN: '/api/drivers/get-assign-tiffin?',
   GET_ASSIGNED_DELIVERIES: '/api/drivers/get-all-drivers?',
+  GET_PAST_DELIVRIES: '/api/drivers/get-past-delivery-tiffins?',
 
   // Meal Plan
   GET_MEAL_PLAN: '/api/provider/meal_plans/get-meal-plan?',

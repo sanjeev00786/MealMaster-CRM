@@ -16,6 +16,8 @@ import MealPlanUpdatePage from './pages/provider/meal-plan/meal-plan-update'
 import CustomerPage from './pages/provider/customer/customer';
 import SocialMedia from './pages/provider/social-media/social-media';
 import TrackDeliveries from './pages/provider/track-deliveries/track-deliveries'
+import TrackDriver from './pages/provider/track-deliveries/track-driver/track-driver';
+import LandingPage from './pages/LandingPage/LandingPage';
 
 const PrivateRoute = ({ component: Component, session, ...rest }) => (
   <Route
@@ -80,6 +82,10 @@ const App = () => {
             path="/trackdeliveries"
             element={session ? <TrackDeliveries /> : <Navigate to="/trackdeliveries" />}
           />
+           <Route
+            path="/trackDriver/:driverID" 
+            element={<TrackDriver />}
+          />
           <Route
             path="/dashboard"
             element={session ? <Dashboard /> : <Navigate to="/dashboard" />}
@@ -126,7 +132,10 @@ const App = () => {
             element={session ? <SocialMedia /> : <Navigate to="/social-media" />}
           />
           <Route path="/" element={<Navigate to={session ? '/dashboard' : '/auth'} />} />
-
+          <Route
+            path="/landing-page"
+            element={<LandingPage />}
+          />
         </Routes>
       </div>
     </Router>
