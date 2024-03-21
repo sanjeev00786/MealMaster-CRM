@@ -8,6 +8,7 @@ const ENDPOINTS = {
   UPDATE_DELIVERY_STATUS: '/api/drivers/update-delivery-status-and-photo',
   ADD_DRIVER: 'api/drivers/add-driver',
   GET_ALL_DRIVER: '/api/drivers/get-all-drivers?',
+  DELETE_DRIVER:'/api/drivers/delete-driver',
   DELETE_ASSIGN_TIFFIN: '/api/drivers/delete-assign-tiffin/',
 
   // Schedule
@@ -27,9 +28,9 @@ const ENDPOINTS = {
   ADD_CUSTOMER: '/api/customer/add-customer',
   GET_CUSTOMER: '/api/customer/get-customer/',
   GET_ALL_CUSTOMER: '/api/customer/provider/get-all-customers/',
+  GET_ALLIST_CUSTOMER: '/api/customer/provider/get-allList-customers/',
+  GET_CUSTOMER_BY_STATUS: '/api/customer/provider/get-active-customers/'
 
-  
- 
   // Add other endpoints as needed
 };
 

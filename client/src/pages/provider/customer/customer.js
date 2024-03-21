@@ -33,29 +33,42 @@ export default function CustomerPage() {
   const [confirmationModalOpen, setConfirmationModalOpen] = useState(false);
   const [customerIdToUpdate, setCustomerIdToUpdate] = useState(null);
   const [isPaidToUpdate, setIsPaidToUpdate] = useState(null);
-  const [currentFilter, setCurrentFilter] = useState("active");
+  const [allRecords, setAllRecords] = useState({});
+  const [currentFilter, setCurrentFilter] = useState("all");
+  const [statusResult, setStatusResult] = useState("");
   const [totalPages, setTotalPages] = useState(1);
   const navigate = useNavigate();
 
+  const fetchData = async (pageNum, filter) => {
+    setLoading(true);
+    try {
+      const customerUrl = `${ENDPOINTS.GET_ALL_CUSTOMER}${provider_id}?page=${pageNum}`;
+      const customerStatusUrl = `${ENDPOINTS.GET_CUSTOMER_BY_STATUS}${provider_id}?page=${pageNum}&status=${filter}`;
+      const allCustomerURL = `${ENDPOINTS.GET_ALLIST_CUSTOMER}${provider_id}`;
+      
+      const res = await apiHelper.get(customerStatusUrl);
+      
+      // const response = apiHelper.get(customerStatusUrl)
+      
+      const allCustomer = await apiHelper.get(allCustomerURL);
+      
+      const mealPlan = await apiHelper.get(mealPlanUrl);
+      
+      // setStatusResult(response.data.customers)
+      setRecords(res.data.customers);
+      setAllRecords(allCustomer.data.customers);
+      setFilteredData(res.data.customers);
+      setTotalPages(res.data.totalPages);
+      setPlanName(mealPlan.data);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
+  };
   useEffect(() => {
-    const fetchData = async (pageNum) => {
-      setLoading(true);
-      try {
-        const customerUrl = `${ENDPOINTS.GET_ALL_CUSTOMER}${provider_id}?page=${pageNum}`;
-        const res = await apiHelper.get(customerUrl);
-        const mealPlan = await apiHelper.get(mealPlanUrl);
-        setRecords(res.data.customers);
-        setFilteredData(res.data.customers);
-        setTotalPages(res.data.totalPages);
-        setPlanName(mealPlan.data);
-        setLoading(false);
-      } catch (error) {
-        setLoading(false);
-        console.log(error);
-      }
-    };
-    fetchData(page);
-  }, [page]);
+    fetchData(page, currentFilter);
+  }, [page, currentFilter]);
 
   const handlePageChange = (event, newPage) => {
     navigate(`/customerList/${newPage}`);
@@ -83,7 +96,7 @@ export default function CustomerPage() {
     console.log(customerId);
     setCustomerIdToUpdate(customerId);
     setIsPaidToUpdate(isPaid);
-    
+
     setConfirmationModalOpen(true);
   };
 
@@ -101,6 +114,8 @@ export default function CustomerPage() {
         )
       );
 
+      fetchData(page);
+
       console.log(
         `Customer ID: ${customerIdToUpdate} marked as ${
           isPaidToUpdate ? "Paid" : "Unpaid"
@@ -115,6 +130,28 @@ export default function CustomerPage() {
 
   const handleCancel = () => {
     setConfirmationModalOpen(false);
+  };
+
+  const handleDisableCustomer = async (customerId) => {
+    try {
+      await apiHelper.put(`${ENDPOINTS.EDIT_CUSTOMER}${customerId}`, {
+        status: false,
+        payment: false,
+      });
+
+      setRecords((prevRecords) =>
+        prevRecords.map((record) =>
+          record.customer_id === customerId
+            ? { ...record, status: false }
+            : record
+        )
+      );
+      fetchData(page);
+      setSelectedCustomerId(null);
+      console.log(`Customer with ID ${customerId.name} Disabled successfully.`);
+    } catch (error) {
+      console.error("Error deleting customer:", error);
+    }
   };
 
   const columns = [
@@ -174,14 +211,19 @@ export default function CustomerPage() {
     },
   ];
 
+  
   const handleFilterButtonClick = (filter) => {
-    setCurrentFilter(filter);
-    const newData = filterDataByStatus(filter, filteredData);
-    setRecords(newData);
+    if(filter){
+      setCurrentFilter(filter);
+    }else {
+      setCurrentFilter("all");
+    }
+    // const newData = filterDataByStatus(filter, statusResult);
+    // setRecords(newData);
   };
 
   const handleFilter = (event) => {
-    const newData = filteredData.filter(
+    const newData = allRecords.filter(
       (row) =>
         row.name.toLowerCase().includes(event.target.value.toLowerCase()) &&
         ((currentFilter === "active" && row.status) ||
@@ -206,7 +248,7 @@ export default function CustomerPage() {
     <div className="customer-page-container">
       <Loader loading={loading} />
       <div className="sideBarMenu">
-        <SideBarMenu currentPage="/customerList" />
+        <SideBarMenu currentPage="/customerList/1" />
       </div>
 
       <ConfirmationModal
@@ -279,18 +321,15 @@ export default function CustomerPage() {
           <h2> List of Customers</h2>
           <div className="data-table-container">
             <DataTable columns={columns} data={records} />
-
             <ViewCustomerDetailsModal
               customerId={selectedCustomerId}
+              onDelete={handleDisableCustomer}
               onClose={() => setSelectedCustomerId(null)}
             />
           </div>
 
           <div className="pagination-container">
-            <Pagination
-              count={totalPages}
-              onChange={handlePageChange}
-            />
+            <Pagination count={totalPages} onChange={handlePageChange} />
           </div>
         </div>
       </div>

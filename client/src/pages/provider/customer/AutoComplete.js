@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { useLoadScript } from "@react-google-maps/api";
 import { TextField, InputLabel } from "@mui/material";
 
-const AutoComplete = ({ onPlaceSelect, isEditMode, customerData }) => {
+const AutoComplete = ({ onPlaceSelect  }) => {
   const autoCompleteRef = useRef();
   const inputRef = useRef();
 
@@ -60,15 +60,13 @@ const AutoComplete = ({ onPlaceSelect, isEditMode, customerData }) => {
 
   return (
     <React.Fragment>
-    <InputLabel htmlFor="address">Address</InputLabel>
-     <TextField
-     inputRef={inputRef}
-     type="text"
-     name="address"
-     fullWidth
-     required
-/>
-     
+      <InputLabel htmlFor="address">Address</InputLabel>
+      <TextField
+        inputRef={inputRef}
+        type="text"
+        name="address"
+        fullWidth
+      />
     </React.Fragment>
   );
 };

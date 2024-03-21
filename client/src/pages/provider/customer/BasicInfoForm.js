@@ -11,6 +11,7 @@ function BasicInfoForm({
   onPlaceSelect,
   isEditMode,
   customerData,
+  formErrors
 }) {
   const [place, setPlace] = useState(null);
 
@@ -18,7 +19,6 @@ function BasicInfoForm({
     setPlace(selectedPlace);
     onPlaceSelect(selectedPlace);
   };
-
 
   return (
     <React.Fragment>
@@ -36,11 +36,13 @@ function BasicInfoForm({
             fullWidth
             required
             className="form"
+            error={formErrors.name !== ""}
+            helperText={formErrors.name}
           />
 
           <InputLabel htmlFor="contactNumber">Contact Number</InputLabel>
           <TextField
-            type="text"
+            type="number"
             variant="outlined"
             color="secondary"
             name="contact"
@@ -49,6 +51,8 @@ function BasicInfoForm({
             fullWidth
             required
             className="form"
+            error={formErrors.contact !== ""}
+            helperText={formErrors.contact}
           />
 
           <InputLabel htmlFor="email">Email</InputLabel>
@@ -62,6 +66,8 @@ function BasicInfoForm({
             fullWidth
             required
             className="form"
+            error={formErrors.email_id !== ""}
+            helperText={formErrors.email_id}
           />
 
           {isEditMode ? (
@@ -69,12 +75,14 @@ function BasicInfoForm({
               onPlaceSelect={handlePlaceSelect}
               isEditMode={isEditMode}
               customerData={customerData}
+              formErrors= {formErrors}
             />
           ) : (
             <AutoComplete
               onPlaceSelect={handlePlaceSelect}
               isEditMode={isEditMode}
               customerData={customerData}
+              formErrors = {formErrors}
             />
           )}
 
@@ -89,6 +97,8 @@ function BasicInfoForm({
             fullWidth
             required
             className="form"
+            error={formErrors.dob !== ""}
+            helperText={formErrors.dob}
           />
         </Stack>
       </div>
