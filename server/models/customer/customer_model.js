@@ -222,3 +222,59 @@ exports.getCustomersByProvider = async (providerId) => {
     throw new Error("Failed to get Customers");
   }
 };
+
+
+exports.getActiveCustomersByProvider = async (providerId) => {
+  console.log(`Getting Active Customers for Provider ID: ${providerId}`);
+
+  try {
+    const { data, error } = await supabase
+      .from("customers")
+      .select("*")
+      .eq("provider_id", providerId)
+      .eq("status", true); // Filter customers by status
+
+    if (error) {
+      console.error("Supabase Select Error:", error.message);
+      return { success: false, message: 'Failed to fetch active customers' }
+    }
+
+    if (data && data.length > 0) {
+      console.log("Active customers retrieved successfully.");
+      return { success: true, message: 'Active customers fetched by provider ID', data: data }
+    } else {
+      return { success: true, message: 'No active customers found for provider ID', data: [] }
+    }
+  } catch (error) {
+    console.error("Result from getting Active Customers:", error.message);
+    throw new Error("Failed to get Active Customers");
+  }
+};
+
+exports.getInactiveCustomersByProvider = async (providerId) => {
+  console.log(`Getting Inactive Customers for Provider ID: ${providerId}`);
+
+  try {
+    const { data, error } = await supabase
+      .from("customers")
+      .select("*")
+      .eq("provider_id", providerId)
+      .eq("status", false); // Filter customers by status
+
+    if (error) {
+      console.error("Supabase Select Error:", error.message);
+      return { success: false, message: 'Failed to fetch inactive customers' }
+    }
+
+    if (data && data.length > 0) {
+      console.log("Inactive customers retrieved successfully.");
+      return { success: true, message: 'Inactive customers fetched by provider ID', data: data }
+    } else {
+      return { success: true, message: 'No inactive customers found for provider ID', data: [] }
+    }
+  } catch (error) {
+    console.error("Result from getting Inactive Customers:", error.message);
+    throw new Error("Failed to get Inactive Customers");
+  }
+};
+

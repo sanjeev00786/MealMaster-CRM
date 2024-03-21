@@ -29,7 +29,7 @@ export default function SideBarMenu({ currentPage }) {
       case "/dashboard":
         setSelectedIndex(0);
         break;
-      case "/customerList":
+      case "/customerList/1":
         setSelectedIndex(1);
         break;
       case "/drivers":
