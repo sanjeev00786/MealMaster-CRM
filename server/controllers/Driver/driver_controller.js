@@ -180,6 +180,27 @@ exports.getPastDeliveryTiffins = async (req, res) => {
   }
 };
 
+exports.deleteAssignTiffin = async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    if (!id) {
+      console.log(req.params);
+      return res.status(400).json({ status: 400, success: false, error: 'Missing id parameter' });
+    }
+
+    const result = await driverModel.deleteAssignTiffin(id);
+
+    if (result && result.success) {
+      res.status(201).json({ status: 201, success: true, message: 'assign tiffin deleted successfully' });
+    } else {
+      res.status(400).json({ status: 400, success: false, error: 'Failed to assign tiffin' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ status: 500, success: false, error: 'Internal Server Error' });
+  }
+};
 
 exports.moveToPastDelivery = async (req, res) => {
   try {
@@ -209,6 +230,49 @@ exports.moveToPastDelivery = async (req, res) => {
       res.status(201).json({ status: 201, success: true, message: 'Moved to past delivery successfully' });
     } else {
       res.status(400).json({ status: 400, success: false, error: 'Failed to move to past delivery' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ status: 500, success: false, error: 'Internal Server Error' });
+  }
+};
+
+exports.updateDeliveryStatusAndPhoto = async (req, res) => {
+  try {
+    const { customer_id, delivery_status, delivery_photo_url } = req.body;
+
+    if (!customer_id || !delivery_status || !delivery_photo_url) {
+      return res.status(400).json({ status: 400, success: false, error: 'Missing required parameters' });
+    }
+
+    const result = await driverModel.updateDeliveryStatusAndPhotoByCustomerId({ customer_id, delivery_status, delivery_photo_url });
+
+    if (result && result.success) {
+      res.status(200).json({ status: 200, success: true, message: 'Delivery status and photo updated successfully', data: result.data });
+    } else {
+      res.status(404).json({ status: 404, success: false, error: 'Failed to update delivery status and photo' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ status: 500, success: false, error: 'Internal Server Error' });
+  }
+};
+
+exports.getAssignTiffin = async (req, res) => { 
+  try {
+    const { driver_id } = req.query;
+
+    if (!driver_id) {
+      console.log(req.params);
+      return res.status(400).json({ status: 400, success: false, error: 'Missing driver id parameter' });
+    }
+
+    const result = await driverModel.getAssignTiffin(driver_id);
+    console.log("&&&&&", result)
+    if (result && result.success) {
+      res.status(200).json({ status: 200, success: true, message: 'Assign Tiffin data fetched successfully', data: result.data });
+    } else {
+      res.status(404).json({ status: 404, success: false, error: 'Assign Tiffin not found' });
     }
   } catch (error) {
     console.error(error);

@@ -8,6 +8,11 @@ import cameraIcon from '../../../component-assets/camera.svg';
 import CustomCamera from '../../../components/CustomCamera/CustomCamera';
 import Loader from '../../../components/Loader/Loader';
 import CustomizedSnackbar from "../../../components/Notification/Notification";
+import useCloudinaryUpload from '../../../util/FileUpload/FileUpload';
+import apiHelper from '../../../util/ApiHelper/ApiHelper';
+import { ENDPOINTS } from '../../../apiConfig.js';
+import { provider_id } from "../../../util/localStorage.js";
+
 
 const customers = [
     {
@@ -40,49 +45,156 @@ const DriverDashboard = () => {
     const [imagePreview, setImagePreview] = useState(null);
     const [loading, setLoading] = useState(true);
     const [notificationMessage, setNotificationMessage] = useState("");
+    const [notificationMessage1, setNotificationMessage1] = useState("");
+
+    let assignTiffinData = {};
+
+    const cloudinaryConfig = {
+        cloudName: 'djencgbub',
+        uploadPreset: 's8ygrkym',
+    };
 
     const toggleNavigation = (isStop) => {
         console.log(isStop)
-        setNavigationStarted(!isNavigationStarted);
+        updateDriver()
     };
 
+    const cloudinaryFilePath = useCloudinaryUpload(cloudinaryConfig);
+
     const handleImageCapture = (image) => {
-        // Do something with the captured image in this component
         console.log('Captured Image:', image);
         setImagePreview(image);
-        // Close the camera after capturing the image
         setCameraOpen(false);
     };
 
     const completeDeliveryAndStartNext = async () => {
+        setLoading(true);
         if (!imagePreview) {
             console.error('No image to upload.');
             return;
         }
-        // try {
-        //     const imageBlob = await fetch(imagePreview).then((res) => res.blob());
-        //     const imageFile = new File([imageBlob], 'image_preview.png', { type: 'image/png' });
-
-        //     // Upload the image file
-        //     const downloadURL = await uploadImage(imageFile);
-
-        //     // Do something with the download URL (e.g., save it to your database)
-        //     console.log('Image uploaded successfully. URL:', downloadURL);
-
-        //     // Clear the imagePreview state
-        //     setImagePreview(null);
-        //   } catch (error) {
-        //     console.error('Error uploading image:', error.message);
-        //   }
-
-        setImagePreview(null);
-
+        await cloudinaryFilePath.uploadToCloudinary(imagePreview);
+        setTimeout(() => {
+            updateDeliveryImage(cloudinaryFilePath.filePath);
+            console.log("*******", cloudinaryFilePath.filePath, cloudinaryFilePath);
+            setImagePreview(null);
+        }, 1000);
     };
 
+    // Call Update Driver Api
+    const updateDriver = async () => {
+        try {
+            const data = {
+              "driver_id": '725b34cc-bdc1-444c-9f56-d84d9cc70976',
+              "driver_status": !isNavigationStarted,
+            };
+
+            const responseData = await apiHelper.put(`${ENDPOINTS.UPDATE_DRIVER}`, data);
+            
+            // Handle the response data
+            if (isNavigationStarted === true) {
+                // setNotificationMessage('Navigation Stopped.')
+                setNotificationMessage("Navigation");
+                setNotificationMessage1(
+                  ` Navigation stopped! `
+                );
+            } else {
+                setNotificationMessage('Navigation')
+                setNotificationMessage1(
+                    ` Navigation started! `
+                  );
+            }
+            console.log('Response Data:', responseData);
+            setNavigationStarted(!isNavigationStarted);
+            setLoading(false);
+          } catch (error) {
+            setLoading(false);
+            setNotificationMessage(error.message);
+            console.error(error.message);
+          }
+    }
+
+    // Get Assigned Tiffin
+    const getAssignedTiffin = async (driver_id) => {
+        setLoading(true);
+        try {
+            const responseData = await apiHelper.get(`${ENDPOINTS.GET_ASSIGNED_TIFFIN}?driver_id=${driver_id}`);
+            console.log('Response Data:', responseData);
+            if (responseData.success === true) {
+                assignTiffinData = responseData.data;
+            }
+            setLoading(false);
+          } catch (error) {
+            setLoading(false);
+            setNotificationMessage(error.message);
+            console.error(error.message);
+          }
+    }
+
+    // Update assign Tiffin 
+    const updateDeliveryImage = async (imgPath) => {
+        setLoading(true);
+        try {
+            const data = {
+              "customer_id": '62f87964-4ec5-4466-b156-78c9679e24c8',
+              "delivery_status": true,
+              "delivery_photo_url": imgPath
+            };
+
+            const responseData = await apiHelper.put(`${ENDPOINTS.UPDATE_DELIVERY_STATUS}`, data);
+            console.log('Response Data:', responseData);
+            setLoading(false);
+          } catch (error) {
+            setLoading(false);
+            setNotificationMessage(error.message);
+            console.error(error.message);
+          }
+    }
+
+    // Delete Assign Tiffin Api
+    const deleteAssignTiffin = async (id) => {
+        setLoading(true);
+        try {
+            const responseData = await apiHelper.delete(`${ENDPOINTS.UPDATE_DELIVERY_STATUS}/${id}`);
+            console.log('Response Data:', responseData);
+            setLoading(false);
+          } catch (error) {
+            setLoading(false);
+            setNotificationMessage(error.message);
+            console.error(error.message);
+          }
+    }
+
+    // Move to past delivery Api
+    const moveToPostDelivery = async (tiffinData, imgPathUrl) => {
+        setLoading(true);
+        try {
+            const data = {
+                id: tiffinData.id,
+                provider_id: tiffinData.provider_id,
+                plan_id: tiffinData.plan_id,
+                driver_id: tiffinData.driver_id,
+                delivery_status: true,
+                delivery_photo_url: imgPathUrl,
+                customer_id: tiffinData.customer_id
+              };
+
+            const responseData = await apiHelper.put(`${ENDPOINTS.MOVE_TO_PAST_DELIVERY}`, data);
+            console.log('Response Data:', responseData);
+            setLoading(false);
+          } catch (error) {
+            setLoading(false);
+            setNotificationMessage(error.message);
+            console.error(error.message);
+          }
+    }
+
+    // Toggle Camera
     const toggleCamera = () => {
         setCameraOpen(!isCameraOpen);
     };
 
+   // Handshake with channel to retrieve the driver location
     useEffect(() => {
 
         const driverLocation = supabase
@@ -110,9 +222,11 @@ const DriverDashboard = () => {
     useEffect(() => {
         const myBooleanValue = localStorage.getItem('isLoaderShow') === 'true';
         if (myBooleanValue === true) {
-            setNotificationMessage('Logged In Successfully!')
+            setNotificationMessage('Success!')
+            setNotificationMessage1('Logged In Successfully!')
             localStorage.setItem('isLoaderShow', 'false');
         }
+        // getAssignedTiffin('725b34cc-bdc1-444c-9f56-d84d9cc70976')
         setTimeout(() => {
             setLoading(false);
             setNotificationMessage('')
@@ -126,7 +240,8 @@ const DriverDashboard = () => {
             <Loader loading={loading} />
             <Header />
             {notificationMessage && (
-                <CustomizedSnackbar customMessage={notificationMessage} />
+                <CustomizedSnackbar decisionMessage={notificationMessage}
+                updateMessage={notificationMessage1} />
             )}
             <h2>Dashboard</h2>
             <Maps customerData={customers} />

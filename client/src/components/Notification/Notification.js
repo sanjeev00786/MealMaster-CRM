@@ -1,12 +1,11 @@
+import React, { useState, useEffect } from "react";
+import Snackbar from "@mui/material/Snackbar";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import logo from "../../component-assets/snackbar_Icon_new.svg";
+import "./Notification.css";
 
-import React, { useState, useEffect } from 'react';
-import Snackbar from '@mui/material/Snackbar';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
-import logo from '../../component-assets/snackbar_icon.svg'; 
-import './Notification.css'; 
-
-export default function CustomizedSnackbar({ customMessage }) {
+export default function CustomizedSnackbar({ decisionMessage, updateMessage }) {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -18,7 +17,7 @@ export default function CustomizedSnackbar({ customMessage }) {
   };
 
   const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
     setOpen(false);
@@ -43,16 +42,20 @@ export default function CustomizedSnackbar({ customMessage }) {
       message={
         <div className="snackbar">
           <img src={logo} alt="Logo" className="logo" />
-          <div className="message">{customMessage}</div>
+          <div className="message">
+            <h3>{decisionMessage}</h3>
+            <p>{updateMessage}</p>
+          </div>
         </div>
       }
       action={action}
+      className="absolute-snackbar"
       anchorOrigin={{
-        vertical: 'top',
-        horizontal: 'center',
+        vertical: "top",
+        horizontal: "right",
       }}
       ContentProps={{
-        className: 'custom-snackbar', 
+        className: "custom-snackbar",
       }}
     />
   );

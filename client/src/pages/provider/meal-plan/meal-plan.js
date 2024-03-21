@@ -2,59 +2,64 @@ import React, { useState } from "react";
 import Header from "../../../components/header/header";
 import CustomButton from "../../../components/CustomButton/CustomButton";
 // import "../../../components/CustomButton/CustomButton.css";
-import CustomizedSnackbar from "../../../components/Notification/Notification";
 import "./meal-plan.css";
 import axios from "axios";
-import Loader from '../../../components/Loader/Loader';
+import Loader from "../../../components/Loader/Loader";
+import { useNavigate } from "react-router-dom";
+import { ENDPOINTS } from "../../../apiConfig.js";
+import apiHelper from "../../../util/ApiHelper/ApiHelper.js";
+import { provider_id } from "../../../util/localStorage.js";
 
 const MealSettingPage = () => {
   const [mealName, setMealName] = useState("");
   const [mealPrice, setMealPrice] = useState("");
   const [mealDescription, setMealDescription] = useState("");
   const [loading, setLoading] = React.useState(false);
+  const navigate = useNavigate();
 
   const handleSave = (e) => {
     e.preventDefault();
-    setLoading(true);
     const mealData = {
-
-      //need to fetch provider id from session ------pending 
-      provider_id: "5de05e6c-162f-4293-88d5-2aa6bd1bb8a3",
+      provider_id: provider_id,
       plan_name: mealName,
       price: mealPrice,
       description: mealDescription,
-
     };
 
     console.log(mealData);
 
-    axios
+    apiHelper
       .post(
-        "http://localhost:3001/api/provider/meal_plans/add-meal-plan",
+        `${ENDPOINTS.ADD_PLAN}`,
         mealData
       )
       .then((response) => {
-        setLoading(false);
         console.log("Meal data saved successfully:", response.data);
+        navigate("/meal-plan-list");
       })
       .catch((error) => {
-        setLoading(false);
         console.error("Error saving meal data:", error);
       });
   };
 
   const handleCancel = () => {
     console.log("Cancelled");
+    navigate("/meal-plan-list");
   };
 
   return (
     <div>
+      <div className="login-container">
+        <Header />
+      </div>
+      <h1>New Meal Plan</h1>
 
       <div className="meal-page-container">
-        <h1>Meal Setting</h1>
         <div className="form-container">
           <form>
-            <label>Meal Name</label>
+            <label>
+              Meal Name<span class="required">*</span>
+            </label>
             <input
               type="text"
               value={mealName}
@@ -63,7 +68,9 @@ const MealSettingPage = () => {
               required
             />
 
-            <label>Meal Price Per Month </label>
+            <label>
+              Meal Price Per Month<span class="required">*</span>{" "}
+            </label>
             <input
               type="number"
               value={mealPrice}
@@ -72,7 +79,9 @@ const MealSettingPage = () => {
               required
             />
 
-            <label>Description </label>
+            <label>
+              Description<span class="required">*</span>{" "}
+            </label>
             <textarea
               value={mealDescription}
               onChange={(e) => setMealDescription(e.target.value)}
@@ -82,7 +91,6 @@ const MealSettingPage = () => {
             <div className="actions">
               <CustomButton className={"submitBtn Btn"} onClick={handleSave}>
                 Save
-
               </CustomButton>
               <CustomButton className={"cancelBtn Btn"} onClick={handleCancel}>
                 Cancel
@@ -91,6 +99,8 @@ const MealSettingPage = () => {
           </form>
         </div>
       </div>
+
+      <>.</>
     </div>
   );
 };

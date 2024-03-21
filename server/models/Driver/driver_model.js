@@ -141,7 +141,7 @@ exports.getDriver = async (login_token) => {
 
     console.log();
 
-    return { success: true, message: "Driver fetched successfully", data };
+    return { success: true, message: "Driver fetched successfully", data: data };
   } catch (error) {
     console.error("Failed to fetch driver:", error.message);
     throw new Error("Failed to fetch driver");
@@ -236,5 +236,83 @@ exports.createPastDelivery = async (data) => {
   } catch (error) {
     console.error("Result from creating driver:", error.message);
     throw new Error("Failed to create driver");
+  }
+};
+
+exports.updateDeliveryStatusAndPhotoByCustomerId = async (data) => {
+  console.log("Received Data:", data);
+
+  try {
+    const {
+      customer_id,
+      delivery_status,
+      delivery_photo_url,
+    } = data;
+
+    const { data: updatedData, error } = await supabase
+      .from("assigned_tiffin")
+      .update({
+        delivery_status,
+        delivery_photo_url,
+      })
+      .eq('customer_id', customer_id);
+
+    if (error) {
+      console.error("Supabase Update Error:", error.message);
+      return { success: false, message: "Failed to update delivery status and photo" };
+    }
+
+    console.log("Updated Data:", updatedData);
+
+    return { success: true, message: "Delivery status and photo updated successfully" };
+  } catch (error) {
+    console.error("Result from updating delivery status and photo:", error.message);
+    throw new Error("Failed to update delivery status and photo");
+  }
+};
+
+exports.deleteAssignTiffin = async (id) => {
+  console.log("Received Data:", { id });
+
+  try {
+    const { error } = await supabase
+      .from("assigned_tiffin")
+      .delete()
+      .eq("id", id);
+
+    if (error) {
+      console.error("Supabase Delete Error:", error.message);
+      return { success: false, message: "Failed to delete" };
+    }
+
+    console.log("Data deleted successfully.");
+
+    return { success: true, message: "deleted successfully" };
+  } catch (error) {
+    console.error("Result from delete assign tiffin:", error.message);
+    throw new Error("Failed to delete assign tiffin");
+  }
+};
+
+exports.getAssignTiffin = async (driver_id) => {
+  console.log("Received Data:", { driver_id });
+
+  try {
+    const { data, error } = await supabase
+      .from("assigned_tiffin")
+      .select("*")
+      .eq("driver_id", driver_id);
+
+    if (error) {
+      console.error("Supabase Delete Error:", error.message);
+      return { success: false, message: "Failed to Assign Tiffin" };
+    }
+
+    console.log("********",data);
+
+    return { success: true, message: "Assign Tiffin fetched successfully", data };
+  } catch (error) {
+    console.error("Failed to fetch driver:", error.message);
+    throw new Error("Failed to fetch driver");
   }
 };

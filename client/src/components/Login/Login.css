@@ -10,3 +10,12 @@
     margin-top: 50px;
   }
   
+.login-container button{
+  border-radius: 4px;
+  background:  #6F59DA;
+}
+
+.login-container button:hover{
+  border-radius: 4px;
+  background:  #9885ec !important;
+}

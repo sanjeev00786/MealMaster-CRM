@@ -1,63 +1,192 @@
-html{
-    background-color: rgba(242, 244, 248, 1);
-}
-
-.driver-page-container{
-    background-color: white;
-    /* padding-bottom: 1rem; */
-    margin-top: 4rem;
-    margin-left: 4.5rem;
-    margin-right: 1rem;
-    padding-top: 1rem;
-}
-
-.addDriverBtn{
-    height: 150px;
-    width: 50px;
-}
-
-.tableContainer{
-    margin: 1rem;
-}
-
-.toolBar{
-    /* margin-right: 1rem ; */
-    margin-bottom: 1rem;
-    margin-top: 1rem;
-}
-
-.search{
-    background-color: rgba(242, 244, 248, 1);
-    /* margin-left: 1rem;
-    padding-left: 1rem; */
-    max-width: 150px;
-}
-
-.below{
-    margin-right: 8px;
-}
-
-.below button{
-    background-color: black;
-} 
-
-.below button:hover {
-    background-color: darkgray;
-    color: black;
-}
-
-.driver-page-container {
-    display: flex;
-    flex-direction: column;
+@media only screen and (max-width: 768px) {
+  .driver-page-container {
+    background-color: rgba(241, 240, 247, 1);
   }
-  
+
+  .driver-page {
+    padding-top: 1px;
+    padding-bottom: 30rem;
+  }
+
+  .mobileSideBarMenu {
+    display: block;
+  }
+
+  .sideBarMenu {
+    display: none;
+  }
+
+  .add-driver-button-container {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 20px;
+    text-align: center; /* Center the button horizontally */
+  }
+
+  .add-driver-button-container button {
+    background-color: #6f59da !important;
+    height: 50px;
+    width: 355px;
+    max-width: 90%; /* Adjust as needed */
+  }
+
+  .add-driver-button-container button:hover {
+    background-color: #9885ec !important;
+    color: white;
+  }
+
+  .search-container {
+    display: flex;
+    justify-content: center;
+  }
+
+  .search-container input {
+    height: 30px;
+    width: 100%;
+    max-width: 340px;
+    background-color: white;
+    background-image: url("../../../component-assets/search.svg");
+    background-repeat: no-repeat;
+    background-position: 325px center;
+    padding: 10px;
+    border-radius: 5px;
+    border: 0px;
+    box-shadow: 0px 1px 0px rgba(193, 199, 205, 1);
+    color: #697077;
+  }
+
+  .data-table-parent-container h2 {
+    text-align: center;
+  }
+
+  .data-table-container {
+    border: 1px solid rgba(241, 238, 251, 1);
+    border-radius: 5px;
+  }
+
+  .data-table-parent-container {
+    padding: 1rem;
+    margin: 1rem;
+    background-color: white;
+    border-radius: 10px;
+  }
+
+  .sc-dmyCSP {
+    background-color: rgb(221, 217, 243) !important;
+  }
+
+  .sc-dmXWDj {
+    border-top-left-radius: 10px !important;
+    border-top-right-radius: 10px !important;
+  }
+
+  .sc-iKOmoZ {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .mobileSideBarMenu {
+    display: none;
+  }
+  .sideBarMenu {
+    display: block;
+  }
+
+  .driver-page-container {
+    background-color: rgba(241, 240, 247, 1);
+    display: flex;
+  }
+
+  .sideBarMenu {
+    flex: 0 0 15%;
+  }
+
+  .driver-page {
+    flex: 1 85%;
+    align-items: center;
+    padding-top: 2.2rem;
+    padding-left: 1rem;
+  }
+
+  .search-addButtton-container {
+    margin-right: 18px;
+    padding-bottom: 1rem;
+    margin-left: 10px;
+    display: flex !important;
+    justify-content: space-between !important;
+  }
+
+  .search-addButtton-container button {
+    background-color: #6f59da !important;
+    padding-left: 2rem !important;
+    padding-right: 2rem !important;
+    padding: 0.5rem;
+  }
+
+  .search-addButtton-container button:hover {
+    background-color: #9885ec !important;
+    color: white;
+  }
+
   .search-container {
     display: flex;
     justify-content: left;
   }
-  
-  .search-input {
-    padding: 6px 10px;
-    margin: 6px 10px;
+
+  .search-container input {
+    height: 25px;
+    width: 230px;
+    margin-left: 8px;
+    background-color: white;
+    background-image: url("../../../component-assets/search.svg");
+    background-repeat: no-repeat;
+    background-position: 220px center; /* Adjust as needed */
+    padding: 10px;
+    border-radius: 5px;
+    border: 0px;
+    box-shadow: 0px 1px 0px rgba(193, 199, 205, 1);
+    color: #697077;
   }
-  
+
+  .data-table-container {
+    border: 1px solid rgba(241, 238, 251, 1);
+    border-radius: 5px;
+  }
+
+  .data-table-parent-container {
+    padding: 1rem;
+    margin: 1rem;
+    background-color: white;
+    border-radius: 10px;
+    
+  }
+
+  .sc-dmyCSP {
+    background-color: rgb(221, 217, 243) !important;
+  }
+
+  .sc-dmXWDj {
+    border-top-left-radius: 10px !important;
+    border-top-right-radius: 10px !important;
+  }
+
+  .sc-iKOmoZ {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+
+  .data-table-parent-container {
+    flex: 1; /* Ensure the data table container takes up remaining space */
+    display: flex;
+    flex-direction: column;
+}
+
+.data-table-container {
+    flex: 1; /* Ensure the data table takes up remaining space */
+    overflow: auto; /* Add overflow for scrolling if needed */
+}
+
+}

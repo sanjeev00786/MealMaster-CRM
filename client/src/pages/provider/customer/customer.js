@@ -7,12 +7,22 @@ import unpaidSign from "../../../component-assets/unpaidSign.svg";
 import editicon from "../../../component-assets/editicon.svg";
 import ViewCustomerDetailsModal from "./ViewCustomerDetailsModal";
 import Header from "../../../components/header/header";
+import MiniDrawer from "../../../components/SideMenu/SideMenu";
+import AnchorTemporaryDrawer from "../../../components/MobileSideMenu/MobileSideMenu";
+import Loader from "../../../components/Loader/Loader";
+import Button from "@mui/material/Button";
+import ConfirmationModal from "./ConfirmationModal";
+import "./customerPage.css";
+import SideBarMenu from "../../../components/NewSideMenu/NewSideMenu";
+import { ENDPOINTS } from '../../../apiConfig.js';
+import apiHelper from '../../../util/ApiHelper/ApiHelper';
+import { provider_id } from "../../../util/localStorage.js";
 
 const customerUrl =
-  "http://localhost:3001/api/customer/provider/get-all-customers/5de05e6c-162f-4293-88d5-2aa6bd1bb8a3";
+  `${ENDPOINTS.GET_ALL_CUSTOMER}${provider_id}?page=1`;
 
 const mealPlanUrl =
-  "http://localhost:3001/api/provider/meal_plans/get-meal-plan?provider_id=5de05e6c-162f-4293-88d5-2aa6bd1bb8a3";
+  `${ENDPOINTS.GET_MEAL_PLAN}provider_id=${provider_id}`;
 
 export default function CustomerPage() {
   const [records, setRecords] = useState([]);
@@ -20,18 +30,24 @@ export default function CustomerPage() {
   const [planName, setPlanName] = useState([]);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 400);
   const [selectedCustomerId, setSelectedCustomerId] = useState(null);
+  const [loading, setLoading] = React.useState(false);
+  const [confirmationModalOpen, setConfirmationModalOpen] = useState(false);
+  const [customerIdToUpdate, setCustomerIdToUpdate] = useState(null);
+  const [isPaidToUpdate, setIsPaidToUpdate] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       try {
-        const res = await axios.get(customerUrl);
-        const mealPlan = await axios.get(mealPlanUrl);
-        setRecords(res.data.data.customers);
-        console.log(res.data.data.customers);
-        setFilteredData(res.data.data.customers);
-        setPlanName(mealPlan.data.data);
+        const res = await apiHelper.get(customerUrl);
+        const mealPlan = await apiHelper.get(mealPlanUrl);
+        setRecords(res.data.customers);
+        setFilteredData(res.data.customers);
+        setPlanName(mealPlan.data);
+        setLoading(false);
       } catch (error) {
+        setLoading(false);
         console.log(error);
       }
     };
@@ -54,29 +70,42 @@ export default function CustomerPage() {
     };
   }, []);
 
-  const handlePaymentClick = async (customerId, isPaid) => {
+  const handlePaymentClick = (customerId, isPaid) => {
+    setCustomerIdToUpdate(customerId);
+    setIsPaidToUpdate(isPaid);
+    setConfirmationModalOpen(true);
+  };
+
+  const handleConfirmation = async () => {
     try {
       await axios.put(
-        `http://localhost:3001/api/customer/edit-customer/${customerId}`,
+        `${ENDPOINTS.EDIT_CUSTOMER}${customerIdToUpdate}`,
         {
-          payment: isPaid,
+          payment: isPaidToUpdate,
         }
       );
 
       setRecords((prevRecords) =>
         prevRecords.map((record) =>
-          record.customer_id === customerId
-            ? { ...record, payment: isPaid }
+          record.customer_id === customerIdToUpdate
+            ? { ...record, payment: isPaidToUpdate }
             : record
         )
       );
 
       console.log(
-        `Customer ID: ${customerId} marked as ${isPaid ? "Paid" : "Unpaid"}`
+        `Customer ID: ${customerIdToUpdate} marked as ${isPaidToUpdate ? "Paid" : "Unpaid"
+        }`
       );
+
+      setConfirmationModalOpen(false);
     } catch (error) {
       console.error("Error updating customer status:", error);
     }
+  };
+
+  const handleCancel = () => {
+    setConfirmationModalOpen(false);
   };
 
   const columns = [
@@ -84,18 +113,16 @@ export default function CustomerPage() {
       name: "Customer's Name",
       selector: (row) => row.name,
       sortable: true,
-      width: "150px",
     },
     {
       name: "Contact",
       selector: (row) => row.contact,
-      width: "150px",
     },
     {
       name: "Plan",
       selector: (row) => getPlanName(row.plan_id) || "N/A",
       omit: isSmallScreen,
-      width: "150px",
+      grow: 1.5,
     },
     {
       name: "Quantity",
@@ -106,7 +133,6 @@ export default function CustomerPage() {
       name: "Billing Date",
       selector: (row) => row.billing_cycle,
       omit: isSmallScreen,
-      width: "150px",
     },
     {
       name: "Last Bill Payment",
@@ -125,7 +151,6 @@ export default function CustomerPage() {
           )}
         </div>
       ),
-      width: "150px",
       omit: isSmallScreen,
     },
     {
@@ -140,7 +165,6 @@ export default function CustomerPage() {
           </div>
         </>
       ),
-      width: "100px",
     },
   ];
 
@@ -150,8 +174,6 @@ export default function CustomerPage() {
     },
   };
 
-  console.log(filteredData);
-
   const handleFilter = (event) => {
     const newData = filteredData.filter((row) =>
       row.name.toLowerCase().includes(event.target.value.toLowerCase())
@@ -159,39 +181,60 @@ export default function CustomerPage() {
     setRecords(newData);
   };
 
+
   return (
-    <div
-      className="customer-page-container_form"
-      style={{ display: "flex", flexDirection: "column" }}
-    >
-      <div className="login-container">
-        <Header />
+    <div className="customer-page-container">
+      <div className="sideBarMenu">
+        <SideBarMenu currentPage='/customerList' />
       </div>
-      <h2 className="customerH2">Customer List</h2>
-      
-      <div><button onClick={() => navigate("/customers")}>Add New Customer</button></div>
 
-      <div style={{ display: "flex", justifyContent: "right" }}>
-        <input
-          type="text"
-          placeholder="Search...."
-          onChange={handleFilter}
-          style={{ padding: "5px 2px 5px 10px" }}
-        />
-      </div>
-      <div className="login">
-      <DataTable
-        columns={columns}
-        data={records}
-        customStyles={customStyles}
-        pagination
+      <ConfirmationModal
+        open={confirmationModalOpen}
+        onClose={handleCancel}
+        onConfirm={handleConfirmation}
+        message={`Are you sure you want to mark this customer as ${isPaidToUpdate ? "Paid" : "Unpaid"
+          }?`}
       />
 
-      <ViewCustomerDetailsModal
-        customerId={selectedCustomerId}
-        onClose={() => setSelectedCustomerId(null)}
-      />
-    </div>
+      <div className="customer-page">
+        <div className="page-heading">
+          <h1 className=" underline">Customers</h1>
+        </div>
+        <div
+          className="search-addButtton-container"
+          style={{ display: "flex", justifyContent: "space-between" }}
+        >
+          <div className="search-container">
+            <input
+              type="text"
+              placeholder="Search"
+              onChange={handleFilter}
+              className="search-input"
+            />
+          </div>
+          <div>
+            <Button variant="contained" onClick={() => navigate("/customers")}>Add New Customer</Button>
+          </div>
+        </div>
+
+        <div className="data-table-parent-container">
+          <h2> List of Customers</h2>
+          <div className="data-table-container">
+
+            <DataTable
+              columns={columns}
+              data={records}
+              customStyles={customStyles}
+              pagination
+            />
+
+            <ViewCustomerDetailsModal
+              customerId={selectedCustomerId}
+              onClose={() => setSelectedCustomerId(null)}
+            />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Box, Typography, Button } from "@mui/material";
+import { Link } from "react-router-dom";
 import axios from "axios";
+import { ENDPOINTS } from "../../../apiConfig.js";
+import { provider_id } from "../../../util/localStorage.js";
+import apiHelper from "../../../util/ApiHelper/ApiHelper.js";
 
 const ViewCustomerDetailsModal = ({ customerId, onClose }) => {
   const [customerDetails, setCustomerDetails] = useState(null);
@@ -27,11 +31,11 @@ const ViewCustomerDetailsModal = ({ customerId, onClose }) => {
   useEffect(() => {
     const fetchCustomerDetails = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:3001/api/customer/get-customer/${customerId}`
+        const response = await apiHelper.get(
+          `${ENDPOINTS.GET_CUSTOMER}${customerId}`
         );
-        console.log(response.data.data.data);
-        setCustomerDetails(response.data.data.data);
+        console.log(response.data.data);
+        setCustomerDetails(response.data.data);
       } catch (error) {
         console.error("Error fetching customer details:", error);
       }
@@ -53,6 +57,11 @@ const ViewCustomerDetailsModal = ({ customerId, onClose }) => {
       aria-describedby="view-customer-modal-description"
     >
       <Box sx={{ ...modalStyle, width: 400 }}>
+      
+      <Link to={`/edit-customer/${customerId}`}>
+          <Button variant="outlined">Edit Customer</Button>
+        </Link>
+
         <Typography id="view-customer-modal" variant="h6" component="div">
           Customer Details
         </Typography>

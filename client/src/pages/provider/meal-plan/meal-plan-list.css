@@ -1,22 +1,89 @@
 .cardDisplay {
     margin-left: 4.5rem;
-    margin-top: 4rem;
+    /* margin-top: 5rem; */
 }
+body{
+    background-color: #F1F0F7
+    ;
+}
+
 h1 {
     /* text-align: center; */
     margin-left: 20px;
-    
+
 }
+
+.new-plan-button-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+    /* margin-right: 2rem; */
+    /* width: 269px; */
+    /* Adjust the margin as needed */
+}
+.plan-page-button button{
+    width: 269px;
+    height: 48px;
+    padding: 12px 48px;   
+    margin: 10px;
+}
+
+
+
+.delete_plan {
+    background-color:white !important;
+  color:black !important;
+
+}
+.disabled_delete{
+    background-color: #DCDCDC !important;
+    color: #727171db !important;
+
+}
+.add_plan{
+    background-color:black !important;
+
+}
+
 
 @media screen and (min-width: 500px) {
     .meal-plan-list-container {
         display: grid;
         grid-template-columns: 1fr 1fr;
     }
+    .meal-plan-buttons{
+        display: flex;
+        justify-content: flex-end;
+    }
+    .delete_plan,.disabled_delete{
+        margin-right: 0 !important;
+    }
+    .meal-plan-page {
+        display: flex; 
+      }
+    
 }
+
 @media screen and (min-width: 800px) {
+
+    .meal-plan-container {
+        background-color: rgba(241, 240, 247, 1);
+        display: flex;
+      }
+      
+    
+      .sideBarMenu {
+        flex: 0 0 20%;
+      }
+    
+      .cardDisplay {
+        flex: 1 80%;
+        align-items: center;
+        /* padding-top: 2.2rem; */
+      }
+
     .meal-plan-list-container {
-        display: grid;
+        display: grid; 
         grid-template-columns: 1fr 1fr 1fr;
     }
 }

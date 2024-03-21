@@ -4,6 +4,11 @@ import React, { useState, useEffect } from "react";
 import Header from "../../../components/header/header";
 import CustomButton from "../../../components/CustomButton/CustomButton";
 import axios from "axios";
+import { navigate } from "react-router-dom";
+import { ENDPOINTS } from '../../../apiConfig.js';
+
+import apiHelper from "../../../util/ApiHelper/ApiHelper.js";
+import { provider_id } from "../../../util/localStorage.js";
 
 const MealPlanUpdatePage = () => {
   const { plan_id } = useParams();
@@ -17,7 +22,7 @@ const MealPlanUpdatePage = () => {
     const fetchMealPlan = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3001/api/provider/meal_plans/get-meal-plan?provider_id=5de05e6c-162f-4293-88d5-2aa6bd1bb8a3"
+          `${ENDPOINTS.GET_MEAL_PLAN}provider_id=${provider_id}`
         );
 
         if (response.data.success) {
@@ -53,14 +58,14 @@ const MealPlanUpdatePage = () => {
         let updateConfig = {
           method: 'put',
           maxBodyLength: Infinity,
-          url: 'http://localhost:3001/api/provider/meal_plans/update-meal-plan',
+          url: `${ENDPOINTS.UPDATE_MEAL_PLAN}`,
           headers: {
             'Content-Type': 'application/json'
           },
           data: updateData
         };
       
-        const updateResponse = await axios.request(updateConfig);
+        const updateResponse = await apiHelper.request(updateConfig);
       
         if (updateResponse.data.success) {
           console.log("Meal plan updated successfully");
@@ -70,7 +75,7 @@ const MealPlanUpdatePage = () => {
         }
       // have to pass dynamic provider_id
         let newData = JSON.stringify({
-          "provider_id": "5de05e6c-162f-4293-88d5-2aa6bd1bb8a3",
+          "provider_id": "${provider_id}",
           "plan_name": mealName,
           "price": mealPrice,
           "description": mealDescription
@@ -79,7 +84,7 @@ const MealPlanUpdatePage = () => {
         let newConfig = {
           method: 'post',
           maxBodyLength: Infinity,
-          url: 'http://localhost:3001/api/provider/meal_plans/add-meal-plan',
+          url: `${ENDPOINTS.ADD_PLAN}`,
           headers: {
             'Content-Type': 'application/json'
           },
@@ -101,17 +106,18 @@ const MealPlanUpdatePage = () => {
       }
     
   };
+  const handleCancel = () => {
+    console.log("Cancelled");
+   navigate("/meal-plan-list");
+
+  };
   
 
   return (
     <div>
-      <div className="login-container">
-        <Header />
-      </div>
+      <h1>Edit Meal Plan</h1>
 
       <div className="meal-page-container">
-        <h1>Meal Setting</h1>
-        {/* <CustomizedSnackbar /> */}
 
         <div className="form-container">
           <form>
@@ -144,11 +150,14 @@ const MealPlanUpdatePage = () => {
               <CustomButton className={"submitBtn Btn"} onClick={handleUpdate}>
                 Update
               </CustomButton>
-              <CustomButton className={"cancelBtn Btn"}>Cancel</CustomButton>
+              <CustomButton className={"cancelBtn Btn"} onClick={handleCancel}
+              >Cancel</CustomButton>
             </div>
           </form>
         </div>
       </div>
+
+      <>.</>
     </div>
   );
 

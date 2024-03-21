@@ -75,7 +75,7 @@ exports.updateMealPlan = async (req, res) => {
   try {
     const { plan_id } = req.body;
 
-    console.log("here is id $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$4", plan_id);
+    console.log("plan id ----->>>>>>", plan_id);
 
     const result = await mealPlanModel.editMealPlan({
       

@@ -20,10 +20,14 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { visuallyHidden } from '@mui/utils';
-import Modal from '@mui/material/Modal';
-import Button from '@mui/material/Button';
-import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import AssignDriverModalButton from './AssignDriverModalButton';
+import MiniDrawer from '../../../components/SideMenu/SideMenu';
+import Loader from '../../../components/Loader/Loader';
+import SideBarMenu from '../../../components/NewSideMenu/NewSideMenu';
+import { ENDPOINTS } from '../../../apiConfig.js';
+
+import apiHelper from '../../../util/ApiHelper/ApiHelper.js';
+import { provider_id } from "../../../util/localStorage.js";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -90,7 +94,7 @@ function EnhancedTableHead(props) {
         </TableCell>
         {headCells.map((headCell) => (
           <TableCell
-            key={headCell.id}
+            key={headCell.id} 
             align={headCell.numeric ? 'right' : 'left'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
@@ -124,7 +128,7 @@ EnhancedTableHead.propTypes = {
 };
 
 function EnhancedTableToolbar(props) {
-  const { numSelected } = props;
+  const { numSelected, onGetSelectedRows, onUpdateParent } = props;
   const [openModal, setOpenModal] = React.useState(false);
 
   const handleOpenModal = () => {
@@ -134,33 +138,12 @@ function EnhancedTableToolbar(props) {
   const handleCloseModal = () => {
     setOpenModal(false);
   };
-
-  const handleAssignDriver = (selectedDriver, providerId) => {
+  
+  // const handleAssignDriver = (selectedDriver, providerId) => {
     // Do something with the selected driver and providerId in the parent component
-    console.log('Selected driver:', selectedDriver);
-    console.log('Provider ID:', providerId);
-  };
-
-
-//   const AssignDriverModal = (
-//     <Modal
-//       open={openModal}
-//       onClose={handleCloseModal}
-//       aria-labelledby="assign-driver-modal"
-//       aria-describedby="assign-driver-modal-description"
-//     >
-//       <Box sx={{ ...modalStyle, width: 400 }}>
-//         <Typography id="assign-driver-modal" variant="h6" component="div">
-//           Assign Driver
-//         </Typography>
-//         <p id="assign-driver-modal-description">
-//           Add your form or content for assigning a driver here.
-//         </p>
-//         <Button onClick={handleCloseModal}>Cancel</Button>
-//         <Button onClick={handleCloseModal}>Assign Driver</Button>
-//       </Box>
-//     </Modal>
-//   );
+  //   console.log('Selected driver:', selectedDriver);
+  //   console.log('Provider ID:', providerId);
+  // };
 
   return (
     <Toolbar
@@ -196,7 +179,7 @@ function EnhancedTableToolbar(props) {
      {numSelected > 0 ? (
         <Tooltip title="Assign Driver">
           <IconButton onClick={handleOpenModal}>
-            <AssignDriverModalButton providerId="5de05e6c-162f-4293-88d5-2aa6bd1bb8a3" onAssignDriver={handleAssignDriver} />
+            <AssignDriverModalButton providerId="${provider_id}" onAssignDriver={onGetSelectedRows} updateParent={onUpdateParent}/>
           </IconButton>
         </Tooltip>
       ) : (
@@ -206,7 +189,6 @@ function EnhancedTableToolbar(props) {
           </IconButton>
         </Tooltip>
       )}
-      {/* {AssignDriverModal} */}
     </Toolbar>
   );
 }
@@ -235,41 +217,65 @@ export default function DeliveryScheduleTable() {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [rows, setRows] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
+  const [updateFlag, setUpdateFlag] = React.useState(false);
+
+  const toggleUpdateFlag = () => {
+    setUpdateFlag((prevFlag) => !prevFlag);
+    setSelected([]);
+  };
+
 
   const fetchData = React.useCallback(async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/customer/provider/get-all-customers/5de05e6c-162f-4293-88d5-2aa6bd1bb8a3');
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
+      // First request to get meal plans
+      const mealPlanResponse = await apiHelper.get(`${ENDPOINTS.GET_MEAL_PLAN}provider_id=${provider_id}`);
+      if (!mealPlanResponse.ok) {
+        throw new Error('Network response was not ok for meal plans');
       }
+      console.log('******', mealPlanResponse)
+      const mealPlanData = await mealPlanResponse.json();
+  
+      // Assuming the first plan in the response is the correct one
+      const selectedMealPlan = mealPlanData.data[0];
+  
+      // Second request to get customer information
+      const customerResponse = await apiHelper.get(`${ENDPOINTS.GET_ALL_CUSTOMER}${selectedMealPlan.provider_id}`);
+  
+      if (!customerResponse.ok) {
+        throw new Error('Network response was not ok for customers');
+      }
+  
+      const customerData = await customerResponse.json();
 
-      const data = await response.json();
-
-      // Assuming 'customers' property contains an array of customer objects
-      const transformedData = data.data.customers.map((customer) => {
+  
+      // Transform data using the plan information
+      const transformedData = customerData.data.customers.filter(customer => customer.is_assigned_driver !== true).map((customer) => {
+        // Find the matching plan_id in mealPlanData
+        const matchedPlan = mealPlanData.data.find(plan => plan.plan_id === customer.plan_id);
+  
         return {
           id: customer.customer_id,
           name: customer.name,
           contact: customer.contact,
-          plan: 'Premium', // You can replace this with the actual plan information from the API
+          plan_id: customer.plan_id,
+          plan: matchedPlan ? matchedPlan.plan_name : 'Unknown Plan',
           city: 'City', // You can replace this with the actual city information from the API
           address: customer.address,
         };
       });
-
+  
       setRows(transformedData);
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
       setLoading(false); // Set loading state to false after fetching data, regardless of success or error
     }
-  }, []);  // Empty dependency array means this function will not change between renders
+  }, [updateFlag]);  
+  
 
   React.useEffect(() => {
     fetchData();
   }, [fetchData]);  // Pass the fetchData function as a dependency
-
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -324,97 +330,108 @@ export default function DeliveryScheduleTable() {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
-    const visibleRows = stableSort(rows, getComparator(order, orderBy))
+  const visibleRows = stableSort(rows, getComparator(order, orderBy))
     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
+  const getSelectedRows = () => {
+      const selectedDetails = rows.filter(row => selected.includes(row.id));
+      console.log(selectedDetails);
+      return selectedDetails;
+    };
+
   if (loading) {
-    return <p>Loading...</p>; // Render a loading indicator while data is being fetched
+    return <Loader loading={loading}/>; // Render a loading indicator while data is being fetched
   }
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Paper sx={{ width: '100%', mb: 2 }}>
-        <EnhancedTableToolbar numSelected={selected.length} />
-        <TableContainer>
-          <Table
-            sx={{ minWidth: 750 }}
-            aria-labelledby="tableTitle"
-            size={dense ? 'small' : 'medium'}
-          >
-            <EnhancedTableHead
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={rows.length}
-            />
-            <TableBody>
-              {visibleRows.map((row, index) => {
-                const isItemSelected = isSelected(row.id);
-                const labelId = `enhanced-table-checkbox-${index}`;
+    <div>
+      <Box sx={{ width: '100%', display: "flex", justifyContent: "space-between"}}>
+      <div className="sideBarMenu">
+        <SideBarMenu currentPage='/delivery-schedule'/>
+      </div>      
+        <Paper sx={{ width: '100%', mt:8}}>
+          <EnhancedTableToolbar numSelected={selected.length} onGetSelectedRows={getSelectedRows} onUpdateParent={toggleUpdateFlag}/>
+          <TableContainer>
+            <Table
+              sx={{ minWidth: 750 }}
+              aria-labelledby="tableTitle"
+              size={dense ? 'small' : 'medium'}
+            >
+              <EnhancedTableHead
+                numSelected={selected.length}
+                order={order}
+                orderBy={orderBy}
+                onSelectAllClick={handleSelectAllClick}
+                onRequestSort={handleRequestSort}
+                rowCount={rows.length}
+              />
+              <TableBody>
+                {visibleRows.map((row, index) => {
+                  const isItemSelected = isSelected(row.id);
+                  const labelId = `enhanced-table-checkbox-${index}`;
 
-                return (
-                  <TableRow
-                    hover
-                    onClick={(event) => handleClick(event, row.id)}
-                    role="checkbox"
-                    aria-checked={isItemSelected}
-                    tabIndex={-1}
-                    key={row.id}
-                    selected={isItemSelected}
-                    sx={{ cursor: 'pointer' }}
-                  >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        color="primary"
-                        checked={isItemSelected}
-                        inputProps={{
-                          'aria-labelledby': labelId,
-                        }}
-                      />
-                    </TableCell>
-                    <TableCell
-                      component="th"
-                      id={labelId}
-                      scope="row"
-                      padding="none"
+                  return (
+                    <TableRow
+                      hover
+                      onClick={(event) => handleClick(event, row.id)}
+                      role="checkbox"
+                      aria-checked={isItemSelected}
+                      tabIndex={-1}
+                      key={row.id}
+                      selected={isItemSelected}
+                      sx={{ cursor: 'pointer' }}
                     >
-                    </TableCell>
-                    <TableCell align="left">{row.name}</TableCell>
-                    <TableCell align="left">{row.contact}</TableCell>
-                    <TableCell align="left">{row.plan}</TableCell>
-                    <TableCell align="left">{row.city}</TableCell>
-                    <TableCell align="left">{row.address}</TableCell>
+                      <TableCell padding="checkbox">
+                        <Checkbox
+                          color="primary"
+                          checked={isItemSelected}
+                          inputProps={{
+                            'aria-labelledby': labelId,
+                          }}
+                        />
+                      </TableCell>
+                      <TableCell
+                        component="th"
+                        id={labelId}
+                        scope="row"
+                        padding="none"
+                      >
+                      </TableCell>
+                      <TableCell align="left">{row.name}</TableCell>
+                      <TableCell align="left">{row.contact}</TableCell>
+                      <TableCell align="left">{row.plan}</TableCell>
+                      <TableCell align="left">{row.city}</TableCell>
+                      <TableCell align="left">{row.address}</TableCell>
+                    </TableRow>
+                  );
+                })}
+                {emptyRows > 0 && (
+                  <TableRow
+                    style={{
+                      height: (dense ? 33 : 53) * emptyRows,
+                    }}
+                  >
+                    <TableCell colSpan={6} />
                   </TableRow>
-                );
-              })}
-              {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: (dense ? 33 : 53) * emptyRows,
-                  }}
-                >
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 25]}
+            component="div"
+            count={rows.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+          <FormControlLabel
+          control={<Switch checked={dense} onChange={handleChangeDense} />}
+          label="Dense padding"
         />
-      </Paper>
-      <FormControlLabel
-        control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Dense padding"
-      />
-    </Box>
+        </Paper>
+      </Box>
+    </div>
   );
 }

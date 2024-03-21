@@ -3,25 +3,32 @@ import Button from "@mui/material/Button";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import supabase from '../../../supabase';
 import axios from "axios";
 import "./add-driver-form.css";
-import Loader from '../../../components/Loader/Loader';
+import Loader from "../../../components/Loader/Loader";
 import CustomizedSnackbar from "../../../components/Notification/Notification";
+import useCloudinaryUpload from "../../../util/FileUpload/FileUpload";
+import { ENDPOINTS } from "../../../apiConfig.js";
+import { provider_id } from "../../../util/localStorage.js";
+import apiHelper from "../../../util/ApiHelper/ApiHelper.js";
 
 export default function DriverForm() {
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
+  const [previewImage, setPreviewImage] = useState(null);
+  const { filePath, uploadToCloudinary } = useCloudinaryUpload({
+    cloudName: "djencgbub",
+    uploadPreset: "s8ygrkym",
+  });
 
-  const [formData, setFormData] = React.useState({
+  const [formData, setFormData] = useState({
     name: "",
     photo_url: "",
     contact: "",
     email_id: "",
     address: "",
     login_token: "",
-    provider_id: "5de05e6c-162f-4293-88d5-2aa6bd1bb8a3",
- 
+    provider_id: provider_id,
   });
 
   const handleChange = (event) => {
@@ -29,43 +36,21 @@ export default function DriverForm() {
     setFormData({
       ...formData,
       [name]: value,
+      photo_url: filePath,
     });
   };
-
-  // const handleImageChange = (event) => {
-  //   const file = event.target.files[0];
-  //   setFormData({
-  //     ...formData,
-  //     image: file,
-  //   });
-  // };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
     try {
-      // // Upload the image to Supabase storage
-      // const { data, error } = await supabase.storage
-      //   .from("Media/driver_images")
-      //   .upload(`public/${formData.image.name}`, formData.image);
+      console.log(formData);
 
-      // if (error) {
-      //   throw error;
-      // }
-
-      // // Get the URL of the uploaded image
-      // const imageUrl = data.Location;
-
-      // // Include the image URL in the formData
-      // setFormData({
-      //   ...formData,
-      //   photo_url: imageUrl,
-      // });
-
-      const response = await axios.post(
-        "http://localhost:3001/api/drivers/add-driver?provider_id=5de05e6c-162f-4293-88d5-2aa6bd1bb8a3",
+      const response = await apiHelper.post(
+        `${ENDPOINTS.ADD_DRIVER}`,
         formData
       );
+
       setLoading(false);
       setFormData({
         name: "",
@@ -74,21 +59,52 @@ export default function DriverForm() {
         email_id: "",
         address: "",
         login_token: "",
-  
       });
+
+      window.location.href = "/drivers";
     } catch (error) {
       setLoading(false);
       console.error("Error submitting form:", error);
-      setNotificationMessage('Something went wrong!!')
+      setNotificationMessage("Something went wrong!!");
     }
   };
 
+  function handleFileDrop(event) {
+    event.preventDefault();
+    const files = event.dataTransfer.files;
+    if (files.length > 0) {
+      const file = files[0];
+      const reader = new FileReader();
+      reader.onload = () => {
+        setPreviewImage(reader.result);
+        uploadToCloudinary(file);
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  function handleDragOver(event) {
+    event.preventDefault();
+  }
+  function handleFileSelect(event) {
+    event.preventDefault();
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setPreviewImage(reader.result);
+        uploadToCloudinary(file);
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
   return (
     <div className="form-page-container">
-       <Loader loading={loading} />
-       {notificationMessage && (
-                <CustomizedSnackbar customMessage={notificationMessage} />
-            )}
+      <Loader loading={loading} />
+      {notificationMessage && (
+        <CustomizedSnackbar customMessage={notificationMessage} />
+      )}
       <div className="toolBar">
         <Toolbar
           sx={{
@@ -109,89 +125,129 @@ export default function DriverForm() {
           <AccountCircleIcon />
         </Toolbar>
       </div>
-      <div className="form">
-        <form onSubmit={handleSubmit}>
-          <label>Driver's Name</label>
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            placeholder="Enter name"
-            required
-          />
-          {/* <label>Driver's Image</label>
-          <input
-            type="file"
-            name="image"
-            onChange={handleImageChange}
-            accept="image/*"
-            required
-          /> */}
-          <label>Driver's Contact Number</label>
-          <input
-            type="text"
-            name="contact"
-            value={formData.contact}
-            onChange={handleChange}
-            placeholder="Enter contact number"
-            required
-          />
-          <label>Driver's Email</label>
-          <input
-            type="email"
-            name="email_id"
-            value={formData.email_id}
-            onChange={handleChange}
-            placeholder="Enter email"
-            required
-          />
-          <label>Driver's Address</label>
-          <input
-            type="text"
-            name="address"
-            value={formData.address}
-            onChange={handleChange}
-            placeholder="Enter address"
-            required
-          />
-          <label>Driver's Login Token</label>
-          <input
-            type="text"
-            name="login_token"
-            value={formData.login_token}
-            onChange={handleChange}
-            placeholder="Enter login token"
-            required
-          />
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            className="submit-button"
-          >
-            Submit
-          </Button>
-          <Button
-            type="button"
-            variant="outlined"
-            color="secondary"
-            className="clear-button"
-            onClick={() =>
-              setFormData({
-                name: "",
-                photo_url: "",
-                contact: "",
-                email_id: "",
-                address: "",
-                login_token: "",
-              })
-            }
-          >
-            Clear
-          </Button>
-        </form>
+      {/* <div className="form"> */}
+      <div className="meal-page-container">
+        <div className="form-container">
+          <form onSubmit={handleSubmit}>
+            <label>Driver's Name</label>
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="Enter name"
+              required
+            />
+            <label>Driver's Image</label>
+            <div
+              style={{
+                width: "90%",
+                height: "200px",
+                border: "2px dashed #ccc",
+                textAlign: "center",
+                padding: "20px",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                position: "relative",
+                backgroundColor: "#F2F4F8"
+              }}
+              onDragOver={handleDragOver}
+              onDrop={handleFileDrop}
+            >
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleFileSelect}
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                  opacity: 0,
+                  cursor: "pointer",
+                }}
+              />
+              {previewImage ? (
+                <img
+                  src={previewImage}
+                  alt="Preview"
+                  style={{ maxWidth: "100%", maxHeight: "100%" }}
+                />
+              ) : (
+                <p>Drop your file(s) here or click and browse</p>
+              )}
+            </div>
+
+            <label>Driver's Contact Number</label>
+            <input
+              type="text"
+              name="contact"
+              value={formData.contact}
+              onChange={handleChange}
+              placeholder="Enter contact number"
+              required
+            />
+            <label>Driver's Email</label>
+            <input
+              type="email"
+              name="email_id"
+              value={formData.email_id}
+              onChange={handleChange}
+              placeholder="Enter email"
+              required
+            />
+            <label>Driver's Address</label>
+            <input
+              type="text"
+              name="address"
+              value={formData.address}
+              onChange={handleChange}
+              placeholder="Enter address"
+              required
+            />
+            <label>Driver's Login Token</label>
+            <input
+              type="text"
+              name="login_token"
+              value={formData.login_token}
+              onChange={handleChange}
+              placeholder="Enter login token"
+              required
+            />
+            <div className="actions">
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                className="submit-button  Btn"
+              >
+                Submit
+              </Button>
+              <Button
+                type="button"
+                variant="outlined"
+                color="secondary"
+                className="clear-button Btn"
+                onClick={() =>
+                  setFormData({
+                    name: "",
+                    photo_url: "",
+                    contact: "",
+                    email_id: "",
+                    address: "",
+                    login_token: "",
+                  })
+                }
+              >
+                Clear
+              </Button>
+            </div>
+          </form>
+        </div>
       </div>
-      </div>
+    </div>
   );
 }

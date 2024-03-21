@@ -17,17 +17,19 @@ export default function AdditionalInfoForm({
   formData,
   handleChange,
   mealPlans,
+  isEditMode,
+  customerData,
 }) {
   return (
     <div className="meal-page-container">
       <Stack spacing={2} className="form-container">
-        <img className="steeper" src={myImg} alt="stepper" />
+        {/* <img className="steeper" src={myImg} alt="stepper" /> */}
 
         <InputLabel htmlFor="plan_id">Meal Plan</InputLabel>
         <Select
           className="form"
           name="plan_id"
-          value={formData.value}
+          value={isEditMode ? formData.plan_id : formData.value}
           onChange={handleChange}
         >
           <MenuItem value="">Select a meal plan</MenuItem>
@@ -48,7 +50,7 @@ export default function AdditionalInfoForm({
         <Select
           className="form"
           name="is_veg"
-          value={formData.is_veg}
+          value={isEditMode ? formData.is_veg : formData.is_veg}
           onChange={handleChange}
         >
           <MenuItem value="">Select a diet preference</MenuItem>
@@ -57,11 +59,13 @@ export default function AdditionalInfoForm({
           <MenuItem value="vegan">Vegan</MenuItem>
         </Select>
 
-        <InputLabel htmlFor="diet_notes">Additional Notes (Optional)</InputLabel>
+        <InputLabel htmlFor="diet_notes">
+          Additional Notes (Optional)
+        </InputLabel>
         <TextField
           type="text"
           name="diet_notes"
-          value={formData.diet_notes}
+          value={isEditMode ? formData.diet_notes : formData.diet_notes}
           onChange={handleChange}
           className="form"
         />
@@ -70,7 +74,7 @@ export default function AdditionalInfoForm({
         <Select
           className="form"
           name="tiffin_quantity"
-          value={formData.tiffin_quantity}
+          value={isEditMode ? formData.tiffin_quantity : formData.tiffin_quantity}
           onChange={handleChange}
         >
           <MenuItem value="">Select Meal Quantity</MenuItem>
@@ -81,11 +85,13 @@ export default function AdditionalInfoForm({
           <MenuItem value="5">5</MenuItem>
         </Select>
 
-        <InputLabel htmlFor="billing_cycle">Billing Date (Start Date)</InputLabel>
+        <InputLabel htmlFor="billing_cycle">
+          Billing Date (Start Date)
+        </InputLabel>
         <TextField
           type="date"
           name="billing_cycle"
-          value={formData.billing_cycle}
+          value={isEditMode ? formData.billing_cycle : formData.billing_cycle}
           onChange={handleChange}
           className="form"
         />
@@ -96,7 +102,7 @@ export default function AdditionalInfoForm({
             column
             aria-label="status"
             name="status"
-            value={formData.status}
+            value={isEditMode ? formData.status : formData.status}
             onChange={handleChange}
           >
             <FormControlLabel value="TRUE" control={<Radio />} label="Active" />

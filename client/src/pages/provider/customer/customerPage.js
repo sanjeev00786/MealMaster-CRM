@@ -2,6 +2,10 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./customerPage.css";
 
+import apiHelper from "../../../util/ApiHelper/ApiHelper.js";
+import { ENDPOINTS } from "../../../apiConfig.js.js";
+import { provider_id } from "../../../util/localStorage.js";
+
 export default function CustomerForm1() {
   const [formData, setFormData] = useState({});
   const [mealPlans, setMealData] = useState([]);
@@ -10,8 +14,8 @@ export default function CustomerForm1() {
   useEffect(() => {
     const fetchMealPlans = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:3001/api/provider/meal_plans/get-meal-plan?provider_id=5de05e6c-162f-4293-88d5-2aa6bd1bb8a3"
+        const response = await apiHelper.get(
+          `${ENDPOINTS.GET_MEAL_PLAN}provider_id=${provider_id}`
         );
         setMealData(response.data.data);
       } catch (error) {
@@ -30,10 +34,10 @@ export default function CustomerForm1() {
   };
   const submitForm = async (e) => {
     e.preventDefault();
-    const serverApiEndpoint = "http://localhost:3001/api/customer/add-customer";
+    const serverApiEndpoint = `${ENDPOINTS.ADD_CUSTOMER}`;
 
     try {
-      const response = await axios.post(serverApiEndpoint, formData);
+      const response = await apiHelper.post(serverApiEndpoint, formData);
       console.log(response.data.message);
     } catch (error) {
       console.error("Error adding customer:", error);
