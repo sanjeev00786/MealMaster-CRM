@@ -2,25 +2,21 @@ import React from "react";
 import MiniDrawer from "../../../components/SideMenu/SideMenu";
 import AnchorTemporaryDrawer from '../../../components/MobileSideMenu/MobileSideMenu'
 import "./social-media.css";
-import Lottie from 'react-lottie';
 import progressAnimation from '../../../component-assets/progressAnimation.json';
 import SideBarMenu from "../../../components/NewSideMenu/NewSideMenu";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 // import Header from "../../../components/header/header";
+import FacebookLogin from 'react-facebook-login';
+import supabase from "../../../supabase";
 
 const SocialMedia=()=> {
 
   const [selectedFile, setSelectedFile] = useState(null);
 
-
-    const defaultOptions = {
-      loop: true,
-      autoplay: true,
-      animationData: progressAnimation,
-      rendererSettings: {
-        preserveAspectRatio: 'xMidYMid slice',
-      }
+    const responseFacebook = (response) => {
+      console.log('FACEBOOK SDK RESPONSE',response);
+      // Handle the response from Facebook login here
     };
 
 
@@ -54,24 +50,52 @@ const SocialMedia=()=> {
     }
   };
 
+  useEffect(() => {
+    window.fbAsyncInit = function() {
+      console.log('APP ID', '929156743874144');
+      // eslint-disable-next-line no-undef
+      FB.init({
+        appId: '929156743874144',
+        cookie: true,
+        xfbml: true,
+        version: 'v13.0'
+      });
+      console.log('Facebook SDK initialized successfully!');
+    };
 
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "https://connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  }, []);
+
+//MealMaster@123
   return (
-    <div className="dashboard-container">
+    <div className="social-media-container">
     <div className = "mobileSideMenu">
     <AnchorTemporaryDrawer />
     </div>
     <div className="sideBarMenu">
-        <SideBarMenu currentPage='social-media'/>
-      </div> 
-    {/* <div className="WIP">
-    <h1 className="dashboard-header">Work In Progress</h1>
-    <Lottie options={defaultOptions} height={350} width={350} />
-    </div> */}
+        <SideBarMenu currentPage='/social-media'/>
+    </div> 
     <div>
       <input type="file" onChange={handleFileChange} />
       <button onClick={handleUpload}>Upload</button>
     </div>
-    
+    {window.FB && (
+        <FacebookLogin
+          appId='929156743874144'
+          autoLoad={false}
+          fields="name,email,picture"
+          callback={responseFacebook}
+          scope="pages_manage_posts" // Request the 'pages_manage_posts' permission
+          icon="fa-facebook"
+          textButton="Login with Facebook"
+        />
+      )}
     </div>
 
   );

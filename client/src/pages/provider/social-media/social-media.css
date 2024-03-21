@@ -3,3 +3,6 @@
     align-items: center;
   }
   
+  .social-media-container {
+    display: flex;
+  }
