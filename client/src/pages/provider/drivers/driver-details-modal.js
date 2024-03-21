@@ -3,18 +3,18 @@ import { Modal, Box, Typography, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
-
+import CloseIcon from '@mui/icons-material/Close';
 import "./driver-details-modal.css";
 import { ENDPOINTS } from '../../../apiConfig.js';
 import { provider_id } from "../../../util/localStorage.js";
 import apiHelper from "../../../util/ApiHelper/ApiHelper.js";
-import CloseIcon from '@mui/icons-material/Close';
-
 
 const ViewDriverDetailsModal = ({ login_token, onClose }) => {
   const [driverDetails, setDriverDetails] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
   const navigate = useNavigate();
 
+  // Styles
   const modalStyle = {
     position: "absolute",
     top: "50%",
@@ -25,8 +25,6 @@ const ViewDriverDetailsModal = ({ login_token, onClose }) => {
     p: 4,
   };
 
-  //   console.log(driverDetails);
-
   useEffect(() => {
     const fetchDriverDetails = async () => {
       try {
@@ -34,7 +32,6 @@ const ViewDriverDetailsModal = ({ login_token, onClose }) => {
           `${ENDPOINTS.GET_DRIVER}?login_token=${login_token}`
         );
         setDriverDetails(response.data);
-        // console.log(response.data.data);
       } catch (error) {
         console.error("Error fetching driver details:", error);
       }
@@ -67,24 +64,27 @@ const ViewDriverDetailsModal = ({ login_token, onClose }) => {
     >
       <Box sx={{ ...modalStyle, width: 400 }}>
         <div className="modal-header-container">
-        <Typography id="view-driver-modal" variant="h3" component="div">
-          Driver Details
-        </Typography>
-        <CloseIcon onClick={onClose} style={{ cursor: "pointer", paddingTop: "5px" }}/>
+          <Typography id="view-driver-modal" variant="h3" component="div">
+            Driver Details
+          </Typography>
+          <CloseIcon onClick={onClose} style={{ cursor: "pointer", paddingTop: "5px" }}/>
         </div>
-
         {driverDetails ? (
           <>
-          <div className="driver-details">
-          <div className="detail-row">
+            <div className="driver-details">
+            <div className="detail-row">
             <Typography className="detail-label">Driver's Name:</Typography>
             <Typography className="detail-data">{driverDetails[0].name}</Typography>
           </div>
-          <div className="detail-row">
-            <Typography className="detail-label">Driver's DOB:</Typography>
-            <Typography className="detail-data">{driverDetails[0].dob}</Typography>
-          </div>
-          <div className="detail-row">
+              <div className="detail-row">
+                <Typography className="detail-label">Driver's Image:</Typography>
+                {imagePreview ? (
+                  <img src={imagePreview} alt="Driver's Image" className="image-preview" />
+                ) : (
+                  <img src={driverDetails[0].photo_url} alt="Driver's Image" className="image-preview" />
+                )}
+              </div>
+              <div className="detail-row">
             <Typography className="detail-label">Driver's Address:</Typography>
             <Typography className="detail-data">{driverDetails[0].address}</Typography>
           </div>
@@ -101,23 +101,21 @@ const ViewDriverDetailsModal = ({ login_token, onClose }) => {
             <Typography className="detail-label">Driver's Login Token:</Typography>
             <Typography className="detail-data">{driverDetails[0].login_token}</Typography>
           </div>
-        </div>
+            </div>
           </>
         ) : (
           <Typography>Loading driver details...</Typography>
         )}
         <div className="button-container">
-
-        <Link className="delete-link" onClick={handleDelete}>
+          <Link className="delete-link" onClick={handleDelete}>
             Delete Driver
-        </Link>
-
-        <Link
+          </Link>
+          <Link
             className="edit-link"
             component={Link}
             to={`/edit-driver?login_token=${login_token}`}
           >
-             Edit Driver
+            Edit Driver
           </Link>
         </div>
       </Box>

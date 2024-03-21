@@ -141,7 +141,7 @@ export default function DriverForm() {
             <label>Driver's Image</label>
             <div
               style={{
-                width: "300px",
+                width: "90%",
                 height: "200px",
                 border: "2px dashed #ccc",
                 textAlign: "center",
@@ -151,6 +151,7 @@ export default function DriverForm() {
                 alignItems: "center",
                 justifyContent: "center",
                 position: "relative",
+                backgroundColor: "#F2F4F8"
               }}
               onDragOver={handleDragOver}
               onDrop={handleFileDrop}
@@ -176,7 +177,7 @@ export default function DriverForm() {
                   style={{ maxWidth: "100%", maxHeight: "100%" }}
                 />
               ) : (
-                <p>Drop your file(s) here or browse</p>
+                <p>Drop your file(s) here or click and browse</p>
               )}
             </div>
 
