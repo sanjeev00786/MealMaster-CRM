@@ -28,11 +28,13 @@ const pushToAssignedTiffin = async (providerId, driverId, data) => {
       return;
     }
 
+    console.log(data)
+
     const records = data.map(customer => ({
       driver_id: driverId,
       provider_id: providerId,
       plan_id: customer.plan_id,
-      customer_id: customer.id,
+      customer_id: customer.customer_id,
     }));
 
     const { error: insertError } = await supabase
@@ -45,7 +47,7 @@ const pushToAssignedTiffin = async (providerId, driverId, data) => {
 
     console.log('Records inserted/updated successfully.');
 
-    const customerIdsToUpdate = data.map(customer => customer.id);
+    const customerIdsToUpdate = data.map(customer => customer.customer_id);
 
     if (customerIdsToUpdate.length > 0) {
       const { data: updateResult, error: updateError } = await supabase
@@ -59,7 +61,6 @@ const pushToAssignedTiffin = async (providerId, driverId, data) => {
       }
 
       console.log('is_assigned_driver updated for assigned customers:', updateResult);
-      updateParent();
     } else {
       console.log('No customers to update.');
     }
@@ -75,7 +76,7 @@ const pushToAssignedTiffin = async (providerId, driverId, data) => {
     try {
       const response = await axios.get(`${API_BASE_URL}${ENDPOINTS.GET_ALL_DRIVER}provider_id=${providerId}`);
       console.log(response.data)
-      setDrivers(response.data.data); // Extracting the 'data' array from the response
+      setDrivers(response.data.data);
     } catch (error) {
       console.error('Error fetching drivers:', error);
     }
@@ -85,11 +86,14 @@ const pushToAssignedTiffin = async (providerId, driverId, data) => {
     setOpenModal(false);
   };
 
+  console.log(onAssignDriver)
+
   const handleAssignDriver = () => {
     if (selectedDriver) {
-      let customerData = onAssignDriver()
+      let customerData = onAssignDriver;
       pushToAssignedTiffin(providerId, selectedDriver, customerData)
       handleCloseModal();
+      updateParent(); // need to fix this bug once driver is selected need to refresh the page.
     } else {
       alert('Please select a driver before assigning.');
     }
