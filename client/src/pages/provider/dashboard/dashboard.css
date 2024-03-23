@@ -12,12 +12,6 @@
   flex: 0 0 15%;
 }
 
-.WIP {
-  flex: 1 85%;
-  align-items: center;
-  padding-left: 1rem;
-}
-
 .dashboard-header {
   margin-top: 4rem;
   text-align: center;
@@ -33,5 +27,20 @@
   }
   .mobileSideMenu {
     visibility: visible;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .sideBarMenu {
+    display: none;
+  }
+
+  .mobileSideBarMenu {
+    display: block;
+    width: 15%;
+  }
+
+  .contentWrapper {
+    width: 100%;
   }
 }
