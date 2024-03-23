@@ -89,3 +89,6 @@
   justify-content: center;
   margin-top: 20px; 
 }
+.detail-label {
+  text-align: left !important;
+}

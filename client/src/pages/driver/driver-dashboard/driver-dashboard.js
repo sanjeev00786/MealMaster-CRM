@@ -295,13 +295,6 @@ const [isOpen, setIsOpen] = useState(false);
       }, 2000);
     }
   };
-  
-
-
-
-
-
-  
 
   return (
     <div className="dashboard-container">

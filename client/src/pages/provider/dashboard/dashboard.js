@@ -23,7 +23,7 @@ const Dashboard = () => {
         </div>
 
         {/* Content */}
-        <Grid item xs={12} md={9} style={{ overflowY: "auto", maxHeight: "calc(100vh)" }}>
+        <Grid className="graph-container" item xs={12} md={9} style={{ overflowY: "auto", maxHeight: "calc(100vh)" }}>
           <h2>Dashboard</h2>
           <AnalyticsHeader />
           <Grid container spacing={2}>
