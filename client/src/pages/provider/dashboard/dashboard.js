@@ -7,6 +7,7 @@ import MealPlanPieChart from "./meal-plan-chart";
 import SideBarMenu from "../../../components/NewSideMenu/NewSideMenu";
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
+import AnalyticsHeader from "./analytics-header";
 
 const Dashboard = () => {
   return (
@@ -19,6 +20,7 @@ const Dashboard = () => {
 
         {/* Content */}
         <Grid item xs={12} md={9}>
+          <AnalyticsHeader/>
           <Grid container spacing={2}>
             {/* Revenue Graph */}
             <Grid item xs={12} md={6}>
@@ -30,14 +32,14 @@ const Dashboard = () => {
             {/* Veg Pie Chart */}
             <Grid item xs={12} md={6}>
               <Paper elevation={0} className="graphPaper">
-                <VegPieChart />
+                <CustomerGraph />
               </Paper>
             </Grid>
 
             {/* Customer Graph */}
             <Grid item xs={12} md={6}>
               <Paper elevation={0} className="graphPaper">
-                <CustomerGraph />
+                <VegPieChart />
               </Paper>
             </Grid>
 
@@ -55,4 +57,5 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
 
