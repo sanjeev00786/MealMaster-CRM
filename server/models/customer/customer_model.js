@@ -203,7 +203,10 @@ exports.getCustomersByProvider = async (providerId) => {
   try {
     const { data, error } = await supabase
       .from("customers")
-      .select("*")
+      .select(`
+        *,
+        plans:plan_id(*)
+      `)
       .eq("provider_id", providerId); 
 
     if (error) {
@@ -230,7 +233,10 @@ exports.getActiveCustomersByProvider = async (providerId) => {
   try {
     const { data, error } = await supabase
       .from("customers")
-      .select("*")
+      .select(`
+        *,
+        plans:plan_id(*)
+      `)
       .eq("provider_id", providerId)
       .eq("status", true); // Filter customers by status
 
@@ -257,7 +263,10 @@ exports.getInactiveCustomersByProvider = async (providerId) => {
   try {
     const { data, error } = await supabase
       .from("customers")
-      .select("*")
+      .select(`
+        *,
+        plans:plan_id(*)
+      `)
       .eq("provider_id", providerId)
       .eq("status", false); // Filter customers by status
 

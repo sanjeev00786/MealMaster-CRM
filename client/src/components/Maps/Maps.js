@@ -89,10 +89,10 @@ const Maps = ({ customerData, setTotalRouteDistance, driver_id }) => {
                     const route = response.routes[0];
                     const totalDistance = route.legs.reduce((acc, leg) => acc + leg.distance.value, 0);
                     setTotalRouteDistance(totalDistance / 1000);
+                    simulateDriverMovement(response.routes[0].overview_path);
                   } else {
                     console.error(`Directions request failed: ${status}`);
                   }
-                  simulateDriverMovement(response.routes[0].overview_path);
                 }
               );
             }
