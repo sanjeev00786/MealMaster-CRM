@@ -36,6 +36,20 @@ const DriverDashboard = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+/***************************************************** */
+
+const [isOpen, setIsOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsOpen(false);
+  };
+/***************************************************** */
+
+
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -280,6 +294,12 @@ const DriverDashboard = () => {
       }, 2000);
     }
   };
+  useEffect(() => {
+    // Condition to open the modal automatically
+    if (assignTiffinData.length === 0) {
+      setModalOpen(true);
+    }
+  }, [assignTiffinData]);
 
   return (
     <div className="dashboard-container">
@@ -287,6 +307,8 @@ const DriverDashboard = () => {
       <DriverMenu isOpen={isMenuOpen} toggleMenu={toggleMenu} />
       <div className="driver-dashboard-header">
       <h2>Change Delivery today</h2>
+      {/* <button onClick={handleOpenModal}>Open Modal</button> */}
+      {/* <DriverModalDelivery isOpen={isOpen} setModalOpen={setIsOpen} /> */}
       <DriverModalDelivery
             onConfirm={handleConfirm}
             isOpen={isModalOpen}
@@ -328,6 +350,12 @@ const DriverDashboard = () => {
             alt="Placeholder"
             className="placeholder-image"
           />
+          <DriverModalDelivery
+            onConfirm={handleConfirm}
+            isOpen={isModalOpen}
+            setModalOpen={setModalOpen}
+          />
+
         </div>
       ) : isNavigationStarted ? (
         <div>
