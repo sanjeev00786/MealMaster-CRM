@@ -448,6 +448,7 @@ export default function DeliveryScheduleTable() {
   const [totalPages, setTotalPages] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
+  const [refreshList, setRefreshList] = useState(false);
   const navigate = useNavigate();
   const { pageNum } = useParams();
 
@@ -470,6 +471,11 @@ export default function DeliveryScheduleTable() {
 
   const handlePageChange = (event, newPage) => {
     navigate(`/delivery-schedule/${newPage}`);
+  };
+
+  const handleRefreshList = () => {
+    console.log('********List refreshed!');
+    fetchData(pageNum);
   };
 
   const columns = [
@@ -523,7 +529,7 @@ export default function DeliveryScheduleTable() {
   };
 
   const onUpdateParent = () =>{
-    fetchData(pageNum);
+    // fetchData(pageNum);
   }
 
   return (
@@ -557,7 +563,8 @@ export default function DeliveryScheduleTable() {
               onClose={toggleModal}
               providerId={provider_id}
               onAssignDriver={selectedRows}
-              updateParent={onUpdateParent()}// need to fix the issue for refreshing 
+              // updateParent={setRefreshList(!refreshList)} 
+              onSuccess={handleRefreshList}
             />
           </div>
         </div>

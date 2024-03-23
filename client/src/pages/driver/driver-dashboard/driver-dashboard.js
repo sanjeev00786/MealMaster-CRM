@@ -16,7 +16,7 @@ import NoDeliveries from "../../../component-assets/NoDeliveries.svg";
 import WithoutRouteMaps from "../../../components/Maps/WithoutRouteMap.js";
 import { Link } from "react-router-dom";
 import deliveryLocationIcon from "../../../component-assets/makerlocation.svg";
-import driverModalDelivery from "../../../components/DriverModal/driverModal.js";
+import DriverModalDelivery from "../../../components/DriverModal/driverModal.js";
 import DriverMenu from "../../../components/DriverMenu/DriverMenu.jsx";
 import DriverMenuIcon from '../../../component-assets/menu-icon.svg'
 
@@ -287,10 +287,7 @@ const DriverDashboard = () => {
       <DriverMenu isOpen={isMenuOpen} toggleMenu={toggleMenu} />
       <div className="driver-dashboard-header">
       <h2>Change Delivery today</h2>
-      <driverModalDelivery
-            // modalTitle="Delete Meal Plan"
-            // modalDescription="Are you sure you want to delete selected meal plan(s)?"
-            // onCancel={handleCancel}
+      <DriverModalDelivery
             onConfirm={handleConfirm}
             isOpen={isModalOpen}
             setModalOpen={setModalOpen}

@@ -5,11 +5,10 @@ import supabase from '../../../supabase';
 import { API_BASE_URL, ENDPOINTS } from '../../../apiConfig.js';
 import axios from 'axios';
 
-const AssignDriverModalButton = ({ providerId, onAssignDriver, updateParent}) => {
+const AssignDriverModalButton = ({ providerId, onAssignDriver, updateParent, onSuccess}) => {
   const [openModal, setOpenModal] = useState(false);
   const [drivers, setDrivers] = useState([]);
   const [selectedDriver, setSelectedDriver] = useState('');
-
 
   const modalStyle = {
     position: 'absolute',
@@ -59,7 +58,7 @@ const pushToAssignedTiffin = async (providerId, driverId, data) => {
         console.error('Error updating is_assigned_driver in customers table:', updateError);
         throw new Error(`Error updating is_assigned_driver in customers table: ${updateError.message}`);
       }
-
+      onSuccess();
       console.log('is_assigned_driver updated for assigned customers:', updateResult);
     } else {
       console.log('No customers to update.');
@@ -93,7 +92,6 @@ const pushToAssignedTiffin = async (providerId, driverId, data) => {
       let customerData = onAssignDriver;
       pushToAssignedTiffin(providerId, selectedDriver, customerData)
       handleCloseModal();
-      updateParent(); // need to fix this bug once driver is selected need to refresh the page.
     } else {
       alert('Please select a driver before assigning.');
     }

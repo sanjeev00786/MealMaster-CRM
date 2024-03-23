@@ -10,7 +10,7 @@ import CloseIcon from "@mui/icons-material/Close";
 // import "./MealModal.css";
 import logo from "../../component-assets/snackbar_Icon_new.svg";
 
-const driverModalDelivery = ({
+const DriverModalDelivery = ({
   modalTitle,
   modalDescription,
   onCancel,
@@ -91,4 +91,4 @@ const driverModalDelivery = ({
   );
 };
 
-export default driverModalDelivery;
+export default DriverModalDelivery;
