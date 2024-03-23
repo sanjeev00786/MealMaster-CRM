@@ -15,16 +15,16 @@ const Dashboard = () => {
     <div className="dashboardPage">
       <Grid container spacing={2}>
         {/* Sidebar */}
-      <div className="mobileSideBarMenu">
-        <AnchorTemporaryDrawer />
-      </div>
-      <div className="sideBarMenu">
-        <SideBarMenu currentPage="/dashboard" />
-      </div>
+        <div className="mobileSideBarMenu">
+          <AnchorTemporaryDrawer />
+        </div>
+        <div className="sideBarMenu">
+          <SideBarMenu currentPage="/dashboard" />
+        </div>
 
         {/* Content */}
-        <Grid item xs={12} md={9}>
-          <AnalyticsHeader/>
+        <Grid item xs={12} md={9} style={{ overflowY: "auto", maxHeight: "calc(100vh)" }}>
+          <AnalyticsHeader />
           <Grid container spacing={2}>
             {/* Revenue Graph */}
             <Grid item xs={12} md={6}>
