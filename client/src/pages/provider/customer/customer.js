@@ -305,7 +305,7 @@ export default function CustomerPage() {
           <div className="search-container">
             <input
               type="text"
-              placeholder="Search"
+              placeholder="Search by Name"
               onChange={handleFilter}
               className="search-input"
             />

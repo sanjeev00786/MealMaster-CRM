@@ -20,6 +20,7 @@ import TrackDriver from './pages/provider/track-deliveries/track-driver/track-dr
 import LandingPage from './pages/LandingPage/LandingPage';
 import EditDriverForm from './pages/provider/drivers/edit-driver-form';
 import LoginPage from './pages/provider/authentication/login-page';
+import EditCustomerForm from "./pages/provider/customer/EditCustomerForm";
 
 const PrivateRoute = ({ component: Component, session, ...rest }) => (
   <Route
@@ -137,6 +138,12 @@ const App = () => {
           <Route
             path="/customerList/:page"
             element={session ? <CustomerPage /> : <LoginPage />}
+          />
+          <Route
+            path="/edit-customer/:customerId"
+            element={
+              session ? <EditCustomerForm /> : <Navigate to="/customerList" />
+            }
           />
 
           {/* <Route
