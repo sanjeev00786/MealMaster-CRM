@@ -79,70 +79,54 @@ const ViewDriverDetailsModal = ({ login_token, onClose }) => {
         {driverDetails ? (
           <>
             <div className="driver-details">
-            <div className="driver-image-container">
-                {imagePreview ? (
-                  <img
-                    src={imagePreview}
-                    alt="Driver's Image"
-                    className="image-preview"
-                  />
-                ) : (
-                  <img
-                    src={driverDetails[0].photo_url}
-                    alt="Driver's Image"
-                    className="image-preview"
-                  />
-                )}
-              </div>
-              
-              <div className="detail-row">
-                <Typography className="detail-label">Driver's Name:</Typography>
-                <Typography className="detail-data">
-                 {driverDetails[0].name}
-                </Typography>
-              </div>
-              <div className="detail-row">
-                <Typography className="detail-label">
-                  Driver's Address:
-                </Typography>
-                <Typography className="detail-data">
-                  {driverDetails[0].address}
-                </Typography>
-              </div>
-              <div className="detail-row">
-                <Typography className="detail-label">
-                  Driver's Contact:
-                </Typography>
-                <Typography className="detail-data">
-                  {driverDetails[0].contact}
-                </Typography>
-              </div>
-              <div className="detail-row">
-                <Typography className="detail-label">
-                  Driver's Email:
-                </Typography>
-                <Typography className="detail-data">
-                  {driverDetails[0].email_id}
-                </Typography>
-              </div>
+  <div className="driver-info-container">
+    <div className="driver-image-container">
+      {imagePreview ? (
+        <img
+          src={imagePreview}
+          alt="Driver's Image"
+          className="image-preview"
+        />
+      ) : (
+        <img
+          src={driverDetails[0].photo_url}
+          alt="Driver's Image"
+          className="image-preview"
+        />
+      )}
+    </div>
 
-              <div className="detail-row">
-                
-                <Typography className="detail-label">
-                  <span>Login Token:</span>
-                </Typography>
-                <Typography className="detail-data">
-                  <span>{driverDetails[0].login_token}</span>
-                </Typography>
-              </div>
-            </div>
+    <div className="driver-info">
+      <Typography className="detail-data">
+        {driverDetails[0].name}
+      </Typography>
+
+      <Typography className="detail-data">
+        {driverDetails[0].address}
+      </Typography>
+
+      <Typography className="detail-data">
+        {driverDetails[0].contact}
+      </Typography>
+
+      <Typography className="detail-data">
+        {driverDetails[0].email_id}
+      </Typography>
+
+      <Typography className="detail-data">
+        <span>{driverDetails[0].login_token}</span>
+      </Typography>
+    </div>
+  </div>
+</div>
+
           </>
         ) : (
           <Typography>Loading driver details...</Typography>
         )}
         <div className="button-container">
           <Link className="delete-link" onClick={handleDelete}>
-            Disable Driver
+            Delete Driver
           </Link>
           <Link
             className="edit-link"

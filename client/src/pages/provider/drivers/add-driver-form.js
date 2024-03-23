@@ -11,6 +11,7 @@ import useCloudinaryUpload from "../../../util/FileUpload/FileUpload";
 import { ENDPOINTS } from "../../../apiConfig.js";
 import { provider_id } from "../../../util/localStorage.js";
 import apiHelper from "../../../util/ApiHelper/ApiHelper.js";
+import { Link } from "react-router-dom";
 import AnchorTemporaryDrawer from "../../../components/MobileSideMenu/MobileSideMenu";
 import SideBarMenu from "../../../components/NewSideMenu/NewSideMenu";
 
@@ -211,18 +212,10 @@ export default function DriverForm() {
                 variant="outlined"
                 color="secondary"
                 className="clear-button Btn"
-                onClick={() =>
-                  setFormData({
-                    name: "",
-                    photo_url: "",
-                    contact: "",
-                    email_id: "",
-                    address: "",
-                    login_token: "",
-                  })
-                }
-              >
-                Clear
+                component={Link}
+            to={`/drivers`}
+          >
+                Cancel
               </Button>
             </div>
           </form>
