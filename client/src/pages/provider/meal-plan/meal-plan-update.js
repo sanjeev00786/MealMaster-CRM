@@ -56,6 +56,7 @@ const MealPlanUpdatePage = () => {
     fetchMealPlan();
   }, []);
 
+  
   const handleUpdate = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -99,6 +100,18 @@ const MealPlanUpdatePage = () => {
     if (addResponse.success) {
       console.log("Meal plan added successfully");
       setLoading(false);
+      const updatedMealPlanName = addResponse.data.plan_name
+      console.log(updatedMealPlanName,"updated jhgdjdghjhgfshgshjggfsfg-------------------22222")
+      // ********************************************************
+
+      sessionStorage.setItem("updatedPlan_name", updatedMealPlanName);
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("updatedplan","true");
+      localStorage.setItem("isLoaderShow", "true");
+      localStorage.setItem("updatedPlan_name", updatedMealPlanName);
+
+      // ********************************************************
+
       navigate("/meal-plan-list");
     } else {
       setLoading(false);

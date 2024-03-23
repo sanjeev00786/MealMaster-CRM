@@ -71,3 +71,26 @@
     background-color:#FFFFFF;
 
   }
+
+  @media screen and ( max-width: 400px){
+
+  .modal-title {
+               
+    margin-top: 0 !important;
+}
+
+.modal-description {
+  font-size: 13px !important;
+}
+.BtnModal {
+  width: 90%;
+  
+}
+.cancelBtnModal {
+  margin-right: 0;
+}
+.confirmBtnModal {
+  margin-top: 7px;
+}
+
+}

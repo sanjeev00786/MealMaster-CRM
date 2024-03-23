@@ -18,9 +18,11 @@ import { Link } from "react-router-dom";
 import AnchorTemporaryDrawer from "../../../components/MobileSideMenu/MobileSideMenu.js";
 // import  from ""
 import deliveryLocationIcon from "../../../component-assets/makerlocation.svg";
+import driverModalDelivery from "../../../components/DriverModal/driverModal.js";
+
 
 const DriverDashboard = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [isNavigationStarted, setNavigationStarted] = useState(false);
   const [isCameraOpen, setCameraOpen] = useState(false);
@@ -32,6 +34,8 @@ const DriverDashboard = () => {
   const [assignTiffinData, setAssignTiffinData] = useState([]);
   const [customerData, setCustomerData] = useState([]);
   const [totalRouteDistance, setTotalRouteDistance] = useState(0);
+  const [isModalOpen, setModalOpen] = useState(false);
+
   let isGetAssignTiffinApiCall = false;
 
   const cloudinaryConfig = {
@@ -63,6 +67,7 @@ const DriverDashboard = () => {
     console.log(filePath);
     if (filePath) {
       updateDeliveryImage(filePath);
+      
     } else {
       setLoading(false);
       setNotification("Alert!", "Something went wrong, please try again.");
@@ -239,7 +244,19 @@ const DriverDashboard = () => {
   const toggleCamera = () => {
     setCameraOpen(!isCameraOpen);
   };
+  const handleCancel = () => {
+    console.log("Cancelled");
+    setModalOpen(false);
+  };
 
+  const handleConfirm = async () => {
+    console.log("Confirmed to go back");
+    navigate(`/driver_dashboard`);
+    setModalOpen(true); // Open the modal
+
+
+  
+  }
   useEffect(() => {
     const myBooleanValue = localStorage.getItem("isLoaderShow") === "true";
     if (myBooleanValue === true) {
@@ -266,6 +283,14 @@ const DriverDashboard = () => {
       <AnchorTemporaryDrawer />
       {/* talk with designer about below line */}
       <h2>Change Delivery today</h2>
+      <driverModalDelivery
+            // modalTitle="Delete Meal Plan"
+            // modalDescription="Are you sure you want to delete selected meal plan(s)?"
+            // onCancel={handleCancel}
+            onConfirm={handleConfirm}
+            isOpen={isModalOpen}
+            setModalOpen={setModalOpen}
+          />
       <div className="driver-maps">
         {customerData.length !== 0 ? (
           <Maps

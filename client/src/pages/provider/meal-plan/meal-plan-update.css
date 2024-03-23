@@ -9,4 +9,15 @@
 .sideBarMenu {
     flex: 0 0 20%;
   }
+  textarea {
+    height: 80px;
+  }
   
+  @media screen and ( max-width: 400px){
+
+  .wholeContent-mealplanUpdatepage{
+
+    height: 100vh;
+  }
+
+}

@@ -47,6 +47,15 @@ const MealSettingPage = () => {
       .post(`${ENDPOINTS.ADD_PLAN}`, mealData)
       .then((response) => {
         console.log("Meal data saved successfully:", response.data);
+        const addedMealName = response.data.plan_name
+
+      //************************************************** */
+        sessionStorage.setItem("Plan_name", addedMealName);
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("isLoaderShow", "true");
+        localStorage.setItem("Plan_name", addedMealName);
+      //************************************************** */
+
 
         navigate("/meal-plan-list");
       })
