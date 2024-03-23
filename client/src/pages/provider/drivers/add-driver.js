@@ -9,9 +9,8 @@ import Loader from "../../../components/Loader/Loader";
 import CustomizedSnackbar from "../../../components/Notification/Notification";
 import SideBarMenu from "../../../components/NewSideMenu/NewSideMenu";
 import editicon from "../../../component-assets/editicon.svg";
-import { ENDPOINTS } from '../../../apiConfig.js';
+import { ENDPOINTS } from "../../../apiConfig.js";
 import { provider_id } from "../../../util/localStorage.js";
-
 
 import "./add-driver.css";
 import apiHelper from "../../../util/ApiHelper/ApiHelper.js";
@@ -20,7 +19,7 @@ export default function DriverPage() {
   const [records, setRecords] = useState([]);
   const [filteredRecords, setFilteredRecords] = useState([]);
   const [loading, setLoading] = React.useState(false);
-  const [selectedDriverId, setSelectedDriverId] = useState(null);
+  const [selectedDriverId, setSelectedDriverId] = useState("");
   const navigate = useNavigate();
 
   const columns = [
@@ -43,15 +42,24 @@ export default function DriverPage() {
       name: "Actions",
       cell: (row) => (
         <>
-          <div onClick={() => setSelectedDriverId(row.login_token)}>
+          <div
+            onClick={() => {
+              const selectedDriver = {
+                driver_id: row.driver_id,
+                login_token: row.login_token,
+              };
+              setSelectedDriverId(selectedDriver);
+            }}
+          >
             <a href="#">View Details</a>
           </div>
-          <div onClick={() => navigate("/drivers")}>
-          </div>
+          <div onClick={() => navigate("/drivers")}></div>
         </>
       ),
     },
   ];
+
+  console.log(selectedDriverId);
 
   useEffect(() => {
     setLoading(true);
@@ -60,9 +68,11 @@ export default function DriverPage() {
         const response = await apiHelper.get(
           `${ENDPOINTS.GET_ALL_DRIVER}provider_id=${provider_id}`
         );
-        setRecords(response.data);
+       
+        const activeDrivers = response.data.filter((driver) => driver.driver_status);
+        setRecords(activeDrivers);
         console.log(response.data);
-        setFilteredRecords(response.data);
+        setFilteredRecords(activeDrivers);
         setLoading(false);
       } catch (error) {
         setLoading(false);
@@ -72,6 +82,10 @@ export default function DriverPage() {
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    console.log("selectedDriverId:", selectedDriverId);
+  }, [selectedDriverId]);
 
   const handleFilter = (event) => {
     const searchTerm = event.target.value.toLowerCase();
@@ -83,14 +97,15 @@ export default function DriverPage() {
 
   return (
     <div className="driver-page-container">
-      <CustomizedSnackbar />
-      {/* <div className="mobileSideBarMenu">
+      
+      <div className="mobileSideBarMenu">
         <AnchorTemporaryDrawer />
-      </div> */}
+      </div>
       <div className="sideBarMenu">
-        <SideBarMenu currentPage='/drivers'/>
+        <SideBarMenu currentPage="/drivers" />
       </div>
       <Loader loading={loading} />
+
       <div className="driver-page">
         <div className="page-heading">
           <h1>Drivers</h1>
@@ -115,10 +130,12 @@ export default function DriverPage() {
             />
           </div>
         </div>
-        <ModalComponent
-          login_token={selectedDriverId}
-          onClose={() => setSelectedDriverId(null)}
-        />
+        {selectedDriverId && (
+          <ModalComponent
+            login_token={selectedDriverId}
+            onClose={() => setSelectedDriverId(null)}
+          />
+        )}
       </div>
     </div>
   );

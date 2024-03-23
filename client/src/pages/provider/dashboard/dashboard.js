@@ -8,15 +8,19 @@ import SideBarMenu from "../../../components/NewSideMenu/NewSideMenu";
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import AnalyticsHeader from "./analytics-header";
+import AnchorTemporaryDrawer from "../../../components/MobileSideMenu/MobileSideMenu";
 
 const Dashboard = () => {
   return (
     <div className="dashboardPage">
       <Grid container spacing={2}>
         {/* Sidebar */}
-        <Grid item xs={12} md={3} className="sideBarMenu">
-          <SideBarMenu currentPage="/dashboard" />
-        </Grid>
+      <div className="mobileSideBarMenu">
+        <AnchorTemporaryDrawer />
+      </div>
+      <div className="sideBarMenu">
+        <SideBarMenu currentPage="/dashboard" />
+      </div>
 
         {/* Content */}
         <Grid item xs={12} md={9}>

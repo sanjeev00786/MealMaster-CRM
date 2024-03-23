@@ -4,9 +4,13 @@
 
   align-items: center;
   margin: 20px;
+  /* height: 200px; */
+    position: relative; 
 
   
 }
+
+
 .plan_name{
   font-weight: 500;
   line-height: 28.8px;
@@ -46,4 +50,15 @@
 .view-details{
   /* display: flex; */
   justify-content: center;
+}
+.view-details-button{
+  color: #6F59DA !important;
+}
+
+
+.back-side-card{
+  background: linear-gradient(140deg, #E5D9F2 1.23%, #CDC1FF 98.11%);
+
+
+
 }

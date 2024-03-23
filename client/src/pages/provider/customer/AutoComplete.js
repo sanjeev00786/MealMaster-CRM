@@ -1,8 +1,8 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { useLoadScript } from "@react-google-maps/api";
 import { TextField, InputLabel } from "@mui/material";
 
-const AutoComplete = ({ onPlaceSelect }) => {
+const AutoComplete = ({ onPlaceSelect  }) => {
   const autoCompleteRef = useRef();
   const inputRef = useRef();
 
@@ -63,11 +63,9 @@ const AutoComplete = ({ onPlaceSelect }) => {
       <InputLabel htmlFor="address">Address</InputLabel>
       <TextField
         inputRef={inputRef}
-        placeholder="Enter location"
         type="text"
         name="address"
         fullWidth
-        required
       />
     </React.Fragment>
   );
