@@ -72,6 +72,8 @@ const App = () => {
     <Router>
       <div className="App">
         <Routes>
+        <Route path="/" element={<Navigate to={session ? '/dashboard' : '/landing-page'} />} />
+
           <Route path="/auth" element={<Login />} />
 
           <Route
@@ -150,11 +152,11 @@ const App = () => {
             path="/social-media"
             element={session ? <SocialMedia /> : <Navigate to="/social-media" />}
           /> */}
-          <Route path="/" element={<Navigate to={session ? '/dashboard' : '/landing-page'} />} />
           <Route
             path="/landing-page"
             element={<LandingPage />}
           />
+          
         </Routes>
       </div>
     </Router>
