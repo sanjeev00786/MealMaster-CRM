@@ -96,6 +96,24 @@ textarea {
 }
 
 @media screen and (min-width: 800px) {
+
+  .form-page-container {
+    background-color: rgba(241, 240, 247, 1);
+    display: flex;
+  }
+
+  .sideBarMenu {
+    flex: 0 0 15%;
+  }
+
+  .form {
+    flex: 1 85%;
+    align-items: center;
+    padding-top: 2.2rem;
+    padding-left: 1rem;
+    /* width: 500px !important; */
+  }
+
   .meal-page-container {
     max-width: 600px !important;
 

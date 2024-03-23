@@ -19,7 +19,7 @@ export default function DriverPage() {
   const [records, setRecords] = useState([]);
   const [filteredRecords, setFilteredRecords] = useState([]);
   const [loading, setLoading] = React.useState(false);
-  const [selectedDriverId, setSelectedDriverId] = useState(null);
+  const [selectedDriverId, setSelectedDriverId] = useState("");
   const navigate = useNavigate();
 
   const columns = [
@@ -68,9 +68,11 @@ export default function DriverPage() {
         const response = await apiHelper.get(
           `${ENDPOINTS.GET_ALL_DRIVER}provider_id=${provider_id}`
         );
-        setRecords(response.data);
+       
+        const activeDrivers = response.data.filter((driver) => driver.driver_status);
+        setRecords(activeDrivers);
         console.log(response.data);
-        setFilteredRecords(response.data);
+        setFilteredRecords(activeDrivers);
         setLoading(false);
       } catch (error) {
         setLoading(false);

@@ -15,11 +15,10 @@ import { driver_id } from "../../../util/localStorage.js";
 import NoDeliveries from "../../../component-assets/NoDeliveries.svg";
 import WithoutRouteMaps from "../../../components/Maps/WithoutRouteMap.js";
 import { Link } from "react-router-dom";
-import AnchorTemporaryDrawer from "../../../components/MobileSideMenu/MobileSideMenu.js";
-// import  from ""
 import deliveryLocationIcon from "../../../component-assets/makerlocation.svg";
 import driverModalDelivery from "../../../components/DriverModal/driverModal.js";
-
+import DriverMenu from "../../../components/DriverMenu/DriverMenu.jsx";
+import DriverMenuIcon from '../../../component-assets/menu-icon.svg'
 
 const DriverDashboard = () => {
   const navigate = useNavigate();
@@ -35,6 +34,11 @@ const DriverDashboard = () => {
   const [customerData, setCustomerData] = useState([]);
   const [totalRouteDistance, setTotalRouteDistance] = useState(0);
   const [isModalOpen, setModalOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   let isGetAssignTiffinApiCall = false;
 
@@ -64,7 +68,7 @@ const DriverDashboard = () => {
     }
     await cloudinaryFilePath.uploadToCloudinary(imagePreview);
     const filePath = cloudinaryFilePath.filePath;
-    console.log(filePath);
+    console.log("Complete method",filePath);
     if (filePath) {
       updateDeliveryImage(filePath);
       
@@ -280,8 +284,8 @@ const DriverDashboard = () => {
   return (
     <div className="dashboard-container">
       {/* <Header /> */}
-      <AnchorTemporaryDrawer />
-      {/* talk with designer about below line */}
+      <DriverMenu isOpen={isMenuOpen} toggleMenu={toggleMenu} />
+      <div className="driver-dashboard-header">
       <h2>Change Delivery today</h2>
       <driverModalDelivery
             // modalTitle="Delete Meal Plan"
@@ -291,6 +295,14 @@ const DriverDashboard = () => {
             isOpen={isModalOpen}
             setModalOpen={setModalOpen}
           />
+      <button className="menu-btn" onClick={toggleMenu}>
+        <img src={DriverMenuIcon} alt="Menu" style={{ width: '20px' }}/>
+      </button>  
+      </div>
+
+      
+      {/* talk with designer about below line */}
+      
       <div className="driver-maps">
         {customerData.length !== 0 ? (
           <Maps
