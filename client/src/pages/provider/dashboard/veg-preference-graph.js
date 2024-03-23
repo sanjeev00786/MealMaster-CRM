@@ -48,21 +48,24 @@ export default function VegPieChart() {
   ];
 
   return (
-    <PieChart
-      series={[
-        {
-          data: dataset,
-        },
-      ]}
-      width={500}
-      height={200}
-      slotProps={{
-        legend: {
-          direction: 'column',
-          position: { vertical: 'middle', horizontal: 'right' },
-          padding: 0,
-        },
-      }}
-    />
+    <div>
+      <h2>Dietary Preferences</h2>
+      <PieChart
+        series={[
+          {
+            data: dataset,
+          },
+        ]}
+        width={500}
+        height={200}
+        slotProps={{
+          legend: {
+            direction: 'column',
+            position: { vertical: 'middle', horizontal: 'right' },
+            padding: 0,
+          },
+        }}
+      />
+    </div>
   );
 }

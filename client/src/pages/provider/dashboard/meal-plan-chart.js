@@ -53,6 +53,8 @@ export default function MealPlanPieChart() {
   console.log("Dataset:", dataset);
 
   return (
+    <div>
+    <h2>Plan Analytics</h2>
     <PieChart
       series={[
         {
@@ -69,5 +71,6 @@ export default function MealPlanPieChart() {
         },
       }}
     />
+    </div>
   );
 }
