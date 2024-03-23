@@ -25,6 +25,9 @@ const DriverLogin = () => {
     e.preventDefault();
     if(token === ""){
         setIsEnterToken(false);
+        setTimeout(() => {
+          setIsEnterToken(true);
+        }, 2000);
         return;
     }
     setLoading(true);

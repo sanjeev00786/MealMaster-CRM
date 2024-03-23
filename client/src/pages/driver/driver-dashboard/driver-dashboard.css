@@ -195,9 +195,10 @@ h3 {
   }
   
   .image-preview {
-    width: 100%;
-    height: auto;
-    border-radius: 8px; 
+    width: 100% !important;
+    height: auto !important;
+    border-radius: 8px !important; 
+    border: none;
   }
   
   .dashboard-image-container button {
