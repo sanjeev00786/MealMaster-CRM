@@ -150,7 +150,7 @@ const App = () => {
             path="/social-media"
             element={session ? <SocialMedia /> : <Navigate to="/social-media" />}
           /> */}
-          <Route path="/" element={<Navigate to={session ? '/dashboard' : '/login-page'} />} />
+          <Route path="/" element={<Navigate to={session ? '/dashboard' : '/landing-page'} />} />
           <Route
             path="/landing-page"
             element={<LandingPage />}
