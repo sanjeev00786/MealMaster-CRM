@@ -2,13 +2,9 @@ import React, { useEffect, useState } from "react";
 import supabase from '../../../supabase';
 import { LineChart, axisClasses } from "@mui/x-charts";
 import { provider_id } from "../../../util/localStorage";
+import { Select, MenuItem } from "@mui/material";
 
 const chartSetting = {
-  yAxis: [
-    {
-      label: "Number of Customers",
-    },
-  ],
   width: 500,
   height: 300,
   sx: {
@@ -27,18 +23,19 @@ const sortMonths = (a, b) => {
   return monthsOrder.indexOf(a) - monthsOrder.indexOf(b);
 };
 
-export default function BarsDataset() {
+export default function LineChartWithDropdown() {
+  const [year, setYear] = useState(2023); // Default year
   const [customerData, setCustomerData] = useState(null);
 
   useEffect(() => {
     async function fetchCustomerData() {
       try {
-        console.log("Fetching customer data for 2023...");
+        console.log(`Fetching customer data for ${year}...`);
         
         let { data, error } = await supabase
           .from("provider_analytics")
           .select("calculation_month, total_customers")
-          .eq("calculation_year", 2023)
+          .eq("calculation_year", year)
           .eq("provider_id", provider_id)
           .order("calculation_month"); // Sort by calculation_month
 
@@ -55,7 +52,7 @@ export default function BarsDataset() {
     }
 
     fetchCustomerData();
-  }, []);
+  }, [year]);
 
   console.log("Current state of customerData:", customerData);
 
@@ -69,19 +66,45 @@ export default function BarsDataset() {
   // Sort data by month
   const sortedData = customerData.sort((a, b) => sortMonths(a.calculation_month, b.calculation_month));
 
-  const dataset = sortedData.map((entry) => ({
-    month: entry.calculation_month,
-    customers: entry.total_customers,
-  }));
+  // Create an object to store customer data for each month
+  const customersByMonth = {};
+  sortedData.forEach((entry) => {
+    customersByMonth[entry.calculation_month] = entry.total_customers;
+  });
+
+  // Fill in missing months with zero customers
+  const filledData = [];
+  const monthsOrder = [
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun", 
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+  ];
+  monthsOrder.forEach(month => {
+    filledData.push({
+      calculation_month: month,
+      total_customers: customersByMonth[month] || 0
+    });
+  });
+
+  const handleYearChange = (event) => {
+    setYear(event.target.value);
+  };
 
   return (
-    <div className="customer-graph">
+    <div>
+      <h2>Customer Data</h2>
+      <Select value={year} onChange={handleYearChange} sx={{ m: 1, minWidth: 120 }} size="small">
+        <MenuItem value={2021}>2021</MenuItem>
+        <MenuItem value={2022}>2022</MenuItem>
+        <MenuItem value={2023}>2023</MenuItem>
+        <MenuItem value={2024}>2024</MenuItem>
+      </Select>
       <LineChart
-        dataset={dataset}
-        xAxis={[{ scaleType: "band", dataKey: "month" }]}
-        series={[{ dataKey: "customers", label: "Number of Customers" }]}
+        dataset={filledData}
+        xAxis={[{ scaleType: "band", dataKey: "calculation_month" }]}
+        series={[{ dataKey: "total_customers", label: "Number of Customers" }]}
         {...chartSetting}
       />
     </div>
   );
 }
+

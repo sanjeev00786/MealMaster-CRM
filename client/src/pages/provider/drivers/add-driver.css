@@ -107,8 +107,9 @@
   .driver-page {
     flex: 1 85%;
     align-items: center;
-    padding-top: 2.2rem;
+    padding-top: 7px;
     padding-left: 1rem;
+    /* width: 500px !important; */
   }
 
   .search-addButtton-container {
