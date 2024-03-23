@@ -23,3 +23,7 @@ if (provider) {
 }
 
 export { provider_id };
+
+let driver_id = localStorage.getItem('driver_id');
+
+export { driver_id };

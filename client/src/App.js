@@ -16,6 +16,10 @@ import MealPlanUpdatePage from './pages/provider/meal-plan/meal-plan-update'
 import CustomerPage from './pages/provider/customer/customer';
 import SocialMedia from './pages/provider/social-media/social-media';
 import TrackDeliveries from './pages/provider/track-deliveries/track-deliveries'
+import TrackDriver from './pages/provider/track-deliveries/track-driver/track-driver';
+import LandingPage from './pages/LandingPage/LandingPage';
+import EditDriverForm from './pages/provider/drivers/edit-driver-form';
+import LoginPage from './pages/provider/authentication/login-page';
 
 const PrivateRoute = ({ component: Component, session, ...rest }) => (
   <Route
@@ -68,6 +72,12 @@ const App = () => {
       <div className="App">
         <Routes>
           <Route path="/auth" element={<Login />} />
+
+          <Route
+            path="/login-page"
+            element={<LoginPage />}
+          />
+
           <Route
             path="/drivers"
             element={session ? <DriverPage /> : <Navigate to="/drivers" />}
@@ -77,8 +87,16 @@ const App = () => {
             element={session ? <DriverForm /> : <Navigate to="/add-driver" />}
           />
           <Route
+            path="/edit-driver"
+            element={session ? <EditDriverForm /> : <Navigate to="/edit-driver" />}
+          />
+          <Route
             path="/trackdeliveries"
             element={session ? <TrackDeliveries /> : <Navigate to="/trackdeliveries" />}
+          />
+           <Route
+            path="/trackDriver/:driverID" 
+            element={<TrackDriver />}
           />
           <Route
             path="/dashboard"
@@ -126,7 +144,10 @@ const App = () => {
             element={session ? <SocialMedia /> : <Navigate to="/social-media" />}
           />
           <Route path="/" element={<Navigate to={session ? '/dashboard' : '/auth'} />} />
-
+          <Route
+            path="/landing-page"
+            element={<LandingPage />}
+          />
         </Routes>
       </div>
     </Router>

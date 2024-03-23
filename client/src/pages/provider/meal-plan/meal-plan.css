@@ -7,6 +7,13 @@ body{
   margin: 0;
   padding: 0; 
 }
+.content-mealplan{
+    margin-left: 2.5rem;
+    /* margin-top: 5rem; */
+}
+textarea {
+    resize: none;
+  }
 form{
    align-items: center;
 }
@@ -19,7 +26,7 @@ form{
 
 
 .form-container{
-    /* background-color: #FFFFFF; */
+    background-color: #FFFFFF;
     padding: 1rem;
     border-radius: 15px;
 
@@ -76,9 +83,9 @@ input, textarea {
 }
 
 .submitBtn{
-    border: 1px solid #000000;
+    border: 1px solid #FFFFFF !important;
 
-    background-color: #000000;
+    background-color: #6F59DA !important;
     color:#FFFFFF;
     margin-top: 24px;
     margin-bottom: 8px;
@@ -108,6 +115,17 @@ input, textarea {
 
 
 }
+.sideBarMenu {
+    flex: 0 0 20%;
+  }
+.wholeContent-mealplanpage{
+    background-color: #F1F0F7 ;
+}
+
+.before_form_data{
+    background-color: #DCDCDC !important;
+}
+
 
 @media screen and (min-width: 400px) {
 
@@ -166,5 +184,14 @@ h1{
     .Btn {
         margin-right: 10px; 
       }
+      .meal-plan-formpage{
+        display: flex;
+      }
+      .content-mealplan {
+        flex: 1 80%;
+        align-items: center;
+        /* padding-top: 2.2rem; */
+      }
+
 
 }

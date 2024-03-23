@@ -1,0 +1,131 @@
+.login-page-continer {
+  display: flex;
+  flex-direction: column; 
+  justify-content: center; 
+  align-items: center;
+  height: 100vh;
+  
+}
+
+.auth-page-image-container {
+  text-align: center;
+  width: auto;
+  height: auto;
+}
+
+.auth-page-image-container img {
+  width: 400px; 
+  height: auto; 
+  display: block; 
+  margin: 0 auto; 
+}
+
+.login-form-container {
+  background-color: white;
+  padding-top: 20px;
+  padding: 20px;
+  border-top-left-radius: 50px; 
+  border-top-right-radius: 50px;
+  width: 350px;
+}
+
+.logo-svg-container > svg {
+  width: 220px;
+  margin: 0;
+  padding: 0;
+}
+.logo-svg-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+}
+
+.heading-link-container {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.copyright{
+    font-size: small;
+    padding-top: 2rem;
+    color: gray;
+    text-align: center;
+  }
+
+@media only screen and (min-width: 768px) {
+  .login-page-continer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    overflow: hidden;
+  }
+
+  .auth-page-image-container,
+  .login-form-container {
+    height: 100%;
+    
+  }
+  .auth-page-image-container img {
+    width: 700px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    
+  }
+
+  .auth-page-image-container {
+    display: flex;
+    align-items: center; 
+    justify-content: center; 
+    height: 100vh;
+    background-color: lightgray;
+    padding-bottom: 8rem;
+
+
+  }
+
+  .login-form-container {
+
+    background-color: white;
+    padding: 0px;
+    padding-top: 8rem;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    width: 800px;
+    height: 100vh;
+
+}
+
+  .logo-svg-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 220px; 
+    height: 80px; 
+    display: flex;
+    padding-left: 2rem;
+    padding-top: 1rem;
+    
+  }
+  
+  .logo-svg-container > svg {
+    width: 100%;
+    height: auto;
+    margin: 0;
+    padding: 0;
+  }
+
+  .copyright{
+    padding-top: 2rem;
+    color: gray;
+    text-align: center;
+  }
+  
+  .heading-link-container h2{
+    padding-top: 2rem;
+  }
+  
+
+
+}

@@ -1,11 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import tickmark from "../../../component-assets/tickmark.svg";
 import unpaidSign from "../../../component-assets/unpaidSign.svg";
 import editicon from "../../../component-assets/editicon.svg";
 import ViewCustomerDetailsModal from "./ViewCustomerDetailsModal";
+import Pagination from "@mui/material/Pagination";
 import Header from "../../../components/header/header";
 import MiniDrawer from "../../../components/SideMenu/SideMenu";
 import AnchorTemporaryDrawer from "../../../components/MobileSideMenu/MobileSideMenu";
@@ -14,45 +15,64 @@ import Button from "@mui/material/Button";
 import ConfirmationModal from "./ConfirmationModal";
 import "./customerPage.css";
 import SideBarMenu from "../../../components/NewSideMenu/NewSideMenu";
-import { ENDPOINTS } from '../../../apiConfig.js';
-import apiHelper from '../../../util/ApiHelper/ApiHelper';
+import { ENDPOINTS } from "../../../apiConfig.js";
+import apiHelper from "../../../util/ApiHelper/ApiHelper";
 import { provider_id } from "../../../util/localStorage.js";
+import { Link } from "react-router-dom";
 
-const customerUrl =
-  `${ENDPOINTS.GET_ALL_CUSTOMER}${provider_id}?page=1`;
-
-const mealPlanUrl =
-  `${ENDPOINTS.GET_MEAL_PLAN}provider_id=${provider_id}`;
+const mealPlanUrl = `${ENDPOINTS.GET_MEAL_PLAN}provider_id=${provider_id}`;
 
 export default function CustomerPage() {
+  const { page } = useParams();
   const [records, setRecords] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [planName, setPlanName] = useState([]);
-  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 400);
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 400);
   const [selectedCustomerId, setSelectedCustomerId] = useState(null);
   const [loading, setLoading] = React.useState(false);
   const [confirmationModalOpen, setConfirmationModalOpen] = useState(false);
   const [customerIdToUpdate, setCustomerIdToUpdate] = useState(null);
   const [isPaidToUpdate, setIsPaidToUpdate] = useState(null);
+  const [allRecords, setAllRecords] = useState({});
+  const [currentFilter, setCurrentFilter] = useState("all");
+  const [statusResult, setStatusResult] = useState("");
+  const [totalPages, setTotalPages] = useState(1);
   const navigate = useNavigate();
 
+  const fetchData = async (pageNum, filter) => {
+    setLoading(true);
+    try {
+      const customerUrl = `${ENDPOINTS.GET_ALL_CUSTOMER}${provider_id}?page=${pageNum}`;
+      const customerStatusUrl = `${ENDPOINTS.GET_CUSTOMER_BY_STATUS}${provider_id}?page=${pageNum}&status=${filter}`;
+      const allCustomerURL = `${ENDPOINTS.GET_ALLIST_CUSTOMER}${provider_id}`;
+      
+      const res = await apiHelper.get(customerStatusUrl);
+      
+      // const response = apiHelper.get(customerStatusUrl)
+      
+      const allCustomer = await apiHelper.get(allCustomerURL);
+      
+      const mealPlan = await apiHelper.get(mealPlanUrl);
+      
+      // setStatusResult(response.data.customers)
+      setRecords(res.data.customers);
+      setAllRecords(allCustomer.data.customers);
+      setFilteredData(res.data.customers);
+      setTotalPages(res.data.totalPages);
+      setPlanName(mealPlan.data);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const res = await apiHelper.get(customerUrl);
-        const mealPlan = await apiHelper.get(mealPlanUrl);
-        setRecords(res.data.customers);
-        setFilteredData(res.data.customers);
-        setPlanName(mealPlan.data);
-        setLoading(false);
-      } catch (error) {
-        setLoading(false);
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, [customerUrl]);
+    fetchData(page, currentFilter);
+  }, [page, currentFilter]);
+
+  const handlePageChange = (event, newPage) => {
+    navigate(`/customerList/${newPage}`);
+  };
 
   function getPlanName(planId) {
     const matchedPlan = planName.find((plan) => plan.plan_id === planId);
@@ -61,29 +81,30 @@ export default function CustomerPage() {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsSmallScreen(window.innerWidth < 393);
+      setIsSmallScreen(window.innerWidth < 400);
+      window.location.reload();
     };
 
     window.addEventListener("resize", handleResize);
+
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
 
   const handlePaymentClick = (customerId, isPaid) => {
+    console.log(customerId);
     setCustomerIdToUpdate(customerId);
     setIsPaidToUpdate(isPaid);
+
     setConfirmationModalOpen(true);
   };
 
   const handleConfirmation = async () => {
     try {
-      await axios.put(
-        `${ENDPOINTS.EDIT_CUSTOMER}${customerIdToUpdate}`,
-        {
-          payment: isPaidToUpdate,
-        }
-      );
+      await apiHelper.put(`${ENDPOINTS.EDIT_CUSTOMER}${customerIdToUpdate}`, {
+        payment: isPaidToUpdate,
+      });
 
       setRecords((prevRecords) =>
         prevRecords.map((record) =>
@@ -93,8 +114,11 @@ export default function CustomerPage() {
         )
       );
 
+      fetchData(page, currentFilter);
+
       console.log(
-        `Customer ID: ${customerIdToUpdate} marked as ${isPaidToUpdate ? "Paid" : "Unpaid"
+        `Customer ID: ${customerIdToUpdate} marked as ${
+          isPaidToUpdate ? "Paid" : "Unpaid"
         }`
       );
 
@@ -106,6 +130,28 @@ export default function CustomerPage() {
 
   const handleCancel = () => {
     setConfirmationModalOpen(false);
+  };
+
+  const handleDisableCustomer = async (customerId) => {
+    try {
+      await apiHelper.put(`${ENDPOINTS.EDIT_CUSTOMER}${customerId}`, {
+        status: false,
+        payment: false,
+      });
+
+      setRecords((prevRecords) =>
+        prevRecords.map((record) =>
+          record.customer_id === customerId
+            ? { ...record, status: false }
+            : record
+        )
+      );
+      fetchData(page, currentFilter);
+      setSelectedCustomerId(null);
+      console.log(`Customer with ID ${customerId.name} Disabled successfully.`);
+    } catch (error) {
+      console.error("Error deleting customer:", error);
+    }
   };
 
   const columns = [
@@ -130,14 +176,14 @@ export default function CustomerPage() {
       omit: isSmallScreen,
     },
     {
-      name: "Billing Date",
+      name: "Start Date",
       selector: (row) => row.billing_cycle,
       omit: isSmallScreen,
     },
     {
       name: "Last Bill Payment",
       selector: (row) => (
-        <div onClick={() => handlePaymentClick(row.customer_id, !row.payment)}>
+        <Link onClick={() => handlePaymentClick(row.customer_id, !row.payment)}>
           {row.payment ? (
             <>
               <img src={tickmark} alt="Paid" />
@@ -149,7 +195,7 @@ export default function CustomerPage() {
               <span> Unpaid </span>
             </>
           )}
-        </div>
+        </Link>
       ),
       omit: isSmallScreen,
     },
@@ -157,49 +203,101 @@ export default function CustomerPage() {
       name: "Actions",
       cell: (row) => (
         <>
-          <div onClick={() => setSelectedCustomerId(row.customer_id)}>
+          <Link onClick={() => setSelectedCustomerId(row.customer_id)}>
             View Details
-          </div>
-          <div onClick={() => navigate("/customers")}>
-            <img src={editicon} alt="EditIcon" />
-          </div>
+          </Link>
         </>
       ),
     },
   ];
 
-  const customStyles = {
-    table: {
-      width: "100%",
-    },
+  
+  const handleFilterButtonClick = (filter) => {
+    if(filter){
+      setCurrentFilter(filter);
+    }else {
+      setCurrentFilter("all");
+    }
+    // const newData = filterDataByStatus(filter, statusResult);
+    // setRecords(newData);
   };
 
   const handleFilter = (event) => {
-    const newData = filteredData.filter((row) =>
-      row.name.toLowerCase().includes(event.target.value.toLowerCase())
+    const newData = allRecords.filter(
+      (row) =>
+        row.name.toLowerCase().includes(event.target.value.toLowerCase()) &&
+        ((currentFilter === "active" && row.status) ||
+          (currentFilter === "inactive" && !row.status) ||
+          currentFilter === "all")
     );
     setRecords(newData);
   };
 
+  const filterDataByStatus = (status, data) => {
+    console.log(status, data);
+    if (status === "active") {
+      return data.filter((row) => row.status);
+    } else if (status === "inactive") {
+      return data.filter((row) => !row.status);
+    } else {
+      return data;
+    }
+  };
 
   return (
     <div className="customer-page-container">
+      <Loader loading={loading} />
       <div className="sideBarMenu">
-        <SideBarMenu currentPage='/customerList' />
+        <SideBarMenu currentPage="/customerList/1" />
       </div>
 
       <ConfirmationModal
         open={confirmationModalOpen}
         onClose={handleCancel}
         onConfirm={handleConfirmation}
-        message={`Are you sure you want to mark this customer as ${isPaidToUpdate ? "Paid" : "Unpaid"
-          }?`}
+        message={`Are you sure you want to mark this customer as ${
+          isPaidToUpdate ? "Paid" : "Unpaid"
+        }?`}
       />
 
       <div className="customer-page">
         <div className="page-heading">
           <h1 className=" underline">Customers</h1>
         </div>
+
+        <div className="filter-buttons-container">
+          <Button
+            variant="outlined"
+            className={`filterButtons ${
+              currentFilter === "all" ? "active" : ""
+            }`}
+            onClick={() => handleFilterButtonClick("all")}
+            disabled={currentFilter === "all"}
+          >
+            All
+          </Button>
+          <Button
+            variant="outlined"
+            className={`filterButtons ${
+              currentFilter === "active" ? "active" : ""
+            }`}
+            onClick={() => handleFilterButtonClick("active")}
+            disabled={currentFilter === "active"}
+          >
+            Active
+          </Button>
+          <Button
+            variant="outlined"
+            className={`filterButtons ${
+              currentFilter === "inactive" ? "active" : ""
+            }`}
+            onClick={() => handleFilterButtonClick("inactive")}
+            disabled={currentFilter === "inactive"}
+          >
+            Inactive
+          </Button>
+        </div>
+
         <div
           className="search-addButtton-container"
           style={{ display: "flex", justifyContent: "space-between" }}
@@ -213,25 +311,25 @@ export default function CustomerPage() {
             />
           </div>
           <div>
-            <Button variant="contained" onClick={() => navigate("/customers")}>Add New Customer</Button>
+            <Button variant="contained" onClick={() => navigate("/customers")}>
+              Add New Customer
+            </Button>
           </div>
         </div>
 
         <div className="data-table-parent-container">
           <h2> List of Customers</h2>
           <div className="data-table-container">
-
-            <DataTable
-              columns={columns}
-              data={records}
-              customStyles={customStyles}
-              pagination
-            />
-
+            <DataTable columns={columns} data={records} />
             <ViewCustomerDetailsModal
               customerId={selectedCustomerId}
+              onDelete={handleDisableCustomer}
               onClose={() => setSelectedCustomerId(null)}
             />
+          </div>
+
+          <div className="pagination-container">
+            <Pagination count={totalPages} onChange={handlePageChange} />
           </div>
         </div>
       </div>

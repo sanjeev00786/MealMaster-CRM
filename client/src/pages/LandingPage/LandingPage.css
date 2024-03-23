@@ -1,0 +1,110 @@
+.landing-page-container {
+    background-color: white;
+}
+.first {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    height: 95vh;
+}
+
+.second, .third {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    height: 80vh;
+    background-image: url('../../component-assets/landingPageBG.svg'); /* Update with your image path */
+    background-size: cover; /* Make image cover the div */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat;
+}
+
+.landing-page-section {
+    flex: 1;
+    padding-right: 150px; 
+}
+
+.landing-page-heading {
+    font-size: 2rem; /* Larger heading */
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #1C1C1C; /* Dark text color */
+}
+
+.landing-page-subheading {
+    font-size: 1.2em; 
+    margin-bottom: 20px;
+}
+
+.landing-page-buttons {
+    display: flex;
+}
+
+.explore-feature-button,
+.get-started-button { /* Apply styles to both buttons */
+    padding: 10px 20px;
+    margin-right: 10px;
+    color: #1C1C1C;
+    border: 1px solid #1C1C1C;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border-radius: 5px;
+    width: 150px;
+} 
+
+.explore-feature-button {
+    background-color: transparent;
+    margin-left: 16px;
+}
+
+.get-started-button {
+    background-color: #6F59DA;
+    color: white;
+    border: 2px solid #1c1c1c00;
+    
+}
+
+.explore-feature-button:hover {
+    background-color: #1C1C1C; 
+    color: white;
+}
+
+.get-started-button:hover {
+    background-color: #5944b8; 
+}
+
+.landing-page-image {
+    max-width: 100%;
+    height: auto;
+} 
+
+.para1 {
+    padding-bottom: 0px;
+    color: black;
+}
+
+.customer-data-image, .tracking-data-image {
+    padding-left: 2rem;
+    flex: 2;
+}
+
+.second-right-content, .third-right-content {
+    flex: 1.5;
+}
+
+.image {
+    max-width: 100%;
+}
+
+.scooter-image {
+    position: fixed;
+    bottom: -20px;
+    left: 10%;
+    transform: translateX(-50%);
+    transition: transform 0.3s ease;
+    width: 150px;
+    height: 150px;
+    filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.7));
+}
