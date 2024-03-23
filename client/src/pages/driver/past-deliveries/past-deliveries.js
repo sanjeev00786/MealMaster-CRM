@@ -6,6 +6,8 @@ import { ENDPOINTS } from "../../../apiConfig.js";
 import Loader from "../../../components/Loader/Loader.jsx";
 import { useState, useEffect } from "react";
 import deliveryDone from "../../../component-assets/pastDeliveryDone.svg";
+import DriverMenu from "../../../components/DriverMenu/DriverMenu.jsx";
+import DriverMenuIcon from '../../../component-assets/menu-icon.svg'
 
 const PastDeliveries = () => {
   const [loading, setLoading] = useState(true);
@@ -13,6 +15,7 @@ const PastDeliveries = () => {
   const [notificationMessage, setNotificationMessage] = useState("");
   const [notificationMessage1, setNotificationMessage1] = useState("");
   const [notificationTriggered, setNotificationTriggered] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const getPastDeliveries = async (driver_id) => {
     setLoading(true);
@@ -30,7 +33,6 @@ const PastDeliveries = () => {
           position: { lat: i.customers.latitude, lng: i.customers.longitude },
           photoUrl: i.delivery_photo_url,
         }));
-        console.log(customers);
         setpastDeliveriesData([]);
         setpastDeliveriesData((prevCustomerData) => [
           ...prevCustomerData,
@@ -48,7 +50,6 @@ const PastDeliveries = () => {
   };
 
   const CustomerItem = ({ customer }) => {
-    console.log(customer);
     return (
       <div className="customer-item">
         <div className="driver_pastdelivery">
@@ -74,7 +75,7 @@ const PastDeliveries = () => {
         <img src={`${deliveryDone}`} alt="Delivery Done logo"/>
         <div className="delivery-status deliverydriverstat">
             
-          {customer.deliveryStatus}
+          {customer.deliveryStatus ? ('Delivered') :('Pending')}
         </div>
         </div>
       </div>
@@ -82,8 +83,8 @@ const PastDeliveries = () => {
   };
 
   const generateCustomerItems = () => {
-    return pastDeliveriesData.map((customer) => (
-      <CustomerItem key={customer.id} customer={customer} />
+    return pastDeliveriesData.map((customer, index) => (
+      <CustomerItem key={index} customer={customer} />
     ));
   };
 
@@ -102,10 +103,21 @@ const PastDeliveries = () => {
     }
   };
 
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <div className="past-deliveries-container">
       {/* <Header /> */}
+      <DriverMenu isOpen={isMenuOpen} toggleMenu={toggleMenu} />
+      <div className="past-deliveries-header">
       <h2>Past Deliveries</h2>
+      <button className="menu-btn" onClick={toggleMenu}>
+        <img src={DriverMenuIcon} alt="Menu" style={{ width: '20px' }}/>
+      </button>  
+      </div>
+     
       <div className="customer-list">{generateCustomerItems()}</div>
       <Loader loading={loading} />
     </div>

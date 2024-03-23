@@ -1,7 +1,13 @@
 .past-deliveries-container {
-    max-width: 400px;
+    max-width: 450px;
     margin: auto;
     background-color: #fff;
+}
+
+.past-deliveries-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .customer-list {

@@ -5,6 +5,19 @@
     overflow-y: auto;
 }
 
+.driver-dashboard-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.menu-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 1rem;
+}
+
 .placeholder-image {
     width: 90%;
     object-fit: cover;

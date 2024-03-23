@@ -12,6 +12,7 @@ import locationMarker2 from "../../../../component-assets/LocationMarker2.svg"
 import phone from "../../../../component-assets/phone.svg"
 import marker from "../../../../component-assets/marker.svg"
 import locationMarker from "../../../../component-assets/locationMarker.svg"
+import WithoutRouteTrackProviderMap from "../../../../components/Maps/TrackProviderMap/WithoutRouteTrackProviderMap.jsx";
 
 export default function TrackDriver() {
 
@@ -66,11 +67,12 @@ export default function TrackDriver() {
                 <SideBarMenu currentPage="/trackDriver" />
             </div>
             <div className="track-map-container">
-            <h2>Tracking {row.name}</h2>
-                {customerData && (
+                 <h2>Tracking {row.name}</h2>
+                {customerData.length !== 0  ? (
                     <TrackProviderMap customerData={customerData} driver_id={row.driver_id} />
+                ): (
+                    <WithoutRouteTrackProviderMap driver_id={row.driver_id} />
                 )}
-
             </div>
             <div className="delivery-status">
                 {assignTiffinData.length > 0 ? (

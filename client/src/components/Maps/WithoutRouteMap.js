@@ -32,7 +32,11 @@ const WithoutRouteMaps = () => {
           center={{ lat: userLocation.lat, lng: userLocation.lng }}
           zoom={15}
         >
-          <Marker position={userLocation} icon={driverMarker}
+          <Marker position={userLocation} 
+           icon={{
+            url: driverMarker, // Path to the marker image
+            scaledSize: new window.google.maps.Size(60, 60), // Adjust size here
+          }}
           />
         </GoogleMap>
       )}
