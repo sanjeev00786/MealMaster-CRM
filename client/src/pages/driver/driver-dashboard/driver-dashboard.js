@@ -16,11 +16,12 @@ import NoDeliveries from "../../../component-assets/NoDeliveries.svg";
 import WithoutRouteMaps from "../../../components/Maps/WithoutRouteMap.js";
 import { Link } from "react-router-dom";
 import deliveryLocationIcon from "../../../component-assets/makerlocation.svg";
+import driverModalDelivery from "../../../components/DriverModal/driverModal.js";
 import DriverMenu from "../../../components/DriverMenu/DriverMenu.jsx";
 import DriverMenuIcon from '../../../component-assets/menu-icon.svg'
 
 const DriverDashboard = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [isNavigationStarted, setNavigationStarted] = useState(false);
   const [isCameraOpen, setCameraOpen] = useState(false);
@@ -32,6 +33,7 @@ const DriverDashboard = () => {
   const [assignTiffinData, setAssignTiffinData] = useState([]);
   const [customerData, setCustomerData] = useState([]);
   const [totalRouteDistance, setTotalRouteDistance] = useState(0);
+  const [isModalOpen, setModalOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -69,6 +71,7 @@ const DriverDashboard = () => {
     console.log("Complete method",filePath);
     if (filePath) {
       updateDeliveryImage(filePath);
+      
     } else {
       setLoading(false);
       setNotification("Alert!", "Something went wrong, please try again.");
@@ -245,7 +248,19 @@ const DriverDashboard = () => {
   const toggleCamera = () => {
     setCameraOpen(!isCameraOpen);
   };
+  const handleCancel = () => {
+    console.log("Cancelled");
+    setModalOpen(false);
+  };
 
+  const handleConfirm = async () => {
+    console.log("Confirmed to go back");
+    navigate(`/driver_dashboard`);
+    setModalOpen(true); // Open the modal
+
+
+  
+  }
   useEffect(() => {
     const myBooleanValue = localStorage.getItem("isLoaderShow") === "true";
     if (myBooleanValue === true) {
@@ -272,6 +287,14 @@ const DriverDashboard = () => {
       <DriverMenu isOpen={isMenuOpen} toggleMenu={toggleMenu} />
       <div className="driver-dashboard-header">
       <h2>Change Delivery today</h2>
+      <driverModalDelivery
+            // modalTitle="Delete Meal Plan"
+            // modalDescription="Are you sure you want to delete selected meal plan(s)?"
+            // onCancel={handleCancel}
+            onConfirm={handleConfirm}
+            isOpen={isModalOpen}
+            setModalOpen={setModalOpen}
+          />
       <button className="menu-btn" onClick={toggleMenu}>
         <img src={DriverMenuIcon} alt="Menu" style={{ width: '20px' }}/>
       </button>  
