@@ -296,16 +296,16 @@ const [isOpen, setIsOpen] = useState(false);
     }
   };
   
-  useEffect(() => {
-    if (assignTiffinData.length === 0 && !isNavigationStarted) {
-      setModalOpen(true); // Open the modal only when there are no assigned deliveries and navigation hasn't started
-    }
-  }, [assignTiffinData, isNavigationStarted]);
+
+
+
+
+
   
 
   return (
     <div className="dashboard-container">
-      {/* <Header /> */}
+
       <DriverMenu isOpen={isMenuOpen} toggleMenu={toggleMenu} />
       <div className="driver-dashboard-header">
       <h2>Change Delivery today</h2>
