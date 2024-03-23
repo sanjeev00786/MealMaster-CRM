@@ -44,7 +44,7 @@ export default function MealPlanPieChart() {
     return <div>Loading...</div>;
   }
 
-  const dataset = planData.map((entry, index) => ({
+  const dataset = planData.slice(0, 4).map((entry, index) => ({
     id: index,
     value: entry.customers_count_per_plan,
     label: entry.plan_name,

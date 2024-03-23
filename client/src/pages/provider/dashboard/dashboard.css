@@ -24,16 +24,6 @@
   margin-bottom: 0;
 }
 
-.WIPContainer {
-  display: flex;
-  justify-content: space-between;
-}
-
-.WIP {
-  flex: 1;
-  margin-right: 20px; /* Adjust as needed */
-}
-
 
 /* Desktop View */
 @media screen and (min-width: 700px) {
