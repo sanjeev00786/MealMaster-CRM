@@ -301,7 +301,7 @@ const [isOpen, setIsOpen] = useState(false);
 
       <DriverMenu isOpen={isMenuOpen} toggleMenu={toggleMenu} />
       <div className="driver-dashboard-header">
-      <h2>Change Delivery today</h2>
+      <h2>Delivery today</h2>
      
       <button className="menu-btn" onClick={toggleMenu}>
         <img src={DriverMenuIcon} alt="Menu" style={{ width: '20px' }}/>
