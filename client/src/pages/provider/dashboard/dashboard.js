@@ -24,6 +24,7 @@ const Dashboard = () => {
 
         {/* Content */}
         <Grid item xs={12} md={9} style={{ overflowY: "auto", maxHeight: "calc(100vh)" }}>
+          <h2>Dashboard</h2>
           <AnalyticsHeader />
           <Grid container spacing={2}>
             {/* Revenue Graph */}

@@ -112,7 +112,7 @@ export default function BarChartWithDropdown() {
       <BarChart
         dataset={filledData}
         xAxis={[{ scaleType: "band", dataKey: "calculation_month" }]}
-        series={[{ dataKey: "total_revenue", label: "Revenue" }]}
+        series={[{ dataKey: "total_revenue" }]}
         layout="vertical"
         {...chartSetting}
       />
