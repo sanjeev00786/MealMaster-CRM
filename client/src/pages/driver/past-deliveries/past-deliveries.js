@@ -90,7 +90,7 @@ const PastDeliveries = () => {
   };
 
   useEffect(() => {
-    getPastDeliveries();
+    getPastDeliveries(driver_id);
   }, []);
 
   const setNotification = (message, message1) => {
