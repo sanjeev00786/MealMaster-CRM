@@ -89,7 +89,7 @@ const [isOpen, setIsOpen] = useState(false);
       
     } else {
       setLoading(false);
-      setNotification("Alert!", "Something went wrong, please try again.");
+      // setNotification("Alert!", "Something went wrong, please try again.");
     }
   };
 
