@@ -24,6 +24,7 @@ const PastDeliveries = () => {
       const responseData = await apiHelper.get(
         `${ENDPOINTS.GET_PAST_DELIVRIES}driver_id=${driver_id}`
       );
+      console.log('******', driver_id);
       if (responseData.success === true) {
         setpastDeliveriesData(responseData.data);
         const customers = responseData.data.map((i) => ({

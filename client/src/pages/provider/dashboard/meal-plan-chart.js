@@ -61,9 +61,9 @@ export default function MealPlanPieChart() {
         series={[
           {
             data: dataset,
-            innerRadius: 30,
-            paddingAngle: 5,
-            cornerRadius: 10,
+            innerRadius: 60,
+            paddingAngle: 2,
+            cornerRadius: 5,
             startAngle: -90,
             endAngle: 360,
           },
