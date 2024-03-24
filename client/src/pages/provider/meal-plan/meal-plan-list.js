@@ -92,22 +92,22 @@ const MealPlanListPage = () => {
     // getAssignedTiffin(driver_id);
   }, [addedMealName]);
 
-  // useEffect(() => {
-  //   const myupdatedplan =
-  //     localStorage.getItem("isLoaderShow") === "true" &&
-  //     localStorage.getItem("updatedplan") === "true";
-  //   if (myupdatedplan === true) {
-  //     setNotification(
-  //       "Success!",
-  //       `${updatedMealPlanName} updated Successfully`
-  //     );
-  //     console.log("Update plan name ,", `${updatedMealPlanName}`);
-  //     localStorage.setItem("isLoaderShow", "false");
-  //     localStorage.setItem("updatedplan", "false");
-  //   }
+  useEffect(() => {
+    const myupdatedplan =
+      localStorage.getItem("isLoaderShow") === "true" &&
+      localStorage.getItem("updatedplan") === "true";
+    if (myupdatedplan === true) {
+      setNotification(
+        "Success!",
+        `${updatedMealPlanName} updated Successfully`
+      );
+      console.log("Update plan name ,", `${updatedMealPlanName}`);
+      localStorage.setItem("isLoaderShow", "false");
+      localStorage.setItem("updatedplan", "false");
+    }
 
-  //   // getAssignedTiffin(driver_id);
-  // }, [updatedMealPlanName]);
+    // getAssignedTiffin(driver_id);
+  }, [updatedMealPlanName]);
 
   const setNotification = (message, message1) => {
     if (!notificationTriggered) {
