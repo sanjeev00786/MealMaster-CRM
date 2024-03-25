@@ -109,8 +109,10 @@ const [isOpen, setIsOpen] = useState(false);
       // Handle the response data
       if (isNavigationStarted === true) {
         setNotification("Navigation", ` Navigation stopped! `);
+        window.webkit.messageHandlers.buttonClicked.postMessage("stopped");
       } else {
         setNotification("Navigation", ` Navigation started! `);
+        window.webkit.messageHandlers.buttonClicked.postMessage("started");
       }
       console.log("Response Data:", responseData);
       setNavigationStarted(!isNavigationStarted);
