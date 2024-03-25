@@ -56,9 +56,9 @@ export default function VegPieChart() {
         series={[
           {
             data: dataset,
-            innerRadius: 30,
+            innerRadius: 90,
             paddingAngle: 5,
-            cornerRadius: 10,
+            cornerRadius: 5,
             startAngle: -90,
             endAngle: 360,
           },

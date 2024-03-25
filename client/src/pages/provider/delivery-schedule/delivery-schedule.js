@@ -475,41 +475,41 @@ export default function DeliveryScheduleTable() {
     navigate(`/delivery-schedule/${newPage}`);
   };
 
-  // const handleRefreshList = () => {
-  //   console.log('********List refreshed!');
-  //   fetchData(pageNum);
+  const handleRefreshList = () => {
+    console.log('********List refreshed!');
+    fetchData(pageNum);
+  };
+
+  // const handleRefreshList = async () => {
+  //   console.log("********List refreshed!");
+  //   await fetchData(pageNum); 
+  //   const assignedCustomers = records.filter((customer) => customer.is_assigned_driver);
+  //   console.log(assignedCustomers)
+  //   await fetchDriverNamesForAssignedCustomers(assignedCustomers);
   // };
 
-  const handleRefreshList = async () => {
-    console.log("********List refreshed!");
-    await fetchData(pageNum); 
-    const assignedCustomers = records.filter((customer) => customer.is_assigned_driver);
-    console.log(assignedCustomers)
-    await fetchDriverNamesForAssignedCustomers(assignedCustomers);
-  };
-
-  const fetchDriverNamesForAssignedCustomers = async (assignedCustomers) => {
-    try {
+  // const fetchDriverNamesForAssignedCustomers = async (assignedCustomers) => {
+  //   try {
    
-      for (const customer of assignedCustomers) {
-        const { data: assignedTiffinData, error } = await supabase
-          .from("assigned_tiffin")
-          .select("driver_name")
-          .eq("customer_id", customer.customer_id)
-          .single();
+  //     for (const customer of assignedCustomers) {
+  //       const { data: assignedTiffinData, error } = await supabase
+  //         .from("assigned_tiffin")
+  //         .select("driver_name")
+  //         .eq("customer_id", customer.customer_id)
+  //         .single();
   
-        if (error) {
-          throw new Error(`Error fetching driver name for customer ${customer.id}: ${error.message}`);
-        }
+  //       if (error) {
+  //         throw new Error(`Error fetching driver name for customer ${customer.id}: ${error.message}`);
+  //       }
   
-        customer.driverName = assignedTiffinData ? assignedTiffinData.driver_name : "Unknown";
-      }
+  //       customer.driverName = assignedTiffinData ? assignedTiffinData.driver_name : "Unknown";
+  //     }
   
-      setFilteredData([...filteredData]);
-    } catch (error) {
-      console.error("Error fetching driver names for assigned customers:", error);
-    }
-  };
+  //     setFilteredData([...filteredData]);
+  //   } catch (error) {
+  //     console.error("Error fetching driver names for assigned customers:", error);
+  //   }
+  // };
 
 
   const columns = [

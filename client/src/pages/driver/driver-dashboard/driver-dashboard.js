@@ -35,6 +35,7 @@ const DriverDashboard = () => {
   const [totalRouteDistance, setTotalRouteDistance] = useState(0);
   const [isModalOpen, setModalOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isDriverModal, setIsDriverModal] =useState(false);
 
 /***************************************************** */
 
@@ -88,7 +89,7 @@ const [isOpen, setIsOpen] = useState(false);
       
     } else {
       setLoading(false);
-      setNotification("Alert!", "Something went wrong, please try again.");
+      // setNotification("Alert!", "Something went wrong, please try again.");
     }
   };
 
@@ -294,26 +295,14 @@ const [isOpen, setIsOpen] = useState(false);
       }, 2000);
     }
   };
-  useEffect(() => {
-    // Condition to open the modal automatically
-    if (assignTiffinData.length === 0) {
-      setModalOpen(true);
-    }
-  }, [assignTiffinData]);
 
   return (
     <div className="dashboard-container">
-      {/* <Header /> */}
+
       <DriverMenu isOpen={isMenuOpen} toggleMenu={toggleMenu} />
       <div className="driver-dashboard-header">
-      <h2>Change Delivery today</h2>
-      {/* <button onClick={handleOpenModal}>Open Modal</button> */}
-      {/* <DriverModalDelivery isOpen={isOpen} setModalOpen={setIsOpen} /> */}
-      <DriverModalDelivery
-            onConfirm={handleConfirm}
-            isOpen={isModalOpen}
-            setModalOpen={setModalOpen}
-          />
+      <h2>Delivery today</h2>
+     
       <button className="menu-btn" onClick={toggleMenu}>
         <img src={DriverMenuIcon} alt="Menu" style={{ width: '20px' }}/>
       </button>  
@@ -350,11 +339,15 @@ const [isOpen, setIsOpen] = useState(false);
             alt="Placeholder"
             className="placeholder-image"
           />
-          <DriverModalDelivery
+          {/* <DriverModalDelivery
             onConfirm={handleConfirm}
             isOpen={isModalOpen}
             setModalOpen={setModalOpen}
-          />
+          /> */}
+          <DriverModalDelivery
+        isOpen={isModalOpen}
+        setModalOpen={setModalOpen}
+      />
 
         </div>
       ) : isNavigationStarted ? (

@@ -18,6 +18,9 @@
   margin-bottom: 0;
 }
 
+.graph-container {
+  margin-left: 1rem !important;
+}
 
 
 /* Desktop View */

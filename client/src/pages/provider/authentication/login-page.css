@@ -21,7 +21,7 @@
 }
 
 .login-form-container {
-  background-color: white;
+  background-color:var(--bgc-color);
   padding-top: 20px;
   padding: 20px;
   border-top-left-radius: 50px; 

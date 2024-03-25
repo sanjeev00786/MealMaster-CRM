@@ -5,6 +5,7 @@ import CustomizedSnackbar from "../../../components/Notification/Notification";
 // import "../../../components/Notification/Notification.css";
 import CustomButton from "../../../components/CustomButton/CustomButton";
 import MultiActionAreaCard from "../../../components/Meal-plan-card/Meal-plan-card";
+import "../../CSS/variable.css"
 import "../meal-plan/meal-plan-list.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
