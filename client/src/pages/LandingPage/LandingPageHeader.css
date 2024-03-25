@@ -10,7 +10,6 @@
   z-index: 1000;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   right: 0;
-
 }
 
 .header__logo {
@@ -157,4 +156,43 @@
 
 .header__login:hover {
   transform: translateY(-2px);
+}
+
+@media only screen and (max-width: 450px) {
+  .header {
+    padding: 10px;
+    max-width: 430px;
+  }
+
+  .header__logo {
+    font-size: 18px;
+  }
+
+  .header__logo img {
+    max-width: 150px;
+  }
+
+  .header__nav-item {
+    display: none; /* Hide navigation items on mobile */
+  }
+
+  .header__nav-list {
+    display: none;
+  }
+
+  .header__actions {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end; /* Align login/signup buttons to the right */
+    align-items: center;
+  }
+
+  .header__button {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  .header__login {
+    font-size: 12px;
+  }
 }

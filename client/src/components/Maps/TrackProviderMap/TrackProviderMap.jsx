@@ -11,6 +11,7 @@ const TrackProviderMap = ({ customerData, driver_id }) => {
   const [driverLocation, setDriverLocation] = useState(null);
   const markerRef = useRef(null);
   const [initialCenter, setInitialCenter] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const onLoad = (map) => {
     setMap(map);
@@ -18,6 +19,7 @@ const TrackProviderMap = ({ customerData, driver_id }) => {
 
   const onDirectionsLoad = (directions) => {
     setDirections(directions);
+    setIsLoading(false);
   };
 
   const options = {
@@ -116,7 +118,7 @@ const TrackProviderMap = ({ customerData, driver_id }) => {
   }, [customerData, map, driverLocation]);
 
   return (
-    <div>
+    <div className='track-provider-map-container'>
     <GoogleMap
       mapContainerStyle={{
         height: '80vh',
@@ -127,6 +129,12 @@ const TrackProviderMap = ({ customerData, driver_id }) => {
       onLoad={onLoad}
       options={options}
     >
+      {isLoading && (
+          <div className="loader">
+            <div className="spinner"></div>
+          </div>
+        )}
+        
       {customerData.length !== 0 && directions && (
         <DirectionsRenderer
           directions={directions}
@@ -137,6 +145,7 @@ const TrackProviderMap = ({ customerData, driver_id }) => {
               strokeOpacity: 1,
             },
             suppressMarkers: true,
+            preserveViewport: true,
           }}
         />
       )}
