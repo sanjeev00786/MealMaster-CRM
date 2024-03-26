@@ -17,12 +17,14 @@ import { ReactComponent as ScheduleIconF } from "../../component-assets/schedule
 import { ReactComponent as SocialIconF } from "../../component-assets/social-filled.svg";
 import { ReactComponent as MealIconF } from "../../component-assets/meal-filled.svg";
 import { ReactComponent as Logo } from "../../component-assets/logo123.svg";
+// import Divider from '@mui/material/Divider'\
+import Button from '@mui/material/Button';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 import "./NewSideMenu.css";
 export default function SideBarMenu({ currentPage }) {
   const navigate = useNavigate();
   const [selectedIndex, setSelectedIndex] = useState(0);
-
   useEffect(() => {
     // Determine the selected index based on the current page
     switch (currentPage) {
@@ -86,6 +88,16 @@ export default function SideBarMenu({ currentPage }) {
     }
   };
 
+  const handleLogout = () => {
+    // Clear session data
+    sessionStorage.clear();
+    localStorage.clear();
+    
+    // Redirect to the login page
+    navigate("/login-page");
+  };
+
+
   // Define icons for both regular and filled versions
   const iconList = [
     { regular: <DashboardIcon />, filled: <DashboardIconF /> },
@@ -124,7 +136,9 @@ export default function SideBarMenu({ currentPage }) {
             {menuLabels[index]}
           </MenuItem>
         ))}
+         
       </Menu>
+      <Button onClick={handleLogout} className="logoutMenuItem"><span className="logout-btn"><LogoutIcon/>Logout</span></Button>
     </Sidebar>
   );
 }
