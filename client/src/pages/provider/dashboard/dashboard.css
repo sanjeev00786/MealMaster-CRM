@@ -25,25 +25,37 @@
 
 /* Desktop View */
 @media screen and (min-width: 700px) {
+
   .sideMenu {
     visibility: visible;
+  }
+
+  .mobileSideBarMenu {
+    display: none;
+  }
+  .sideBarMenu {
+    display: block;
+  }
+
+  .dashboardPage {
+    background-color: rgba(241, 240, 247, 1);
+    display: flex;
+  }
+
+  .sideBarMenu {
+    flex: 0 0 15%;
   }
   .mobileSideMenu {
     visibility: visible;
   }
-}
 
-@media screen and (max-width: 700px) {
-  .sideBarMenu {
-    display: none;
-  }
+  .dashboard-page-container{
+    flex: 1 85%;
+    align-items: center;
+    padding-top: 6px;
+    padding-left: 2rem;
+    padding-right: 1rem;
 
-  .mobileSideBarMenu {
-    display: block;
-    width: 15%;
-  }
-
-  .contentWrapper {
-    width: 100%;
   }
 }
+
