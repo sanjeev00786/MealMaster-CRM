@@ -6,6 +6,7 @@ import CustomButton from "../../../components/CustomButton/CustomButton";
 import axios from "axios";
 import { navigate } from "react-router-dom";
 import { ENDPOINTS } from "../../../apiConfig.js";
+import "../../CSS/variable.css"
 
 import apiHelper from "../../../util/ApiHelper/ApiHelper.js";
 import { provider_id } from "../../../util/localStorage.js";

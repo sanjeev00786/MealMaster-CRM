@@ -72,7 +72,7 @@ input, textarea {
     border-radius: 6px;
     background-color: var(--white-color) !important;
     border: 0.6px solid var( --grey2-color);
-    box-shadow: 0px 1px 0px rgba(193, 199, 205, 1);    
+    box-shadow: 0px 1px 0px var( --grey1-color);    
     color:var(--grey3-color);
 }
 .Btn{
@@ -85,10 +85,10 @@ input, textarea {
 }
 
 .submitBtn{
-    border: 1px solid #FFFFFF !important;
+    border: 1px solid var(--white-color) !important;
 
-    background-color: #6F59DA !important;
-    color:#FFFFFF;
+    background-color: var(--primary-color) !important;
+    color:var(--white-color);
     margin-top: 24px;
     margin-bottom: 8px;
 
@@ -97,10 +97,10 @@ input, textarea {
 .cancelBtn{
     
 
-    border: 1px solid #000000;
+    border: 1px solid var( --dark-color);
 
-    background-color: #FFFFFF;
-    color:#000000;
+    background-color: var(--white-color);
+    color:var(--dark-color);
 }
 
 

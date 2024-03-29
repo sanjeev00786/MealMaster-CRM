@@ -69,13 +69,15 @@
    */
 
 body{
-      background-color: #b6b1b188;
+      /* background-color: #b6b1b188; */
+      background-color: var(--bgc-color);
 
         max-width: none !important;
         width: 100% !important;
         max-height: none !important;
         margin: 0;
         padding: 0; 
+        font-family: var( --main-font);
 }
 
 form {
@@ -107,7 +109,7 @@ h1 {
   margin-bottom: 0;
 }
 .required {
-  color: #a91f1f;
+  color: var(--error-color);
 }
 label {
   display: block;
@@ -126,10 +128,14 @@ textarea {
   padding: 10px;
   width: 95%;
   border-radius: 6px;
-  background-color: #f2f4f8;
+  background-color: var(--grey1-color);
+  border: 0.6px solid var(--grey2-color);
+  box-shadow: 0px 1px 0px var(--grey1-color);
+  color:var(--grey3-color);
+  /* background-color: #f2f4f8;
   border: 0.6px solid #aeaeae;
   box-shadow: 0px 1px 0px rgba(193, 199, 205, 1);
-  color: #697077;
+  color: #697077; */
 }
 .Btn {
   padding: 10px;
@@ -139,19 +145,19 @@ textarea {
 }
 
 .submit-button {
-  border: 1px solid #000000;
+  border: 1px solid var(--dark-color);
 
-  background-color: #000000;
-  color: #ffffff;
+  background-color: var(--dark-color);
+  color: var(--white-color);
   margin-top: 24px;
   margin-bottom: 8px;
 }
 
 .clear-button {
-  border: 1px solid #000000;
+  border: 1px solid var(--dark-color);
 
-  background-color: #ffffff;
-  color: #000000;
+  background-color: var(--white-color);
+  color: var(--dark-color);
 }
 
 .actions {
@@ -172,7 +178,7 @@ justify-items: center; */
 
     margin: 0 auto;
     /* padding: 20px; */
-    background-color: #f2f4f8;
+    /* background-color: #f2f4f8; */
     border-radius: 8px;
   }
   h1 {
@@ -190,7 +196,7 @@ justify-items: center; */
   }
 
   .form-page-container {
-    background-color: rgba(241, 240, 247, 1);
+    background-color: var(--bgc-color);
     display: flex;
   }
 
@@ -211,7 +217,7 @@ justify-items: center; */
 
     margin: 0 auto;
     /* padding: 20px; */
-    background-color: #f2f4f8;
+    background-color: var(--bgc-color);
     border-radius: 8px;
   }
   .Btn {
