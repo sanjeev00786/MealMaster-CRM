@@ -21,7 +21,7 @@ body{
 
 .ps-menu-root {
   margin-top: 15px;
-  margin-bottom: 18rem;
+  margin-bottom: 17rem;
   width: 100%;
 }
 
@@ -66,4 +66,15 @@ body{
   width: 220px;
   margin: 0;
   padding: 0;
+}
+
+.logout-btn{
+  border: 1px solid black;
+  color: black;
+  background-color: white !important;
+  width: 150px;
+  height: 20px;
+  
+  /* margin-top: 35rem; */
+  /* justify-content: space-between; */
 }
