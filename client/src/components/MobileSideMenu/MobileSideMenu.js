@@ -10,12 +10,19 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./MobileSideMenu.css";
+import LogoutIcon from '@mui/icons-material/Logout';
 
 export default function AnchorTemporaryDrawer() {
   const [open, setOpen] = React.useState(false);
   const [selectedItem, setSelectedItem] = React.useState(null);
   const navigate = useNavigate();
-  const location = useLocation(); 
+  const location = useLocation();
+
+  const handleLogout = () => {
+    sessionStorage.clear();
+    localStorage.clear();
+    navigate("/login-page");
+  };
 
   React.useEffect(() => {
     const path = location.pathname;
@@ -41,6 +48,7 @@ export default function AnchorTemporaryDrawer() {
       case "/meal-plan-list":
         setSelectedItem("Meal Settings");
         break;
+
       default:
         setSelectedItem(null);
     }
@@ -74,6 +82,9 @@ export default function AnchorTemporaryDrawer() {
       case "Meal Settings":
         navigate("/meal-plan-list");
         break;
+      case "Logout":
+        handleLogout();
+        break;
       default:
         break;
     }
@@ -96,6 +107,7 @@ export default function AnchorTemporaryDrawer() {
           "Schedule Deliveries",
           "Social Media",
           "Meal Settings",
+          "Logout",
         ].map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton

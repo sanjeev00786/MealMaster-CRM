@@ -246,10 +246,14 @@ export default function CustomerPage() {
 
   return (
     <div className="customer-page-container">
-      <Loader loading={loading} />
+      
+      <div className="mobileSideBarMenu">
+        <AnchorTemporaryDrawer />
+      </div>
       <div className="sideBarMenu">
         <SideBarMenu currentPage="/customerList/1" />
       </div>
+      <Loader loading={loading} />
 
       <ConfirmationModal
         open={confirmationModalOpen}
@@ -262,7 +266,7 @@ export default function CustomerPage() {
 
       <div className="customer-page">
         <div className="page-heading">
-          <h1 className=" underline">Customers</h1>
+          <h1 className="underline">Customers</h1>
         </div>
 
         <div className="filter-buttons-container">
@@ -299,9 +303,7 @@ export default function CustomerPage() {
         </div>
 
         <div
-          className="search-addButtton-container"
-          style={{ display: "flex", justifyContent: "space-between" }}
-        >
+          className="search-addButtton-container">
           <div className="search-container">
             <input
               type="text"
@@ -310,7 +312,7 @@ export default function CustomerPage() {
               className="search-input"
             />
           </div>
-          <div>
+          <div className="add-customer-button">
             <Button variant="contained" onClick={() => navigate("/customers")}>
               Add New Customer
             </Button>
