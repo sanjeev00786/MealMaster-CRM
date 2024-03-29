@@ -1,3 +1,4 @@
+import "../../pages/CSS/variable.css";
 import './Login.css'; // Create a CSS file for your Login component styles
 import { useState, useEffect } from 'react';
 // import { createClient } from '@supabase/supabase-js';

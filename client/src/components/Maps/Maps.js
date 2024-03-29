@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { GoogleMap, LoadScript, DirectionsRenderer, Marker } from '@react-google-maps/api';
 import driverMarker from '../../component-assets/driverMarker.svg';
 import locationMarker from '../../component-assets/locationMarker.svg';
+import "../../pages/CSS/variable.css"
+
 import supabase from '../../supabase';
 
 const Maps = ({ customerData, setTotalRouteDistance, driver_id }) => {
