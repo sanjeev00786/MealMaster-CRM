@@ -10,7 +10,7 @@ body{
     background-color:var(--bgc-color) !important;
 }
 .sideBarMenu {
-    flex: 0 0 20%;
+    flex: 0 0 15%;
   }
   textarea {
     height: 80px;

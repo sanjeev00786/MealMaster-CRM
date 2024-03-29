@@ -439,6 +439,8 @@ import { ENDPOINTS } from "../../../apiConfig.js";
 import apiHelper from "../../../util/ApiHelper/ApiHelper";
 import { provider_id } from "../../../util/localStorage.js";
 import { Link } from "react-router-dom";
+import supabase from "../../../supabase";
+
 import Button from "@mui/material/Button";
 import AssignDriverModalButton from "./AssignDriverModalButton";
 
@@ -477,6 +479,38 @@ export default function DeliveryScheduleTable() {
     console.log('********List refreshed!');
     fetchData(pageNum);
   };
+
+  // const handleRefreshList = async () => {
+  //   console.log("********List refreshed!");
+  //   await fetchData(pageNum); 
+  //   const assignedCustomers = records.filter((customer) => customer.is_assigned_driver);
+  //   console.log(assignedCustomers)
+  //   await fetchDriverNamesForAssignedCustomers(assignedCustomers);
+  // };
+
+  // const fetchDriverNamesForAssignedCustomers = async (assignedCustomers) => {
+  //   try {
+   
+  //     for (const customer of assignedCustomers) {
+  //       const { data: assignedTiffinData, error } = await supabase
+  //         .from("assigned_tiffin")
+  //         .select("driver_name")
+  //         .eq("customer_id", customer.customer_id)
+  //         .single();
+  
+  //       if (error) {
+  //         throw new Error(`Error fetching driver name for customer ${customer.id}: ${error.message}`);
+  //       }
+  
+  //       customer.driverName = assignedTiffinData ? assignedTiffinData.driver_name : "Unknown";
+  //     }
+  
+  //     setFilteredData([...filteredData]);
+  //   } catch (error) {
+  //     console.error("Error fetching driver names for assigned customers:", error);
+  //   }
+  // };
+
 
   const columns = [
     {
@@ -555,9 +589,9 @@ export default function DeliveryScheduleTable() {
             />
           </div>
           <div>
-            <Button variant="contained" onClick={toggleModal}>
+            {/* <Button variant="contained" onClick={toggleModal}>
               Assign Driver
-            </Button>
+            </Button> */}
             <AssignDriverModalButton
               isOpen={isModalOpen}
               onClose={toggleModal}
@@ -576,6 +610,7 @@ export default function DeliveryScheduleTable() {
               data={filteredData}
               selectableRows
               onSelectedRowsChange={handleSelectedData}
+              selectableRowDisabled={(row) => row.is_assigned_driver}
             />
           </div>
 

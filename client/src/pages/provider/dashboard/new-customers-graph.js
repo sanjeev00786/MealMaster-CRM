@@ -3,7 +3,7 @@ import supabase from '../../../supabase';
 import { LineChart, axisClasses } from "@mui/x-charts";
 import { provider_id } from "../../../util/localStorage";
 import { Select, MenuItem } from "@mui/material";
-
+import './graph.css'
 const chartSetting = {
   width: 500,
   height: 300,
@@ -91,17 +91,17 @@ export default function LineChartWithDropdown() {
 
   return (
     <div>
-      <h2>Customer Data</h2>
-      <Select value={year} onChange={handleYearChange} sx={{ m: 1, minWidth: 120 }} size="small">
+      <h2>Subscriber Growth</h2>
+      {/* <Select value={year} onChange={handleYearChange} sx={{ m: 1, minWidth: 120 }} size="small">
         <MenuItem value={2021}>2021</MenuItem>
         <MenuItem value={2022}>2022</MenuItem>
         <MenuItem value={2023}>2023</MenuItem>
         <MenuItem value={2024}>2024</MenuItem>
-      </Select>
+      </Select> */}
       <LineChart
         dataset={filledData}
         xAxis={[{ scaleType: "band", dataKey: "calculation_month" }]}
-        series={[{ dataKey: "total_customers", label: "Number of Customers" }]}
+        series={[{ dataKey: "total_customers", area: true,}]}
         {...chartSetting}
       />
     </div>

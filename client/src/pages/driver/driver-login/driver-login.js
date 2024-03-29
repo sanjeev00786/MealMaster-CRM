@@ -94,7 +94,7 @@ const DriverLogin = () => {
             Enter Your Login Token<span class="required">*</span>
           </label>
           <input
-            type="text"
+            type="password"
             variant="standard"
             fullWidth
             className={`login-input ${!isValidToken ? "invalid" : ""}`}

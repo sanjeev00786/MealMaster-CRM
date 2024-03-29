@@ -108,3 +108,58 @@
     height: 150px;
     filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.7));
 }
+
+@media only screen and (max-width: 768px) {
+    .first, .second, .third {
+        padding: 10px;
+    }
+
+    .landing-page-section {
+        padding-right: 0; /* Remove padding on the right for small screens */
+    }
+
+    .landing-page-buttons {
+        flex-direction: column; /* Stack buttons vertically */
+    }
+
+    .explore-feature-button,
+    .get-started-button {
+        width: 100%; /* Make buttons full-width */
+        margin: 10px 0; /* Add some vertical spacing between buttons */
+    }
+
+    .second-right-content, .third-right-content {
+        text-align: center; /* Center text content */
+    }
+}
+
+/* Styles for screens up to 576px (typical mobile phone size) */
+@media only screen and (max-width: 440px) {
+    .landing-page-container {
+        background-color: white;
+        max-width: 450px;
+    }
+
+    .first, .second, .third {
+        display: grid; /* Use grid layout on smaller screens */
+        grid-template-columns: 1fr; /* Set a single column */
+        gap: 20px; /* Add some gap between items */
+        padding: 10px;
+    }
+
+    .landing-page-heading {
+        font-size: 1.5rem; /* Reduce font size for smaller screens */
+    }
+
+    .landing-page-subheading {
+        font-size: 1em; /* Reduce font size for smaller screens */
+    }
+
+    .para1, .para {
+        font-size: 0.8em; /* Reduce font size for smaller screens */
+    }
+
+    .scooter-image {
+        display: none; /* Hide the scooter image on smaller screens */
+    }
+}

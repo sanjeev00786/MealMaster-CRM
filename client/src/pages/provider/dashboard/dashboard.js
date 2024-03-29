@@ -13,18 +13,20 @@ import AnchorTemporaryDrawer from "../../../components/MobileSideMenu/MobileSide
 const Dashboard = () => {
   return (
     <div className="dashboardPage">
-      <Grid container spacing={2}>
+     
         {/* Sidebar */}
-      <div className="mobileSideBarMenu">
-        <AnchorTemporaryDrawer />
-      </div>
-      <div className="sideBarMenu">
-        <SideBarMenu currentPage="/dashboard" />
-      </div>
-
+        <div className="mobileSideBarMenu">
+          <AnchorTemporaryDrawer />
+        </div>
+        <div className="sideBarMenu">
+          <SideBarMenu currentPage="/dashboard" />
+        </div>
+      
+        <div className="dashboard-page-container">
         {/* Content */}
-        <Grid item xs={12} md={9}>
-          <AnalyticsHeader/>
+        <Grid className="graph-container" item xs={12} md={9} style={{ overflowY: "auto", maxHeight: "calc(100vh)" }}>
+          <h2>Dashboard</h2>
+          <AnalyticsHeader />
           <Grid container spacing={2}>
             {/* Revenue Graph */}
             <Grid item xs={12} md={6}>
@@ -55,8 +57,9 @@ const Dashboard = () => {
             </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      </div>
     </div>
+
   );
 };
 

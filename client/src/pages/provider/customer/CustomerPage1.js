@@ -31,7 +31,13 @@ export default function CustomerForm({ customerData }) {
           `${ENDPOINTS.GET_MEAL_PLAN}provider_id=${provider_id}`
         );
         setLoading(false)
-        setMealData(response.data);
+        const activePlans = []
+        for (const i of response.data) {
+          if (i.is_active === true) {
+            activePlans.push(i)
+          }
+        }
+        setMealData(activePlans);
       } catch (error) {
         setLoading(false)
         console.error("Error fetching meal plans:", error);

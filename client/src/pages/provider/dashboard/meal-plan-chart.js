@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { PieChart } from '@mui/x-charts/PieChart';
-import supabase from '../../../supabase'; // Import your configured Supabase client
-import { provider_id } from "../../../util/localStorage.js"; // Import provider_id from localStorage
+import supabase from '../../../supabase'; 
+import { provider_id } from "../../../util/localStorage.js"; 
 
 const chartSetting = {
   width: 500,
-  height: 200,
+  height: 300,
 };
 
 export default function MealPlanPieChart() {
@@ -53,24 +53,31 @@ export default function MealPlanPieChart() {
   console.log("Dataset:", dataset);
 
   return (
-    <div>
-    <h2>Plan Analytics</h2>
-    <PieChart
-      series={[
-        {
-          data: dataset,
-        },
-      ]}
-      width={chartSetting.width}
-      height={chartSetting.height}
-      slotProps={{
-        legend: {
-            direction: 'column',
-            position: { vertical: 'middle', horizontal: 'right' },
+    <div className='meal-plan-chart-container'>
+      <h2>Preferred Plans</h2>
+      <PieChart
+        margin={{ top: 10, bottom: 80, left: 10, right: 10 }}
+        colors={['#8C7AE1', '#411B72', '#691C78', '#1C1C1C', '#083223', '#771F1F']}
+        series={[
+          {
+            data: dataset,
+            innerRadius: 60,
+            paddingAngle: 2,
+            cornerRadius: 5,
+            startAngle: -90,
+            endAngle: 360,
+          },
+        ]}
+        width={chartSetting.width}
+        height={chartSetting.height}
+        slotProps={{
+          legend: {
+            direction: 'row',
+            position: { vertical: 'bottom', horizontal: 'middle' },
             padding: 0,
-        },
-      }}
-    />
+          },
+        }}
+      />
     </div>
   );
 }
