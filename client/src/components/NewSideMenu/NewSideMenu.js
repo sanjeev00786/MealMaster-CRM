@@ -8,6 +8,8 @@ import { ReactComponent as TrackIcon } from "../../component-assets/track_delive
 import { ReactComponent as ScheduleIcon } from "../../component-assets/schedule_delivery_icon.svg";
 import { ReactComponent as SocialIcon } from "../../component-assets/social_media_icon.svg";
 import { ReactComponent as MealIcon } from "../../component-assets/meal_setting_icon.svg";
+import Link from '@mui/material/Link';
+import TransitionsModal from "../ConfirmationModal/ConfirmationModal";
 
 import { ReactComponent as DashboardIconF } from "../../component-assets/dashboard-filled.svg";
 import { ReactComponent as CustomerIconF } from "../../component-assets/customer-filled.svg";
@@ -24,6 +26,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import "./NewSideMenu.css";
 export default function SideBarMenu({ currentPage }) {
   const navigate = useNavigate();
+  const [isModalOpen, setModalOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
   useEffect(() => {
     // Determine the selected index based on the current page
@@ -88,12 +91,19 @@ export default function SideBarMenu({ currentPage }) {
     }
   };
 
+  const handleLogoutClick = () => {
+    setModalOpen(true);
+  }
+
+  const handleClose = () => {
+    setModalOpen(false); 
+  };
+
   const handleLogout = () => {
-    // Clear session data
+ 
     sessionStorage.clear();
     localStorage.clear();
     
-    // Redirect to the login page
     navigate("/login-page");
   };
 
@@ -120,6 +130,12 @@ export default function SideBarMenu({ currentPage }) {
     "Meal Settings",
   ];
 
+  var provider = localStorage.getItem("sb-cvnlpinekwolqaratkmc-auth-token");
+  var userData = JSON.parse(provider);
+
+  let user_email = userData.user.email;
+  console.log(user_email);
+
   return (
     <Sidebar>
       <div className="logo-container">
@@ -138,7 +154,20 @@ export default function SideBarMenu({ currentPage }) {
         ))}
          
       </Menu>
-      <Button onClick={handleLogout} className="logoutMenuItem"><span className="logout-btn"><LogoutIcon/>Logout</span></Button>
+      <div className="logout-container">
+      <div className="user-email-container">
+      {user_email}
+      </div>
+      <Link onClick={handleLogoutClick} className="logoutMenuItem" color="inherit" style={{ cursor: 'pointer' }} ><span>Logout</span></Link>
+      </div>
+      <TransitionsModal
+            modalTitle="Logout"
+            modalDescription="Are you sure you want to Logout?"
+            onCancel={handleClose}
+            onConfirm={handleLogout}
+            isOpen={isModalOpen}
+            setModalOpen={setModalOpen}
+          />
     </Sidebar>
   );
 }

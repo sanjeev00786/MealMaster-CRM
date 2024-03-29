@@ -438,8 +438,11 @@ import SideBarMenu from "../../../components/NewSideMenu/NewSideMenu";
 import { ENDPOINTS } from "../../../apiConfig.js";
 import apiHelper from "../../../util/ApiHelper/ApiHelper";
 import { provider_id } from "../../../util/localStorage.js";
+import AnchorTemporaryDrawer from "../../../components/MobileSideMenu/MobileSideMenu";
 import { Link } from "react-router-dom";
 import supabase from "../../../supabase";
+
+import "./delivery-schedule.css"
 
 import Button from "@mui/material/Button";
 import AssignDriverModalButton from "./AssignDriverModalButton";
@@ -571,15 +574,16 @@ export default function DeliveryScheduleTable() {
       <div className="sideBarMenu">
         <SideBarMenu currentPage="/delivery-schedule/1" />
       </div>
+      <div className="mobileSideBarMenu">
+        <AnchorTemporaryDrawer />
+      </div>
 
       <div className="customer-page">
         <div className="page-heading">
           <h1 className=" underline">Schedule Delivery</h1>
         </div>
         <div
-          className="search-addButtton-container"
-          style={{ display: "flex", justifyContent: "space-between" }}
-        >
+          className="search-addButtton-container">
           <div className="search-container">
             <input
               type="text"
@@ -588,7 +592,7 @@ export default function DeliveryScheduleTable() {
               className="search-input"
             />
           </div>
-          <div>
+          <div className="assign-driver-button">
             {/* <Button variant="contained" onClick={toggleModal}>
               Assign Driver
             </Button> */}

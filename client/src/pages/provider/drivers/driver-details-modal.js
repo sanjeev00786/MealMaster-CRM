@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Box, Typography, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import Link from '@mui/material/Link';
 import axios from "axios";
 import CloseIcon from "@mui/icons-material/Close";
 import "./driver-details-modal.css";
 import { ENDPOINTS } from "../../../apiConfig.js";
 import { provider_id } from "../../../util/localStorage.js";
 import apiHelper from "../../../util/ApiHelper/ApiHelper.js";
+import TransitionsModal from "../../../components/ConfirmationModal/ConfirmationModal";
 
 const ViewDriverDetailsModal = ({ login_token, onClose }) => {
   const [driverDetails, setDriverDetails] = useState("");
   const [imagePreview, setImagePreview] = useState("");
+  const [isModalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
 
   // Styles
@@ -45,6 +47,14 @@ const ViewDriverDetailsModal = ({ login_token, onClose }) => {
       fetchDriverDetails();
     }
   }, []);
+
+  const handleClickDelete = () => {
+    setModalOpen(true);
+  }
+
+  const handleClose = () => {
+    setModalOpen(false); 
+  };
 
   const handleDelete = async () => {
     try {
@@ -94,7 +104,8 @@ const ViewDriverDetailsModal = ({ login_token, onClose }) => {
                   />
                 )}
               </div>
-              
+
+              <div className="driver-detail-contain">
               <div className="detail-row">
                 <Typography className="detail-label">Driver's Name:</Typography>
                 <Typography className="detail-data">
@@ -136,23 +147,34 @@ const ViewDriverDetailsModal = ({ login_token, onClose }) => {
                 </Typography>
               </div>
             </div>
+            </div>
           </>
         ) : (
           <Typography>Loading driver details...</Typography>
         )}
         <div className="button-container">
-          <Link className="delete-link" onClick={handleDelete}>
+          <Link className="delete-link" onClick={handleClickDelete} color="inherit" style={{ cursor: 'pointer' }}>
             Disable Driver
           </Link>
           <Link
             className="edit-link"
             component={Link}
             to={`/edit-driver/${login_token.login_token}`}
+            color="inherit" style={{ cursor: 'pointer' }}
           >
             Edit Driver
           </Link>
         </div>
+        <TransitionsModal
+            modalTitle="Disable Driver"
+            modalDescription="Are you sure you want to disable the driver?"
+            onCancel={handleClose}
+            onConfirm={handleDelete}
+            isOpen={isModalOpen}
+            setModalOpen={setModalOpen}
+          />
       </Box>
+      
     </Modal>
   );
 };

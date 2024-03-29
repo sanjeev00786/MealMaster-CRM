@@ -19,6 +19,7 @@ import { ENDPOINTS } from "../../../apiConfig.js";
 import apiHelper from "../../../util/ApiHelper/ApiHelper";
 import { provider_id } from "../../../util/localStorage.js";
 import { Link } from "react-router-dom";
+import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 
 const mealPlanUrl = `${ENDPOINTS.GET_MEAL_PLAN}provider_id=${provider_id}`;
 
@@ -314,7 +315,7 @@ export default function CustomerPage() {
           </div>
           <div className="add-customer-button">
             <Button variant="contained" onClick={() => navigate("/customers")}>
-              Add New Customer
+            <PersonAddAlt1Icon/>Add New Customer
             </Button>
           </div>
         </div>
