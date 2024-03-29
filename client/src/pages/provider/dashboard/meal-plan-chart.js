@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { PieChart } from '@mui/x-charts/PieChart';
 import supabase from '../../../supabase'; 
 import { provider_id } from "../../../util/localStorage.js"; 
+import "../../CSS/variable.css"
+
 
 const chartSetting = {
   width: 500,

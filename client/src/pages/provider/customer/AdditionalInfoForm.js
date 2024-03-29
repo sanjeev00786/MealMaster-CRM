@@ -1,6 +1,7 @@
 import React from "react";
 import { Stack, TextField, InputLabel, MenuItem, Select, FormControl, RadioGroup, FormControlLabel, Radio, FormLabel } from "@mui/material";
 import formSchema from "./formschema";
+import "../../CSS/variable.css"
 
 export default function AdditionalInfoForm({ formData, handleChange, mealPlans, isEditMode }) {
 

@@ -1,4 +1,6 @@
 import React from "react";
+import "../../CSS/variable.css"
+
 import "./dashboard.css";
 import RevenueGraph from "./revenue-graph";
 import CustomerGraph from "./new-customers-graph";

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { GoogleMap, Marker } from '@react-google-maps/api';
 import driverMarker from '../../component-assets/driverMarker.svg';
+import "../../pages/CSS/variable.css"
+
 import './Maps.css'
 
 const WithoutRouteMaps = () => {

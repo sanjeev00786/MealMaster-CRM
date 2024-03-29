@@ -1,4 +1,5 @@
 import React from "react";
+import "../../CSS/variable.css"
 import "../driver-login/driver-login.css";
 import { useNavigate } from "react-router-dom";
 import CustomButton from "../../../components/CustomButton/CustomButton";

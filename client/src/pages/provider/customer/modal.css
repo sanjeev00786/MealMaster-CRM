@@ -1,13 +1,16 @@
+body{
+  font-family:var( --main-font) ;
+}
 .button-container {
     display: flex;
     justify-content: space-between;
     padding-top: 2rem;
   }
   .button-container .delete-link {
-    color: red;
+    color: var(--error-color);
   }
   .button-container .edit-link {
-    color: #6F59DA;
+    color: var(--primary-color);
   }
   #view-driver-modal {
     font-size: 40px;
@@ -32,7 +35,8 @@
       margin-bottom: 10px !important;
     }
     .detail-label {
-      color: rgba(71, 71, 71, 1) !important;
+      /* color: rgba(71, 71, 71, 1) !important; */
+      color: var(--grey3-color) !important;
       margin-right: 10px !important;
       flex-basis: 180px !important;
     }

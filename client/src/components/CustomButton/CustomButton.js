@@ -1,4 +1,6 @@
 import React from "react";
+import "../../pages/CSS/variable.css";
+
 import CustomButtonLoader from "./CustomButtonLoader";
 
 export default function CustomButton({ isLoading, children, ...props }) {

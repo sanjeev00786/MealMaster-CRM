@@ -11,6 +11,7 @@ import SideBarMenu from "../../../components/NewSideMenu/NewSideMenu";
 import editicon from "../../../component-assets/editicon.svg";
 import { ENDPOINTS } from "../../../apiConfig.js";
 import { provider_id } from "../../../util/localStorage.js";
+import "../../CSS/variable.css"
 
 import "./add-driver.css";
 import apiHelper from "../../../util/ApiHelper/ApiHelper.js";

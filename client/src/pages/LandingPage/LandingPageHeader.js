@@ -1,4 +1,6 @@
 import React from 'react';
+import "../CSS/variable.css"
+
 import './LandingPageHeader.css';
 import Logo from '../../component-assets/logo123.svg'
 import { Link, NavLink } from 'react-router-dom';

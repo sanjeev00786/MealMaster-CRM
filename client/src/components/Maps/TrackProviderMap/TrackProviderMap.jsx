@@ -3,6 +3,8 @@ import { GoogleMap, DirectionsRenderer, Marker } from '@react-google-maps/api';
 import driverMarker from '../../../component-assets/driverMarker.svg';
 import locationMarker from '../../../component-assets/locationMarker.svg';
 import supabase from '../../../supabase';
+import "../../../pages/CSS/variable.css"
+
 import './TrackProviderMap.css'
 
 const TrackProviderMap = ({ customerData, driver_id }) => {

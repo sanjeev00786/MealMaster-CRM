@@ -9,6 +9,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import { useLocation, useNavigate } from "react-router-dom";
+import "../../pages/CSS/variable.css"
 import "./MobileSideMenu.css";
 
 export default function AnchorTemporaryDrawer() {

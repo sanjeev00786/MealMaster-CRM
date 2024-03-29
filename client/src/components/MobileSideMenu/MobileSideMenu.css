@@ -1,3 +1,6 @@
+body{
+  font-family:var(--main-font) ;
+}
 .listContainer {
   width: 100% !important; 
   display: flex !important;
@@ -14,8 +17,8 @@
 }
 
 .selected {
-  background-color: rgba(229, 229, 229, 1) !important;
+  background-color: var(--white-color) !important;
   border-radius: 8px !important;
-  background-color: #6f59da !important;
-  color: white !important;
+  background-color: var( --primary-color) !important;
+  color: var(--white-color) !important;
 }

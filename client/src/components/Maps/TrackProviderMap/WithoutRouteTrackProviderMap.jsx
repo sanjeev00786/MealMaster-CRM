@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { GoogleMap, Marker } from '@react-google-maps/api';
 import driverMarker from '../../../component-assets/driverMarker.svg';
 import supabase from '../../../supabase';
+import "../../../pages/CSS/variable.css"
 import './TrackProviderMap.css'
 
 const WithoutRouteTrackProviderMap = ({ driver_id }) => {
