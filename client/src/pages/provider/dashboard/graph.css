@@ -1,12 +1,24 @@
+body{
+    font-family: var(--main-font) !important;
+}
 .MuiBarElement-root {
-    fill: #6F59DA !important;
+    fill: var( --primary-color) !important;
+    
     width: 15px !important;
 }
 
 .css-1la267r-MuiAreaElement-root {
-    fill: #6e59da !important;
+    fill: rgba(129, 104, 239, 0.272) !important;
+    
 }
 
+.css-wn5hww-MuiLineElement-root{
+    /* fill: var(--primary-color) !important; */
+    stroke: var(--primary-color) !important;
+}
+.css-197li3g-MuiMarkElement-root,.css-1ttp0fb-MuiMarkElement-root,.css-wajbcw-MuiMarkElement-root,.css-1sjw2az-MuiMarkElement-root,.css-1l0lybm-MuiMarkElement-root,.css-1io90uu-MuiMarkElement-root,.css-1ew9pmq-MuiMarkElement-root,.css-j25eqv-MuiMarkElement-root,.css-zllxr5-MuiMarkElement-root,.css-1q73qb0-MuiMarkElement-root,.css-1pnk689-MuiMarkElement-root,.css-wmitn6-MuiMarkElement-root {
+    display: none !important;
+}
 .veg-container, .meal-plan-chart-container {
     padding: 1rem;
     margin-bottom: 1rem;

@@ -17,7 +17,7 @@ import { ReactComponent as ScheduleIconF } from "../../component-assets/schedule
 import { ReactComponent as SocialIconF } from "../../component-assets/social-filled.svg";
 import { ReactComponent as MealIconF } from "../../component-assets/meal-filled.svg";
 import { ReactComponent as Logo } from "../../component-assets/logo123.svg";
-
+import "../../pages/CSS/variable.css"
 import "./NewSideMenu.css";
 export default function SideBarMenu({ currentPage }) {
   const navigate = useNavigate();

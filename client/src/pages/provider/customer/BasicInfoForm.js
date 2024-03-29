@@ -3,6 +3,8 @@ import AutoComplete from "./AutoComplete";
 import EditAutoComplete from "./EditAutoComplete";
 import { TextField, Stack, InputLabel } from "@mui/material";
 import myImage from "../../../component-assets/Stepper_1.svg";
+import "../../CSS/variable.css"
+
 import "./BasicInfoForm.css";
 
 function BasicInfoForm({

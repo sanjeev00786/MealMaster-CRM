@@ -1,5 +1,9 @@
+body{
+  font-family:var( --main-font) ;
+}
 .customer-page-container {
-  background-color: rgba(241, 240, 247, 1);
+  /* background-color: rgba(241, 240, 247, 1); */
+  background-color: var(--bgc-color);
   display: flex;
 }
 .sideBarMenu {
@@ -18,14 +22,15 @@
   margin-left: 10px;
 }
 .search-addButtton-container button {
-  background-color: #6f59da !important;
+  background-color: var(--primary-color) !important;
   padding-left: 2rem !important;
   padding-right: 2rem !important;
   padding: 0.5rem;
 }
 .search-addButtton-container button:hover {
-  background-color: darkgray;
-  color: black;
+  /* background-color: darkgray; */
+  background-color: var(--grey2-color);
+  color: var(--dark-color);
 }
 .search-container {
   display: flex;
@@ -36,24 +41,25 @@
   margin: 6px 10px;
   height: 30px;
   width: 230px;
-  background-color: white;
+  background-color: var(--white-color);
   /* background-image: url("../../../component-assets/search.svg"); */
   background-repeat: no-repeat;
   background-position: 220px center; /* Adjust as needed */
 }
 .data-table-container {
-  border: 1px solid rgba(241, 238, 251, 1);
+  /* border: 1px solid rgba(241, 238, 251, 1); */
+  border: 1px solid var(--bgc-color);
   border-radius: 5px;
 }
 
 .data-table-parent-container {
   padding: 1rem;
   margin: 1rem;
-  background-color: white;
+  background-color:var(--white-color);
   border-radius: 10px;
 }
 .sc-dmyCSP {
-  background-color: rgb(221, 217, 243) !important;
+  background-color:var(--bgc-color) !important;
 }
 .sc-dmXWDj {
   border-top-left-radius: 10px !important;
@@ -76,12 +82,13 @@
 .filterButtons {
   margin-bottom: 20px !important;
   margin-left: 15px !important;
+  /* background-color: #aa9af8 !important; */
   background-color: #aa9af8 !important;
-  color: white !important;
+  color:var(--white-color) !important;
 }
 
 .filterButtons.active {
-  background-color: #6f59da !important;
+  background-color: var(--primary-color) !important;
 }
 
 .pagination-container {

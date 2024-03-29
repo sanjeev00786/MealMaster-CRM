@@ -16,6 +16,8 @@ import AnchorTemporaryDrawer from "../../../components/MobileSideMenu/MobileSide
 import Loader from "../../../components/Loader/Loader";
 import Button from "@mui/material/Button";
 import ConfirmationModal from "./ConfirmationModal";
+import "../../CSS/variable.css"
+
 import "./customerPage.css";
 import SideBarMenu from "../../../components/NewSideMenu/NewSideMenu";
 import { ENDPOINTS } from "../../../apiConfig.js";

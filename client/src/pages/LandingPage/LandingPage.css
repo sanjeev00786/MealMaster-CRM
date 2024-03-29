@@ -1,5 +1,8 @@
+body{
+ font-family: var(--main-font);
+}
 .landing-page-container {
-    background-color: white;
+    background-color: var(--white-color);
 }
 .first {
     display: flex;
@@ -30,7 +33,8 @@
     font-size: 2rem; /* Larger heading */
     font-weight: bold;
     margin-bottom: 10px;
-    color: #1C1C1C; /* Dark text color */
+    /* color: #1C1C1C; Dark text color */
+    color: var(--dark-color)/* Dark text color */
 }
 
 .landing-page-subheading {
@@ -46,8 +50,10 @@
 .get-started-button { /* Apply styles to both buttons */
     padding: 10px 20px;
     margin-right: 10px;
-    color: #1C1C1C;
-    border: 1px solid #1C1C1C;
+    color:var(--dark-color);
+    border: 1px solid var(--dark-color);
+    /* color: #1C1C1C;
+    border: 1px solid #1C1C1C; */
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease;
     border-radius: 5px;
@@ -60,19 +66,22 @@
 }
 
 .get-started-button {
-    background-color: #6F59DA;
-    color: white;
-    border: 2px solid #1c1c1c00;
+    background-color: var( --primary-color);
+    color: var(--white-color);
+    /* border: 2px solid #1c1c1c00; */
+    border: 2px solid var(--dark-color);
     
 }
 
 .explore-feature-button:hover {
-    background-color: #1C1C1C; 
-    color: white;
+    background-color: var(--dark-color); 
+    /* background-color: #1C1C1C;  */
+    color: var(--white-color);
 }
 
 .get-started-button:hover {
-    background-color: #5944b8; 
+    /* background-color: #5944b8;  */
+    background-color:var( --secondary-color); 
 }
 
 .landing-page-image {
@@ -82,7 +91,8 @@
 
 .para1 {
     padding-bottom: 0px;
-    color: black;
+    color:var(--dark-color);
+    /* color: black; */
 }
 
 .customer-data-image, .tracking-data-image {
@@ -106,7 +116,8 @@
     transition: transform 0.3s ease;
     width: 150px;
     height: 150px;
-    filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.7));
+    filter: drop-shadow(0px 5px 5px var(--dark-color));
+    /* filter: drop-shadow(0px 5px 5px rgba(0, 0, 0, 0.7)); */
 }
 
 @media only screen and (max-width: 768px) {
@@ -136,7 +147,7 @@
 /* Styles for screens up to 576px (typical mobile phone size) */
 @media only screen and (max-width: 440px) {
     .landing-page-container {
-        background-color: white;
+        background-color:var(--white-color);
         max-width: 450px;
     }
 

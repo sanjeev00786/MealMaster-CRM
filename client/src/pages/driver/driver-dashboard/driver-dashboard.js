@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Header from "../../../components/header/header";
 import Maps from "../../../components/Maps/Maps";
+import "../../CSS/variable.css"
 import "../../driver/driver-dashboard/driver-dashboard.css";
 import { useNavigate } from "react-router-dom";
 import supabase from "../../../supabase";

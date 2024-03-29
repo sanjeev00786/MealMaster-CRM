@@ -1,4 +1,6 @@
-
+body{
+  font-family: var( --main-font);
+}
 .modal-container {
     position: absolute;
     top: 50%;
@@ -6,7 +8,7 @@
     transform: translate(-50%, -50%);
     width: 430px;
     height:230px;
-    background-color: #FFFFFF;
+    background-color:var( --white-color);
     border-radius: 8px;
     box-shadow: 24px;
     padding: 16px;
@@ -29,7 +31,7 @@
     margin-bottom: 10px;
     text-align: center;
     margin-top: 1.5rem !important;
-    color: #24024F;
+    color:  var( --secondary-color)
 
   }
   
@@ -54,21 +56,21 @@
   .BtnModal{
     width: 156px;
     height: 48px;
-    border: 1px solid black;
+    border: 1px solid var(--dark-color);
     border-radius: 4px;
     ;
   }
   .cancelBtnModal{
-    background-color:#6F59DA;
-    color: #FFFFFF;
-    border: 1px solid  #FFFFFF;
+    background-color:var(--primary-color);
+    color: var(--white-color);
+    border: 1px solid var(--white-color);
     margin-right: 10px;
 
   }
   
   
   .confirmBtnModal{
-    background-color:#FFFFFF;
+    background-color:var(--white-color);
 
   }
 

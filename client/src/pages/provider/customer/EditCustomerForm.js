@@ -4,6 +4,9 @@ import { useParams } from "react-router-dom";
 import { ENDPOINTS } from "../../../apiConfig.js";
 import apiHelper from "../../../util/ApiHelper/ApiHelper.js";
 
+import "../../CSS/variable.css"
+
+
 export default function EditCustomerForm() {
   const { customerId } = useParams();
   const [customerData, setCustomerData] = useState(null);

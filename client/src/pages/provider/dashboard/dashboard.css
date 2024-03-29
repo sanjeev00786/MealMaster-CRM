@@ -1,10 +1,14 @@
 /* Mobile View */
+body{
+  font-family: var(--main-font) !important;
+}
 .sideMenu {
   visibility: hidden;
 }
 
 .dashboardPage {
-  background-color:rgba(241, 240, 247, 1);
+  /* background-color:rgba(241, 240, 247, 1); */
+  background-color:var( --bgc-color) !important;
   display: flex;
 }
 
@@ -38,7 +42,8 @@
   }
 
   .dashboardPage {
-    background-color: rgba(241, 240, 247, 1);
+    background-color: var( --bgc-color) !important;
+    /* background-color: rgba(241, 240, 247, 1); */
     display: flex;
   }
 
