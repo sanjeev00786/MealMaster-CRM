@@ -1,3 +1,6 @@
+body{
+  font-family: var( --main-font);
+}
 .button-container {
   display: flex;
   justify-content: space-between;
@@ -5,11 +8,11 @@
 }
 
 .button-container .delete-link {
-  color: red;
+  color: var( --error-color);
 }
 
 .button-container .edit-link {
-  color: #6f59da;
+  color:var(--primary-color);
 }
 
 #view-driver-modal {
@@ -40,7 +43,8 @@
 }
 
 .detail-label {
-  color: rgba(71, 71, 71, 1) !important;
+  /* color: rgba(71, 71, 71, 1) !important; */
+  color: var(--grey3-color) !important;
   margin-right: 10px !important;
   flex-basis: 180px !important;
   text-align: right;
@@ -55,7 +59,8 @@
   height: 140px;
   text-align: center;
   border-radius: 50%; 
-  border: 2px solid lightgrey; 
+  /* border: 2px solid lightgrey;  */
+  border: 2px solid var(--grey1-color); 
 }
 
 .driver-image-container {

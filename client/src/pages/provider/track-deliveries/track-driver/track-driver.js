@@ -7,6 +7,7 @@ import { ENDPOINTS } from "../../../../apiConfig.js.js";
 import { useLocation } from 'react-router-dom';
 import queryString from 'query-string';
 import TrackProviderMap from "../../../../components/Maps/TrackProviderMap/TrackProviderMap.jsx";
+import "../../../CSS/variable.css"
 import './track-driver.css'
 import locationMarker2 from "../../../../component-assets/LocationMarker2.svg"
 import phone from "../../../../component-assets/phone.svg"

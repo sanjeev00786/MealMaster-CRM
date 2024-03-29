@@ -2,6 +2,7 @@ import React from 'react';
 import Backdrop from '@mui/material/Backdrop';
 import Lottie from 'react-lottie';
 import animationData from './LoaderAnimation';
+import "../../pages/CSS/variable.css"
 
 const Loader = ({ loading = false  }) => {
     const defaultOptions = {
@@ -15,7 +16,7 @@ const Loader = ({ loading = false  }) => {
   
     return (
       <Backdrop
-        sx={{ backgroundColor: 'rgba(0, 0, 0, 0.8)', color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        sx={{ backgroundColor: 'var(--gradient-color4)', color: 'var(--white-color)', zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={loading}
       >
         <Lottie options={defaultOptions} height={150} width={150} />

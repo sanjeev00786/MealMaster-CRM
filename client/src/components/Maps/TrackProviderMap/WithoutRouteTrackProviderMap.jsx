@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { GoogleMap, Marker } from '@react-google-maps/api';
 import driverMarker from '../../../component-assets/driverMarker.svg';
 import supabase from '../../../supabase';
+import "../../../pages/CSS/variable.css"
 import './TrackProviderMap.css'
 
 const WithoutRouteTrackProviderMap = ({ driver_id }) => {
   const [driverLocation, setDriverLocation] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchDriverLocation = async () => {
@@ -22,6 +24,7 @@ const WithoutRouteTrackProviderMap = ({ driver_id }) => {
         console.log('******', data.lat)
         if (data) {
           setDriverLocation({ lat: data.lat, lng: data.lng });
+          setIsLoading(false);
         }
       } catch (error) {
         console.error('Error fetching driver location:', error.message);
@@ -39,6 +42,12 @@ const WithoutRouteTrackProviderMap = ({ driver_id }) => {
           center={{ lat: driverLocation.lat, lng: driverLocation.lng }}
           zoom={15}
         >
+          {isLoading && (
+          <div className="loader">
+            <div className="spinner"></div>
+          </div>
+        )}
+
           <Marker position={driverLocation} 
           icon={{
             url: driverMarker, // Path to the marker image

@@ -13,6 +13,9 @@ import supabase from "../../supabase";
 import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import './FinishSignUp.css'
+import "../../pages/CSS/variable.css";
+
+
 
 const paperTheme = createTheme({
   palette: {

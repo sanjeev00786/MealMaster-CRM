@@ -7,6 +7,8 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
+import "../../CSS/variable.css"
+
 import apiHelper from "../../../util/ApiHelper/ApiHelper.js";
 import supabase from "../../../supabase";
 import { API_BASE_URL, ENDPOINTS } from "../../../apiConfig.js";

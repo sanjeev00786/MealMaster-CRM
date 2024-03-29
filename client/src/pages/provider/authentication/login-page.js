@@ -1,4 +1,5 @@
 import React from "react";
+import "../../CSS/variable.css"
 import "./login-page.css";
 import Login from "../../../components/Login/Login";
 import AuthImage from "../../../component-assets/auth-page-image.png";

@@ -1,4 +1,6 @@
 import React, { useRef, useEffect } from 'react';
+import "../../pages/CSS/variable.css";
+
 import '../CustomCamera/CustomCamera.css';
 import CameraIcon from '../../component-assets/camera.svg';
 import CloseIcon from '../../component-assets/cancel.png'; // Import the close icon

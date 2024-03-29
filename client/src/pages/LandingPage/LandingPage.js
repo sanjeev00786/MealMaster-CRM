@@ -1,4 +1,6 @@
 import React, { useEffect, useRef } from "react";
+import "../CSS/variable.css"
+
 import './LandingPage.css';
 import LandingPageHeader from "./LandingPageHeader";
 import Section1Image from '../../component-assets/Graph-no-bg.png';

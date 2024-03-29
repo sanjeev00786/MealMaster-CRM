@@ -440,7 +440,7 @@ import apiHelper from "../../../util/ApiHelper/ApiHelper";
 import { provider_id } from "../../../util/localStorage.js";
 import { Link } from "react-router-dom";
 import supabase from "../../../supabase";
-
+import "../../CSS/variable.css"
 import Button from "@mui/material/Button";
 import AssignDriverModalButton from "./AssignDriverModalButton";
 

@@ -1,4 +1,5 @@
 import React from "react";
+import "../../CSS/variable.css"
 import "../driver-login/driver-login.css";
 import { useNavigate } from "react-router-dom";
 import CustomButton from "../../../components/CustomButton/CustomButton";
@@ -94,7 +95,7 @@ const DriverLogin = () => {
             Enter Your Login Token<span class="required">*</span>
           </label>
           <input
-            type="text"
+            type="password"
             variant="standard"
             fullWidth
             className={`login-input ${!isValidToken ? "invalid" : ""}`}

@@ -1,4 +1,6 @@
-.snackbar{
+body{
+  font-family: var( --main-font);
+}.snackbar{
   display: flex !important;
     align-items: center !important;
 
@@ -17,7 +19,7 @@
     background: #E9F6ED !important; 
     color: black !important; 
     /* box-shadow: -3px 0px 0px rgba(37, 162, 73, 1) !important;  */
-   border: 1px solid rgba(37, 162, 73, 1) ;
+   border: 1px solid var( --success-color) ;
    margin-top: 20%;
    /* width: 10px; */
   }

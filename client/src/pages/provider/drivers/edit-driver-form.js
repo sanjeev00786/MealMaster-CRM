@@ -9,6 +9,8 @@ import { useLocation } from "react-router-dom";
 import { useParams, useNavigate } from "react-router-dom";
 import SideBarMenu from "../../../components/NewSideMenu/NewSideMenu";
 import axios from "axios";
+import "../../CSS/variable.css"
+
 
 export default function EditDriverForm() {
   const [loading, setLoading] = useState(false);

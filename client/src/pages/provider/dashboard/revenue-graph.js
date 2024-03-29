@@ -3,6 +3,8 @@ import supabase from '../../../supabase';
 import { BarChart, axisClasses } from "@mui/x-charts";
 import { provider_id } from "../../../util/localStorage";
 import { Select, MenuItem } from "@mui/material";
+import "../../CSS/variable.css"
+
 import './graph.css'
 
 const chartSetting = {
