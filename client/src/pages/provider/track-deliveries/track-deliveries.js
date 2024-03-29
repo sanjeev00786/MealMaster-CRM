@@ -3,6 +3,7 @@ import DataTable from "react-data-table-component";
 import { Link, useNavigate } from "react-router-dom";
 import MiniDrawer from "../../../components/SideMenu/SideMenu";
 import AnchorTemporaryDrawer from "../../../components/MobileSideMenu/MobileSideMenu";
+import "../dashboard/dashboard.css";
 import Loader from "../../../components/Loader/Loader";
 import apiHelper from "../../../util/ApiHelper/ApiHelper";
 import { ENDPOINTS } from "../../../apiConfig.js";

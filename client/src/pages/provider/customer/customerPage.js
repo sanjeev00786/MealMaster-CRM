@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import "../../CSS/variable.css"
+
 import "./customerPage.css";
 
 import apiHelper from "../../../util/ApiHelper/ApiHelper.js";

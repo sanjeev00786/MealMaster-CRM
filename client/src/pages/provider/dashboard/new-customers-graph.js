@@ -3,6 +3,8 @@ import supabase from '../../../supabase';
 import { LineChart, axisClasses } from "@mui/x-charts";
 import { provider_id } from "../../../util/localStorage";
 import { Select, MenuItem } from "@mui/material";
+import "../../CSS/variable.css"
+
 import './graph.css'
 const chartSetting = {
   width: 500,

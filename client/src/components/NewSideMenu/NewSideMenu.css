@@ -1,7 +1,11 @@
+
+body{
+  font-family:var(--main-font) !important;
+}
 .selectedMenuItem,
 .ps-menu-button:hover {
-  background-color: #6f59da !important;
-  color: white !important;
+  background-color:var( --primary-color) !important;
+  color: var(--white-color) !important;
   border-radius: 10px;
 }
 

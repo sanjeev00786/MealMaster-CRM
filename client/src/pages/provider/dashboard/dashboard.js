@@ -1,4 +1,6 @@
 import React from "react";
+import "../../CSS/variable.css"
+
 import "./dashboard.css";
 import RevenueGraph from "./revenue-graph";
 import CustomerGraph from "./new-customers-graph";
@@ -13,7 +15,7 @@ import AnchorTemporaryDrawer from "../../../components/MobileSideMenu/MobileSide
 const Dashboard = () => {
   return (
     <div className="dashboardPage">
-      <Grid container spacing={2}>
+     
         {/* Sidebar */}
         <div className="mobileSideBarMenu">
           <AnchorTemporaryDrawer />
@@ -21,7 +23,8 @@ const Dashboard = () => {
         <div className="sideBarMenu">
           <SideBarMenu currentPage="/dashboard" />
         </div>
-
+      
+        <div className="dashboard-page-container">
         {/* Content */}
         <Grid className="graph-container" item xs={12} md={9} style={{ overflowY: "auto", maxHeight: "calc(100vh)" }}>
           <h2>Dashboard</h2>
@@ -56,8 +59,9 @@ const Dashboard = () => {
             </Grid>
           </Grid>
         </Grid>
-      </Grid>
+      </div>
     </div>
+
   );
 };
 

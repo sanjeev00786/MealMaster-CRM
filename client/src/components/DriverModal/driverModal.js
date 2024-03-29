@@ -8,6 +8,8 @@ import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import logo from "../../component-assets/driver deliveries completed logo.svg";
+import "../../pages/CSS/variable.css";
+
 import './driverModal.css'
 import { useNavigate } from "react-router-dom";
 

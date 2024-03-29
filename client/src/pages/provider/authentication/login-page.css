@@ -1,3 +1,6 @@
+body{
+  font-family: var(--main-font);
+}
 .login-page-continer {
   display: flex;
   flex-direction: column; 
@@ -50,7 +53,8 @@
 .copyright{
     font-size: small;
     padding-top: 2rem;
-    color: gray;
+    /* color: gray; */
+    color:var(--grey3-color);
     text-align: center;
   }
 
@@ -79,7 +83,8 @@
     align-items: center; 
     justify-content: center; 
     height: 100vh;
-    background-color: lightgray;
+    /* background-color: lightgray; */
+    background-color:var( --grey1-color);
     padding-bottom: 8rem;
 
 
@@ -87,7 +92,7 @@
 
   .login-form-container {
 
-    background-color: white;
+    background-color:var(--white-color);
     padding: 0px;
     padding-top: 8rem;
     border-top-left-radius: 0px;
@@ -118,7 +123,9 @@
 
   .copyright{
     padding-top: 2rem;
-    color: gray;
+    /* color: gray; */
+    color:var(--grey3-color);
+
     text-align: center;
   }
   

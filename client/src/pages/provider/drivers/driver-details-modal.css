@@ -1,30 +1,16 @@
-@media only screen and (max-width: 768px) {
-  .css-sd6if1 {
-    width: 250px !important;
-  }
-
-  .driver-image-container {
-    padding-bottom: 10px;
-  }
-
-  
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 2rem;
 }
 
-@media only screen and (min-width: 768px) {
-  
-  .button-container {
-    display: flex;
-    justify-content: space-between;
-    padding-top: 2rem;
-  }
+.button-container .delete-link {
+  color: red;
+}
 
-  .button-container .delete-link {
-    color: red;
-  }
-
-  .button-container .edit-link {
-    color: #6f59da;
-  }
+.button-container .edit-link {
+  color: #6f59da;
+}
 
   #view-driver-modal {
     font-size: 40px;
@@ -57,25 +43,24 @@
     margin-bottom: 10px !important;
   }
 
-  .detail-label {
-    color: rgba(71, 71, 71, 1) !important;
-    margin-right: 10px !important;
-    flex-basis: 180px !important;
-    text-align: right;
-  }
+.detail-label {
+  color: rgba(71, 71, 71, 1) !important;
+  margin-right: 10px !important;
+  flex-basis: 180px !important;
+  text-align: right;
+}
 
   .detail-data {
     flex-grow: 1 !important;
   }
 
-  .image-preview {
-    width: 140px;
-    height: 140px;
-    text-align: center;
-    border-radius: 50%;
-    border: 2px solid lightgrey;
-    align-items: center;
-  }
+.image-preview {
+  width: 140px;
+  height: 140px;
+  text-align: center;
+  border-radius: 50%; 
+  border: 2px solid lightgrey; 
+}
 
   .driver-image-container {
     display: flex;

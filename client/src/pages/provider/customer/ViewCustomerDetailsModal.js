@@ -92,6 +92,8 @@ import ConfirmationModal from "./ConfirmationModal";
 import { ENDPOINTS } from "../../../apiConfig.js";
 import { provider_id } from "../../../util/localStorage.js";
 import apiHelper from "../../../util/ApiHelper/ApiHelper.js";
+import "../../CSS/variable.css"
+
 import "./modal.css";
 import CloseIcon from "@mui/icons-material/Close";
 const ViewCustomerDetailsModal = ({ customerId, onDelete, onClose }) => {

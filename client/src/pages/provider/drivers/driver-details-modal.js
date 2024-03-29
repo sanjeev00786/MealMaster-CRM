@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import Link from '@mui/material/Link';
 import axios from "axios";
 import CloseIcon from "@mui/icons-material/Close";
+import "../../CSS/variable.css"
+
 import "./driver-details-modal.css";
 import { ENDPOINTS } from "../../../apiConfig.js";
 import { provider_id } from "../../../util/localStorage.js";

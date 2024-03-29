@@ -442,8 +442,6 @@ import AnchorTemporaryDrawer from "../../../components/MobileSideMenu/MobileSide
 import { Link } from "react-router-dom";
 import supabase from "../../../supabase";
 
-import "./delivery-schedule.css"
-
 import Button from "@mui/material/Button";
 import AssignDriverModalButton from "./AssignDriverModalButton";
 

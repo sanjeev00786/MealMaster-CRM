@@ -22,8 +22,9 @@ import { ReactComponent as Logo } from "../../component-assets/logo123.svg";
 // import Divider from '@mui/material/Divider'\
 import Button from '@mui/material/Button';
 import LogoutIcon from '@mui/icons-material/Logout';
-
+import "../../pages/CSS/variable.css"
 import "./NewSideMenu.css";
+
 export default function SideBarMenu({ currentPage }) {
   const navigate = useNavigate();
   const [isModalOpen, setModalOpen] = useState(false);

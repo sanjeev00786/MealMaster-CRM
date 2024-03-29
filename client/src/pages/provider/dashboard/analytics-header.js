@@ -1,4 +1,5 @@
 import React from "react";
+import "../../CSS/variable.css"
 import { Card, CardContent, Grid, Typography } from "@mui/material";
 
 const AnalyticsHeader = () => {

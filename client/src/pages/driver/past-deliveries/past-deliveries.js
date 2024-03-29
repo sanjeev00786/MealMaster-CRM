@@ -1,4 +1,6 @@
 import React from "react";
+import "../../CSS/variable.css"
+
 import "../../driver/past-deliveries/past-deliveries.css";
 import Header from "../../../components/header/header";
 import apiHelper from "../../../util/ApiHelper/ApiHelper";
