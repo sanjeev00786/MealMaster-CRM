@@ -12,6 +12,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import supabase from '../../supabase';
 import { Navigate } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom'
+import "../../pages/CSS/variable.css";
+
 
 const paperTheme = createTheme({
   palette: {

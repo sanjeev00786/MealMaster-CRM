@@ -1,4 +1,5 @@
 import React from 'react';
+import "../../pages/CSS/variable.css"
 
 const Header = () => {
   return (
@@ -15,7 +16,8 @@ const headerStyle = {
     alignItems: 'center',
     justifyContent: 'center',
     padding: '10px 20px',
-    backgroundColor: '#f0f0f0',
+    // backgroundColor: '#f0f0f0',
+    backgroundColor: 'var( --white-color)',
   };
   
   const logoContainerStyle = {
