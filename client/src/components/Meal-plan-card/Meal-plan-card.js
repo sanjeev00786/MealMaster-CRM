@@ -16,7 +16,8 @@ const MultiActionAreaCard = ({
   onCardButtonClickDelete,
   onCardButtonClickEdit,
   onCardButtonclickCheckBox,
-  checked
+  checked,
+  deletedPlans
 }) => {
   const [isFlipped, setIsFlipped] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
