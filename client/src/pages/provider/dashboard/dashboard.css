@@ -35,7 +35,7 @@ body{
 .marker-cluster span {
   color: white;
 }
-h1{
+.dashboardHeading{
   margin-bottom: 0 !important;
   margin-top: 0 !important;
 }
