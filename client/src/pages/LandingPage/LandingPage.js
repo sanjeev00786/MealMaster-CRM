@@ -7,6 +7,7 @@ import Section1Image from '../../component-assets/Graph-no-bg.png';
 import CustomerDataImage from '../../component-assets/customer-data-image.svg';
 import TrackingImage from '../../component-assets/TrackDelivery.svg';
 import Scooter from '../../component-assets/scooter.png';
+import DriverPageSS from '../../component-assets/driverPageSS.svg';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
@@ -76,6 +77,18 @@ const LandingPage = () => {
                     <img src={CustomerDataImage} alt="Tiffin Business" className="image" data-aos="fade-right" />
                 </div>
                 <div className="second-right-content">
+                    <h1 className="heading" data-aos="fade-left">Analytics Dashboard</h1>
+                    <Fade delay={500} cascade damping={0.1} className="subheading">
+                        <p className="para">Gain valuable insights to optimize your business growth</p>
+                    </Fade>
+                </div>
+            </div>
+
+            <div id="features" className="third">
+                <div className="customer-data-image">
+                    <img src={CustomerDataImage} alt="Tiffin Business" className="image" data-aos="fade-right" />
+                </div>
+                <div className="second-right-content">
                     <h1 className="heading" data-aos="fade-left">Keep track of your customers effortlessly</h1>
                     <Fade delay={500} cascade damping={0.1} className="subheading">
                         <p className="para">Effortlessly add, edit, disable and manage customer information</p>
@@ -83,7 +96,7 @@ const LandingPage = () => {
                 </div>
             </div>
 
-            <div className="third">
+            <div className="fourth">
                 <div className="tracking-data-image">
                     <img src={TrackingImage} alt="Tiffin Business" className="image" data-aos="fade-right" />
                 </div>
@@ -94,6 +107,22 @@ const LandingPage = () => {
                     </Fade>
                 </div>
             </div>
+
+            <div className="fourth">
+                <div className="tracking-data-image">
+                    <img src={DriverPageSS} alt="Driver page" className="driver-page-image" data-aos="fade-right" />
+                </div>
+                <div className="third-right-content">
+                    <h1 className="heading" data-aos="fade-left">Live Delivery Tracking</h1>
+                    <Fade delay={500} cascade damping={0.1} className="subheading">
+                        <p className="para">Stay updated with live tracking of your deliveries in real-time.</p>
+                    </Fade>
+                    <div className="landing-page-buttons">
+                            <button className="get-started-button" data-aos="fade-left">Get Started</button>
+                        </div>
+                </div>
+            </div>
+
             <div className="scooter-image">
                 <img src={Scooter} alt="scooter" className="image" ref={scooterRef} />
             </div>
