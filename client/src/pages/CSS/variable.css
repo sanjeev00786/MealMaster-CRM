@@ -17,6 +17,9 @@
  --drop-shadow:#DCE0F9;
  --gradient-color1:linear-gradient(135deg, #45009C 0%, #9747FF 100%);
  --gradient-color3:linear-gradient(140deg, #E5D9F2 1.23%, #CDC1FF 100%);
+ --gradient-color-heading: rgba(0, 0, 0, 0.1);
+
+ --button-border-landing:#1c1c1c00;
  
  --gradient-color2:rgba(146, 145, 145, 0.196);
  --gradient-color4:rgba(146, 145, 145, 0.612);

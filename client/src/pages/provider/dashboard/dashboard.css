@@ -41,7 +41,7 @@ h1{
 }
 .revenueChart,.subscriberGrowth{
   padding: 1rem;
-
+margin-top: 1rem;
 }
 /* Desktop View */
 @media screen and (min-width: 700px) {
