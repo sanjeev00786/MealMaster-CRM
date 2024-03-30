@@ -40,7 +40,7 @@ const Dashboard = () => {
         style={{ overflowY: "auto", maxHeight: "calc(100vh)" }}
         paddingRight={2}
       >
-        <h2>Dashboard</h2>
+        <h1>Dashboard</h1>
         <AnalyticsHeader />
         <Grid container spacing={2}>
           {/* Revenue Graph */}

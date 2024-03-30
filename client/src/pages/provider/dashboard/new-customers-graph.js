@@ -92,7 +92,7 @@ export default function LineChartWithDropdown() {
   };
 
   return (
-    <div>
+    <div className="subscriberGrowth">
       <h2>Subscriber Growth</h2>
       <Select value={year} onChange={handleYearChange} sx={{ m: 1, minWidth: 120 }} size="small">
         <MenuItem value={2021}>2021</MenuItem>
