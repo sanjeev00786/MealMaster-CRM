@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Header from "../../../components/header/header";
 import CustomButton from "../../../components/CustomButton/CustomButton";
+import "../../CSS/variable.css"
+
 // import "../../../components/CustomButton/CustomButton.css";
 import "./meal-plan.css";
 import axios from "axios";

@@ -6,6 +6,7 @@ import { CardActionArea, CardActions, Button, Checkbox } from "@mui/material";
 import ReactCardFlip from "react-card-flip";
 import DeleteComponent from "../Delete/Delete";
 import EditComponent from "../EditButton/EditButton";
+import "../../pages/CSS/variable.css";
 import "./Meal-plan-card.css";
 import { pink } from '@mui/material/colors';
 

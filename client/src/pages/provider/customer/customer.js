@@ -1,5 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Box from "@mui/material/Box";
 import DataTable from "react-data-table-component";
 import { useNavigate, useParams } from "react-router-dom";
 import tickmark from "../../../component-assets/tickmark.svg";
@@ -13,6 +16,8 @@ import AnchorTemporaryDrawer from "../../../components/MobileSideMenu/MobileSide
 import Loader from "../../../components/Loader/Loader";
 import Button from "@mui/material/Button";
 import ConfirmationModal from "./ConfirmationModal";
+import "../../CSS/variable.css"
+
 import "./customerPage.css";
 import SideBarMenu from "../../../components/NewSideMenu/NewSideMenu";
 import { ENDPOINTS } from "../../../apiConfig.js";
@@ -45,15 +50,15 @@ export default function CustomerPage() {
       const customerUrl = `${ENDPOINTS.GET_ALL_CUSTOMER}${provider_id}?page=${pageNum}`;
       const customerStatusUrl = `${ENDPOINTS.GET_CUSTOMER_BY_STATUS}${provider_id}?page=${pageNum}&status=${filter}`;
       const allCustomerURL = `${ENDPOINTS.GET_ALLIST_CUSTOMER}${provider_id}`;
-      
+
       const res = await apiHelper.get(customerStatusUrl);
-      
+
       // const response = apiHelper.get(customerStatusUrl)
-      
+
       const allCustomer = await apiHelper.get(allCustomerURL);
-      
+
       const mealPlan = await apiHelper.get(mealPlanUrl);
-      
+
       // setStatusResult(response.data.customers)
       setRecords(res.data.customers);
       setAllRecords(allCustomer.data.customers);
@@ -211,16 +216,15 @@ export default function CustomerPage() {
     },
   ];
 
-  
-  const handleFilterButtonClick = (filter) => {
-    if(filter){
-      setCurrentFilter(filter);
-    }else {
-      setCurrentFilter("all");
-    }
-    // const newData = filterDataByStatus(filter, statusResult);
-    // setRecords(newData);
-  };
+  // const handleFilterButtonClick = (filter) => {
+  //   if (filter) {
+  //     setCurrentFilter(filter);
+  //   } else {
+  //     setCurrentFilter("all");
+  //   }
+  //   // const newData = filterDataByStatus(filter, statusResult);
+  //   // setRecords(newData);
+  // };
 
   const handleFilter = (event) => {
     const newData = allRecords.filter(
@@ -233,23 +237,31 @@ export default function CustomerPage() {
     setRecords(newData);
   };
 
-  const filterDataByStatus = (status, data) => {
-    console.log(status, data);
-    if (status === "active") {
-      return data.filter((row) => row.status);
-    } else if (status === "inactive") {
-      return data.filter((row) => !row.status);
-    } else {
-      return data;
-    }
+  const handleChange = (event, newValue) => {
+    setCurrentFilter(newValue);
   };
+
+  // const filterDataByStatus = (status, data) => {
+  //   console.log(status, data);
+  //   if (status === "active") {
+  //     return data.filter((row) => row.status);
+  //   } else if (status === "inactive") {
+  //     return data.filter((row) => !row.status);
+  //   } else {
+  //     return data;
+  //   }
+  // };
 
   return (
     <div className="customer-page-container">
-      <Loader loading={loading} />
+      
+      <div className="mobileSideBarMenu">
+        <AnchorTemporaryDrawer />
+      </div>
       <div className="sideBarMenu">
         <SideBarMenu currentPage="/customerList/1" />
       </div>
+      <Loader loading={loading} />
 
       <ConfirmationModal
         open={confirmationModalOpen}
@@ -262,10 +274,10 @@ export default function CustomerPage() {
 
       <div className="customer-page">
         <div className="page-heading">
-          <h1 className=" underline">Customers</h1>
+          <h1 className="underline">Customers</h1>
         </div>
 
-        <div className="filter-buttons-container">
+        {/* <div className="filter-buttons-container">
           <Button
             variant="outlined"
             className={`filterButtons ${
@@ -296,21 +308,35 @@ export default function CustomerPage() {
           >
             Inactive
           </Button>
+        </div> */}
+
+        <div className="filter-tabs-container">
+          <Box sx={{ width: "100%" }}>
+            <Tabs
+              value={currentFilter}
+              onChange={handleChange}
+              textColor="secondary"
+              indicatorColor="secondary"
+              aria-label="customer status tabs"
+            >
+              <Tab value="all" label="All" />
+              <Tab value="active" label="Active" />
+              <Tab value="inactive" label="Inactive" />
+            </Tabs>
+          </Box>
         </div>
 
         <div
-          className="search-addButtton-container"
-          style={{ display: "flex", justifyContent: "space-between" }}
-        >
+          className="search-addButtton-container">
           <div className="search-container">
             <input
               type="text"
-              placeholder="Search"
+              placeholder="Search by Name"
               onChange={handleFilter}
               className="search-input"
             />
           </div>
-          <div>
+          <div className="add-customer-button">
             <Button variant="contained" onClick={() => navigate("/customers")}>
               Add New Customer
             </Button>

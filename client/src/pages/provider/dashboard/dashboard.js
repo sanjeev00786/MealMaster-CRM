@@ -1,5 +1,6 @@
 import React from "react";
 import "../../CSS/variable.css";
+import "../../CSS/variable.css"
 
 import "./dashboard.css";
 import RevenueGraph from "./revenue-graph";
@@ -29,6 +30,18 @@ const Dashboard = () => {
       <div className="dashboard-page-container">
         {/* Content */}
         <Grid className="graph-container" item xs={12} md={9} style={{ overflowY: "auto", maxHeight: "calc(100vh)" }} paddingRight={2}>
+     
+        {/* Sidebar */}
+        <div className="mobileSideBarMenu">
+          <AnchorTemporaryDrawer />
+        </div>
+        <div className="sideBarMenu">
+          <SideBarMenu currentPage="/dashboard" />
+        </div>
+      
+        <div className="dashboard-page-container">
+        {/* Content */}
+        <Grid className="graph-container" item xs={12} md={9} style={{ overflowY: "auto", maxHeight: "calc(100vh)" }}>
           <h2>Dashboard</h2>
           <AnalyticsHeader />
           <Grid container spacing={2}>
@@ -70,6 +83,7 @@ const Dashboard = () => {
         </Grid>
       </div>
     </div>
+
   );
 };
 

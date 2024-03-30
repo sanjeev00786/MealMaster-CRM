@@ -3,10 +3,13 @@ import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import logo from "../../component-assets/snackbar_Icon_new.svg";
+import "../../pages/CSS/variable.css"
+
 import "./Notification.css";
 
 export default function CustomizedSnackbar({ decisionMessage, updateMessage }) {
   const [open, setOpen] = useState(false);
+  
 
   useEffect(() => {
     handleClick();

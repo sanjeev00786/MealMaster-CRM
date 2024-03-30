@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { GoogleMap, LoadScript, DirectionsRenderer, Marker } from '@react-google-maps/api';
 import driverMarker from '../../component-assets/driverMarker.svg';
 import locationMarker from '../../component-assets/locationMarker.svg';
+import "../../pages/CSS/variable.css"
+
 import supabase from '../../supabase';
 
 const Maps = ({ customerData, setTotalRouteDistance, driver_id }) => {
@@ -51,7 +53,7 @@ const Maps = ({ customerData, setTotalRouteDistance, driver_id }) => {
 
     // Fetch user's initial location
     const fetchUserLocation = () => {
-        navigator.geolocation.watchPosition(
+        const watchId = navigator.geolocation.watchPosition(
           (position) => {
             const initialUserLocation = {
               position: {
@@ -75,13 +77,13 @@ const Maps = ({ customerData, setTotalRouteDistance, driver_id }) => {
             if (customerData.length !== 0) {
               const origin = waypoints[0].location;
               const destination = customerData[customerData.length - 1].position;
-              console.log(origin, destination)
+
               directionsService.route(
                 {
                   origin,
                   destination,
                   waypoints,
-                  travelMode: window.google.maps.TravelMode.DRIVING,
+                  travelMode: window.google.maps.TravelMode.WALKING,
                 },
                 (response, status) => {
                   if (status === 'OK') {
@@ -89,10 +91,10 @@ const Maps = ({ customerData, setTotalRouteDistance, driver_id }) => {
                     const route = response.routes[0];
                     const totalDistance = route.legs.reduce((acc, leg) => acc + leg.distance.value, 0);
                     setTotalRouteDistance(totalDistance / 1000);
-                    simulateDriverMovement(response.routes[0].overview_path);
                   } else {
                     console.error(`Directions request failed: ${status}`);
                   }
+                  // simulateDriverMovement(response.routes[0].overview_path);
                 }
               );
             }
@@ -130,7 +132,7 @@ const Maps = ({ customerData, setTotalRouteDistance, driver_id }) => {
   return (
       <GoogleMap
         mapContainerStyle={{ height: '400px', width: '100%' }}
-        center={{ lat: 49.215605, lng: -123.130685 }}
+        center={userLocation ? userLocation.position : { lat: 49.215605, lng: -123.130685 }}
         onLoad={onLoad}
         options={options}
       >
@@ -152,9 +154,9 @@ const Maps = ({ customerData, setTotalRouteDistance, driver_id }) => {
                 directions={directions}
                 options={{
                   polylineOptions: {
-                    strokeColor: '#6F59DA',
-                    strokeWeight: 5,
-                    strokeOpacity: 1,
+                    strokeColor: '#000000',
+                    strokeWeight: 3,
+                    strokeOpacity: 0.8,
                   },
                   suppressMarkers: true
                 }}
@@ -166,10 +168,7 @@ const Maps = ({ customerData, setTotalRouteDistance, driver_id }) => {
             <Marker
               position={{ lat: userLocation.position.lat, lng: userLocation.position.lng }}
               map={map}
-              icon={{
-                url: driverMarker, 
-                scaledSize: new window.google.maps.Size(60, 60), 
-              }}
+              icon={driverMarker}
             >
             </Marker>
           )}
@@ -186,25 +185,6 @@ const Maps = ({ customerData, setTotalRouteDistance, driver_id }) => {
         )};
       </GoogleMap>
   );
-};
-
-const CustomPolyline = (props) => {
-  const { path, ...polylineProps } = props;
-  const [map, setMap] = useState(null);
-  const [polyline, setPolyline] = useState(null);
-
-  useEffect(() => {
-    if (map) {
-      const customPolyline = new window.google.maps.Polyline({
-        path,
-        ...polylineProps,
-      });
-      customPolyline.setMap(map);
-      setPolyline(customPolyline);
-    }
-  }, [map, path, polylineProps]);
-
-  return null;
 };
 
 export default Maps;

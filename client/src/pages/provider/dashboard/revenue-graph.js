@@ -106,11 +106,12 @@ export default function BarChartWithDropdown() {
     <div>
       <h2>Revenue</h2>
       <Select value={year} onChange={handleYearChange} sx={{ m: 1, minWidth: 120 }} size="small">
+      {/* <Select value={year} onChange={handleYearChange} sx={{ m: 1, minWidth: 120 }} size="small">
         <MenuItem value={2021}>2021</MenuItem>
         <MenuItem value={2022}>2022</MenuItem>
         <MenuItem value={2023}>2023</MenuItem>
         <MenuItem value={2024}>2024</MenuItem>
-      </Select>
+      </Select> */}
       <BarChart
         dataset={filledData}
         xAxis={[{ scaleType: "band", dataKey: "calculation_month" }]}

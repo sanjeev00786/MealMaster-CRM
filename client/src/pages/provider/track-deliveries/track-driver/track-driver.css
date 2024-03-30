@@ -1,7 +1,10 @@
+body{
+font-family: var(--main-font);
+}
 .track-driver-container {
     display: flex;
     height: 100vh; 
-    background-color: #F1EEFB;
+    background-color:var(--bgc-color);
 }
 
 .track-map-container {
@@ -19,9 +22,9 @@
   .ongoing-delivery,
 .next-delivery-queue {
   margin-bottom: 20px;
-  background-color: #ffffff; 
+  background-color: var(--white-color); 
   border-radius: 12px;
-  border: 2px solid #6F59DA;
+  border: 2px solid var(--primary-color);
 }
 
 .delivering-to,
@@ -106,3 +109,4 @@
         margin-left: 0rem;
       }
 }
+

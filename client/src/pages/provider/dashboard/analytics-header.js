@@ -1,6 +1,8 @@
 import React from "react";
 import { Grid } from "@mui/material";
 import AnalyticsCard from './analytics-card'; // Import the AnalyticsCard component
+import "../../CSS/variable.css"
+import { Card, CardContent, Grid, Typography } from "@mui/material";
 
 const AnalyticsHeader = () => {
   return (

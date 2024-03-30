@@ -3,6 +3,7 @@ import DataTable from "react-data-table-component";
 import { Link, useNavigate } from "react-router-dom";
 import MiniDrawer from "../../../components/SideMenu/SideMenu";
 import AnchorTemporaryDrawer from "../../../components/MobileSideMenu/MobileSideMenu";
+import "../../CSS/variable.css"
 import "../dashboard/dashboard.css";
 import Loader from "../../../components/Loader/Loader";
 import apiHelper from "../../../util/ApiHelper/ApiHelper";
@@ -105,6 +106,9 @@ export default function TrackDeliveries() {
         className="customer-page"
       // style={{ display: "flex", flexDirection: "column" }}
       >
+        <div className="page-heading">
+          <h1>Track Driver</h1>
+        </div>
         <div className="search-addButton-container">
           <div className="search-container">
             <input
@@ -116,7 +120,7 @@ export default function TrackDeliveries() {
           </div>
         </div>
         <div className="data-table-parent-container">
-          <h2>Track Deliveries</h2>
+          <h2>List of Drivers</h2>
 
           <div className="data-table-container">
             <DataTable

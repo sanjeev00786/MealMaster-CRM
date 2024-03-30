@@ -1,0 +1,35 @@
+.smt{
+    background-color: #6f59da !important;
+    color: white !important;
+}
+
+.smt:hover{
+    background-color: #9885ec !important;
+    color: white !important;
+}
+
+.css-binzgt{
+    margin-top: 20px !important;
+}
+
+.css-mhc70k-MuiGrid-root{
+    margin-left: 0px !important;
+}
+
+.main-container{
+    border: 1px solid #ccc;
+    padding: 1rem;
+    padding-top: 2rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    width: 400px;
+}
+
+.main-container label{
+    font-size: 14px;
+    color: #808080;
+}
+
+.main-container input{
+    font-size: 12px;
+}

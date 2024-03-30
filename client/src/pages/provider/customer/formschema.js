@@ -1,4 +1,6 @@
 import { number, string } from "prop-types";
+import "../../CSS/variable.css"
+
 
 const basicInfoSchema = {
     name: {

@@ -1,16 +1,20 @@
-.header {
+body{
+  font-family: var(--main-font);
+ }
+ .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 20px;
-  background-color: #F1EEFB;
+  /* background-color: #F1EEFB; */
+  background-color: var(--white-color);
   position: fixed;
   top: 0;
   left: 0;
   z-index: 1000;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+  box-shadow: 0 2px 4px var(--dark-color);
   right: 0;
-
 }
 
 .header__logo {
@@ -53,15 +57,15 @@
 }
 
 .header__login {
-  color: #6F59DA;
+  color:var( --primary-color);
   text-decoration: underline;
   font-size: 16px;
   transition: transform 0.3s ease;
 }
 
 .header__signup {
-  color: white;
-  background-color: #6F59DA;
+  color: var(--white-color);
+  background-color: var(--primary-color);
   border-radius: 5px;
 }
 
@@ -76,7 +80,7 @@
   left: 50%;
   width: 0;
   height: 2px;
-  background-color: #6F59DA;
+  background-color:var(--primary-color);
   transition: width 0.3s ease-in-out, left 0.3s ease-in-out;
 }
 
@@ -99,7 +103,8 @@
   left: 50%;
   width: 300%;
   height: 300%;
-  background-color: rgba(255, 255, 255, 0.2);
+  /* background-color: rgba(255, 255, 255, 0.2); */
+  background-color: var(--gradient-color2);
   border-radius: 50%;
   transition: width 0.5s ease, height 0.5s ease, top 0.5s ease, left 0.5s ease;
   transform: translate(-50%, -50%);
@@ -117,11 +122,12 @@
 }
 
 .header__signup:hover {
-  background-color: #7d68e8;
+  /* background-color: #7d68e8; */
+  background-color: var( --secondary-color);
 }
 
 .header__signup:hover span {
-  color: #fff;
+  color:var(--white-color);
 }
 
 .header__signup span {
@@ -131,7 +137,7 @@
 }
 
 .header__nav-item a:hover {
-  color: #6F59DA;
+  color: var(--primary-color);
   text-decoration: none;
 }
 
@@ -147,6 +153,7 @@
   width: 0;
   height: 2px;
   background-color: #6e59da08;
+  background-color: #6e59da08;
   transition: width 0.3s ease-in-out, left 0.3s ease-in-out;
 }
 
@@ -157,4 +164,43 @@
 
 .header__login:hover {
   transform: translateY(-2px);
+}
+
+@media only screen and (max-width: 450px) {
+  .header {
+    padding: 10px;
+    max-width: 430px;
+  }
+
+  .header__logo {
+    font-size: 18px;
+  }
+
+  .header__logo img {
+    max-width: 150px;
+  }
+
+  .header__nav-item {
+    display: none; /* Hide navigation items on mobile */
+  }
+
+  .header__nav-list {
+    display: none;
+  }
+
+  .header__actions {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end; /* Align login/signup buttons to the right */
+    align-items: center;
+  }
+
+  .header__button {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  .header__login {
+    font-size: 12px;
+  }
 }

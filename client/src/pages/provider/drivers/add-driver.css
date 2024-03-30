@@ -1,6 +1,9 @@
+body{
+  font-family: var( --main-font);
+}
 @media only screen and (max-width: 768px) {
   .driver-page-container {
-    background-color: rgba(241, 240, 247, 1);
+    background-color: var( --bgc-color);
   }
 
   .driver-page {
@@ -16,24 +19,30 @@
     display: none;
   }
 
+  .page-heading h1{
+    /* margin-top: 0px !important; */
+    margin-left: 20px !important;
+  }
+
   .add-driver-button-container {
     position: fixed;
     left: 0;
     right: 0;
     bottom: 20px;
-    text-align: center; /* Center the button horizontally */
+    text-align: center; 
   }
 
   .add-driver-button-container button {
-    background-color: #6f59da !important;
+    background-color: var( --primary-color) !important;
     height: 50px;
     width: 355px;
-    max-width: 90%; /* Adjust as needed */
+    max-width: 90%; 
   }
 
   .add-driver-button-container button:hover {
-    background-color: #9885ec !important;
-    color: white;
+    /* background-color: #9885ec !important; */
+    background-color: var(--secondary-color) !important;
+    color: var(--white-color);
   }
 
   .search-container {
@@ -42,18 +51,20 @@
   }
 
   .search-container input {
-    height: 30px;
+    height: 20px;
     width: 100%;
     max-width: 340px;
-    background-color: white;
+    background-color: var(--white-color);
     background-image: url("../../../component-assets/search.svg");
     background-repeat: no-repeat;
     background-position: 325px center;
     padding: 10px;
     border-radius: 5px;
     border: 0px;
-    box-shadow: 0px 1px 0px rgba(193, 199, 205, 1);
-    color: #697077;
+    /* box-shadow: 0px 1px 0px rgba(193, 199, 205, 1); */
+    box-shadow: 0px 1px 0px var(--grey1-color);
+    color:var(--grey2-color);
+    /* color: #697077; */
   }
 
   .data-table-parent-container h2 {
@@ -61,19 +72,19 @@
   }
 
   .data-table-container {
-    border: 1px solid rgba(241, 238, 251, 1);
+    border: 1px solid var(--bgc-color);
     border-radius: 5px;
   }
 
   .data-table-parent-container {
     padding: 1rem;
     margin: 1rem;
-    background-color: white;
+    background-color: var(--white-color);
     border-radius: 10px;
   }
 
   .sc-dmyCSP {
-    background-color: rgb(221, 217, 243) !important;
+    background-color:var(--bgc-color) !important;
   }
 
   .sc-dmXWDj {
@@ -96,7 +107,7 @@
   }
 
   .driver-page-container {
-    background-color: rgba(241, 240, 247, 1);
+    background-color:var(--bgc-color);
     display: flex;
   }
 
@@ -107,9 +118,9 @@
   .driver-page {
     flex: 1 85%;
     align-items: center;
-    padding-top: 7px;
+    padding-top: 6px;
     padding-left: 1rem;
-    /* width: 500px !important; */
+
   }
 
   .search-addButtton-container {
@@ -121,15 +132,16 @@
   }
 
   .search-addButtton-container button {
-    background-color: #6f59da !important;
+    background-color: var(--primary-color) !important;
     padding-left: 2rem !important;
     padding-right: 2rem !important;
     padding: 0.5rem;
   }
 
   .search-addButtton-container button:hover {
-    background-color: #9885ec !important;
-    color: white;
+    background-color: var(--secondary-color) !important;
+    /* background-color: #9885ec !important; */
+    color: var(--white-color);
   }
 
   .search-container {
@@ -138,35 +150,36 @@
   }
 
   .search-container input {
-    height: 25px;
+    height: 15px;
     width: 230px;
     margin-left: 8px;
-    background-color: white;
+    background-color: var(--white-color);
     background-image: url("../../../component-assets/search.svg");
     background-repeat: no-repeat;
-    background-position: 220px center; /* Adjust as needed */
+    background-position: 210px center;
     padding: 10px;
     border-radius: 5px;
     border: 0px;
-    box-shadow: 0px 1px 0px rgba(193, 199, 205, 1);
-    color: #697077;
+    box-shadow: 0px 1px 0px var(--bgc-color);
+    color: var(--grey2-color);
+    /* color: #697077; */
   }
 
   .data-table-container {
-    border: 1px solid rgba(241, 238, 251, 1);
+    border: 1px solid var(--bgc-color);
     border-radius: 5px;
   }
 
   .data-table-parent-container {
     padding: 1rem;
     margin: 1rem;
-    background-color: white;
+    background-color: var(--white-color);
     border-radius: 10px;
     
   }
 
   .sc-dmyCSP {
-    background-color: rgb(221, 217, 243) !important;
+    background-color:var(--bgc-color) !important;
   }
 
   .sc-dmXWDj {
@@ -180,14 +193,14 @@
   }
 
   .data-table-parent-container {
-    flex: 1; /* Ensure the data table container takes up remaining space */
+    flex: 1; 
     display: flex;
     flex-direction: column;
 }
 
 .data-table-container {
-    flex: 1; /* Ensure the data table takes up remaining space */
-    overflow: auto; /* Add overflow for scrolling if needed */
+    flex: 1; 
+    overflow: auto; 
 }
 
 }

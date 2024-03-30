@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import BasicInfoForm from "./BasicInfoForm";
 import AdditionalInfoForm from "./AdditionalInfoForm";
+import "../../CSS/variable.css"
+
 import "./customerPage.css";
 import { ENDPOINTS } from "../../../apiConfig.js";
 import apiHelper from "../../../util/ApiHelper/ApiHelper.js";
@@ -31,7 +33,13 @@ export default function CustomerForm({ customerData }) {
           `${ENDPOINTS.GET_MEAL_PLAN}provider_id=${provider_id}`
         );
         setLoading(false)
-        setMealData(response.data);
+        const activePlans = []
+        for (const i of response.data) {
+          if (i.is_active === true) {
+            activePlans.push(i)
+          }
+        }
+        setMealData(activePlans);
       } catch (error) {
         setLoading(false)
         console.error("Error fetching meal plans:", error);

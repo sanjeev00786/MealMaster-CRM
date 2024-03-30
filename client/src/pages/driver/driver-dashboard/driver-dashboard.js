@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Header from "../../../components/header/header";
 import Maps from "../../../components/Maps/Maps";
+import "../../CSS/variable.css"
 import "../../driver/driver-dashboard/driver-dashboard.css";
 import { useNavigate } from "react-router-dom";
 import supabase from "../../../supabase";
@@ -35,6 +36,20 @@ const DriverDashboard = () => {
   const [totalRouteDistance, setTotalRouteDistance] = useState(0);
   const [isModalOpen, setModalOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isDriverModal, setIsDriverModal] = useState(false);
+
+  /***************************************************** */
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsOpen(false);
+  };
+  /***************************************************** */
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -68,13 +83,13 @@ const DriverDashboard = () => {
     }
     await cloudinaryFilePath.uploadToCloudinary(imagePreview);
     const filePath = cloudinaryFilePath.filePath;
-    console.log("Complete method",filePath);
+    console.log("Complete method", filePath);
     if (filePath) {
       updateDeliveryImage(filePath);
-      
+
     } else {
       setLoading(false);
-      setNotification("Alert!", "Something went wrong, please try again.");
+      // setNotification("Alert!", "Something went wrong, please try again.");
     }
   };
 
@@ -149,12 +164,12 @@ const DriverDashboard = () => {
     return (
       <div className="customer-item navigation-page-customer-list">
         <div>
-        <img
-              src={`${deliveryLocationIcon}`}
-          // src={`${process.env.PUBLIC_URL}/assets/images/location_icon.svg`}
-          alt="Location Icon"
-          className="location-icon"
-        />
+          <img
+            src={`${deliveryLocationIcon}`}
+            // src={`${process.env.PUBLIC_URL}/assets/images/location_icon.svg`}
+            alt="Location Icon"
+            className="location-icon"
+          />
         </div>
         <div className="customer-info">
           <div className="customer-name">{customer.customers.name}</div>
@@ -256,11 +271,9 @@ const DriverDashboard = () => {
   const handleConfirm = async () => {
     console.log("Confirmed to go back");
     navigate(`/driver_dashboard`);
-    setModalOpen(true); // Open the modal
-
-
-  
+    setModalOpen(true); // Open the modal  
   }
+
   useEffect(() => {
     const myBooleanValue = localStorage.getItem("isLoaderShow") === "true";
     if (myBooleanValue === true) {
@@ -283,29 +296,26 @@ const DriverDashboard = () => {
 
   return (
     <div className="dashboard-container">
-      {/* <Header /> */}
+
       <DriverMenu isOpen={isMenuOpen} toggleMenu={toggleMenu} />
       <div className="driver-dashboard-header">
-      <h2>Change Delivery today</h2>
-      <DriverModalDelivery
-            onConfirm={handleConfirm}
-            isOpen={isModalOpen}
-            setModalOpen={setModalOpen}
-          />
-      <button className="menu-btn" onClick={toggleMenu}>
-        <img src={DriverMenuIcon} alt="Menu" style={{ width: '20px' }}/>
-      </button>  
+        <h2>Delivery today</h2>
+
+        <button className="menu-btn" onClick={toggleMenu}>
+          <img src={DriverMenuIcon} alt="Menu" style={{ width: '20px' }} />
+        </button>
       </div>
 
-      
+
       {/* talk with designer about below line */}
-      
+
       <div className="driver-maps">
         {customerData.length !== 0 ? (
           <Maps
             customerData={customerData}
             setTotalRouteDistance={setTotalRouteDistance}
             driver_id={driver_id}
+            isNavigationStarted={isNavigationStarted}
           />
         ) : (
           <WithoutRouteMaps />
@@ -328,6 +338,16 @@ const DriverDashboard = () => {
             alt="Placeholder"
             className="placeholder-image"
           />
+          {/* <DriverModalDelivery
+            onConfirm={handleConfirm}
+            isOpen={isModalOpen}
+            setModalOpen={setModalOpen}
+          /> */}
+          <DriverModalDelivery
+            isOpen={isModalOpen}
+            setModalOpen={setModalOpen}
+          />
+
         </div>
       ) : isNavigationStarted ? (
         <div>

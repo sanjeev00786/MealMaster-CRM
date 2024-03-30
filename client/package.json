@@ -44,12 +44,9 @@
     "react-datepicker": "^6.2.0",
     "react-day-picker": "^8.10.0",
     "react-dom": "^18.2.0",
-<<<<<<< HEAD
     "react-leaflet": "^4.2.1",
     "react-leaflet-cluster": "^2.1.0",
-=======
     "react-facebook-login": "^4.1.1",
->>>>>>> d36ba13e67d108dd82fe964c68ef0dc9f4219c7e
     "react-lottie": "^1.2.4",
     "react-pro-sidebar": "^1.1.0",
     "react-router-dom": "^6.22.1",

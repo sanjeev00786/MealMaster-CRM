@@ -7,3 +7,12 @@
   /* .customer-page{
     margin-left: 10px;
   } */
+
+  body{
+    font-family: var(--main-font);
+    }
+.search-container input {
+  margin-left: 14px;
+}
+
+

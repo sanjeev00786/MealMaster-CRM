@@ -17,12 +17,15 @@ import { ReactComponent as ScheduleIconF } from "../../component-assets/schedule
 import { ReactComponent as SocialIconF } from "../../component-assets/social-filled.svg";
 import { ReactComponent as MealIconF } from "../../component-assets/meal-filled.svg";
 import { ReactComponent as Logo } from "../../component-assets/logo123.svg";
-
+// import Divider from '@mui/material/Divider'\
+import Button from '@mui/material/Button';
+import LogoutIcon from '@mui/icons-material/Logout';
+import "../../pages/CSS/variable.css"
 import "./NewSideMenu.css";
+
 export default function SideBarMenu({ currentPage }) {
   const navigate = useNavigate();
   const [selectedIndex, setSelectedIndex] = useState(0);
-
   useEffect(() => {
     // Determine the selected index based on the current page
     switch (currentPage) {
@@ -41,7 +44,7 @@ export default function SideBarMenu({ currentPage }) {
       case "/trackDriver":
         setSelectedIndex(3);
         break;  
-      case "/delivery-schedule":
+      case "/delivery-schedule/1":
         setSelectedIndex(4);
         break;
       // case "/social-media":
@@ -64,7 +67,7 @@ export default function SideBarMenu({ currentPage }) {
         navigate("/dashboard");
         break;
       case 1:
-        navigate("/customerList");
+        navigate("/customerList/1");
         break;
       case 2:
         navigate("/drivers");
@@ -73,7 +76,7 @@ export default function SideBarMenu({ currentPage }) {
         navigate("/trackdeliveries");
         break;
       case 4:
-        navigate("/delivery-schedule");
+        navigate("/delivery-schedule/1");
         break;
       // case 5:
       //   navigate("/social-media");
@@ -85,6 +88,16 @@ export default function SideBarMenu({ currentPage }) {
         break;
     }
   };
+
+  const handleLogout = () => {
+    // Clear session data
+    sessionStorage.clear();
+    localStorage.clear();
+    
+    // Redirect to the login page
+    navigate("/login-page");
+  };
+
 
   // Define icons for both regular and filled versions
   const iconList = [
@@ -124,7 +137,9 @@ export default function SideBarMenu({ currentPage }) {
             {menuLabels[index]}
           </MenuItem>
         ))}
+         
       </Menu>
+      <Button onClick={handleLogout} className="logoutMenuItem"><span className="logout-btn"><LogoutIcon/>Logout</span></Button>
     </Sidebar>
   );
 }

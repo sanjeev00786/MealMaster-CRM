@@ -20,6 +20,7 @@ import TrackDriver from './pages/provider/track-deliveries/track-driver/track-dr
 import LandingPage from './pages/LandingPage/LandingPage';
 import EditDriverForm from './pages/provider/drivers/edit-driver-form';
 import LoginPage from './pages/provider/authentication/login-page';
+import EditCustomerForm from "./pages/provider/customer/EditCustomerForm";
 
 const PrivateRoute = ({ component: Component, session, ...rest }) => (
   <Route
@@ -71,6 +72,8 @@ const App = () => {
     <Router>
       <div className="App">
         <Routes>
+        <Route path="/" element={<Navigate to={session ? '/dashboard' : '/landing-page'} />} />
+
           <Route path="/auth" element={<Login />} />
 
           <Route
@@ -84,15 +87,15 @@ const App = () => {
           />
           <Route
             path="/add-driver"
-            element={session ? <DriverForm /> : <Navigate to="/add-driver" />}
+            element={session ? <DriverForm /> : <LoginPage />}
           />
           <Route
             path="/edit-driver"
-            element={session ? <EditDriverForm /> : <Navigate to="/edit-driver" />}
+            element={session ? <EditDriverForm /> : <LoginPage />}
           />
           <Route
             path="/trackdeliveries"
-            element={session ? <TrackDeliveries /> : <Navigate to="/trackdeliveries" />}
+            element={session ? <TrackDeliveries /> : <LoginPage />}
           />
            <Route
             path="/trackDriver/:driverID" 
@@ -100,15 +103,15 @@ const App = () => {
           />
           <Route
             path="/dashboard"
-            element={session ? <Dashboard /> : <Navigate to="/dashboard" />}
+            element={session ? <Dashboard /> : <LoginPage />}
           />
           <Route
             path="/customers"
-            element={session ? <CustomerForm /> : <Navigate to="/customers" />}
+            element={session ? <CustomerForm /> : <LoginPage />}
           />
           <Route
             path="/meal-plan"
-            element={session ? <MealSettingPage /> : <Navigate to="/meal-plan" />}
+            element={session ? <MealSettingPage /> : <LoginPage />}
           />
           <Route
             path="/driver_dashboard"
@@ -123,31 +126,37 @@ const App = () => {
             element={<DriverLogin />}
           />
           <Route
-            path="/delivery-schedule"
-            element={<DeliveryScheduleTable />}
+            path="/delivery-schedule/:page"
+            element={session ? <DeliveryScheduleTable /> : <LoginPage /> }
           />
           <Route
             path="/meal-plan-list"
-            element={session ? <MealPlanListPage /> : <Navigate to="/meal-plan-list" />}
+            element={session ? <MealPlanListPage /> : <LoginPage />}
           />
           <Route
             path="/meal-plan-update/:plan_id"
-            element={session ? <MealPlanUpdatePage /> : <Navigate to="/meal-plan-update" />}
+            element={session ? <MealPlanUpdatePage /> : <LoginPage />}
           />
           <Route
-            path="/customerList"
-            element={session ? <CustomerPage /> : <Navigate to="/customerList" />}
+            path="/customerList/:page"
+            element={session ? <CustomerPage /> : <LoginPage />}
+          />
+          <Route
+            path="/edit-customer/:customerId"
+            element={
+              session ? <EditCustomerForm /> : <Navigate to="/customerList" />
+            }
           />
 
-          <Route
+          {/* <Route
             path="/social-media"
             element={session ? <SocialMedia /> : <Navigate to="/social-media" />}
-          />
-          <Route path="/" element={<Navigate to={session ? '/dashboard' : '/auth'} />} />
+          /> */}
           <Route
             path="/landing-page"
             element={<LandingPage />}
           />
+          
         </Routes>
       </div>
     </Router>

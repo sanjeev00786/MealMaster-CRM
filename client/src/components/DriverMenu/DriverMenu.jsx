@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import logout from '../../component-assets/logout.svg';
 import crossIcon from '../../component-assets/cross-small.svg'
 import { useNavigate } from 'react-router-dom';
+import "../../pages/CSS/variable.css";
+
 import './DriverMenu.css';
 
 function DriverMenu({ isOpen, toggleMenu }) {

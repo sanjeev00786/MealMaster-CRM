@@ -268,7 +268,7 @@ exports.getInactiveCustomersByProvider = async (providerId) => {
         plans:plan_id(*)
       `)
       .eq("provider_id", providerId)
-      .eq("status", false); // Filter customers by status
+      .eq("status", false); 
 
     if (error) {
       console.error("Supabase Select Error:", error.message);
