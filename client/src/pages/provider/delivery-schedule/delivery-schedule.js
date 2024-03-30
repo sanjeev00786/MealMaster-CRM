@@ -443,6 +443,8 @@ import supabase from "../../../supabase";
 import "../../CSS/variable.css"
 import Button from "@mui/material/Button";
 import AssignDriverModalButton from "./AssignDriverModalButton";
+import AnchorTemporaryDrawer from "../../../components/MobileSideMenu/MobileSideMenu";
+import "./delivery-schedule.css"
 
 export default function DeliveryScheduleTable() {
   const [records, setRecords] = useState([]);
@@ -572,23 +574,24 @@ export default function DeliveryScheduleTable() {
         <SideBarMenu currentPage="/delivery-schedule/1" />
       </div>
 
+      <div className="mobileSideBarMenu">
+        <AnchorTemporaryDrawer />
+      </div>
+
       <div className="customer-page">
         <div className="page-heading">
-          <h1 className=" underline">Schedule Delivery</h1>
+          <h1>Schedule Delivery</h1>
         </div>
-        <div
-          className="search-addButtton-container"
-          style={{ display: "flex", justifyContent: "space-between" }}
-        >
+        <div className="search-addButtton-container">
           <div className="search-container">
             <input
               type="text"
-              placeholder="Search"
+              placeholder="Search by Name"
               onChange={handleFilter}
               className="search-input"
             />
           </div>
-          <div>
+          <div className="assign-driver-button">
             {/* <Button variant="contained" onClick={toggleModal}>
               Assign Driver
             </Button> */}

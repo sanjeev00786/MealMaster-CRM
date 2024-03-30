@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import MiniDrawer from "../../../components/SideMenu/SideMenu";
 import AnchorTemporaryDrawer from "../../../components/MobileSideMenu/MobileSideMenu";
 import "../../CSS/variable.css"
-import "../dashboard/dashboard.css";
 import Loader from "../../../components/Loader/Loader";
 import apiHelper from "../../../util/ApiHelper/ApiHelper";
 import { ENDPOINTS } from "../../../apiConfig.js";
@@ -64,13 +63,17 @@ export default function TrackDeliveries() {
     {
       id: 3,
       name: "Actions",
+      width: "175px",
       cell: (row, index, columnId) => {
         return (
           <div>
             {row.driver_status ? (
-              <button className="trackDriverBtn" onClick={() => handleTrackDriver(row)}>
+              <Link
+              className="trackDriverBtn"
+              onClick={() => handleTrackDriver(row)}
+            >
                 Track Driver
-              </button>
+                </Link>
             ) : (
               <span>Driver Offline</span>
             )}
@@ -79,6 +82,7 @@ export default function TrackDeliveries() {
       },
       grow: 1,
       button: true,
+      
     },
   ];
 
@@ -102,20 +106,20 @@ export default function TrackDeliveries() {
       <div className="sideBarMenu">
         <SideBarMenu currentPage="/trackdeliveries" />
       </div>
-      <div
-        className="customer-page"
-      // style={{ display: "flex", flexDirection: "column" }}
-      >
+      <div className="mobileSideBarMenu">
+        <AnchorTemporaryDrawer />
+      </div>
+      <div className="customer-page">
         <div className="page-heading">
           <h1>Track Driver</h1>
         </div>
-        <div className="search-addButton-container">
+        <div className="search-addButton-container-trackd">
           <div className="search-container">
             <input
               type="text"
-              placeholder="Search...."
+              placeholder="Search by Name"
               onChange={handleFilter}
-              className="search-input"
+              className="search-input-trackd"
             />
           </div>
         </div>
@@ -127,7 +131,7 @@ export default function TrackDeliveries() {
               columns={columns}
               data={records}
               customStyles={customStyles}
-              pagination
+              // pagination
             />
           </div>
         </div>

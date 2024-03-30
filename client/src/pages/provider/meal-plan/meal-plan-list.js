@@ -5,7 +5,7 @@ import CustomizedSnackbar from "../../../components/Notification/Notification";
 // import "../../../components/Notification/Notification.css";
 import CustomButton from "../../../components/CustomButton/CustomButton";
 import MultiActionAreaCard from "../../../components/Meal-plan-card/Meal-plan-card";
-import "../../CSS/variable.css"
+import "../../CSS/variable.css";
 import "../meal-plan/meal-plan-list.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -152,7 +152,6 @@ const MealPlanListPage = () => {
       console.log(CheckId, "elseffff");
       SetDeletedPlans(deleteSelectedMealPlans);
       // console.log(deletedPlans,"----get it ")
-
     }
   };
   console.log(deleteSelectedMealPlans, "selecteddata");
@@ -211,9 +210,9 @@ const MealPlanListPage = () => {
         await deleteMealPlan(plan_id, plan_name);
       }
       // Check if any plans were successfully deleted
-    if (planIdsToDelete.length > 0) {
-      SetDeletedPlans(deleteSelectedMealPlans);
-    }
+      if (planIdsToDelete.length > 0) {
+        SetDeletedPlans(deleteSelectedMealPlans);
+      }
       setCheckId([]);
       console.log(CheckId, "after loop");
       console.log(deleteSelectedMealPlans, "before loop");
@@ -258,6 +257,9 @@ const MealPlanListPage = () => {
       <div className="meal-plan-page">
         <div className="sideBarMenu">
           <SideBarMenu currentPage="/meal-plan-list" />
+        </div>
+        <div className="mobileSideBarMenu">
+          <AnchorTemporaryDrawer />
         </div>
 
         <div className="cardDisplay">
@@ -362,12 +364,10 @@ const MealPlanListPage = () => {
                 onCardButtonClickEdit={handleCardButtonClickEdit}
                 onCardButtonclickCheckBox={(plan_id) =>
                   handleCardButtonCheckbox(plan_id, index)
-                  
                 }
                 // deleteSelectedMealPlans={deleteSelectedMealPlans}
-                deletedPlans = {deletedPlans}
+                deletedPlans={deletedPlans}
                 checked={false}
-                   
               />
             ))}
           </div>
