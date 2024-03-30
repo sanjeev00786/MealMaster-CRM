@@ -1,0 +1,21 @@
+.container {
+    border-radius: 10px;
+    border: 2px solid grey;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 300px;
+    padding: 20px;
+    margin: 20px;
+  }
+  
+  .font-info {
+    color: grey;
+    font-size: 14px;
+  }
+  
+  .font-big {
+    font-size: 28px;
+    font-weight: bold;
+  }

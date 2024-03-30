@@ -3,7 +3,6 @@ import { PieChart } from '@mui/x-charts/PieChart';
 import supabase from '../../../supabase'; // Import your configured Supabase client
 import { provider_id } from "../../../util/localStorage.js"; // Import provider_id from localStorage
 import "../../CSS/variable.css"
-
 import './graph.css'
 
 export default function VegPieChart() {
