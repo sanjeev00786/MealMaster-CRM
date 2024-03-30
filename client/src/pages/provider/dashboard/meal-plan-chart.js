@@ -8,7 +8,7 @@ const primaryColor = '#6F59DA';
 const secondaryColor = '#24024F';
 const tertiaryColor = '#E8CFFC';
 const textColor = '#17181A';
-const graphTextColor = 'white'
+const graphTextColor = '#ffffff'
 
 const chartSetting = {
   width: 500,
@@ -67,10 +67,10 @@ export default function MealPlanPieChart() {
           data={dataset}
            margin={{ top: 20, right: 30, bottom: 100, left: 30 }}
           innerRadius={0.5}
-          padAngle={0.7}
+          padAngle={7}
           cornerRadius={3}
           colors={[primaryColor, secondaryColor, tertiaryColor]}
-          borderWidth={1}
+          borderWidth={5}
           borderColor={{ from: 'color', modifiers: [ [ 'darker', 0.2 ] ] }}
           radialLabelsSkipAngle={10}
           radialLabelsTextXOffset={6}
@@ -85,6 +85,7 @@ export default function MealPlanPieChart() {
           animate={true}
           motionStiffness={90}
           motionDamping={15}
+          
           legends={[
             {
               anchor: 'bottom',
