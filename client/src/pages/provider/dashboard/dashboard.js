@@ -10,7 +10,7 @@ import MealPlanPieChart from "./meal-plan-chart";
 import SideBarMenu from "../../../components/NewSideMenu/NewSideMenu";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import AnalyticsHeader from "./analytics-header";
+import AnalyticsHeader from "./analytics-header"
 import AnchorTemporaryDrawer from "../../../components/MobileSideMenu/MobileSideMenu";
 
 // Import CustomerMap component
