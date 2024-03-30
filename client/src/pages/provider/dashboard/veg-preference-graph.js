@@ -3,7 +3,6 @@ import { PieChart } from '@mui/x-charts/PieChart';
 import supabase from '../../../supabase'; // Import your configured Supabase client
 import { provider_id } from "../../../util/localStorage.js"; // Import provider_id from localStorage
 
-
 export default function VegPieChart() {
   const [vegCustomers, setVegCustomers] = useState(0);
   const [nonVegCustomers, setNonVegCustomers] = useState(0);
@@ -48,20 +47,27 @@ export default function VegPieChart() {
   ];
 
   return (
-    <div>
+    <div className='veg-container'>
       <h2>Dietary Preferences</h2>
       <PieChart
+        margin={{ top: 10, bottom: 80, left: 10, right: 10 }}
+        colors={['#24024F', '#6F59DA', '#C686F8']}
         series={[
           {
             data: dataset,
+            innerRadius: 90,
+            paddingAngle: 5,
+            cornerRadius: 5,
+            startAngle: -90,
+            endAngle: 360,
           },
         ]}
         width={500}
-        height={200}
+        height={300}
         slotProps={{
           legend: {
-            direction: 'column',
-            position: { vertical: 'middle', horizontal: 'right' },
+            direction: 'row',
+            position: { vertical: 'bottom', horizontal: 'middle' },
             padding: 0,
           },
         }}

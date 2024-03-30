@@ -1,0 +1,13 @@
+.MuiBarElement-root {
+    fill: #6F59DA !important;
+    width: 15px !important;
+}
+
+.css-1la267r-MuiAreaElement-root {
+    fill: #6e59da !important;
+}
+
+.veg-container, .meal-plan-chart-container {
+    padding: 1rem;
+    margin-bottom: 1rem;
+}

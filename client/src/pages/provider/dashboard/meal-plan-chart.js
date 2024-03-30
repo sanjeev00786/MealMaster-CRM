@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { PieChart } from '@mui/x-charts/PieChart';
-import supabase from '../../../supabase'; // Import your configured Supabase client
-import { provider_id } from "../../../util/localStorage.js"; // Import provider_id from localStorage
+import { ResponsivePie } from '@nivo/pie';
+import supabase from '../../../supabase'; 
+import { provider_id } from "../../../util/localStorage.js"; 
+
+// Define color constants
+const primaryColor = '#6F59DA';
+const secondaryColor = '#24024F';
+const tertiaryColor = '#E8CFFC';
+const textColor = '#17181A';
+const graphTextColor = 'white'
 
 const chartSetting = {
   width: 500,
-  height: 200,
+  height: 300,
 };
 
 export default function MealPlanPieChart() {
@@ -45,32 +52,61 @@ export default function MealPlanPieChart() {
   }
 
   const dataset = planData.slice(0, 4).map((entry, index) => ({
-    id: index,
-    value: entry.customers_count_per_plan,
+    id: entry.plan_name,
     label: entry.plan_name,
+    value: entry.customers_count_per_plan,
   }));
 
   console.log("Dataset:", dataset);
 
   return (
-    <div>
-    <h2>Plan Analytics</h2>
-    <PieChart
-      series={[
-        {
-          data: dataset,
-        },
-      ]}
-      width={chartSetting.width}
-      height={chartSetting.height}
-      slotProps={{
-        legend: {
-            direction: 'column',
-            position: { vertical: 'middle', horizontal: 'right' },
-            padding: 0,
-        },
-      }}
-    />
+    <div className='meal-plan-chart-container'>
+      <h2 style={{ color: textColor }}>Preferred Plans</h2>
+      <div style={{ width: chartSetting.width, height: chartSetting.height }}>
+        <ResponsivePie
+          data={dataset}
+           margin={{ top: 20, right: 30, bottom: 100, left: 30 }}
+          innerRadius={0.5}
+          padAngle={0.7}
+          cornerRadius={3}
+          colors={[primaryColor, secondaryColor, tertiaryColor]}
+          borderWidth={1}
+          borderColor={{ from: 'color', modifiers: [ [ 'darker', 0.2 ] ] }}
+          radialLabelsSkipAngle={10}
+          radialLabelsTextXOffset={6}
+          radialLabelsTextColor={graphTextColor}
+          radialLabelsLinkOffset={0}
+          radialLabelsLinkDiagonalLength={16}
+          radialLabelsLinkHorizontalLength={24}
+          radialLabelsLinkStrokeWidth={1}
+          radialLabelsLinkColor={{ from: 'color' }}
+          slicesLabelsSkipAngle={10}
+          slicesLabelsTextColor={textColor}
+          animate={true}
+          motionStiffness={90}
+          motionDamping={15}
+          legends={[
+            {
+              anchor: 'bottom',
+              direction: 'row',
+              translateY: 56,
+              itemWidth: 100,
+              itemHeight: 18,
+              itemTextColor: textColor,
+              symbolSize: 18,
+              symbolShape: 'circle',
+              effects: [
+                {
+                  on: 'hover',
+                  style: {
+                    itemTextColor: '#000',
+                  },
+                },
+              ],
+            },
+          ]}
+        />
+      </div>
     </div>
   );
 }

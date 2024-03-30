@@ -3,6 +3,9 @@ import supabase from '../../../supabase';
 import { BarChart, axisClasses } from "@mui/x-charts";
 import { provider_id } from "../../../util/localStorage";
 import { Select, MenuItem } from "@mui/material";
+import "../../CSS/variable.css"
+
+import './graph.css'
 
 const chartSetting = {
   width: 500,
@@ -17,7 +20,7 @@ const chartSetting = {
 // Function to sort months in chronological order
 const sortMonths = (a, b) => {
   const monthsOrder = [
-    "Jan", "Feb", "Mar", "Apr", "May", "Jun", 
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
   ];
   return monthsOrder.indexOf(a) - monthsOrder.indexOf(b);
@@ -31,7 +34,7 @@ export default function BarChartWithDropdown() {
     async function fetchRevenueData() {
       try {
         console.log(`Fetching revenue data for ${year}...`);
-        
+
         let { data, error } = await supabase
           .from("provider_analytics")
           .select("calculation_month, total_revenue")
@@ -62,7 +65,7 @@ export default function BarChartWithDropdown() {
   }
 
   console.log("Rendering BarChart with revenue data:", revenueData);
-  
+
   // Sort data by month
   const sortedData = revenueData.sort((a, b) => sortMonths(a.calculation_month, b.calculation_month));
 
@@ -75,7 +78,7 @@ export default function BarChartWithDropdown() {
   // Fill in missing months with zero revenue
   const filledData = [];
   const monthsOrder = [
-    "Jan", "Feb", "Mar", "Apr", "May", "Jun", 
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
     "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
   ];
   monthsOrder.forEach(month => {
@@ -89,9 +92,19 @@ export default function BarChartWithDropdown() {
     setYear(event.target.value);
   };
 
+  const customBarSlot = (props) => {
+    const radius = 7;
+    const { x, y, height, width, ownerState, ...restProps } = props;
+    const d = `M${x},${y} h${width - radius
+      }a${radius},${radius} 0 0 1 ${radius},${radius} v${height - 2 * radius
+      } a${radius},${radius} 0 0 1 ${-radius},${radius} h${radius - width
+      }z`;
+    return <path d={d} fill={ownerState.color} {...restProps} />;
+  };
+
   return (
     <div>
-      <h2>Revenue Data</h2>
+      <h2>Revenue</h2>
       <Select value={year} onChange={handleYearChange} sx={{ m: 1, minWidth: 120 }} size="small">
         <MenuItem value={2021}>2021</MenuItem>
         <MenuItem value={2022}>2022</MenuItem>
@@ -101,7 +114,8 @@ export default function BarChartWithDropdown() {
       <BarChart
         dataset={filledData}
         xAxis={[{ scaleType: "band", dataKey: "calculation_month" }]}
-        series={[{ dataKey: "total_revenue", label: "Revenue" }]}
+        series={[{ dataKey: "total_revenue" }]}
+        layout="vertical"
         {...chartSetting}
       />
     </div>
