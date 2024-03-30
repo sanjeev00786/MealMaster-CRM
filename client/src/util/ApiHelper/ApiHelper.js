@@ -40,6 +40,7 @@ const apiHelper = {
     delete: async (endpoint) => {
         try {
             const response = await axiosInstance.delete(endpoint);
+            console.log(response)
             return response.data;
         } catch (error) {
             throw new Error(`API Error: ${error.message}`);

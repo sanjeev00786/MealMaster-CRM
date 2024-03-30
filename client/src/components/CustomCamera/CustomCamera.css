@@ -57,3 +57,16 @@
   border-radius: 50%; 
   margin-top: 5px;
 }
+
+.close-button-container {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  z-index: 1;
+}
+
+.close-icon {
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}

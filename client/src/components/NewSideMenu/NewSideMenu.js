@@ -29,20 +29,26 @@ export default function SideBarMenu({ currentPage }) {
       case "/dashboard":
         setSelectedIndex(0);
         break;
-      case "/customerList":
+      case "/customerList/1":
         setSelectedIndex(1);
         break;
       case "/drivers":
         setSelectedIndex(2);
         break;
+      case "/trackdeliveries":
+        setSelectedIndex(3);
+        break;
+      case "/trackDriver":
+        setSelectedIndex(3);
+        break;  
       case "/delivery-schedule":
         setSelectedIndex(4);
         break;
-      case "/social-media":
-        setSelectedIndex(5);
-        break;
+      // case "/social-media":
+      //   setSelectedIndex(5);
+      //   break;
       case "/meal-plan-list":
-        setSelectedIndex(6);
+        setSelectedIndex(5);
         break;
       default:
         setSelectedIndex(0);
@@ -64,15 +70,15 @@ export default function SideBarMenu({ currentPage }) {
         navigate("/drivers");
         break;
       case 3:
-        navigate("/dashboard");
+        navigate("/trackdeliveries");
         break;
       case 4:
         navigate("/delivery-schedule");
         break;
+      // case 5:
+      //   navigate("/social-media");
+      //   break;
       case 5:
-        navigate("/social-media");
-        break;
-      case 6:
         navigate("/meal-plan-list");
         break;
       default:
@@ -87,7 +93,7 @@ export default function SideBarMenu({ currentPage }) {
     { regular: <DriverIcon />, filled: <DriverIconF /> },
     { regular: <TrackIcon />, filled: <TrackIconF /> },
     { regular: <ScheduleIcon />, filled: <ScheduleIconF /> },
-    { regular: <SocialIcon />, filled: <SocialIconF /> },
+    // { regular: <SocialIcon />, filled: <SocialIconF /> },
     { regular: <MealIcon />, filled: <MealIconF /> },
   ];
 
@@ -98,7 +104,7 @@ export default function SideBarMenu({ currentPage }) {
     "Drivers",
     "Track Delivery",
     "Schedule Deliveries",
-    "Social Media",
+    // "Social Media",
     "Meal Settings",
   ];
 

@@ -9,6 +9,7 @@ import { provider_id } from "../../../util/localStorage.js";
 export default function CustomerForm1() {
   const [formData, setFormData] = useState({});
   const [mealPlans, setMealData] = useState([]);
+  const [activePlans, setActivePlans] = useState([]);
   let checkApi = false;
 
   useEffect(() => {
@@ -17,7 +18,11 @@ export default function CustomerForm1() {
         const response = await apiHelper.get(
           `${ENDPOINTS.GET_MEAL_PLAN}provider_id=${provider_id}`
         );
+        // setActivePlans = response.data.filter((plan) => plan.is_active);
+        //   console.log("ACTIVE PLANBS_------",activePlans)
+        // // setMealData(response.data.data);
         setMealData(response.data.data);
+
       } catch (error) {
         console.error("Error fetching meal plans:", error);
       }
@@ -102,11 +107,13 @@ export default function CustomerForm1() {
           >
             <option value="">Select a meal plan</option>
             {mealPlans.length > 0 ? (
-              mealPlans.map((plan) => (
-                <option key={plan.plan_id} value={plan.plan_id}>
-                  {plan.plan_name}
-                </option>
-              ))
+              // mealPlans.map((plan) => (
+              //   <option key={plan.plan_id} value={plan.plan_id}>
+              //     {plan.plan_name}
+              //   </option>
+              // ))
+              setMealPlans = mealPlans.data.filter((plan) => plan.is_active)
+
             ) : (
               <option value="" disabled>
                 Loading meal plans...
@@ -164,7 +171,7 @@ export default function CustomerForm1() {
           />
         </label>
         <label>
-         Customer's Subscription:
+          Customer's Subscription:
           <input
             type="radio"
             name="status"

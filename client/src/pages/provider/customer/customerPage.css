@@ -2,13 +2,14 @@
   background-color: rgba(241, 240, 247, 1);
   display: flex;
 }
-/* .sideBarMenu {
-  flex: 0 0 20%;
-} */
+.sideBarMenu {
+  flex: 0 0 15%;
+}
 .customer-page {
-  flex: 1 80%;
+  flex: 1 85%;
   align-items: center;
   padding-top: 2.2rem;
+  padding-left: 1rem;
 }
 
 .search-addButtton-container {
@@ -17,7 +18,7 @@
   margin-left: 10px;
 }
 .search-addButtton-container button {
-  background-color: #6F59DA !important;
+  background-color: #6f59da !important;
   padding-left: 2rem !important;
   padding-right: 2rem !important;
   padding: 0.5rem;
@@ -44,6 +45,7 @@
   border: 1px solid rgba(241, 238, 251, 1);
   border-radius: 5px;
 }
+
 .data-table-parent-container {
   padding: 1rem;
   margin: 1rem;
@@ -60,4 +62,30 @@
 .sc-iKOmoZ {
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
+}
+
+/* filter buttons */
+/* 
+.css-1rwt2y5-MuiButtonBase-root-MuiButton-root{
+  margin-bottom: 20px !important;
+  margin-left: 15px !important;
+  background-color: #6F59DA !important;
+  color: white !important;
+} */
+
+.filterButtons {
+  margin-bottom: 20px !important;
+  margin-left: 15px !important;
+  background-color: #aa9af8 !important;
+  color: white !important;
+}
+
+.filterButtons.active {
+  background-color: #6f59da !important;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px; 
 }
