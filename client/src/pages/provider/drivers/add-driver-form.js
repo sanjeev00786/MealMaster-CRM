@@ -4,6 +4,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import axios from "axios";
+import "../../CSS/variable.css"
 import "./add-driver-form.css";
 import Loader from "../../../components/Loader/Loader";
 import CustomizedSnackbar from "../../../components/Notification/Notification";
@@ -11,6 +12,8 @@ import useCloudinaryUpload from "../../../util/FileUpload/FileUpload";
 import { ENDPOINTS } from "../../../apiConfig.js";
 import { provider_id } from "../../../util/localStorage.js";
 import apiHelper from "../../../util/ApiHelper/ApiHelper.js";
+import AnchorTemporaryDrawer from "../../../components/MobileSideMenu/MobileSideMenu";
+import SideBarMenu from "../../../components/NewSideMenu/NewSideMenu";
 
 export default function DriverForm() {
   const [loading, setLoading] = useState(false);
@@ -20,7 +23,6 @@ export default function DriverForm() {
     cloudName: "djencgbub",
     uploadPreset: "s8ygrkym",
   });
-
   const [formData, setFormData] = useState({
     name: "",
     photo_url: "",
@@ -28,9 +30,9 @@ export default function DriverForm() {
     email_id: "",
     address: "",
     login_token: "",
+    driver_status: "TRUE",
     provider_id: provider_id,
   });
-
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData({
@@ -39,18 +41,15 @@ export default function DriverForm() {
       photo_url: filePath,
     });
   };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
     try {
       console.log(formData);
-
       const response = await apiHelper.post(
         `${ENDPOINTS.ADD_DRIVER}`,
         formData
       );
-
       setLoading(false);
       setFormData({
         name: "",
@@ -60,7 +59,6 @@ export default function DriverForm() {
         address: "",
         login_token: "",
       });
-
       window.location.href = "/drivers";
     } catch (error) {
       setLoading(false);
@@ -68,7 +66,6 @@ export default function DriverForm() {
       setNotificationMessage("Something went wrong!!");
     }
   };
-
   function handleFileDrop(event) {
     event.preventDefault();
     const files = event.dataTransfer.files;
@@ -82,7 +79,6 @@ export default function DriverForm() {
       reader.readAsDataURL(file);
     }
   }
-
   function handleDragOver(event) {
     event.preventDefault();
   }
@@ -98,38 +94,24 @@ export default function DriverForm() {
       reader.readAsDataURL(file);
     }
   }
-
   return (
     <div className="form-page-container">
       <Loader loading={loading} />
       {notificationMessage && (
         <CustomizedSnackbar customMessage={notificationMessage} />
       )}
-      <div className="toolBar">
-        <Toolbar
-          sx={{
-            pl: { sm: 2 },
-            pr: { xs: 1, sm: 1 },
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-        >
-          <Typography
-            sx={{ flex: "1 1 100%" }}
-            variant="h5"
-            id="tableTitle"
-            component="div"
-          >
-            New Driver
-          </Typography>
-          <AccountCircleIcon />
-        </Toolbar>
+      <div className="sideBarMenu">
+        <SideBarMenu currentPage="/drivers" />
       </div>
+      
       {/* <div className="form"> */}
       <div className="meal-page-container">
+      <div className="page-heading">
+          <h1 className=" underline">Add Driver</h1>
+        </div>
         <div className="form-container">
           <form onSubmit={handleSubmit}>
-            <label>Driver's Name</label>
+            <label>Driver's Name<span aria-label="required">*</span></label>
             <input
               type="text"
               name="name"
@@ -180,8 +162,7 @@ export default function DriverForm() {
                 <p>Drop your file(s) here or click and browse</p>
               )}
             </div>
-
-            <label>Driver's Contact Number</label>
+            <label>Driver's Contact Number<span aria-label="required">*</span></label>
             <input
               type="text"
               name="contact"
@@ -190,7 +171,7 @@ export default function DriverForm() {
               placeholder="Enter contact number"
               required
             />
-            <label>Driver's Email</label>
+            <label>Driver's Email<span aria-label="required">*</span></label>
             <input
               type="email"
               name="email_id"
@@ -199,7 +180,7 @@ export default function DriverForm() {
               placeholder="Enter email"
               required
             />
-            <label>Driver's Address</label>
+            <label>Driver's Address<span aria-label="required">*</span></label>
             <input
               type="text"
               name="address"
@@ -208,7 +189,7 @@ export default function DriverForm() {
               placeholder="Enter address"
               required
             />
-            <label>Driver's Login Token</label>
+            <label>Driver's Login Token<span aria-label="required">*</span></label>
             <input
               type="text"
               name="login_token"

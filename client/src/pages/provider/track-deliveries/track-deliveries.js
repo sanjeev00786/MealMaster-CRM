@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import DataTable from "react-data-table-component";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import MiniDrawer from "../../../components/SideMenu/SideMenu";
 import AnchorTemporaryDrawer from "../../../components/MobileSideMenu/MobileSideMenu";
-import "../dashboard/dashboard.css";
+import "../../CSS/variable.css"
 import Loader from "../../../components/Loader/Loader";
 import apiHelper from "../../../util/ApiHelper/ApiHelper";
 import { ENDPOINTS } from "../../../apiConfig.js";
@@ -24,7 +24,7 @@ export default function TrackDeliveries() {
       setLoading(true);
       try {
         const res = await apiHelper.get(
-          `${ENDPOINTS.GET_ASSIGNED_DELIVERIES}provider_id=${id}`
+          `${ENDPOINTS.GET_ALL_DRIVER}provider_id=${id}`
         );
         console.log(res);
         setRecords(res.data);
@@ -34,8 +34,16 @@ export default function TrackDeliveries() {
         console.log(error);
       }
     };
-    driverData("${provider_id}");
+    driverData(`${provider_id}`);
   }, []);
+
+  const handleTrackDriver = (row) => {
+    // Navigate to TrackDriver component with driverID as state
+    const rowDataString = JSON.stringify(row);
+    const encodedRowDataString = encodeURIComponent(rowDataString);
+    console.log('TRACKING START', rowDataString);
+    navigate(`/trackDriver/driverID=${row.driver_id}?rowData=${encodedRowDataString}`);
+    };
 
   const columns = [
     {
@@ -55,13 +63,17 @@ export default function TrackDeliveries() {
     {
       id: 3,
       name: "Actions",
+      width: "175px",
       cell: (row, index, columnId) => {
         return (
           <div>
             {row.driver_status ? (
-              <button onClick={() => navigate("/trackDriver")}>
+              <Link
+              className="trackDriverBtn"
+              onClick={() => handleTrackDriver(row)}
+            >
                 Track Driver
-              </button>
+                </Link>
             ) : (
               <span>Driver Offline</span>
             )}
@@ -70,6 +82,7 @@ export default function TrackDeliveries() {
       },
       grow: 1,
       button: true,
+      
     },
   ];
 
@@ -91,41 +104,36 @@ export default function TrackDeliveries() {
   return (
     <div className="customer-page-container">
       <div className="sideBarMenu">
-        <SideBarMenu currentPage="/meal-plan-list" />
+        <SideBarMenu currentPage="/trackdeliveries" />
       </div>
-      <div
-        className="customer-page"
-        // style={{ display: "flex", flexDirection: "column" }}
-      >
-        {/* <div className="mobileSideMenu">
-          <AnchorTemporaryDrawer />
+      <div className="mobileSideBarMenu">
+        <AnchorTemporaryDrawer />
+      </div>
+      <div className="customer-page">
+        <div className="page-heading">
+          <h1>Track Driver</h1>
         </div>
-        <div className="sideMenu">
-          <MiniDrawer />
-        </div>
-        <Loader loading={loading} />
-      <div><button onClick={() => navigate("/customers")}>Add New Customer</button></div> */}
-        <div className="search-addButton-container">
+        <div className="search-addButton-container-trackd">
           <div className="search-container">
             <input
               type="text"
-              placeholder="Search...."
+              placeholder="Search by Name"
               onChange={handleFilter}
-              className="search-input"
+              className="search-input-trackd"
             />
           </div>
         </div>
         <div className="data-table-parent-container">
-          <h2>Track Deliveries</h2>
-      
-        <div className="data-table-container">
-          <DataTable
-            columns={columns}
-            data={records}
-            customStyles={customStyles}
-            pagination
-          />
-        </div>
+          <h2>List of Drivers</h2>
+
+          <div className="data-table-container">
+            <DataTable
+              columns={columns}
+              data={records}
+              customStyles={customStyles}
+              // pagination
+            />
+          </div>
         </div>
       </div>
     </div>

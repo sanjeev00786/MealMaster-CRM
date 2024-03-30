@@ -1,21 +1,24 @@
 /* Login.css */
+body{
+  font-family: var(--main-font);
+}
 .login-container {
     max-width: 400px;
     margin: auto;
     padding: 20px;
-    border: 1px solid #ccc;
+    border: 1px solid var( --white-color);
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
+    box-shadow: 0 0 10px var(--gradient-color2);
+    background-color: var( --white-color);
     margin-top: 50px;
   }
   
 .login-container button{
   border-radius: 4px;
-  background:  #6F59DA;
+  background:  var(--primary-color) ;
 }
 
 .login-container button:hover{
   border-radius: 4px;
-  background:  #9885ec !important;
+  background:var(--gradient-color1) !important;
 }

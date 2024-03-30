@@ -1,0 +1,26 @@
+body{
+  font-family: var(--main-font);
+
+}.meal-plan-formpage{
+    display: flex !important;
+    flex: 1
+  }
+
+.wholeContent-mealplanUpdatepage{
+    background-color:var(--bgc-color) !important;
+}
+.sideBarMenu {
+    flex: 0 0 15%;
+  }
+  textarea {
+    height: 80px;
+  }
+  
+  @media screen and ( max-width: 400px){
+
+  .wholeContent-mealplanUpdatepage{
+
+    height: 100vh;
+  }
+
+}

@@ -1,6 +1,41 @@
-.google-maps-container {
+body{
+  font-family: var( --main-font);
+
+}
+.map-container {
     height: 400px;
+    width: 90%;
     margin-left: 1rem;
     margin-right: 1rem;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 10px var(--gradient-color2);
+  }
+  
+  .withoutroute-map-container {
+    height: 400px;
+    width: 90%;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    box-shadow: 0 0 10px var(--gradient-color2);
+  }
+
+  .loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999; /* Ensure the loader is on top of the map */
+  }
+  
+  .spinner {
+    border: 4px solid var(--grey1-color); /* Light grey border */
+    border-top: 4px solid var( --secondary-color); /* Blue border on top */
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite; /* Spin animation */
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
   }

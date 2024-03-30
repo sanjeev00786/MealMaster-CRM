@@ -8,6 +8,8 @@ import { ReactComponent as TrackIcon } from "../../component-assets/track_delive
 import { ReactComponent as ScheduleIcon } from "../../component-assets/schedule_delivery_icon.svg";
 import { ReactComponent as SocialIcon } from "../../component-assets/social_media_icon.svg";
 import { ReactComponent as MealIcon } from "../../component-assets/meal_setting_icon.svg";
+import Link from '@mui/material/Link';
+import TransitionsModal from "../ConfirmationModal/ConfirmationModal";
 
 import { ReactComponent as DashboardIconF } from "../../component-assets/dashboard-filled.svg";
 import { ReactComponent as CustomerIconF } from "../../component-assets/customer-filled.svg";
@@ -17,32 +19,42 @@ import { ReactComponent as ScheduleIconF } from "../../component-assets/schedule
 import { ReactComponent as SocialIconF } from "../../component-assets/social-filled.svg";
 import { ReactComponent as MealIconF } from "../../component-assets/meal-filled.svg";
 import { ReactComponent as Logo } from "../../component-assets/logo123.svg";
-
+// import Divider from '@mui/material/Divider'\
+import Button from '@mui/material/Button';
+import LogoutIcon from '@mui/icons-material/Logout';
+import "../../pages/CSS/variable.css"
 import "./NewSideMenu.css";
+
 export default function SideBarMenu({ currentPage }) {
   const navigate = useNavigate();
+  const [isModalOpen, setModalOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
-
   useEffect(() => {
     // Determine the selected index based on the current page
     switch (currentPage) {
       case "/dashboard":
         setSelectedIndex(0);
         break;
-      case "/customerList":
+      case "/customerList/1":
         setSelectedIndex(1);
         break;
       case "/drivers":
         setSelectedIndex(2);
         break;
-      case "/delivery-schedule":
+      case "/trackdeliveries":
+        setSelectedIndex(3);
+        break;
+      case "/trackDriver":
+        setSelectedIndex(3);
+        break;  
+      case "/delivery-schedule/1":
         setSelectedIndex(4);
         break;
-      case "/social-media":
-        setSelectedIndex(5);
-        break;
+      // case "/social-media":
+      //   setSelectedIndex(5);
+      //   break;
       case "/meal-plan-list":
-        setSelectedIndex(6);
+        setSelectedIndex(5);
         break;
       default:
         setSelectedIndex(0);
@@ -58,27 +70,44 @@ export default function SideBarMenu({ currentPage }) {
         navigate("/dashboard");
         break;
       case 1:
-        navigate("/customerList");
+        navigate("/customerList/1");
         break;
       case 2:
         navigate("/drivers");
         break;
       case 3:
-        navigate("/dashboard");
+        navigate("/trackdeliveries");
         break;
       case 4:
-        navigate("/delivery-schedule");
+        navigate("/delivery-schedule/1");
         break;
+      // case 5:
+      //   navigate("/social-media");
+      //   break;
       case 5:
-        navigate("/social-media");
-        break;
-      case 6:
         navigate("/meal-plan-list");
         break;
       default:
         break;
     }
   };
+
+  const handleLogoutClick = () => {
+    setModalOpen(true);
+  }
+
+  const handleClose = () => {
+    setModalOpen(false); 
+  };
+
+  const handleLogout = () => {
+ 
+    sessionStorage.clear();
+    localStorage.clear();
+    
+    navigate("/login-page");
+  };
+
 
   // Define icons for both regular and filled versions
   const iconList = [
@@ -87,7 +116,7 @@ export default function SideBarMenu({ currentPage }) {
     { regular: <DriverIcon />, filled: <DriverIconF /> },
     { regular: <TrackIcon />, filled: <TrackIconF /> },
     { regular: <ScheduleIcon />, filled: <ScheduleIconF /> },
-    { regular: <SocialIcon />, filled: <SocialIconF /> },
+    // { regular: <SocialIcon />, filled: <SocialIconF /> },
     { regular: <MealIcon />, filled: <MealIconF /> },
   ];
 
@@ -98,9 +127,15 @@ export default function SideBarMenu({ currentPage }) {
     "Drivers",
     "Track Delivery",
     "Schedule Deliveries",
-    "Social Media",
+    // "Social Media",
     "Meal Settings",
   ];
+
+  var provider = localStorage.getItem("sb-cvnlpinekwolqaratkmc-auth-token");
+  var userData = JSON.parse(provider);
+
+  let user_email = userData.user.email;
+  console.log(user_email);
 
   return (
     <Sidebar>
@@ -118,7 +153,22 @@ export default function SideBarMenu({ currentPage }) {
             {menuLabels[index]}
           </MenuItem>
         ))}
+         
       </Menu>
+      <div className="logout-container">
+      <div className="user-email-container">
+      {user_email}
+      </div>
+      <Link onClick={handleLogoutClick} className="logoutMenuItem" color="inherit" style={{ cursor: 'pointer' }} ><span>Logout</span></Link>
+      </div>
+      <TransitionsModal
+            modalTitle="Logout"
+            modalDescription="Are you sure you want to Logout?"
+            onCancel={handleClose}
+            onConfirm={handleLogout}
+            isOpen={isModalOpen}
+            setModalOpen={setModalOpen}
+          />
     </Sidebar>
   );
 }

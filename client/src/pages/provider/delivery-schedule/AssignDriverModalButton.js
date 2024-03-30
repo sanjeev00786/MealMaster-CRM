@@ -1,83 +1,109 @@
-import React, { useState, useEffect } from 'react';
-import { Modal, Box, Typography, Button, Select, MenuItem } from '@mui/material';
-import supabase from '../../../supabase';
-import axios from 'axios';
-import { ENDPOINTS } from '../../../apiConfig.js';
-import { provider_id } from "../../../util/localStorage.js";
+import React, { useState, useEffect } from "react";
+import {
+  Modal,
+  Box,
+  Typography,
+  Button,
+  Select,
+  MenuItem,
+} from "@mui/material";
+import "../../CSS/variable.css"
 
+import apiHelper from "../../../util/ApiHelper/ApiHelper.js";
+import supabase from "../../../supabase";
+import { API_BASE_URL, ENDPOINTS } from "../../../apiConfig.js";
+import axios from "axios";
 
-const AssignDriverModalButton = ({ providerId, onAssignDriver, updateParent}) => {
+const AssignDriverModalButton = ({
+  providerId,
+  onAssignDriver,
+  updateParent,
+  onSuccess,
+}) => {
   const [openModal, setOpenModal] = useState(false);
   const [drivers, setDrivers] = useState([]);
-  const [selectedDriver, setSelectedDriver] = useState('');
-
+  const [selectedDriver, setSelectedDriver] = useState("");
 
   const modalStyle = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    bgcolor: 'background.paper',
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    bgcolor: "background.paper",
     boxShadow: 24,
     p: 4,
   };
 
-const pushToAssignedTiffin = async (providerId, driverId, data) => {
-  try {
-    if (!data || data.length === 0) {
-      console.log('No data to process.');
-      return;
-    }
-
-    const records = data.map(customer => ({
-      driver_id: driverId,
-      provider_id: providerId,
-      plan_id: customer.plan_id,
-      customer_id: customer.id,
-    }));
-
-    const { error: insertError } = await supabase
-      .from('assigned_tiffin')
-      .upsert(records);
-
-    if (insertError) {
-      throw new Error(`Error inserting/updating records in assigned_tiffin table: ${insertError.message}`);
-    }
-
-    console.log('Records inserted/updated successfully.');
-
-    const customerIdsToUpdate = data.map(customer => customer.id);
-
-    if (customerIdsToUpdate.length > 0) {
-      const { data: updateResult, error: updateError } = await supabase
-        .from('customers')
-        .update({ is_assigned_driver: true })
-        .in('customer_id', customerIdsToUpdate);
-
-      if (updateError) {
-        console.error('Error updating is_assigned_driver in customers table:', updateError);
-        throw new Error(`Error updating is_assigned_driver in customers table: ${updateError.message}`);
+  const pushToAssignedTiffin = async (providerId, selectedDriver, data) => {
+    try {
+      if (!data || data.length === 0) {
+        console.log("No data to process.");
+        return;
       }
 
-      console.log('is_assigned_driver updated for assigned customers:', updateResult);
-      updateParent();
-    } else {
-      console.log('No customers to update.');
+      console.log(data);
+
+      const records = data.map((customer) => ({
+        driver_id: selectedDriver.driver_id,
+        driver_name: selectedDriver.name,
+        provider_id: providerId,
+        plan_id: customer.plan_id,
+        customer_id: customer.customer_id,
+      }));
+
+      const { error: insertError } = await supabase
+        .from("assigned_tiffin")
+        .upsert(records);
+
+      if (insertError) {
+        throw new Error(
+          `Error inserting/updating records in assigned_tiffin table: ${insertError.message}`
+        );
+      }
+
+      console.log("Records inserted/updated successfully.");
+
+      const customerIdsToUpdate = data.map((customer) => customer.customer_id);
+
+      if (customerIdsToUpdate.length > 0) {
+        const { data: updateResult, error: updateError } = await supabase
+          .from("customers")
+          .update({ is_assigned_driver: true })
+          .in("customer_id", customerIdsToUpdate);
+
+        if (updateError) {
+          console.error(
+            "Error updating is_assigned_driver in customers table:",
+            updateError
+          );
+          throw new Error(
+            `Error updating is_assigned_driver in customers table: ${updateError.message}`
+          );
+        }
+        onSuccess();
+        console.log(
+          "is_assigned_driver updated for assigned customers:",
+          updateResult
+        );
+      } else {
+        console.log("No customers to update.");
+      }
+    } catch (error) {
+      console.error("Error pushing data to assigned_tiffin table:", error);
     }
-  } catch (error) {
-    console.error('Error pushing data to assigned_tiffin table:', error);
-  }
-};
+  };
 
   const handleOpenModal = async () => {
     setOpenModal(true);
     // Fetch drivers from the API using the provided providerId
     try {
-      const response = await axios.get(`${ENDPOINTS.GET_ALL_DRIVER}provider_id=${providerId}`);
-      console.log(response.data)
-      setDrivers(response.data.data); // Extracting the 'data' array from the response
+      const response = await axios.get(
+        `${API_BASE_URL}${ENDPOINTS.GET_ALL_DRIVER}provider_id=${providerId}`
+      );
+      console.log(response.data);
+      setDrivers(response.data.data);
     } catch (error) {
-      console.error('Error fetching drivers:', error);
+      console.error("Error fetching drivers:", error);
     }
   };
 
@@ -85,13 +111,34 @@ const pushToAssignedTiffin = async (providerId, driverId, data) => {
     setOpenModal(false);
   };
 
+  console.log(onAssignDriver);
+
+  // const handleAssignDriver = () => {
+  //   if (selectedDriver) {
+  //     let customerData = onAssignDriver;
+  //     pushToAssignedTiffin(providerId, selectedDriver, customerData);
+  //     handleCloseModal();
+  //   } else {
+  //     alert("Please select a driver before assigning.");
+  //   }
+  // };
+
   const handleAssignDriver = () => {
     if (selectedDriver) {
-      let customerData = onAssignDriver()
-      pushToAssignedTiffin(providerId, selectedDriver, customerData)
-      handleCloseModal();
+      let customerData = onAssignDriver;
+      let selectedDriverObj = drivers.find(driver => driver.driver_id === selectedDriver);
+
+      console.log(selectedDriverObj)
+
+      if (selectedDriverObj) {
+        pushToAssignedTiffin(providerId, selectedDriverObj, customerData); 
+        handleCloseModal();
+      } else {
+        console.error('Selected driver not found.');
+        handleCloseModal();
+      }
     } else {
-      alert('Please select a driver before assigning.');
+      alert("Please select a driver before assigning.");
     }
   };
 
@@ -102,7 +149,13 @@ const pushToAssignedTiffin = async (providerId, driverId, data) => {
 
   return (
     <>
-      <Button onClick={handleOpenModal}>Assign Driver</Button>
+      {onAssignDriver.length > 0 ? (
+        <Button onClick={handleOpenModal}>Assign Driver</Button>
+      ) : (
+        <Button disabled>Assign Driver</Button>
+      )}
+      {/* {onAssignDriver.length > 0 && <Button onClick={handleOpenModal}>Assign Driver</Button>} */}
+      {/* <Button onClick={handleOpenModal}>Assign Driver</Button> */}
       <Modal
         open={openModal}
         onClose={handleCloseModal}
@@ -119,7 +172,9 @@ const pushToAssignedTiffin = async (providerId, driverId, data) => {
             label="Select Driver"
             displayEmpty
           >
-            <MenuItem value="" disabled>Select a driver</MenuItem>
+            <MenuItem value="" disabled>
+              Select a driver
+            </MenuItem>
             {drivers.map((driver) => (
               <MenuItem key={driver.driver_id} value={driver.driver_id}>
                 {driver.name} - {driver.email_id}

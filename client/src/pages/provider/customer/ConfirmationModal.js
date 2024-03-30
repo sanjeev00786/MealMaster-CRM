@@ -3,8 +3,16 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import "../../CSS/variable.css"
+
 
 const ConfirmationModal = ({ open, onClose, onConfirm, message }) => {
+ 
+  const handleConfirm = () => {
+    onConfirm();
+    onClose(); 
+  };
+ 
   return (
     <Modal
       open={open}

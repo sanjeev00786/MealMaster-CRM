@@ -1,12 +1,22 @@
 body{
-        background-color: #b6b1b188;
+        background-color: var(--bgc-color) !important;
 
             max-width: none !important;
             width: 100% !important;
             max-height: none !important;
   margin: 0;
   padding: 0; 
+  font-family: var(--main-font);
+
+
 }
+.content-mealplan{
+    margin-left: 2.5rem;
+    /* margin-top: 5rem; */
+}
+textarea {
+    resize: none;
+  }
 form{
    align-items: center;
 }
@@ -19,7 +29,7 @@ form{
 
 
 .form-container{
-    /* background-color: #FFFFFF; */
+    background-color: var(--white-color);
     padding: 1rem;
     border-radius: 15px;
 
@@ -40,7 +50,7 @@ h1{
     margin-bottom: 0;
 }
 .required{
-    color:#A91F1F;
+    color:var( --error-color);
 
 }
 label{
@@ -60,11 +70,10 @@ input, textarea {
     padding: 10px;
     width: 95%;
     border-radius: 6px;
-    background-color: #F2F4F8;
-    border: 0.6px solid #AEAEAE
-    ;
-    box-shadow: 0px 1px 0px rgba(193, 199, 205, 1);    
-    color: #697077;
+    background-color: var(--white-color) !important;
+    border: 0.6px solid var( --grey2-color);
+    box-shadow: 0px 1px 0px var( --grey1-color);    
+    color:var(--grey3-color);
 }
 .Btn{
     
@@ -76,10 +85,11 @@ input, textarea {
 }
 
 .submitBtn{
-    border: 1px solid #000000;
+    border: 1px solid var(--white-color) !important;
 
-    background-color: #000000;
-    color:#FFFFFF;
+    background-color: var(--primary-color) !important;
+    cursor: pointer;
+    color:var(--white-color);
     margin-top: 24px;
     margin-bottom: 8px;
 
@@ -88,10 +98,10 @@ input, textarea {
 .cancelBtn{
     
 
-    border: 1px solid #000000;
+    border: 1px solid var( --dark-color);
 
-    background-color: #FFFFFF;
-    color:#000000;
+    background-color: var(--white-color);
+    color:var(--dark-color);
 }
 
 
@@ -108,6 +118,22 @@ input, textarea {
 
 
 }
+.sideBarMenu {
+    flex: 0 0 20%;
+  }
+.wholeContent-mealplanpage{
+    background-color: var(--bgc-color)  ;
+}
+
+.before_form_data{
+    background-color:var(--grey1-color) !important;
+}
+.disabledSaveBtn{
+    /* background-color: var(); */
+    background-color:var( --grey1-color)  !important;
+    color:var(--grey2-color) !important;
+    cursor:auto;
+}
 
 @media screen and (min-width: 400px) {
 
@@ -116,7 +142,7 @@ input, textarea {
     
     margin: 0 auto;
     /* padding: 20px; */
-   background-color: #F2F4F8;
+   background-color:var(--bgc-color) ;
    border-radius: 8px;
 
 }
@@ -133,7 +159,9 @@ h1{
         
         margin: 0 auto;
         /* padding: 20px; */
-       background-color: #F2F4F8;
+       /* background-color: #F2F4F8; */
+       background-color:var(--bgc-color) ;
+
        border-radius: 8px;
     
     }
@@ -160,11 +188,21 @@ h1{
     
     
     }
+    
     .cancelBtn{
         margin-right: 10px;
     }
     .Btn {
         margin-right: 10px; 
       }
+      .meal-plan-formpage{
+        display: flex;
+      }
+      .content-mealplan {
+        flex: 1 80%;
+        align-items: center;
+        /* padding-top: 2.2rem; */
+      }
+
 
 }

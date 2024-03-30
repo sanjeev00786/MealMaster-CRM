@@ -1,12 +1,19 @@
+body{
+  font-family: var(--main-font);
+}
 .card-container {
   max-width: 90%;
-  background-color: #e0e0e0; 
+  background-color: var(--grey1-color); 
 
   align-items: center;
   margin: 20px;
+  /* height: 200px; */
+    position: relative; 
 
   
 }
+
+
 .plan_name{
   font-weight: 500;
   line-height: 28.8px;
@@ -46,4 +53,15 @@
 .view-details{
   /* display: flex; */
   justify-content: center;
+}
+.view-details-button{
+  color: var( --primary-color) !important;
+}
+
+
+.back-side-card{
+  background:var(--gradient-color3);
+
+
+
 }

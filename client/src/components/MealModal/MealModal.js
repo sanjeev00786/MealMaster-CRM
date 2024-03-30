@@ -7,6 +7,8 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import "../../pages/CSS/variable.css";
+
 import "./MealModal.css"; 
 
 const TransitionsModal = ({
@@ -74,7 +76,7 @@ const TransitionsModal = ({
                 {" "}
                 Cancel{" "}
               </button>
-              <button className="BtnModal" onClick={onConfirm}>
+              <button className="BtnModal confirmBtnModal" onClick={onConfirm}>
                 Confirm
               </button>
             </div>

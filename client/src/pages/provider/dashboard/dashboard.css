@@ -1,21 +1,19 @@
 /* Mobile View */
+body{
+  font-family: var(--main-font) !important;
+}
 .sideMenu {
   visibility: hidden;
 }
 
 .dashboardPage {
-  background-color:rgba(241, 240, 247, 1);
+  /* background-color:rgba(241, 240, 247, 1); */
+  background-color:var( --bgc-color) !important;
   display: flex;
 }
 
 .sideBarMenu {
   flex: 0 0 15%;
-}
-
-.WIP {
-  flex: 1 85%;
-  align-items: center;
-  padding-left: 1rem;
 }
 
 .dashboard-header {
@@ -24,12 +22,68 @@
   margin-bottom: 0;
 }
 
+.graph-container {
+  margin-left: 1rem !important;
+}
+.marker-cluster-small div {
+  background-color: var(--primary-color) !important;
+  color: (--white-color) !important;
+}
+.marker-cluster-small {
+  background-color: var(--bgc-color) !important;
+}
+.marker-cluster span {
+  color: white;
+}
+.dashboardHeading{
+  margin-bottom: 0 !important;
+  margin-top: 0 !important;
+}
+.revenueChart,.subscriberGrowth{
+  padding: 1rem;
+margin-top: 1rem;
+}
 /* Desktop View */
 @media screen and (min-width: 700px) {
+
   .sideMenu {
     visibility: visible;
   }
+
+  .mobileSideBarMenu {
+    display: none;
+  }
+  .sideBarMenu {
+    display: block;
+  }
+
+  .dashboardPage {
+    background-color: var( --bgc-color) !important;
+    /* background-color: rgba(241, 240, 247, 1); */
+    display: flex;
+  }
+
+  /* .sideBarMenu {
+    flex: 0 0 15%;
+  } */
   .mobileSideMenu {
     visibility: visible;
   }
+
+  .dashboard-page-container{
+    display: flex;
+    
+    /* align-items: center; */
+    /* padding-top: 6px;
+    
+    padding-right: 1rem; */
+
+  }
+  .graph-container{
+    padding: 1rem;
+
+  }
+ 
+  
 }
+

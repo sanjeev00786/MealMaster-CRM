@@ -9,13 +9,21 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import { useLocation, useNavigate } from "react-router-dom";
+import "../../pages/CSS/variable.css"
 import "./MobileSideMenu.css";
+import LogoutIcon from '@mui/icons-material/Logout';
 
 export default function AnchorTemporaryDrawer() {
   const [open, setOpen] = React.useState(false);
   const [selectedItem, setSelectedItem] = React.useState(null);
   const navigate = useNavigate();
-  const location = useLocation(); 
+  const location = useLocation();
+
+  const handleLogout = () => {
+    sessionStorage.clear();
+    localStorage.clear();
+    navigate("/login-page");
+  };
 
   React.useEffect(() => {
     const path = location.pathname;
@@ -23,24 +31,25 @@ export default function AnchorTemporaryDrawer() {
       case "/dashboard":
         setSelectedItem("Dashboard");
         break;
-      case "/customerList":
+      case "/customerList/1":
         setSelectedItem("Customers");
         break;
       case "/drivers":
         setSelectedItem("Driver");
         break;
-      case "/track-delivery":
+      case "/trackdeliveries":
         setSelectedItem("Track Delivery");
         break;
-      case "/delivery-schedule":
+      case "/delivery-schedule/1":
         setSelectedItem("Schedule Deliveries");
         break;
-      case "/social-media":
-        setSelectedItem("Social Media");
-        break;
+      // case "/social-media":
+      //   setSelectedItem("Social Media");
+      //   break;
       case "/meal-plan-list":
         setSelectedItem("Meal Settings");
         break;
+
       default:
         setSelectedItem(null);
     }
@@ -57,22 +66,25 @@ export default function AnchorTemporaryDrawer() {
         navigate("/dashboard");
         break;
       case "Customers":
-        navigate("/customerList");
+        navigate("/customerList/1");
         break;
       case "Driver":
         navigate("/drivers");
         break;
       case "Track Delivery":
-        navigate("/track-delivery");
+        navigate("/trackdeliveries");
         break;
       case "Schedule Deliveries":
-        navigate("/delivery-schedule");
+        navigate("/delivery-schedule/1");
         break;
-      case "Social Media":
-        navigate("/social-media");
-        break;
+      // case "Social Media":
+      //   navigate("/social-media");
+      //   break;
       case "Meal Settings":
         navigate("/meal-plan-list");
+        break;
+      case "Logout":
+        handleLogout();
         break;
       default:
         break;
@@ -94,8 +106,9 @@ export default function AnchorTemporaryDrawer() {
           "Driver",
           "Track Delivery",
           "Schedule Deliveries",
-          "Social Media",
+          // "Social Media",
           "Meal Settings",
+          "Logout",
         ].map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton

@@ -1,20 +1,32 @@
-import React, { useRef } from 'react';
-import '../CustomCamera/CustomCamera.css'
-import CameraIcon from '../../component-assets/camera.svg'
+import React, { useRef, useEffect } from 'react';
+import "../../pages/CSS/variable.css";
 
-const CustomCamera = ({ onImageCapture }) => {
+import '../CustomCamera/CustomCamera.css';
+import CameraIcon from '../../component-assets/camera.svg';
+import CloseIcon from '../../component-assets/cancel.png'; // Import the close icon
+
+const CustomCamera = ({ onImageCapture, onClose }) => {
   const videoRef = useRef(null);
+  let stream = null;
 
   const openCamera = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      videoRef.current.srcObject = stream;
+      stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+      }
     } catch (error) {
       console.error('Error accessing camera:', error);
     }
   };
 
-  openCamera();
+  const stopCamera = () => {
+    if (stream) {
+      stream.getTracks().forEach(function(track) {
+        track.stop();
+      });
+    }
+  };
 
   const captureImage = () => {
     const canvas = document.createElement('canvas');
@@ -24,25 +36,35 @@ const CustomCamera = ({ onImageCapture }) => {
 
     const imageUrl = canvas.toDataURL('image/png');
     onImageCapture(imageUrl);
-
-    // Stop the video stream after capturing the image
-    videoRef.current.srcObject.getTracks().forEach(track => track.stop());
+    stopCamera();
   };
+
+  const handleClose = () => {
+    stopCamera();
+    onClose();
+  };
+
+  useEffect(() => {
+    openCamera();
+    return () => {
+      stopCamera();
+    };
+  }, []); // Empty dependency array to run once after initial render
 
   return (
     <div className="camera-modal">
-      {/* Video element to display the camera stream */}
+      <div className="close-button-container">
+        <img src={CloseIcon} alt="Close" className="close-icon" onClick={handleClose} />
+      </div>
       <video
         ref={videoRef}
-        className="camera-video" // Add a class for styling
+        className="camera-video"
         autoPlay
         playsInline
       />
-
-      {/* Button to capture the image */}
       <div className='capture-button-container'>
-      <img src={CameraIcon} alt="" className="camera-icon"/>
-      <button onClick={captureImage} className="capture-button"></button>
+        <img src={CameraIcon} alt="" className="camera-icon"/>
+        <button onClick={captureImage} className="capture-button"></button>
       </div>
     </div>
   );
