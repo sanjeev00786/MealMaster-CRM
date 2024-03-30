@@ -111,13 +111,13 @@ const Maps = ({ customerData, setTotalRouteDistance, driver_id }) => {
     };
 
     fetchUserLocation(0);
-    // const intervalId = setInterval(() => {
-    //   fetchUserLocation(1); 
-    // }, 2000);
+    const intervalId = setInterval(() => {
+      fetchUserLocation(1); 
+    }, 2000);
 
-    // return () => {
-    //   clearInterval(intervalId);
-    // };
+    return () => {
+      clearInterval(intervalId);
+    };
   }, [customerData, map]);
 
 
