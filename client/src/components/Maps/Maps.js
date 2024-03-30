@@ -30,7 +30,7 @@ const Maps = ({ customerData, setTotalRouteDistance, driver_id }) => {
   const updateDriverLocation = async (driverId, newLocation) => {
     const { data, error } = await supabase
       .from('driver_location')
-      .upsert({ driver_id: driverId, lat: newLocation.lat, lng: newLocation.lng, driver_name: "Test 2" })
+      .upsert({ driver_id: driverId, lat: newLocation.lat, lng: newLocation.lng, driver_name: "" })
       .eq('driver_id', driverId);
     // console.log(data)
     if (error) {
