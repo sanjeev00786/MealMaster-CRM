@@ -21,6 +21,7 @@ import LandingPage from './pages/LandingPage/LandingPage';
 import EditDriverForm from './pages/provider/drivers/edit-driver-form';
 import LoginPage from './pages/provider/authentication/login-page';
 import EditCustomerForm from "./pages/provider/customer/EditCustomerForm";
+import TeamPage from './pages/LandingPage/TeamPage/TeamPage';
 
 const PrivateRoute = ({ component: Component, session, ...rest }) => (
   <Route
@@ -90,7 +91,7 @@ const App = () => {
             element={session ? <DriverForm /> : <LoginPage />}
           />
           <Route
-            path="/edit-driver"
+            path="/edit-driver/:login_token"
             element={session ? <EditDriverForm /> : <LoginPage />}
           />
           <Route
@@ -156,7 +157,11 @@ const App = () => {
             path="/landing-page"
             element={<LandingPage />}
           />
-          
+          <Route
+            path="/team"
+            element={<TeamPage />}
+          />
+
         </Routes>
       </div>
     </Router>

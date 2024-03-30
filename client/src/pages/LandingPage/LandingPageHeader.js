@@ -25,8 +25,7 @@ const LandingPageHeader = () => {
             <nav className="header__nav">
                 <ul className="header__nav-list">
                     <li className="header__nav-item"><NavLink to="#" onClick={scrollToFeatures}>Features</NavLink></li>
-                    <li className="header__nav-item"><a href="#pricing">Pricing</a></li>
-                    <li className="header__nav-item"><a href="#about">About Us</a></li>
+                    <li className="header__nav-item"><a href="#pricing">Team</a></li>
                 </ul>
             </nav>
             <div className="header__actions">

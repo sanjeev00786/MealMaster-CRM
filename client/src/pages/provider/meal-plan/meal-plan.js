@@ -50,7 +50,7 @@ const MealSettingPage = () => {
       .then((response) => {
         console.log("Meal data saved successfully:", response.data);
         const addedMealName = response.data.plan_name
-
+        console.log('*****', addedMealName)
       //************************************************** */
         sessionStorage.setItem("Plan_name", addedMealName);
         localStorage.setItem("isLoggedIn", "true");

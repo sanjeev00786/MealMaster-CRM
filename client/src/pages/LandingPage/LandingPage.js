@@ -10,7 +10,6 @@ import Scooter from '../../component-assets/scooter.png';
 import DriverPageSS from '../../component-assets/driverPageSS.svg';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-
 import { Fade, Slide } from "react-awesome-reveal";
 
 const LandingPage = () => {

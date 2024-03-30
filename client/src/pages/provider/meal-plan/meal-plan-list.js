@@ -86,13 +86,13 @@ const MealPlanListPage = () => {
   useEffect(() => {
     const myBooleanValue = localStorage.getItem("isLoaderShow") === "true";
     if (myBooleanValue === true) {
+      console.log('******', addedMealName)
       setNotification("Success!", `${addedMealName} added Successfully`);
       console.log("plan name ,", `${addedMealName}`);
       localStorage.setItem("isLoaderShow", "false");
     }
-
     // getAssignedTiffin(driver_id);
-  }, [addedMealName]);
+  }, []);
 
   useEffect(() => {
     const myupdatedplan =

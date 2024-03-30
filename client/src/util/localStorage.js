@@ -29,7 +29,7 @@ console.log('****', driver_id);
 export { driver_id };
 
 let addedMealName = localStorage.getItem('Plan_name');
-
+console.log("from localstaorbdgdbdgdjd2@@@@@@@@@@@@",addedMealName)
 export { addedMealName };
 let updatedMealPlanName = localStorage.getItem('updatedPlan_name');
 console.log("from localstaorbdgdbdgdjd2@@@@@@@@@@@@",updatedMealPlanName)
