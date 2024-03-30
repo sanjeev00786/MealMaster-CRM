@@ -19,17 +19,18 @@ const redIcon = new L.Icon({
 const CustomerMap = () => {
   // Hardcoded sample address data
   const addressPoints = [
-    [38.9637, 35.2433, 'Address 1'],
-    [38.9634, 35.2334, 'Address 2'],
-    [38.964, 35.244, 'Address 3'],
+    [49.1510326, -122.8835703, 'Address 1'],
+    [49.1460368, -122.9148049, 'Address 2'],
+    [49.2158787, -123.1375797, 'Address 3'],
     // Add more addresses as needed
   ];
 
   return (
     <MapContainer
-      style={{ height: '400px' }}
-      center={[38.9637, 35.2433]}
-      zoom={3}
+      style={{ height: '400px', width:'100%' }}
+      // center={[38.9637, 35.2433]}
+      center={[49.2133447, -122.9971976]}
+      zoom={10}
       maxZoom={18} // Set the maximum zoom level
       scrollWheelZoom={true}
     >

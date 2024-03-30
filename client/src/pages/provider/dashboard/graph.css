@@ -16,10 +16,12 @@ body{
 /* .veg-container, .meal-plan-chart-container {
     padding: 1rem;
     margin-bottom: 1rem;
-}
+}*/
+.css-1la267r-MuiAreaElement-root {
+
     fill: rgba(129, 104, 239, 0.272) !important;
     
-} */
+} 
 
 .css-wn5hww-MuiLineElement-root{
     /* fill: var(--primary-color) !important; */

@@ -25,8 +25,16 @@ body{
 .graph-container {
   margin-left: 1rem !important;
 }
-
-
+.marker-cluster-small div {
+  background-color: var(--primary-color) !important;
+  color: (--white-color) !important;
+}
+.marker-cluster-small {
+  background-color: var(--bgc-color) !important;
+}
+.marker-cluster span {
+  color: white;
+}
 /* Desktop View */
 @media screen and (min-width: 700px) {
 
@@ -47,20 +55,26 @@ body{
     display: flex;
   }
 
-  .sideBarMenu {
+  /* .sideBarMenu {
     flex: 0 0 15%;
-  }
+  } */
   .mobileSideMenu {
     visibility: visible;
   }
 
   .dashboard-page-container{
-    flex: 1 85%;
-    align-items: center;
-    padding-top: 6px;
-    padding-left: 2rem;
-    padding-right: 1rem;
+    display: flex;
+    
+    /* align-items: center; */
+    /* padding-top: 6px;
+    
+    padding-right: 1rem; */
 
   }
+  .graph-container{
+    padding: 1rem;
+
+  }
+  
 }
 
