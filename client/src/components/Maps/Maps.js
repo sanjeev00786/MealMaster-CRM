@@ -30,7 +30,7 @@ const Maps = ({ customerData, setTotalRouteDistance, driver_id }) => {
   const updateDriverLocation = async (driverId, newLocation) => {
     const { data, error } = await supabase
       .from('driver_location')
-      .upsert({ driver_id: driverId, lat: newLocation.lat, lng: newLocation.lng, driver_name: "Test 2" })
+      .upsert({ driver_id: driverId, lat: newLocation.lat, lng: newLocation.lng, driver_name: "Aryan" })
       .eq('driver_id', driverId);
     // console.log(data)
     if (error) {
@@ -41,7 +41,7 @@ const Maps = ({ customerData, setTotalRouteDistance, driver_id }) => {
 
   useEffect(() => {
     if (userLocation != null) {
-      // console.log('userLocation updated:', userLocation.position.lat);
+      console.log('userLocation updated:', userLocation.position.lat);
       updateDriverLocation(driver_id, userLocation.position);
     }
   }, [userLocation]);
@@ -53,7 +53,7 @@ const Maps = ({ customerData, setTotalRouteDistance, driver_id }) => {
 
     // Fetch user's initial location
     const fetchUserLocation = () => {
-        const watchId = navigator.geolocation.watchPosition(
+        const watchId = navigator.geolocation.getCurrentPosition(
           (position) => {
             const initialUserLocation = {
               position: {
@@ -94,7 +94,7 @@ const Maps = ({ customerData, setTotalRouteDistance, driver_id }) => {
                   } else {
                     console.error(`Directions request failed: ${status}`);
                   }
-                  // simulateDriverMovement(response.routes[0].overview_path);
+                  simulateDriverMovement(response.routes[0].overview_path);
                 }
               );
             }
@@ -119,7 +119,7 @@ const Maps = ({ customerData, setTotalRouteDistance, driver_id }) => {
           };
           setUserLocation(newPosition);
           index++;
-          setTimeout(moveDriver, 5000);
+          setTimeout(moveDriver, 1000);
         }
       };
       moveDriver();
