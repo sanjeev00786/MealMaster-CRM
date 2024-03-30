@@ -39,6 +39,7 @@ const MealPlanListPage = () => {
   const [CheckId, setCheckId] = useState([]);
 
   const [notificationTriggered, setNotificationTriggered] = useState(false);
+  const [deletedPlans, SetDeletedPlans] = useState([]);
 
   const fetchMealPlans = () => {
     setLoading(true);
@@ -149,6 +150,9 @@ const MealPlanListPage = () => {
       setDeleteSelectedMealPlans([...deleteSelectedMealPlans, index]);
       console.log(deleteSelectedMealPlans, "delete");
       console.log(CheckId, "elseffff");
+      SetDeletedPlans(deleteSelectedMealPlans);
+      // console.log(deletedPlans,"----get it ")
+
     }
   };
   console.log(deleteSelectedMealPlans, "selecteddata");
@@ -206,6 +210,10 @@ const MealPlanListPage = () => {
       for (const { plan_id, plan_name } of planIdsToDelete) {
         await deleteMealPlan(plan_id, plan_name);
       }
+      // Check if any plans were successfully deleted
+    if (planIdsToDelete.length > 0) {
+      SetDeletedPlans(deleteSelectedMealPlans);
+    }
       setCheckId([]);
       console.log(CheckId, "after loop");
       console.log(deleteSelectedMealPlans, "before loop");
@@ -354,8 +362,12 @@ const MealPlanListPage = () => {
                 onCardButtonClickEdit={handleCardButtonClickEdit}
                 onCardButtonclickCheckBox={(plan_id) =>
                   handleCardButtonCheckbox(plan_id, index)
+                  
                 }
+                // deleteSelectedMealPlans={deleteSelectedMealPlans}
+                deletedPlans = {deletedPlans}
                 checked={false}
+                   
               />
             ))}
           </div>

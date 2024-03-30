@@ -88,6 +88,7 @@ input, textarea {
     border: 1px solid var(--white-color) !important;
 
     background-color: var(--primary-color) !important;
+    cursor: pointer;
     color:var(--white-color);
     margin-top: 24px;
     margin-bottom: 8px;
@@ -127,7 +128,12 @@ input, textarea {
 .before_form_data{
     background-color:var(--grey1-color) !important;
 }
-
+.disabledSaveBtn{
+    /* background-color: var(); */
+    background-color:var( --grey1-color)  !important;
+    color:var(--grey2-color) !important;
+    cursor:auto;
+}
 
 @media screen and (min-width: 400px) {
 
@@ -182,6 +188,7 @@ h1{
     
     
     }
+    
     .cancelBtn{
         margin-right: 10px;
     }

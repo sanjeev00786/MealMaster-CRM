@@ -122,10 +122,11 @@ const MealSettingPage = () => {
                 />
                 <div className="actions">
                   <CustomButton
-                    className={"submitBtn Btn"}
+                    // className={"submitBtn Btn"}
                     //      className={`delete_plan ${
                     //   CheckId.length === 0 ? "disabled_delete" : ""
                     // }`}
+                    className={`submitBtn Btn ${!isFormValid ? "disabledSaveBtn" : ""}`}
                     onClick={handleSave}
                     disabled={!isFormValid}
                   >
