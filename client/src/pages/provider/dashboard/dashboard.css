@@ -35,6 +35,14 @@ body{
 .marker-cluster span {
   color: white;
 }
+h1{
+  margin-bottom: 0 !important;
+  margin-top: 0 !important;
+}
+.revenueChart,.subscriberGrowth{
+  padding: 1rem;
+
+}
 /* Desktop View */
 @media screen and (min-width: 700px) {
 
