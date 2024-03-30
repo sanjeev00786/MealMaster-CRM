@@ -18,9 +18,9 @@ body{
     align-items: center;
     padding: 20px;
     height: 80vh;
-    background-image: url('../../component-assets/landingPageBG.svg'); /* Update with your image path */
-    background-size: cover; /* Make image cover the div */
-    background-position: center; /* Center the image */
+    background-image: url('../../component-assets/landingPageBG.svg'); 
+    background-size: cover; 
+    background-position: center;
     background-repeat: no-repeat;
 }
 
@@ -58,6 +58,8 @@ body{
     transition: background-color 0.3s ease, color 0.3s ease;
     border-radius: 5px;
     width: 150px;
+    text-decoration: none;
+    text-align: center;
 } 
 
 .explore-feature-button {
@@ -130,21 +132,21 @@ body{
     }
 
     .landing-page-section {
-        padding-right: 0; /* Remove padding on the right for small screens */
+        padding-right: 0; 
     }
 
     .landing-page-buttons {
-        flex-direction: column; /* Stack buttons vertically */
+        flex-direction: column; 
     }
 
     .explore-feature-button,
     .get-started-button {
-        width: 100%; /* Make buttons full-width */
-        margin: 10px 0; /* Add some vertical spacing between buttons */
+        width: 100%; 
+        margin: 10px 0; 
     }
 
     .second-right-content, .third-right-content {
-        text-align: center; /* Center text content */
+        text-align: center; 
     }
 }
 
@@ -156,25 +158,25 @@ body{
     }
 
     .first, .second, .third {
-        display: grid; /* Use grid layout on smaller screens */
-        grid-template-columns: 1fr; /* Set a single column */
-        gap: 20px; /* Add some gap between items */
+        display: grid;
+        grid-template-columns: 1fr; 
+        gap: 20px; 
         padding: 10px;
     }
 
     .landing-page-heading {
-        font-size: 1.5rem; /* Reduce font size for smaller screens */
+        font-size: 1.5rem; 
     }
 
     .landing-page-subheading {
-        font-size: 1em; /* Reduce font size for smaller screens */
+        font-size: 1em; 
     }
 
     .para1, .para {
-        font-size: 0.8em; /* Reduce font size for smaller screens */
+        font-size: 0.8em; 
     }
 
     .scooter-image {
-        display: none; /* Hide the scooter image on smaller screens */
+        display: none; 
     }
 }

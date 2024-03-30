@@ -9,7 +9,7 @@ import { animateScroll as scroll } from 'react-scroll';
 const LandingPageHeader = () => {
 
     const scrollToFeatures = () => {
-         scroll.scrollTo(document.getElementById('features').offsetTop, {
+        scroll.scrollTo(document.getElementById('features').offsetTop, {
             duration: 800,
             delay: 0,
             smooth: 'easeInOutQuart'
@@ -24,8 +24,8 @@ const LandingPageHeader = () => {
             </div>
             <nav className="header__nav">
                 <ul className="header__nav-list">
-                    <li className="header__nav-item"><NavLink to="#" onClick={scrollToFeatures}>Features</NavLink></li>
-                    <li className="header__nav-item"><a href="#pricing">Team</a></li>
+                    <li className="header__nav-item"><Link to="/landing-page">Features</Link></li>
+                    <li className="header__nav-item"><Link to="/team">Team</Link></li>
                 </ul>
             </nav>
             <div className="header__actions">

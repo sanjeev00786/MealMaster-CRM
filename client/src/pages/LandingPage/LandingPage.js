@@ -11,6 +11,8 @@ import DriverPageSS from '../../component-assets/driverPageSS.svg';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { Fade, Slide } from "react-awesome-reveal";
+import { Link } from "react-router-dom";
+import { animateScroll as scroll } from 'react-scroll';
 
 const LandingPage = () => {
     const scooterRef = useRef(null);
@@ -48,6 +50,14 @@ const LandingPage = () => {
         AOS.refresh();
     });
 
+    const scrollToFeatures = () => {
+        scroll.scrollTo(document.getElementById('features').offsetTop, {
+            duration: 800,
+            delay: 0,
+            smooth: 'easeInOutQuart'
+        });
+    };
+
     return (
         <div className="landing-page-container">
             <LandingPageHeader />
@@ -61,8 +71,9 @@ const LandingPage = () => {
                             <p className="para1">Unlock Seamless Management, Efficient Delivery, And Data-Driven Growth with the CRM designed for Tiffin Businesses</p>
                         </Fade>
                         <div className="landing-page-buttons">
-                            <button className="explore-feature-button" data-aos="fade-right">Explore Features</button>
-                            <button className="get-started-button" data-aos="fade-left">Get Started</button>
+                            <button className="explore-feature-button" onClick={scrollToFeatures} data-aos="fade-right">Explore Features</button>
+                            <Link to="/login-page" className="get-started-button" data-aos="fade-left">Get Started</Link>
+                            {/* <button className="get-started-button" data-aos="fade-left">Get Started</button> */}
                         </div>
                     </div>
                 </section>
@@ -117,7 +128,7 @@ const LandingPage = () => {
                         <p className="para">Stay updated with live tracking of your deliveries in real-time.</p>
                     </Fade>
                     <div className="landing-page-buttons">
-                            <button className="get-started-button" data-aos="fade-left">Get Started</button>
+                    <Link to="/driver_login" className="get-started-button" data-aos="fade-left">Get Started</Link>
                         </div>
                 </div>
             </div>
