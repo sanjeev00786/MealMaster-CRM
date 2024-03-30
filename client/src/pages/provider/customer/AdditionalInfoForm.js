@@ -1,10 +1,25 @@
 import React from "react";
-import { Stack, TextField, InputLabel, MenuItem, Select, FormControl, RadioGroup, FormControlLabel, Radio, FormLabel } from "@mui/material";
+import {
+  Stack,
+  TextField,
+  InputLabel,
+  MenuItem,
+  Select,
+  FormControl,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  FormLabel,
+} from "@mui/material";
 import formSchema from "./formschema";
-import "../../CSS/variable.css"
+import "../../CSS/variable.css";
 
-export default function AdditionalInfoForm({ formData, handleChange, mealPlans, isEditMode }) {
-
+export default function AdditionalInfoForm({
+  formData,
+  handleChange,
+  mealPlans,
+  isEditMode,
+}) {
   const validateField = (fieldName) => {
     const fieldSchema = formSchema.additionalInfo[fieldName];
     const fieldValue = formData[fieldName];
@@ -100,6 +115,20 @@ export default function AdditionalInfoForm({ formData, handleChange, mealPlans, 
           helperText={validateField("billing_cycle")}
         />
 
+        <InputLabel htmlFor="payment">Current Payment</InputLabel>
+        <Select
+          className="form"
+          name="payment"
+          value={formData.payment}
+          onChange={handleChange}
+          error={validateField("is_veg") !== ""}
+          helperText={validateField("is_veg")}
+        >
+          <MenuItem value="">None</MenuItem>
+          <MenuItem value="true">Paid</MenuItem>
+          <MenuItem value="false">Unpaid</MenuItem>
+        </Select>
+
         <FormControl className="form" component="fieldset">
           <FormLabel component="legend">Customer's Subscription:</FormLabel>
           <RadioGroup
@@ -112,7 +141,11 @@ export default function AdditionalInfoForm({ formData, handleChange, mealPlans, 
             helperText={validateField("status")}
           >
             <FormControlLabel value="true" control={<Radio />} label="Active" />
-            <FormControlLabel value="false" control={<Radio />} label="Inactive" />
+            <FormControlLabel
+              value="false"
+              control={<Radio />}
+              label="Inactive"
+            />
           </RadioGroup>
         </FormControl>
       </Stack>

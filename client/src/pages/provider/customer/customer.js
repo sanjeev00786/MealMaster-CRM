@@ -161,13 +161,15 @@ export default function CustomerPage() {
 
   const columns = [
     {
-      name: "Customer's Name",
+      name: isSmallScreen ? "Name" : "Customer Name",
       selector: (row) => row.name,
       sortable: true,
+      grow: isSmallScreen ? 1.5 : 1,
     },
     {
       name: "Contact",
       selector: (row) => row.contact,
+      omit: isSmallScreen,
     },
     {
       name: "Plan",
@@ -186,23 +188,22 @@ export default function CustomerPage() {
       omit: isSmallScreen,
     },
     {
-      name: "Last Bill Payment",
+      name: isSmallScreen ? "Payment": "Current Payment",
       selector: (row) => (
-        <Link onClick={() => handlePaymentClick(row.customer_id, !row.payment)}>
-          {row.payment ? (
+        // <Link onClick={() => handlePaymentClick(row.customer_id, !row.payment)}>
+          row.payment ? (
             <>
-              <img src={tickmark} alt="Paid" />
+              <img className="paidSign" src={tickmark} alt="Paid" />
               <span> Paid </span>
             </>
           ) : (
             <>
-              <img src={unpaidSign} alt="Unpaid" />
-              <span> Unpaid </span>
+              <img className="paidSign" src={unpaidSign} alt="Unpaid" />
+              <span className="Unpaid"> Unpaid </span>
             </>
-          )}
-        </Link>
+          )
+        // </Link>
       ),
-      omit: isSmallScreen,
     },
     {
       name: "Actions",
@@ -215,6 +216,7 @@ export default function CustomerPage() {
       ),
     },
   ];
+
 
   // const handleFilterButtonClick = (filter) => {
   //   if (filter) {

@@ -44,6 +44,10 @@ const basicInfoSchema = {
       required: true,
       errorMessage: "Billing Date is required.",
     },
+    payment: {
+      required: true,
+      errorMessage: "Payment Status is required.",
+    },
     status: {
       required: true,
       errorMessage: "Customer's Subscription status is required.",
