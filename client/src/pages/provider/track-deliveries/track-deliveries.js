@@ -38,11 +38,8 @@ export default function TrackDeliveries() {
   }, []);
 
   const handleTrackDriver = (row) => {
-    // Navigate to TrackDriver component with driverID as state
-    const rowDataString = JSON.stringify(row);
-    const encodedRowDataString = encodeURIComponent(rowDataString);
-    console.log('TRACKING START', rowDataString);
-    navigate(`/trackDriver/driverID=${row.driver_id}?rowData=${encodedRowDataString}`);
+     const rowDataString = JSON.stringify(row);
+     return encodeURIComponent(rowDataString);
     };
 
   const columns = [
@@ -70,7 +67,8 @@ export default function TrackDeliveries() {
             {row.driver_status ? (
               <Link
               className="trackDriverBtn"
-              onClick={() => handleTrackDriver(row)}
+              // onClick={() => handleTrackDriver(row)}
+              to={`/trackDriver/driverID=${row.driver_id}?rowData=${handleTrackDriver(row)}`}
             >
                 Track Driver
                 </Link>
