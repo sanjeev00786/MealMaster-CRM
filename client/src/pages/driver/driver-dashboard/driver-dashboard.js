@@ -4,7 +4,6 @@ import Maps from "../../../components/Maps/Maps";
 import "../../CSS/variable.css"
 import "../../driver/driver-dashboard/driver-dashboard.css";
 import { useNavigate } from "react-router-dom";
-import supabase from "../../../supabase";
 import cameraIcon from "../../../component-assets/completedDeliveryPhoto.svg";
 import CustomCamera from "../../../components/CustomCamera/CustomCamera";
 import Loader from "../../../components/Loader/Loader";
@@ -12,7 +11,7 @@ import CustomizedSnackbar from "../../../components/Notification/Notification";
 import useCloudinaryUpload from "../../../util/FileUpload/FileUpload";
 import apiHelper from "../../../util/ApiHelper/ApiHelper";
 import { ENDPOINTS } from "../../../apiConfig.js";
-import { driver_id } from "../../../util/localStorage.js";
+// import { driver_id } from "../../../util/localStorage.js";
 import NoDeliveries from "../../../component-assets/NoDeliveries.svg";
 import WithoutRouteMaps from "../../../components/Maps/WithoutRouteMap.js";
 import { Link } from "react-router-dom";
@@ -20,6 +19,7 @@ import deliveryLocationIcon from "../../../component-assets/makerlocation.svg";
 import DriverModalDelivery from "../../../components/DriverModal/driverModal.js";
 import DriverMenu from "../../../components/DriverMenu/DriverMenu.jsx";
 import DriverMenuIcon from '../../../component-assets/menu-icon.svg'
+import { getDriverIdFromLocalStorage } from "../../../util/localStorage.js";
 
 const DriverDashboard = () => {
   const navigate = useNavigate();
@@ -37,6 +37,7 @@ const DriverDashboard = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDriverModal, setIsDriverModal] = useState(false);
+  const [driver_id, setDriverId] = useState(null);
 
   /***************************************************** */
 
@@ -275,12 +276,14 @@ const DriverDashboard = () => {
   }
 
   useEffect(() => {
+    const id = getDriverIdFromLocalStorage();
     const myBooleanValue = localStorage.getItem("isLoaderShow") === "true";
     if (myBooleanValue === true) {
       setNotification("Success!", "Logged In Successfully!");
-      localStorage.setItem("isLoaderShow", "false");
+      localStorage.setItem("isLoaderShow", "false");  
     }
-    getAssignedTiffin(driver_id);
+    setDriverId(id);
+    getAssignedTiffin(id);
   }, []);
 
   const setNotification = (message, message1) => {

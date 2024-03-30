@@ -27,6 +27,7 @@ const Maps = ({ customerData, setTotalRouteDistance, driver_id }) => {
     defaultZoom: 15,
   };
 
+  // Mark:- Update Driver Channel
   const updateDriverLocation = async (driverId, newLocation) => {
     const { data, error } = await supabase
       .from('driver_location')
@@ -41,7 +42,7 @@ const Maps = ({ customerData, setTotalRouteDistance, driver_id }) => {
 
   useEffect(() => {
     if (userLocation != null) {
-      // console.log('userLocation updated:', userLocation.position.lat);
+      console.log('userLocation updated:', userLocation.position.lat);
       updateDriverLocation(driver_id, userLocation.position);
     }
   }, [userLocation]);
@@ -52,8 +53,9 @@ const Maps = ({ customerData, setTotalRouteDistance, driver_id }) => {
     const directionsService = new window.google.maps.DirectionsService();
 
     // Fetch user's initial location
-    const fetchUserLocation = () => {
-        const watchId = navigator.geolocation.watchPosition(
+    const fetchUserLocation = (index) => {
+      
+        const watchId = navigator.geolocation.getCurrentPosition(
           (position) => {
             const initialUserLocation = {
               position: {
@@ -70,33 +72,34 @@ const Maps = ({ customerData, setTotalRouteDistance, driver_id }) => {
               return updatedUserLocation;
             });
 
-            const waypoints = [initialUserLocation, ...customerData.slice(0, -1)].map((data) => ({
-              location: data.position,
-            }));
-
-            if (customerData.length !== 0) {
-              const origin = waypoints[0].location;
-              const destination = customerData[customerData.length - 1].position;
-
-              directionsService.route(
-                {
-                  origin,
-                  destination,
-                  waypoints,
-                  travelMode: window.google.maps.TravelMode.WALKING,
-                },
-                (response, status) => {
-                  if (status === 'OK') {
-                    onDirectionsLoad(response);
-                    const route = response.routes[0];
-                    const totalDistance = route.legs.reduce((acc, leg) => acc + leg.distance.value, 0);
-                    setTotalRouteDistance(totalDistance / 1000);
-                  } else {
-                    console.error(`Directions request failed: ${status}`);
+            if (index === 0) {
+              const waypoints = [initialUserLocation, ...customerData.slice(0, -1)].map((data) => ({
+                location: data.position,
+              }));
+  
+              if (customerData.length !== 0) {
+                const origin = waypoints[0].location;
+                const destination = customerData[customerData.length - 1].position;
+  
+                directionsService.route(
+                  {
+                    origin,
+                    destination,
+                    waypoints,
+                    travelMode: window.google.maps.TravelMode.WALKING,
+                  },
+                  (response, status) => {
+                    if (status === 'OK') {
+                      onDirectionsLoad(response);
+                      const route = response.routes[0];
+                      const totalDistance = route.legs.reduce((acc, leg) => acc + leg.distance.value, 0);
+                      setTotalRouteDistance(totalDistance / 1000);
+                    } else {
+                      console.error(`Directions request failed: ${status}`);
+                    }
                   }
-                  // simulateDriverMovement(response.routes[0].overview_path);
-                }
-              );
+                );
+              }
             }
 
           },
@@ -107,25 +110,14 @@ const Maps = ({ customerData, setTotalRouteDistance, driver_id }) => {
 
     };
 
-    const simulateDriverMovement = (path) => {
-      let index = 0;
-      const moveDriver = () => {
-        if (index < path.length) {
-          const newPosition = {
-            position: {
-              lat: path[index].lat(),
-              lng: path[index].lng(),
-            },
-          };
-          setUserLocation(newPosition);
-          index++;
-          setTimeout(moveDriver, 5000);
-        }
-      };
-      moveDriver();
-    };
+    fetchUserLocation(0);
+    // const intervalId = setInterval(() => {
+    //   fetchUserLocation(1); 
+    // }, 2000);
 
-    fetchUserLocation();
+    // return () => {
+    //   clearInterval(intervalId);
+    // };
   }, [customerData, map]);
 
 

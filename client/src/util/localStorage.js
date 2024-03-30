@@ -24,12 +24,15 @@ if (provider) {
 
 export { provider_id };
 
-let driver_id = localStorage.getItem('driver_id');
-console.log('****', driver_id);
-export { driver_id };
+export const driver_id = localStorage.getItem('driver_id');
+
+const getDriverIdFromLocalStorage = () => {
+    return localStorage.getItem('driver_id');
+  };
+  
+  export { getDriverIdFromLocalStorage };
 
 let addedMealName = localStorage.getItem('Plan_name');
-console.log("from localstaorbdgdbdgdjd2@@@@@@@@@@@@",addedMealName)
 export { addedMealName };
 let updatedMealPlanName = localStorage.getItem('updatedPlan_name');
 console.log("from localstaorbdgdbdgdjd2@@@@@@@@@@@@",updatedMealPlanName)

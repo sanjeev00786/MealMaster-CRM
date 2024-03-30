@@ -43,7 +43,7 @@ export default function TrackDeliveries() {
     const encodedRowDataString = encodeURIComponent(rowDataString);
     console.log('TRACKING START', rowDataString);
     navigate(`/trackDriver/driverID=${row.driver_id}?rowData=${encodedRowDataString}`);
-  };
+    };
 
   const columns = [
     {

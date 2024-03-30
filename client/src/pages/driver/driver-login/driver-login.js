@@ -10,6 +10,7 @@ import Loader from "../../../components/Loader/Loader";
 import CustomizedSnackbar from "../../../components/Notification/Notification";
 import { useState } from "react";
 import logo from "../../../component-assets/driver-login-logo.svg";
+import { driver_id } from "../../../util/localStorage.js";
 
 const DriverLogin = () => {
   const navigate = useNavigate();
@@ -51,6 +52,7 @@ const DriverLogin = () => {
         localStorage.setItem("isLoggedIn", "true");
         localStorage.setItem("isLoaderShow", "true");
         localStorage.setItem("driver_id", driverId);
+        console.log(driver_id)
         navigate("/driver_dashboard");
       }
     } catch (error) {

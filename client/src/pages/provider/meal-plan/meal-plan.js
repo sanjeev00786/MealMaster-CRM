@@ -12,6 +12,7 @@ import { ENDPOINTS } from "../../../apiConfig.js";
 import apiHelper from "../../../util/ApiHelper/ApiHelper.js";
 import { provider_id } from "../../../util/localStorage.js";
 import SideBarMenu from "../../../components/NewSideMenu/NewSideMenu";
+import { addedMealName } from "../../../util/localStorage.js";
 
 const MealSettingPage = () => {
   const [mealName, setMealName] = useState("");
@@ -49,17 +50,17 @@ const MealSettingPage = () => {
       .post(`${ENDPOINTS.ADD_PLAN}`, mealData)
       .then((response) => {
         console.log("Meal data saved successfully:", response.data);
-        const addedMealName = response.data.plan_name
-        console.log('*****', addedMealName)
+        const addMealName = response.data.plan_name
       //************************************************** */
-        sessionStorage.setItem("Plan_name", addedMealName);
+        sessionStorage.setItem("Plan_name", addMealName);
         localStorage.setItem("isLoggedIn", "true");
         localStorage.setItem("isLoaderShow", "true");
-        localStorage.setItem("Plan_name", addedMealName);
+        localStorage.setItem("Plan_name", addMealName);
       //************************************************** */
-
-
+      setTimeout(() => {
+        console.log('*****', addedMealName)
         navigate("/meal-plan-list");
+      }, 500);
       })
       .catch((error) => {
         console.error("Error saving meal data:", error);
