@@ -94,7 +94,7 @@ const Maps = ({ customerData, setTotalRouteDistance, driver_id }) => {
                   } else {
                     console.error(`Directions request failed: ${status}`);
                   }
-                  simulateDriverMovement(response.routes[0].overview_path);
+                  // simulateDriverMovement(response.routes[0].overview_path);
                 }
               );
             }
