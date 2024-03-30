@@ -1,8 +1,6 @@
 import React from "react";
 import { Grid } from "@mui/material";
 import AnalyticsCard from './analytics-card'; // Import the AnalyticsCard component
-import "../../CSS/variable.css"
-import { Card, CardContent, Grid, Typography } from "@mui/material";
 
 const AnalyticsHeader = () => {
   return (
@@ -11,7 +9,7 @@ const AnalyticsHeader = () => {
       <Grid item xs={12} sm={3}>
         <AnalyticsCard
           title="Revenue"
-          value="$10,000"
+          value="$12840"
           percentage="5"
           isRising={true}
         />
@@ -21,7 +19,7 @@ const AnalyticsHeader = () => {
       <Grid item xs={12} sm={3}>
         <AnalyticsCard
           title="Total Subscriptions"
-          value="500"
+          value="523"
           percentage="2"
           isRising={true}
         />
@@ -31,7 +29,7 @@ const AnalyticsHeader = () => {
       <Grid item xs={12} sm={3}>
         <AnalyticsCard
           title="New Subscriptions"
-          value="50"
+          value="54"
           percentage="10"
           isRising={true}
         />
@@ -41,7 +39,7 @@ const AnalyticsHeader = () => {
       <Grid item xs={12} sm={3}>
         <AnalyticsCard
           title="Drivers"
-          value="10"
+          value="6"
           percentage="8"
           isRising={false}
         />

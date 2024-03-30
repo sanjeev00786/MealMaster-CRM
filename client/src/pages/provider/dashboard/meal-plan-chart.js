@@ -9,10 +9,6 @@ const secondaryColor = '#24024F';
 const tertiaryColor = '#E8CFFC';
 const textColor = '#17181A';
 const graphTextColor = 'white'
-import { PieChart } from '@mui/x-charts/PieChart';
-import supabase from '../../../supabase'; 
-import { provider_id } from "../../../util/localStorage.js"; 
-import "../../CSS/variable.css"
 
 const chartSetting = {
   width: 500,
@@ -111,31 +107,6 @@ export default function MealPlanPieChart() {
           ]}
         />
       </div>
-
-      <h2>Preferred Plans</h2>
-      <PieChart
-        margin={{ top: 10, bottom: 80, left: 10, right: 10 }}
-        colors={['#8C7AE1', '#411B72', '#691C78', '#1C1C1C', '#083223', '#771F1F']}
-        series={[
-          {
-            data: dataset,
-            innerRadius: 60,
-            paddingAngle: 2,
-            cornerRadius: 5,
-            startAngle: -90,
-            endAngle: 360,
-          },
-        ]}
-        width={chartSetting.width}
-        height={chartSetting.height}
-        slotProps={{
-          legend: {
-            direction: 'row',
-            position: { vertical: 'bottom', horizontal: 'middle' },
-            padding: 0,
-          },
-        }}
-      />
     </div>
   );
 }

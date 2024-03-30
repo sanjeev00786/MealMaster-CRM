@@ -18,14 +18,6 @@ import CustomerMap from './customer-cluster-map'; // Adjust the path as per your
 
 const Dashboard = () => {
   return (
-    <div className="dashboardPage">
-      {/* Sidebar */}
-      <div className="mobileSideBarMenu">
-        <AnchorTemporaryDrawer />
-      </div>
-      <div className="sideBarMenu">
-        <SideBarMenu currentPage="/dashboard" />
-      </div>
 
       <div className="dashboard-page-container">
         {/* Content */}
@@ -39,9 +31,8 @@ const Dashboard = () => {
           <SideBarMenu currentPage="/dashboard" />
         </div>
       
-        <div className="dashboard-page-container">
+        <div></div>
         {/* Content */}
-        <Grid className="graph-container" item xs={12} md={9} style={{ overflowY: "auto", maxHeight: "calc(100vh)" }}>
           <h2>Dashboard</h2>
           <AnalyticsHeader />
           <Grid container spacing={2}>
@@ -82,8 +73,6 @@ const Dashboard = () => {
           </Grid>
         </Grid>
       </div>
-    </div>
-
   );
 };
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardContent, Typography } from '@mui/material';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowTrendUp, faArrowTrendDown } from '@fortawesome/free-solid-svg-icons'; // Import the Font Awesome icons
 
 const AnalyticsCard = ({ title, value, percentage, isRising }) => {
@@ -28,5 +28,5 @@ const AnalyticsCard = ({ title, value, percentage, isRising }) => {
   );
 };
 
-export default AnalyticsCard;
+export default AnalyticsCard;;
 
