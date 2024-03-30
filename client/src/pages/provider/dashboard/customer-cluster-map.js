@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-cluster';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import supabase from '../../../supabase'; // Import the Supabase client
+import { provider_id } from "../../../util/localStorage"; // Import provider_id from localStorage
 
 // Custom icon with red color
-const redIcon = new L.Icon({
+const purpleIcon = new L.Icon({
   iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
   iconSize: [25, 41],
   iconAnchor: [12, 41],
@@ -17,21 +19,45 @@ const redIcon = new L.Icon({
 });
 
 const CustomerMap = () => {
-  // Hardcoded sample address data
-  const addressPoints = [
-    [49.1510326, -122.8835703, 'Address 1'],
-    [49.1460368, -122.9148049, 'Address 2'],
-    [49.2158787, -123.1375797, 'Address 3'],
-    // Add more addresses as needed
-  ];
+  const [addressPoints, setAddressPoints] = useState([]);
+
+  useEffect(() => {
+    const fetchCustomerData = async () => {
+      try {
+        // Make query to fetch customer data for the specified provider_id
+        const { data: customers, error } = await supabase
+          .from('customers')
+          .select('latitude, longitude')
+          .eq('provider_id', provider_id);
+
+        if (error) {
+          throw error;
+        }
+
+        // Transform customer data to addressPoints format
+        const newAddressPoints = customers
+          .filter(customer => customer.latitude !== null && customer.longitude !== null)
+          .map(customer => [
+            customer.latitude,
+            customer.longitude,
+            `Customer`
+          ]);
+
+        setAddressPoints(newAddressPoints);
+      } catch (error) {
+        console.error('Error fetching customer data:', error.message);
+      }
+    };
+
+    fetchCustomerData();
+  }, []);
 
   return (
     <MapContainer
       style={{ height: '400px', width:'100%' }}
-      // center={[38.9637, 35.2433]}
       center={[49.2133447, -122.9971976]}
       zoom={10}
-      maxZoom={18} // Set the maximum zoom level
+      maxZoom={10} // Set the maximum zoom level
       scrollWheelZoom={true}
     >
       <MarkerClusterGroup chunkedLoading>
@@ -43,7 +69,7 @@ const CustomerMap = () => {
           <Marker
             key={index}
             position={[address[0], address[1]]}
-            icon={redIcon} // Use the custom red icon
+            icon={purpleIcon} // Use the custom red icon
           />
         ))}
       </MarkerClusterGroup>
@@ -52,4 +78,5 @@ const CustomerMap = () => {
 };
 
 export default CustomerMap;
+
 
