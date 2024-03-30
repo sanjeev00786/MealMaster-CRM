@@ -26,7 +26,7 @@ body{
 
 .landing-page-section {
     flex: 1;
-    padding-right: 150px; 
+    padding:15px; 
 }
 
 .landing-page-heading {
@@ -85,7 +85,7 @@ body{
 }
 
 .landing-page-image {
-    max-width: 100%;
+    max-width: 90%;
     height: auto;
 } 
 

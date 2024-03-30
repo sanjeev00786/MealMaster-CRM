@@ -6,7 +6,7 @@ body{
 }
 .MuiBarElement-root  {
     fill: var( --primary-color) !important;
-    width: 15px !important;
+    width: 10px !important;
 }
 
 .css-1la267r-MuiAreaElement-root,.css-nzpq4g-MuiHighlightElement-root 
