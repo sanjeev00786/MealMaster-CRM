@@ -166,7 +166,7 @@ const ViewCustomerDetailsModal = ({ customerId, onDelete, onClose }) => {
         </div>
         {customerDetails ? (
           <>
-            <div className="driver-details">
+            <div className="customer-details">
               <div className="detail-row">
                 <Typography className="detail-label">Name:</Typography>
                 <Typography className="detail-data">

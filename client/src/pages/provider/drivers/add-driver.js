@@ -113,7 +113,7 @@ export default function DriverPage() {
         </div>
         <div className="search-addButtton-container">
           <div className="search-container">
-            <input type="text" placeholder="Search" onChange={handleFilter} />
+            <input type="text" placeholder="Search by Name" onChange={handleFilter} />
           </div>
           <Link to="/add-driver" className="add-driver-button-container">
             <Button variant="contained" style={{ textTransform: "none" }}>
