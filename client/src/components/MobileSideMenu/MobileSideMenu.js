@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
@@ -12,12 +13,22 @@ import { useLocation, useNavigate } from "react-router-dom";
 import "../../pages/CSS/variable.css"
 import "./MobileSideMenu.css";
 import LogoutIcon from '@mui/icons-material/Logout';
+import TransitionsModal from "../ConfirmationModal/ConfirmationModal";
 
 export default function AnchorTemporaryDrawer() {
   const [open, setOpen] = React.useState(false);
   const [selectedItem, setSelectedItem] = React.useState(null);
+  const [isModalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+
+  const handleLogoutClick = () => {
+    setModalOpen(true);
+  }
+
+  const handleClose = () => {
+    setModalOpen(false); 
+  };
 
   const handleLogout = () => {
     sessionStorage.clear();
@@ -84,7 +95,8 @@ export default function AnchorTemporaryDrawer() {
         navigate("/meal-plan-list");
         break;
       case "Logout":
-        handleLogout();
+        handleLogoutClick();
+        setSelectedItem(null);
         break;
       default:
         break;
@@ -139,6 +151,14 @@ export default function AnchorTemporaryDrawer() {
       >
         <MenuIcon />
       </IconButton>
+      <TransitionsModal
+            modalTitle="Logout"
+            modalDescription="Are you sure you want to Logout?"
+            onCancel={handleClose}
+            onConfirm={handleLogout}
+            isOpen={isModalOpen}
+            setModalOpen={setModalOpen}
+          />
     </div>
   );
 }

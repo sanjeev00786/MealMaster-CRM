@@ -1,8 +1,5 @@
 @media only screen and (max-width: 768px) {
-  body {
-    overflow: hidden;
-  }
-
+  
   .trackDriverBtn {
     color: rgba(111, 89, 218, 1) !important;
   }

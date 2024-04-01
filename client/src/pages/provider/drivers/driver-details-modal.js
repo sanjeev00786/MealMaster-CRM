@@ -69,6 +69,10 @@ const ViewDriverDetailsModal = ({ login_token, onClose }) => {
     }
   };
 
+  const handleClickEdit = () => {
+    navigate(`/edit-driver/${login_token.login_token}`)
+  }
+
   return (
     <Modal
       open={!!login_token && !!login_token.login_token}
@@ -168,10 +172,11 @@ const ViewDriverDetailsModal = ({ login_token, onClose }) => {
           <Link
             className="edit-link"
             component={Link}
-            to={`/edit-driver/${login_token.login_token}`}
+            onClick={handleClickEdit}
             color="inherit" style={{ cursor: 'pointer' }}
           >
-            Edit Driver
+          Edit Driver
+           
           </Link>
         </div>
         <TransitionsModal
