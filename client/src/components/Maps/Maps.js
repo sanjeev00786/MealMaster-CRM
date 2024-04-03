@@ -33,7 +33,6 @@ const Maps = ({ customerData, setTotalRouteDistance, driver_id }) => {
       .from('driver_location')
       .upsert({ driver_id: driverId, lat: newLocation.lat, lng: newLocation.lng, driver_name: "" })
       .eq('driver_id', driverId);
-    // console.log(data)
     if (error) {
       console.error('Error updating driver location:', error.message);
     }
@@ -113,7 +112,7 @@ const Maps = ({ customerData, setTotalRouteDistance, driver_id }) => {
     fetchUserLocation(0);
     const intervalId = setInterval(() => {
       fetchUserLocation(1); 
-    }, 300);
+    }, 100);
 
     return () => {
       clearInterval(intervalId);
