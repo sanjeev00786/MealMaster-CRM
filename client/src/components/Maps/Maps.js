@@ -55,7 +55,7 @@ const Maps = ({ customerData, setTotalRouteDistance, driver_id }) => {
     // Fetch user's initial location
     const fetchUserLocation = (index) => {
       
-        const watchId = navigator.geolocation.getCurrentPosition(
+        navigator.geolocation.getCurrentPosition(
           (position) => {
             const initialUserLocation = {
               position: {
@@ -113,7 +113,7 @@ const Maps = ({ customerData, setTotalRouteDistance, driver_id }) => {
     fetchUserLocation(0);
     const intervalId = setInterval(() => {
       fetchUserLocation(1); 
-    }, 1000);
+    }, 300);
 
     return () => {
       clearInterval(intervalId);
