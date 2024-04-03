@@ -15,7 +15,6 @@
   align-items: center;
   position: relative; /* Add position relative */
   border-radius: 8px;
-  overflow: hidden; /* Add overflow hidden */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   background-color: #f9f8ff;
   transition: transform 0.3s ease;
