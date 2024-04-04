@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ResponsivePie } from '@nivo/pie';
 import supabase from '../../../supabase'; 
 import { provider_id } from "../../../util/localStorage.js"; 
+import { getProviderIdFromLocalStorage } from "../../../util/localStorage";
 
 // Define color constants
 const primaryColor = '#6F59DA';
@@ -22,11 +23,13 @@ export default function MealPlanPieChart() {
   useEffect(() => {
     async function fetchPlanData() {
       console.log("Fetching meal plan data...");
+      const id = getProviderIdFromLocalStorage();
+
       try {
         const { data, error } = await supabase
           .from('meal_plan_analytics')
           .select('plan_name, customers_count_per_plan')
-          .eq('provider_id', provider_id) // Use provider_id from localStorage
+          .eq('provider_id', id) // Use provider_id from localStorage
           .order('created_at', { ascending: false })
 
         if (error) {

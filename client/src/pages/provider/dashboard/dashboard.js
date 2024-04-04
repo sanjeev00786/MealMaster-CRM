@@ -14,7 +14,7 @@ import AnalyticsHeader from "./analytics-header"
 import AnchorTemporaryDrawer from "../../../components/MobileSideMenu/MobileSideMenu";
 
 // Import CustomerMap component
-import CustomerMap from "./customer-cluster-map"; // Adjust the path as per your file structure
+import CustomerMap from "./customer-cluster-map"; 
 
 const Dashboard = () => {
   return (

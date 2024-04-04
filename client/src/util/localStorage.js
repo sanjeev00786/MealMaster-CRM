@@ -24,6 +24,25 @@ if (provider) {
 
 export { provider_id };
 
+const getProviderIdFromLocalStorage = () => {
+    let provider_id = '';
+    const provider = localStorage.getItem("sb-cvnlpinekwolqaratkmc-auth-token");
+    if (provider) {
+        const userData = JSON.parse(provider);
+        if (userData && userData.user && userData.user.id) {
+            provider_id = userData.user.id;
+            console.log("Provider ID: " + provider_id);
+        } else {
+            console.log("Provider ID not found in the user data");
+        }
+    } else {
+        console.log("JSON data not found in local storage");
+    }
+    return provider_id;
+};
+
+export { getProviderIdFromLocalStorage };
+
 export const driver_id = localStorage.getItem('driver_id');
 
 const getDriverIdFromLocalStorage = () => {

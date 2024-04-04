@@ -4,8 +4,8 @@ import { BarChart, axisClasses } from "@mui/x-charts";
 import { provider_id } from "../../../util/localStorage";
 import { Select, MenuItem } from "@mui/material";
 import "../../CSS/variable.css"
-
 import './graph.css'
+import { getProviderIdFromLocalStorage } from "../../../util/localStorage";
 
 const chartSetting = {
   width: 500,
@@ -28,18 +28,19 @@ const sortMonths = (a, b) => {
 
 export default function BarChartWithDropdown() {
   const [year, setYear] = useState(2023); // Default year
-  const [revenueData, setRevenueData] = useState(null);
+  const [revenueData, setRevenueData] = useState([]);
 
   useEffect(() => {
     async function fetchRevenueData() {
       try {
-        console.log(`Fetching revenue data for ${year}...`);
+        const id = getProviderIdFromLocalStorage()
+        console.log(`Fetching revenue data for ${id}&&&`);
 
         let { data, error } = await supabase
           .from("provider_analytics")
           .select("calculation_month, total_revenue")
           .eq("calculation_year", year)
-          .eq("provider_id", provider_id)
+          .eq("provider_id", id)
           .order("calculation_month");
 
         console.log("Data fetched:", data);
@@ -59,10 +60,10 @@ export default function BarChartWithDropdown() {
 
   console.log("Current state of revenueData:", revenueData);
 
-  if (revenueData === null) {
-    console.log("Revenue data is null, rendering loading...");
-    return <div>Loading...</div>;
-  }
+  // if (revenueData.length === 0) {
+  //   console.log("Revenue data is empty, rendering loading...");
+  //   return <div>Loading...</div>;
+  // }
 
   console.log("Rendering BarChart with revenue data:", revenueData);
 
@@ -111,6 +112,7 @@ export default function BarChartWithDropdown() {
         <MenuItem value={2023}>2023</MenuItem>
         <MenuItem value={2024}>2024</MenuItem>
       </Select>
+      {revenueData ? ( // Check if revenueData has a value
       <BarChart
         dataset={filledData}
         xAxis={[{ scaleType: "band", dataKey: "calculation_month" }]}
@@ -118,6 +120,9 @@ export default function BarChartWithDropdown() {
         layout="vertical"
         {...chartSetting}
       />
+    ) : (
+      <div>Loading...</div> // Show loading if revenueData is null
+    )}
     </div>
   );
 }
