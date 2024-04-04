@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Header from "../../../components/header/header";
 import Maps from "../../../components/Maps/Maps";
 import "../../CSS/variable.css"
 import "../../driver/driver-dashboard/driver-dashboard.css";

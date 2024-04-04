@@ -43,6 +43,11 @@ body{
   padding: 1rem;
   margin-top: 1rem;
 }
+
+.map-container {
+ margin: 0px;
+}
+
 /* Desktop View */
 @media screen and (min-width: 700px) {
 
