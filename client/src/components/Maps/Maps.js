@@ -6,10 +6,11 @@ import "../../pages/CSS/variable.css"
 
 import supabase from '../../supabase';
 
-const Maps = ({ customerData, setTotalRouteDistance, driver_id }) => {
+const Maps = ({ customerData, setTotalRouteDistance, driver_id, isNavigationStarted, toggleNavigation }) => {
   const [map, setMap] = useState(null);
   const [directions, setDirections] = useState(null);
   const [userLocation, setUserLocation] = useState(null);
+  const [path, setpath] = useState(null);
 
   const onLoad = (map) => {
     setMap(map);
@@ -33,6 +34,7 @@ const Maps = ({ customerData, setTotalRouteDistance, driver_id }) => {
       .from('driver_location')
       .upsert({ driver_id: driverId, lat: newLocation.lat, lng: newLocation.lng, driver_name: "" })
       .eq('driver_id', driverId);
+    // console.log(data)
     if (error) {
       console.error('Error updating driver location:', error.message);
     }
@@ -46,6 +48,24 @@ const Maps = ({ customerData, setTotalRouteDistance, driver_id }) => {
     }
   }, [userLocation]);
 
+  const simulateDriverMovement = (path) => {
+    let index = 0;
+    const moveDriver = () => {
+      if (index < path.length) {
+        const newPosition = {
+          position: {
+            lat: path[index].lat(),
+            lng: path[index].lng(),
+          },
+        };
+        setUserLocation(newPosition);
+        index++;
+        setTimeout(moveDriver, 1000);
+      }
+    };
+    moveDriver();
+  };
+
   useEffect(() => {
     if (!map) return;
 
@@ -54,7 +74,7 @@ const Maps = ({ customerData, setTotalRouteDistance, driver_id }) => {
     // Fetch user's initial location
     const fetchUserLocation = (index) => {
       
-        navigator.geolocation.getCurrentPosition(
+        const watchId = navigator.geolocation.getCurrentPosition(
           (position) => {
             const initialUserLocation = {
               position: {
@@ -85,7 +105,7 @@ const Maps = ({ customerData, setTotalRouteDistance, driver_id }) => {
                     origin,
                     destination,
                     waypoints,
-                    travelMode: window.google.maps.TravelMode.WALKING,
+                    travelMode: window.google.maps.TravelMode.DRIVING,
                   },
                   (response, status) => {
                     if (status === 'OK') {
@@ -93,6 +113,7 @@ const Maps = ({ customerData, setTotalRouteDistance, driver_id }) => {
                       const route = response.routes[0];
                       const totalDistance = route.legs.reduce((acc, leg) => acc + leg.distance.value, 0);
                       setTotalRouteDistance(totalDistance / 1000);
+                      setpath(response.routes[0].overview_path);
                     } else {
                       console.error(`Directions request failed: ${status}`);
                     }
@@ -110,15 +131,13 @@ const Maps = ({ customerData, setTotalRouteDistance, driver_id }) => {
     };
 
     fetchUserLocation(0);
-    const intervalId = setInterval(() => {
-      fetchUserLocation(1); 
-    }, 100);
-
-    return () => {
-      clearInterval(intervalId);
-    };
   }, [customerData, map]);
 
+  useEffect(() => {
+    if (isNavigationStarted) {
+      simulateDriverMovement(path); 
+    }
+  }, [isNavigationStarted]);
 
   return (
       <GoogleMap

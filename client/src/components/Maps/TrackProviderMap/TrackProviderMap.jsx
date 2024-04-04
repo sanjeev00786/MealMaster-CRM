@@ -102,7 +102,7 @@ const TrackProviderMap = ({ customerData, driver_id }) => {
             origin,
             destination,
             waypoints,
-            travelMode: window.google.maps.TravelMode.WALKING,
+            travelMode: window.google.maps.TravelMode.DRIVING,
           },
           (response, status) => {
             if (status === 'OK') {

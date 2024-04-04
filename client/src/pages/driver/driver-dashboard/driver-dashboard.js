@@ -82,16 +82,15 @@ const DriverDashboard = () => {
       console.error("No image to upload.");
       return;
     }
-    await cloudinaryFilePath.uploadToCloudinary(imagePreview);
-    const filePath = cloudinaryFilePath.filePath;
-    console.log("Complete method", filePath);
-    if (filePath) {
-      updateDeliveryImage(filePath);
-
-    } else {
-      setLoading(false);
-      // setNotification("Alert!", "Something went wrong, please try again.");
-    }
+    cloudinaryFilePath.uploadToCloudinary(imagePreview, (filePath) => {
+      if (filePath) {
+        console.log("Complete method", filePath);
+        updateDeliveryImage(filePath);
+      } else {
+        setLoading(false);
+        setNotification("Alert!", "Something went wrong, please try again.");
+      }
+    });
   };
 
   // Call Update Driver Api
@@ -309,7 +308,6 @@ const DriverDashboard = () => {
         </button>
       </div>
 
-
       {/* talk with designer about below line */}
 
       <div className="driver-maps">
@@ -319,6 +317,7 @@ const DriverDashboard = () => {
             setTotalRouteDistance={setTotalRouteDistance}
             driver_id={driver_id}
             isNavigationStarted={isNavigationStarted}
+            toggleNavigation={toggleNavigation}
           />
         ) : (
           <WithoutRouteMaps />
