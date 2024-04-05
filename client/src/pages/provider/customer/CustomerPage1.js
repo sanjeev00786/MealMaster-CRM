@@ -122,6 +122,11 @@ export default function CustomerForm({ customerData }) {
         : await apiHelper.post(serverApiEndpoint, finalDatatoSendToDB);
 
       console.log(response.message);
+      if (!isEditMode) {
+        localStorage.setItem('is_customer_added', 'true');
+      } else {
+        localStorage.setItem('is_customer_update', 'true');
+      }
       setLoading(true)
       navigate("/customerList/1");
       setLoading(false)
