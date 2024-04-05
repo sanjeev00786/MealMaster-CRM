@@ -22,8 +22,11 @@ import "./customerPage.css";
 import SideBarMenu from "../../../components/NewSideMenu/NewSideMenu";
 import { ENDPOINTS } from "../../../apiConfig.js";
 import apiHelper from "../../../util/ApiHelper/ApiHelper";
-import { provider_id } from "../../../util/localStorage.js";
+import { getProviderIdFromLocalStorage } from "../../../util/localStorage.js";
 import { Link } from "react-router-dom";
+
+const provider_id =  getProviderIdFromLocalStorage();
+
 
 const mealPlanUrl = `${ENDPOINTS.GET_MEAL_PLAN}provider_id=${provider_id}`;
 
