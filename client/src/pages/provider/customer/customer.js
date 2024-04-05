@@ -22,10 +22,8 @@ import "./customerPage.css";
 import SideBarMenu from "../../../components/NewSideMenu/NewSideMenu";
 import { ENDPOINTS } from "../../../apiConfig.js";
 import apiHelper from "../../../util/ApiHelper/ApiHelper";
-import { provider_id } from "../../../util/localStorage.js";
+import { getProviderIdFromLocalStorage } from "../../../util/localStorage.js";
 import { Link } from "react-router-dom";
-
-const mealPlanUrl = `${ENDPOINTS.GET_MEAL_PLAN}provider_id=${provider_id}`;
 
 export default function CustomerPage() {
   const { page } = useParams();
@@ -43,6 +41,8 @@ export default function CustomerPage() {
   const [statusResult, setStatusResult] = useState("");
   const [totalPages, setTotalPages] = useState(1);
   const navigate = useNavigate();
+  const provider_id =  getProviderIdFromLocalStorage();
+  const mealPlanUrl = `${ENDPOINTS.GET_MEAL_PLAN}provider_id=${provider_id}`;
 
   const fetchData = async (pageNum, filter) => {
     setLoading(true);
