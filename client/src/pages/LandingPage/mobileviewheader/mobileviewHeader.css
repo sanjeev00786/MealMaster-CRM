@@ -1,0 +1,24 @@
+body{
+    font-family:var(--main-font) ;
+  }
+  .listContainer {
+    width: 100% !important; 
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding-bottom: 18px !important;
+  }
+  
+  .unselected, .selected {
+    text-align: center !important; 
+    align-items: center !important; 
+    margin: 0 5px !important; 
+    margin-bottom: 10px !important;
+  }
+  
+  .selected {
+    background-color: var(--white-color) !important;
+    border-radius: 8px !important;
+    background-color: var( --primary-color) !important;
+    color: var(--white-color) !important;
+  }
