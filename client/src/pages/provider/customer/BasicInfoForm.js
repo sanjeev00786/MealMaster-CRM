@@ -25,7 +25,7 @@ function BasicInfoForm({
   return (
     <React.Fragment>
       <div className="meal-page-container">
-          <img className="steeper" src={myImage} alt="stepper" />
+      <div className="stepper"><img className="steeper" src={myImage} alt="stepper" /></div>
         <Stack spacing={1} className="form-container">
           <InputLabel htmlFor="Name"> Customer Name</InputLabel>
           <TextField
