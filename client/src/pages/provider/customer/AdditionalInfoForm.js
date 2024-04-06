@@ -12,6 +12,8 @@ import {
   FormLabel,
 } from "@mui/material";
 import formSchema from "./formschema";
+import myImage from "../../../component-assets/Stepper_2.svg";
+
 import "../../CSS/variable.css";
 
 export default function AdditionalInfoForm({
@@ -33,6 +35,7 @@ export default function AdditionalInfoForm({
 
   return (
     <div className="meal-page-container">
+      <img className="steeper" src={myImage} alt="stepper" />
       <Stack spacing={2} className="form-container">
         <InputLabel htmlFor="plan_id">Meal Plan</InputLabel>
         <Select

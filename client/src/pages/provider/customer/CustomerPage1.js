@@ -175,6 +175,14 @@ export default function CustomerForm({ customerData }) {
 
             {step === 1 && (
               <div className="actions">
+                 <button
+                  className={"cancelBtn Btn"}
+                  type="button"
+                  onClick={() => navigate("/customerList/1")}
+                >
+                  Cancel
+                </button>
+                
                 <button
                   className={"submitBtn Btn"}
                   type="button"
@@ -182,13 +190,7 @@ export default function CustomerForm({ customerData }) {
                 >
                   Next
                 </button>
-                <button
-                  className={"cancelBtn Btn"}
-                  type="button"
-                  onClick={() => navigate("/customerList/1")}
-                >
-                  Cancel
-                </button>
+               
               </div>
             )}
             {step === 2 && (

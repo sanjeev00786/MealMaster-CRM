@@ -101,7 +101,12 @@ const AssignDriverModalButton = ({
         `${API_BASE_URL}${ENDPOINTS.GET_ALL_DRIVER}provider_id=${providerId}`
       );
       console.log(response.data);
-      setDrivers(response.data.data);
+      const allDrivers = response.data.data;
+
+      const availableDrivers = allDrivers.filter(driver => driver.driver_status === true);
+      
+      console.log("++++++++ welcome", availableDrivers)
+      setDrivers(availableDrivers);
     } catch (error) {
       console.error("Error fetching drivers:", error);
     }
