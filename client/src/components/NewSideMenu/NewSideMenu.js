@@ -30,7 +30,10 @@ export default function SideBarMenu({ currentPage }) {
   const [isModalOpen, setModalOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
   useEffect(() => {
-    // Determine the selected index based on the current page
+    console.log(currentPage, '&&&&&&')
+    if (currentPage.includes("/customers")) {
+      setSelectedIndex(1);
+    } else {
     switch (currentPage) {
       case "/dashboard":
         setSelectedIndex(0);
@@ -50,20 +53,18 @@ export default function SideBarMenu({ currentPage }) {
       case "/delivery-schedule/1":
         setSelectedIndex(4);
         break;
-      // case "/social-media":
-      //   setSelectedIndex(5);
-      //   break;
       case "/meal-plan-list":
         setSelectedIndex(5);
         break;
       default:
         setSelectedIndex(0);
     }
+  }
   }, [currentPage]);
 
   const handleMenuItemClick = (index) => {
     setSelectedIndex(index);
-    console.log(selectedIndex);
+    console.log('^^^^^^^^',selectedIndex);
 
     switch (index) {
       case 0:
