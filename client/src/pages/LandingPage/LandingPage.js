@@ -9,7 +9,7 @@ import TrackingImage from "../../component-assets/TrackDelivery.svg";
 import Scooter from "../../component-assets/scooter.png";
 import Logo from "../../component-assets/logo123.svg"
 import DriverPageSS from "../../component-assets/driverPageSS.svg";
-import AOS from "aos";
+import AOS from "aos"
 import "aos/dist/aos.css";
 import { Fade, Slide } from "react-awesome-reveal";
 import { Link } from "react-router-dom";
