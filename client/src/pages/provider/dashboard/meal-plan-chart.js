@@ -12,7 +12,7 @@ const textColor = '#17181A';
 const graphTextColor = '#ffffff'
 
 const chartSetting = {
-  width: 500,
+  width: '100%',
   height: 300,
 };
 
