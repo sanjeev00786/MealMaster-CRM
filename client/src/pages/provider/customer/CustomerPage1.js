@@ -150,7 +150,12 @@ export default function CustomerForm({ customerData }) {
 
         <div className="customer-page">
         <div className="meal-page-container">
-        <h2 className="customerH2">Add New Customer</h2>
+          {isEditMode ? (
+            <h2 className="customerH2">Edit Customer</h2>
+          ) : (
+            <h2 className="customerH2">Add New Customer</h2>
+          )}
+        
         <div className="customerFormContainer">
           <form onSubmit={step === 2 ? submitForm : handleNext}>
             {step === 1 && (
