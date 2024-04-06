@@ -19,10 +19,7 @@ export default function DriverForm() {
   const [loading, setLoading] = useState(false);
   const [notificationMessage, setNotificationMessage] = useState("");
   const [previewImage, setPreviewImage] = useState(null);
-  const { filePath, uploadToCloudinary } = useCloudinaryUpload({
-    cloudName: "djencgbub",
-    uploadPreset: "s8ygrkym",
-  });
+  const { filePath, setFilePath } = useState("");
   const [formData, setFormData] = useState({
     name: "",
     photo_url: "",
@@ -66,6 +63,14 @@ export default function DriverForm() {
       setNotificationMessage("Something went wrong!!");
     }
   };
+
+  const cloudinaryConfig = {
+    cloudName: "djencgbub",
+    uploadPreset: "s8ygrkym",
+  };
+
+  const cloudinaryFilePath = useCloudinaryUpload(cloudinaryConfig);
+
   function handleFileDrop(event) {
     event.preventDefault();
     const files = event.dataTransfer.files;
@@ -74,7 +79,14 @@ export default function DriverForm() {
       const reader = new FileReader();
       reader.onload = () => {
         setPreviewImage(reader.result);
-        uploadToCloudinary(file);
+        // uploadToCloudinary(file);
+        cloudinaryFilePath.uploadToCloudinary(file, (filePath) => {
+          if (filePath) {
+            console.log("Complete method", filePath);
+            setFilePath(filePath);
+          } else {
+          }
+        });
       };
       reader.readAsDataURL(file);
     }
@@ -89,7 +101,13 @@ export default function DriverForm() {
       const reader = new FileReader();
       reader.onload = () => {
         setPreviewImage(reader.result);
-        uploadToCloudinary(file);
+        cloudinaryFilePath.uploadToCloudinary(file, (filePath) => {
+          if (filePath) {
+            console.log("Complete method", filePath);
+            setFilePath(filePath);
+          } else {
+          }
+        });
       };
       reader.readAsDataURL(file);
     }
