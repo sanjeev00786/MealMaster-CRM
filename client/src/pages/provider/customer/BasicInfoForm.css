@@ -101,6 +101,22 @@ justify-items: center; */
   flex-direction: column;
 }
 
+.steeper{
+  width: 150px;
+  height: auto;
+}
+
+.stepper{
+  text-align: center;
+  margin-bottom: 1rem;
+
+}
+
+.customerH2{
+  margin-top: 2.5rem;
+
+}
+
 @media screen and (min-width: 400px) {
   .meal-page-container {
     max-width: 400px !important;

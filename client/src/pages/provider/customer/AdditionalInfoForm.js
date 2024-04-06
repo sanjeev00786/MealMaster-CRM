@@ -35,7 +35,7 @@ export default function AdditionalInfoForm({
 
   return (
     <div className="meal-page-container">
-      <img className="steeper" src={myImage} alt="stepper" />
+    <div className="stepper"><img className="steeper" src={myImage} alt="stepper" /></div>
       <Stack spacing={2} className="form-container">
         <InputLabel htmlFor="plan_id">Meal Plan</InputLabel>
         <Select
