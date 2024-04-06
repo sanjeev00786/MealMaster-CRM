@@ -74,7 +74,7 @@ h1 {
         h1{
             margin-top: 0;
             padding-top: 15px;
-            margin-left: 10px;
+            /* margin-left: 10px; */
 
             }
             /* .meal-plan-buttons{
@@ -85,15 +85,20 @@ h1 {
                 position: fixed;
              
                 /* bottom: 2%; */
-                left: 3%;
-                top: 75%;
+                /* left: 3%;*/
+                top: 73%; 
                 transform: translateX(-0%);
                 transform: translateY(-20%);
                 /* text-align: center; */
                 z-index: 1;
-                background-color:var(--gradient-color2) !important;
-                padding: 20px;
-               margin: 20px;
+                background-color:rgba(240, 248, 255, 0.897) !important;
+                padding-top:20px ;
+                padding-bottom:10px ;
+                padding-left: 14vw;
+                padding-right: 14vw;
+               margin-top: 30px;
+               /* margin-top: 20px; */
+               
             }
             .plan-page-button button {
                 margin-top: 0px !important;
@@ -116,6 +121,18 @@ h1 {
                 height: 240px !important;
 
             }
+           
+            .cardDisplay {
+                margin-left: 0rem;
+                margin-right: 0rem ;
+            
+            }
+           
+            .last-card-margin {
+                margin-bottom: 201px; /* Adjust the margin as per your requirement */
+              }
+              
+           
            
               
 
