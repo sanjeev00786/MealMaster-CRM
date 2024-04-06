@@ -8,9 +8,9 @@ const ProfileCard = ({ image, name, designation, description, linkedin, linkedin
 
   return (
     <div className="profile-card">
-      <div className="bg-image-container">
+      {/* <div className="bg-image-container">
         <img src={frame} alt="Profile" />
-      </div>
+      </div> */}
       <div className="image-container">
         <img src={image} alt="Profile" />
       </div>
