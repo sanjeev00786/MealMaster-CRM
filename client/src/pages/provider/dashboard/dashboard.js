@@ -46,7 +46,7 @@ const Dashboard = () => {
           {/* Revenue Graph */}
           <Grid item xs={12} md={6}>
             <Paper elevation={0} className="graphPaper">
-              <RevenueGraph />
+              <RevenueGraph  />
             </Paper>
           </Grid>
 
