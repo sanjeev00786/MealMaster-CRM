@@ -87,7 +87,8 @@ const PastDeliveries = () => {
   };
 
   const generateCustomerItems = () => {
-    return pastDeliveriesData.map((customer, index) => (
+    const reversedData = [...pastDeliveriesData].reverse();
+    return reversedData.map((customer, index) => (
       <CustomerItem key={index} customer={customer} />
     ));
   };
