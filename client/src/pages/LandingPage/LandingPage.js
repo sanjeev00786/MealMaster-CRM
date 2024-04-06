@@ -16,7 +16,7 @@ import { Link } from "react-router-dom";
 import { animateScroll as scroll } from "react-scroll";
 import GraphImage from "../../component-assets/Graph 2.svg";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUpload } from '@fortawesome/free-solid-svg-icons';
+import { faDownload } from '@fortawesome/free-solid-svg-icons';
 
 const LandingPage = () => {
   const scooterRef = useRef(null);
@@ -110,7 +110,7 @@ const LandingPage = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <FontAwesomeIcon icon={faUpload} style={{ marginRight: '5px' }} />
+                <FontAwesomeIcon icon={faDownload} style={{ marginRight: '5px' }} />
                 Project Proposal
               </a>
               {/* <button className="get-started-button" data-aos="fade-left">Get Started</button> */}
