@@ -4,7 +4,6 @@ import "../CSS/variable.css";
 import "./LandingPage.css";
 import LandingPageHeader from "./LandingPageHeader";
 import AnchorTemporaryDrawer from "./mobileviewheader/mobileviewHeader";
-import Section1Image from "../../component-assets/Graph-no-bg.png";
 import CustomerDataImage from "../../component-assets/customer-data-image.svg";
 import TrackingImage from "../../component-assets/TrackDelivery.svg";
 import Scooter from "../../component-assets/scooter.png";
@@ -16,9 +15,12 @@ import { Fade, Slide } from "react-awesome-reveal";
 import { Link } from "react-router-dom";
 import { animateScroll as scroll } from "react-scroll";
 import GraphImage from "../../component-assets/Graph 2.svg";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUpload } from '@fortawesome/free-solid-svg-icons';
 
 const LandingPage = () => {
   const scooterRef = useRef(null);
+  const pdfUrl = "https://cvnlpinekwolqaratkmc.supabase.co/storage/v1/object/public/Media/Proposal_MealMasterCRM.pdf?t=2024-04-06T04%3A01%3A50.654Z";
 
   useEffect(() => {
     AOS.init({
@@ -102,14 +104,15 @@ const LandingPage = () => {
               >
                 Explore Features
               </button>
-              <Link
+              <a
                 href="https://cvnlpinekwolqaratkmc.supabase.co/storage/v1/object/public/Media/Proposal_MealMasterCRM.pdf?t=2024-04-06T04%3A01%3A50.654Z"
                 className="get-started-button"
-                data-aos="fade-left"
-                download
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                Download
-              </Link>
+                <FontAwesomeIcon icon={faUpload} style={{ marginRight: '5px' }} />
+                Project Proposal
+              </a>
               {/* <button className="get-started-button" data-aos="fade-left">Get Started</button> */}
             </div>
           </div>
