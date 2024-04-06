@@ -4,8 +4,8 @@ import driverMarker from '../../../component-assets/driverMarker.svg';
 import locationMarker from '../../../component-assets/locationMarker.svg';
 import supabase from '../../../supabase';
 import "../../../pages/CSS/variable.css"
-
 import './TrackProviderMap.css'
+import CustomizedSnackbar from '../../Notification/Notification';
 
 const TrackProviderMap = ({ customerData, driver_id }) => {
   const [map, setMap] = useState(null);
@@ -14,6 +14,9 @@ const TrackProviderMap = ({ customerData, driver_id }) => {
   const markerRef = useRef(null);
   const [initialCenter, setInitialCenter] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [notificationMessage, setNotificationMessage] = useState("");
+  const [notificationMessage1, setNotificationMessage1] = useState("");
+  const [notificationTriggered, setNotificationTriggered] = useState(false);
 
   const onLoad = (map) => {
     setMap(map);
@@ -59,7 +62,7 @@ const TrackProviderMap = ({ customerData, driver_id }) => {
 
   // Handshake with channel to retrieve the driver location
   useEffect(() => {
-      supabase
+    supabase
       .channel('custom-all-channel')
       .on(
         'postgres_changes',
@@ -72,6 +75,10 @@ const TrackProviderMap = ({ customerData, driver_id }) => {
           if (payload.new.driver_id === `${driver_id}`) {
             console.log("updating loca")
             setDriverLocation({ lat: payload.new.lat, lng: payload.new.lng })
+            if (payload.new.is_Delivered === true) {
+              setNotification("Success!", `Tiffin delivered to ${payload.new.customer_name}`);
+              updateDriverLocation();
+            }
           }
         }
       )
@@ -119,62 +126,92 @@ const TrackProviderMap = ({ customerData, driver_id }) => {
     setDirectionToMap();
   }, [customerData, map, driverLocation]);
 
+  const setNotification = (message, message1) => {
+    if (!notificationTriggered) {
+      setNotificationMessage(message);
+      setNotificationMessage1(message1);
+      setNotificationTriggered(true);
+      setTimeout(() => {
+        setNotificationTriggered(false);
+        window.location.reload();
+      }, 3000);
+    }
+  };
+
+  const updateDriverLocation = async () => {
+    console.log("******", driver_id)
+    const { data, error } = await supabase
+      .from('driver_location')
+      .upsert({ driver_id: driver_id, is_Delivered: false, customer_name: "" })
+      .eq('driver_id', driver_id);
+    console.log(data)
+    if (error) {
+      console.error('Error updating driver location:', error.message);
+    }
+  };
+
   return (
     <div className='track-provider-map-container'>
-    <GoogleMap
-      mapContainerStyle={{
-        height: '80vh',
-        width: '100%',
-      }}
-      className="track-map-container"
-      center={initialCenter}
-      onLoad={onLoad}
-      options={options}
-    >
-      {isLoading && (
+      <GoogleMap
+        mapContainerStyle={{
+          height: '80vh',
+          width: '100%',
+        }}
+        className="track-map-container"
+        center={initialCenter}
+        onLoad={onLoad}
+        options={options}
+      >
+        {isLoading && (
           <div className="loader">
             <div className="spinner"></div>
           </div>
         )}
-        
-      {customerData.length !== 0 && directions && (
-        <DirectionsRenderer
-          directions={directions}
-          options={{
-            polylineOptions: {
-              strokeColor: '#6F59DA',
-              strokeWeight: 4,
-              strokeOpacity: 1,
-            },
-            suppressMarkers: true,
-            preserveViewport: true,
-          }}
-        />
-      )}
 
-      {driverLocation && (
-         <Marker
-         ref={markerRef}
-         position={driverLocation}
-         map={map}
-         icon={{
-           url: driverMarker,
-           scaledSize: new window.google.maps.Size(40, 40),
-         }}
-       /> 
-      )}
-     
-      {customerData.map((customer, index) => (
-        <Marker
-          key={index}
-          position={customer.position}
-          map={map}
-          icon={locationMarker}
+        {customerData.length !== 0 && directions && (
+          <DirectionsRenderer
+            directions={directions}
+            options={{
+              polylineOptions: {
+                strokeColor: '#6F59DA',
+                strokeWeight: 4,
+                strokeOpacity: 1,
+              },
+              suppressMarkers: true,
+              preserveViewport: true,
+            }}
+          />
+        )}
+
+        {driverLocation && (
+          <Marker
+            ref={markerRef}
+            position={driverLocation}
+            map={map}
+            icon={{
+              url: driverMarker,
+              scaledSize: new window.google.maps.Size(40, 40),
+            }}
+          />
+        )}
+
+        {customerData.map((customer, index) => (
+          <Marker
+            key={index}
+            position={customer.position}
+            map={map}
+            icon={locationMarker}
+          />
+        ))}
+      </GoogleMap>
+      {notificationTriggered && (
+        <CustomizedSnackbar
+          decisionMessage={notificationMessage}
+          updateMessage={notificationMessage1}
         />
-      ))}
-    </GoogleMap>
-  </div>
-);
+      )}
+    </div>
+  );
 };
 
 export default TrackProviderMap;

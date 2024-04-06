@@ -6,7 +6,7 @@ body{
   flex-direction: column; 
   justify-content: center; 
   align-items: center;
-  height: 100vh;
+  /* height: 100vh; */
   
 }
 
@@ -58,6 +58,19 @@ body{
     text-align: center;
   }
 
+  @media  screen and (max-width:400px) {
+    /* .auth-page-image-container img {
+      width:100vw;
+    } */
+.login-form-container{
+    border-top-left-radius: 25px; 
+  border-top-right-radius: 25px;
+  position: absolute;
+  top: 37.9%;
+  
+}
+    
+  }
 @media only screen and (min-width: 768px) {
   .login-page-continer {
     display: grid;

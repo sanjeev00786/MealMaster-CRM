@@ -19,6 +19,7 @@ import DriverModalDelivery from "../../../components/DriverModal/driverModal.js"
 import DriverMenu from "../../../components/DriverMenu/DriverMenu.jsx";
 import DriverMenuIcon from '../../../component-assets/menu-icon.svg'
 import { getDriverIdFromLocalStorage } from "../../../util/localStorage.js";
+import supabase from "../../../supabase.js";
 
 const DriverDashboard = () => {
   const navigate = useNavigate();
@@ -36,7 +37,8 @@ const DriverDashboard = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDriverModal, setIsDriverModal] = useState(false);
-  const [driver_id, setDriverId] = useState(null);
+  const [driverId, setDriverId] = useState(null);
+  const driver_id = getDriverIdFromLocalStorage();
 
   /***************************************************** */
 
@@ -224,6 +226,7 @@ const DriverDashboard = () => {
       // Show Modal for completion of delivery
       isGetAssignTiffinApiCall = false;
       getAssignedTiffin(driver_id);
+      updateDriverLocation(true, customerData[0].name)
     } catch (error) {
       setLoading(false);
       setNotification("Error!", error.message);
@@ -292,6 +295,17 @@ const DriverDashboard = () => {
       setTimeout(() => {
         setNotificationTriggered(false);
       }, 2000);
+    }
+  };
+
+  const updateDriverLocation = async (is_delivered, customer_name) => {
+    const { data, error } = await supabase
+      .from('driver_location')
+      .upsert({driver_id: driver_id, is_Delivered: is_delivered, customer_name: customer_name })
+      .eq('driver_id', driver_id);
+      console.log(data)
+    if (error) {
+      console.error('Error updating driver location:', error.message);
     }
   };
 

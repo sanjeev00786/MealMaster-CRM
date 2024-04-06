@@ -6,7 +6,7 @@ import "../../pages/CSS/variable.css"
 
 import supabase from '../../supabase';
 
-const Maps = ({ customerData, setTotalRouteDistance, driver_id, isNavigationStarted, toggleNavigation }) => {
+const Maps = ({ customerData, setTotalRouteDistance, driver_id, isNavigationStarted, toggleNavigation, customer_name, is_delivered }) => {
   const [map, setMap] = useState(null);
   const [directions, setDirections] = useState(null);
   const [userLocation, setUserLocation] = useState(null);
@@ -32,14 +32,13 @@ const Maps = ({ customerData, setTotalRouteDistance, driver_id, isNavigationStar
   const updateDriverLocation = async (driverId, newLocation) => {
     const { data, error } = await supabase
       .from('driver_location')
-      .upsert({ driver_id: driverId, lat: newLocation.lat, lng: newLocation.lng, driver_name: "" })
+      .upsert({ driver_id: driverId, lat: newLocation.lat, lng: newLocation.lng, driver_name: "", is_delivered: is_delivered, customer_name: customer_name })
       .eq('driver_id', driverId);
-    // console.log(data)
+      console.log(data)
     if (error) {
       console.error('Error updating driver location:', error.message);
     }
   };
-
 
   useEffect(() => {
     if (userLocation != null) {

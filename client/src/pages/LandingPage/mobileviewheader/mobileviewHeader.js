@@ -31,6 +31,9 @@ export default function AnchorTemporaryDrawer() {
       case "/team":
         setSelectedItem("Team");
         break;
+      case "/login-page":
+        setSelectedItem("Login/SignUp");
+        break;
 
 
       default:
@@ -51,6 +54,10 @@ export default function AnchorTemporaryDrawer() {
       case "Team":
         navigate("/team");
         break;
+      case "Login/SignUp":
+        navigate("/login-page");
+        break;
+
       default:
         break;
     }
@@ -67,7 +74,8 @@ export default function AnchorTemporaryDrawer() {
       <List>
         {[
           "Features",
-          "Team"
+          "Team",
+          "Login/SignUp"
         ].map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton
