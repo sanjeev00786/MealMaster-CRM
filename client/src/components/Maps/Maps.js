@@ -3,7 +3,6 @@ import { GoogleMap, LoadScript, DirectionsRenderer, Marker } from '@react-google
 import driverMarker from '../../component-assets/driverMarker.svg';
 import locationMarker from '../../component-assets/locationMarker.svg';
 import "../../pages/CSS/variable.css"
-
 import supabase from '../../supabase';
 
 const Maps = ({ customerData, setTotalRouteDistance, driver_id, isNavigationStarted, toggleNavigation, customer_name, is_delivered }) => {
@@ -59,7 +58,7 @@ const Maps = ({ customerData, setTotalRouteDistance, driver_id, isNavigationStar
         };
         setUserLocation(newPosition);
         index++;
-        setTimeout(moveDriver, 1000);
+        setTimeout(moveDriver, 300);
       }
     };
     moveDriver();

@@ -15,6 +15,7 @@ import "aos/dist/aos.css";
 import { Fade, Slide } from "react-awesome-reveal";
 import { Link } from "react-router-dom";
 import { animateScroll as scroll } from "react-scroll";
+import GraphImage from "../../component-assets/Graph 2.svg";
 
 const LandingPage = () => {
   const scooterRef = useRef(null);
@@ -102,11 +103,12 @@ const LandingPage = () => {
                 Explore Features
               </button>
               <Link
-                to="/login-page"
+                href="https://cvnlpinekwolqaratkmc.supabase.co/storage/v1/object/public/Media/Proposal_MealMasterCRM.pdf?t=2024-04-06T04%3A01%3A50.654Z"
                 className="get-started-button"
                 data-aos="fade-left"
+                download
               >
-                Get Started
+                Download
               </Link>
               {/* <button className="get-started-button" data-aos="fade-left">Get Started</button> */}
             </div>
@@ -114,7 +116,7 @@ const LandingPage = () => {
         </section>
         <section className="landing-page-section">
           <img
-            src={Section1Image}
+            src={GraphImage}
             alt="Tiffin Business"
             className="landing-page-image"
           />
