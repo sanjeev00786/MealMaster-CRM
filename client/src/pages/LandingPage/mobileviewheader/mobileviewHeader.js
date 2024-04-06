@@ -10,7 +10,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import { useLocation, useNavigate } from "react-router-dom";
-
+import { provider_id } from "../../../util/localStorage";
 // import "../../pages/CSS/variable.css"
 import "./mobileviewHeader.css";
 // import TransitionsModal from "../ConfirmationModal/ConfirmationModal";
@@ -20,7 +20,7 @@ export default function AnchorTemporaryDrawer() {
   const [selectedItem, setSelectedItem] = React.useState(null);
   const navigate = useNavigate();
   const location = useLocation();
-
+  const isLoggedIn = provider_id !== null; 
   
  React.useEffect(() => {
     const path = location.pathname;
@@ -34,7 +34,9 @@ export default function AnchorTemporaryDrawer() {
       case "/login-page":
         setSelectedItem("Login/SignUp");
         break;
-
+      case "/dashboard":
+        setSelectedItem("Dashboard");
+        break;
 
       default:
         setSelectedItem(null);
@@ -57,7 +59,9 @@ export default function AnchorTemporaryDrawer() {
       case "Login/SignUp":
         navigate("/login-page");
         break;
-
+      case "Dashboard":
+        navigate("/dashboard");
+        break;
       default:
         break;
     }
@@ -75,7 +79,7 @@ export default function AnchorTemporaryDrawer() {
         {[
           "Features",
           "Team",
-          "Login/SignUp"
+          isLoggedIn ? "Dashboard" : "Login/SignUp"
         ].map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton
