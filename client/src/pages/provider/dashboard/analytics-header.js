@@ -36,7 +36,7 @@ const AnalyticsHeader = () => {
           const prevRevenue = revenueData[1].total_revenue;
           const revenueChange = latestRevenue - prevRevenue;
           const revenueChangePercentage = ((revenueChange / prevRevenue) * 100).toFixed(2);
-          const formattedLatestRevenue = latestRevenue.toLocaleString();
+          const formattedLatestRevenue = latestRevenue.toLocaleString('en-US');
           setRevenue(`$${formattedLatestRevenue}`);
     
           setRevenuePercentage(`${revenueChangePercentage}`);
