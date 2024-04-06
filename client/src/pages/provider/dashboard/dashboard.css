@@ -48,6 +48,28 @@ body{
  margin: 0px;
 }
 
+.css-1v5z4dq-MuiPaper-root-MuiCard-root{
+  border-radius: 16px;
+}
+
+@media screen and (max-width:400px) {
+  .css-10vg0a6-MuiResponsiveChart-container>svg {
+    width: 345px !important;
+  }
+  .css-10vg0a6-MuiResponsiveChart-container{
+    width: 350px !important;
+    
+  }
+  .map-container{
+    width: 100% !important;
+
+  }
+  
+  
+ 
+  
+  
+}
 /* Desktop View */
 @media screen and (min-width: 700px) {
 
@@ -87,6 +109,11 @@ body{
   .graph-container{
     padding: 1rem;
 
+  }
+  .graph-container{
+
+    overflow-y: auto ;
+  
   }
  
   

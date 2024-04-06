@@ -37,7 +37,7 @@ const Dashboard = () => {
         item
         xs={12}
         md={9}
-        style={{ overflowY: "auto", maxHeight: "calc(100vh)" }}
+        style={{  maxHeight: "calc(100vh)" }}
         paddingRight={2}
       >
         <h1 className="dashboardHeading">Dashboard</h1>
