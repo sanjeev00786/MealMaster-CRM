@@ -23,24 +23,18 @@ body{
   height: auto; 
   display: block; 
   margin: 0 auto; 
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
+
 }
-.login-form-container{
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-}
+
 
 .login-form-container {
   /* background-color:black; */
   background-color:var(--bgc-color);
   padding-top: 20px;
   padding: 20px;
-  border-top-left-radius: 25px; 
-  border-top-right-radius: 25px;
+ 
   width: 350px;
-  top: 37.9%;
-  position: absolute;
+ 
 }
 
 .logo-svg-container > svg {
@@ -68,7 +62,17 @@ body{
     color:var(--grey3-color);
     text-align: center;
   }
+  @media  screen and (max-width: 400px){
+    .login-form-container{
+     border-top-left-radius: 25px; 
+  border-top-right-radius: 25px;
+  top: 37.9%;
+  position: absolute;
+    }
 
+  };
+    
+  
 @media only screen and (min-width: 768px) {
   .login-page-continer {
     display: grid;
