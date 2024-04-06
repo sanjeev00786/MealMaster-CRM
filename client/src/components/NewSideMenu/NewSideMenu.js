@@ -128,7 +128,7 @@ export default function SideBarMenu({ currentPage }) {
     "Track Delivery",
     "Schedule Deliveries",
     // "Social Media",
-    "Meal Settings",
+    "Meal Plans",
   ];
 
   var provider = localStorage.getItem("sb-cvnlpinekwolqaratkmc-auth-token");
