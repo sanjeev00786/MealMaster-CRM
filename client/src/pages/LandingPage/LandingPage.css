@@ -129,6 +129,14 @@ body {
 .driver-page-image {
   height: 80vh;
 }
+@media  screen and (max-width:400px) {
+  .landing-page-container{
+
+    overflow-x: hidden !important;
+
+  }
+  
+}
 
 @media only screen and (max-width: 768px) {
   
