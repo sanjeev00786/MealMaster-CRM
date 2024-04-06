@@ -8,8 +8,6 @@ import { animateScroll as scroll } from 'react-scroll';
 import { provider_id } from '../../util/localStorage';
 
 const LandingPageHeader = () => {
-    const isLoggedIn = provider_id !== null;
-
     const scrollToFeatures = () => {
         scroll.scrollTo(document.getElementById('features').offsetTop, {
             duration: 800,
@@ -31,14 +29,14 @@ const LandingPageHeader = () => {
                 </ul>
             </nav>
             <div className="header__actions">
-                 {isLoggedIn ? ( // Check if user is logged in
+                 {/* {isLoggedIn ? ( // Check if user is logged in
                     <Link to="/dashboard" className="header__button header__dashboard">Dashboard</Link>
                 ) : (
-                    <>
+                    <> */}
                         <Link to="/login-page" className="header__button header__login">Login</Link>
                         <Link to="/login-page" className="header__button header__signup">Sign Up</Link>
-                    </>
-                )}
+                    {/* </>
+                )} */}
             </div>
         </header>
     );

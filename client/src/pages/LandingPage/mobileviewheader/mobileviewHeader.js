@@ -79,7 +79,7 @@ export default function AnchorTemporaryDrawer() {
         {[
           "Features",
           "Team",
-          isLoggedIn ? "Dashboard" : "Login/SignUp"
+          "Login/SignUp"
         ].map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton
