@@ -9,7 +9,9 @@ import "./Notification.css";
 
 export default function CustomizedSnackbar({ decisionMessage, updateMessage }) {
   const [open, setOpen] = useState(false);
+  const [borderColorCheck, setBorderColorCheck] = useState("");
   
+  // const [borderColor, setBorderColor] = useState("#E9F6ED");
 
   useEffect(() => {
     handleClick();
@@ -17,6 +19,11 @@ export default function CustomizedSnackbar({ decisionMessage, updateMessage }) {
 
   const handleClick = () => {
     setOpen(true);
+    setBorderColorCheck(
+      decisionMessage === "Success!" || decisionMessage === "Deleted!" 
+        ? "success-message" 
+        : "other-message"
+    );
   };
 
   const handleClose = (event, reason) => {
@@ -58,7 +65,7 @@ export default function CustomizedSnackbar({ decisionMessage, updateMessage }) {
         horizontal: "right",
       }}
       ContentProps={{
-        className: "custom-snackbar",
+        className: `custom-snackbar ${borderColorCheck}`,
       }}
     />
   );
