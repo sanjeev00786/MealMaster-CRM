@@ -24,6 +24,7 @@ body{
 
 .graph-container {
   margin-left: 1rem !important;
+  margin-top: 40px !important;
 }
 .marker-cluster-small div {
   background-color: var(--primary-color) !important;
@@ -118,12 +119,10 @@ body{
   }
   .graph-container{
     padding: 1rem;
-
+    
   }
   .graph-container{
-
-    overflow-y: auto ;
-  
+    overflow-y: auto ;  
   }
  
   
