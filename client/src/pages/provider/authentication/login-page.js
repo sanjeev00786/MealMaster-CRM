@@ -19,7 +19,7 @@ const LoginPage = () => {
         </div>
         <div className="heading-link-container">
         <Link to="/driver_login">Login as a Driver</Link>
-        <h2>Sign In / Sign Up as an Admin</h2>
+        <h2>Sign In as an Admin</h2>
         </div>
 
         <Login />

@@ -69,7 +69,7 @@ const PastDeliveries = () => {
             <div className="customer-address">{customer.address}</div>
           </div>
         </div>
-        <div className="image-container">
+        <div className=" past-image-container">
           <img src={customer.photoUrl} alt="DeliveryPhoto" className="delivery-image" />
 
           {/* <img src={`${delete_photo}`} /> */}
@@ -87,7 +87,8 @@ const PastDeliveries = () => {
   };
 
   const generateCustomerItems = () => {
-    return pastDeliveriesData.map((customer, index) => (
+    const reversedData = [...pastDeliveriesData].reverse();
+    return reversedData.map((customer, index) => (
       <CustomerItem key={index} customer={customer} />
     ));
   };

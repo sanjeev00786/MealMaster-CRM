@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
@@ -8,8 +8,7 @@ import DeleteComponent from "../Delete/Delete";
 import EditComponent from "../EditButton/EditButton";
 import "../../pages/CSS/variable.css";
 import "./Meal-plan-card.css";
-import { pink } from '@mui/material/colors';
-
+import { pink } from "@mui/material/colors";
 
 const MultiActionAreaCard = ({
   data,
@@ -17,14 +16,17 @@ const MultiActionAreaCard = ({
   onCardButtonClickEdit,
   onCardButtonclickCheckBox,
   checked,
-  deletedPlans
+  totalCards,
+  index,
+  deletedPlans,
 }) => {
   const [isFlipped, setIsFlipped] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [checkedPlanIds, setCheckedPlanIds] = useState([]);
   const [ArraySelected, setArraySelected] = useState([]);
 
-  
+  console.log("hey, how are you?", deletedPlans);
+
   const handleClick = (event) => {
     const isViewDetailsButton = event.target.classList.contains(
       "view-details-button"
@@ -41,16 +43,23 @@ const MultiActionAreaCard = ({
   const handleButtonClickEdit = () => {
     onCardButtonClickEdit(data.plan_id);
   };
-  const handleButtonClickCheckbox =()=>{
+  const handleButtonClickCheckbox = () => {
     setIsChecked(!isChecked);
     onCardButtonclickCheckBox(data.plan_id);
-  }
-  
+  };
+  // useEffect(() => {
+  //   if (deletedPlans.includes(index)) {
+  //     setIsChecked(false);
+  //   }
+  // }, [deletedPlans, index]);
 
   return (
     <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal">
       <Card
-        className="card-container"
+        // className="card-container"
+        className={`card-container${
+          index === totalCards - 1 ? " last-card-margin" : ""
+        }`}
         onClick={handleClick}
         style={{ cursor: "pointer" }}
       >
@@ -62,16 +71,16 @@ const MultiActionAreaCard = ({
               component="div"
               className="plan_name"
             >
-              <Checkbox  onClick={handleButtonClickCheckbox} checked={isChecked}
-              // style={{ position: "absolute", top: 0, left: 0, zIndex: 1 }}
-              sx={{
-                color:"#AEAEAE",
-                '&.Mui-checked': {
-                  color: isChecked ? "#6F59DA" : "#AEAEAE", 
-                },
-               
-               
-              }}
+              <Checkbox
+                onClick={handleButtonClickCheckbox}
+                checked={isChecked}
+                // style={{ position: "absolute", top: 0, left: 0, zIndex: 1 }}
+                sx={{
+                  color: "#AEAEAE",
+                  "&.Mui-checked": {
+                    color: isChecked ? "#6F59DA" : "#AEAEAE",
+                  },
+                }}
               />
               {data.plan_name}
             </Typography>
@@ -112,18 +121,16 @@ const MultiActionAreaCard = ({
               // style={{ position: "absolute", top: 0, left: 0, zIndex: 1 }}
               
               /> */}
-              <Checkbox  onClick={handleButtonClickCheckbox} checked={isChecked}
-              // style={{ position: "absolute", top: 0, left: 0, zIndex: 1 }}
-              sx={{
-                color:"#AEAEAE",
-                '&.Mui-checked': {
-                  color: isChecked ? "#6F59DA" : "#AEAEAE", // Change color when checked
-                },
-               
-               
-              }}
-              
-
+              <Checkbox
+                onClick={handleButtonClickCheckbox}
+                checked={isChecked}
+                // style={{ position: "absolute", top: 0, left: 0, zIndex: 1 }}
+                sx={{
+                  color: "#AEAEAE",
+                  "&.Mui-checked": {
+                    color: isChecked ? "#6F59DA" : "#AEAEAE", // Change color when checked
+                  },
+                }}
               />
               {data.plan_name}
             </Typography>
@@ -141,10 +148,9 @@ const MultiActionAreaCard = ({
         </CardActionArea>
         <CardActions className="view-details">
           <Button size="small" className="view-details-button">
-           Close
+            Close
           </Button>
         </CardActions>
-        
       </Card>
     </ReactCardFlip>
   );

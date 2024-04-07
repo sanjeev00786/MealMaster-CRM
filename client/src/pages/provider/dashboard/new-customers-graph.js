@@ -4,7 +4,7 @@ import { LineChart, axisClasses } from "@mui/x-charts";
 import { Select, MenuItem } from "@mui/material";
 import { provider_id } from "../../../util/localStorage";
 import "../../CSS/variable.css"
-
+import { getProviderIdFromLocalStorage } from "../../../util/localStorage";
 import './graph.css'
 const chartSetting = {
   width: 500,
@@ -33,12 +33,13 @@ export default function LineChartWithDropdown() {
     async function fetchCustomerData() {
       try {
         console.log(`Fetching customer data for ${year}...`);
-        
+        const id = getProviderIdFromLocalStorage();
+
         let { data, error } = await supabase
           .from("provider_analytics")
           .select("calculation_month, total_customers")
           .eq("calculation_year", year)
-          .eq("provider_id", provider_id)
+          .eq("provider_id", id)
           .order("calculation_month"); // Sort by calculation_month
 
         console.log("Data fetched:", data);

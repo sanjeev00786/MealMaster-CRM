@@ -24,6 +24,7 @@ body{
 
 .graph-container {
   margin-left: 1rem !important;
+  margin-top: 40px !important;
 }
 .marker-cluster-small div {
   background-color: var(--primary-color) !important;
@@ -41,7 +42,44 @@ body{
 }
 .revenueChart,.subscriberGrowth{
   padding: 1rem;
-margin-top: 1rem;
+  margin-top: 1rem;
+}
+
+.map-container {
+ margin: 0px;
+}
+
+.css-1v5z4dq-MuiPaper-root-MuiCard-root,.css-1okfn8i,.css-ee20y-MuiPaper-root, .css-zmnxdm{
+  border-radius: 16px !important;
+}
+/* .css-1v5z4dq-MuiPaper-root-MuiCard-root{
+
+} */
+
+@media screen and (max-width:430px) {
+  .css-10vg0a6-MuiResponsiveChart-container>svg, .css-rccht4 > svg {
+    width: 345px !important;
+  }
+  .css-10vg0a6-MuiResponsiveChart-container,.css-rccht4{
+    width: 350px !important;
+    
+  }
+  .map-container{
+    width: 100% !important;
+
+  }
+  /* .preferredPlansChart,.piechartDashboard{
+    width:70 !important;
+  }
+  .piechartDashboard>svg{
+    width:100px !important;
+  } */
+ 
+
+  
+ 
+  
+  
 }
 /* Desktop View */
 @media screen and (min-width: 700px) {
@@ -81,7 +119,10 @@ margin-top: 1rem;
   }
   .graph-container{
     padding: 1rem;
-
+    
+  }
+  .graph-container{
+    overflow-y: auto ;  
   }
  
   

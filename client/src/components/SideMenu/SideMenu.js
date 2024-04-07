@@ -117,7 +117,7 @@ export default function MiniDrawer() {
       navigate("/dashboard");
     } else if (index === 1) {
       setHeaderName('Customers')
-      navigate("/customerList");
+      // navigate("/customerList");
     } else if (index === 2) {
       setHeaderName('Driver')
       navigate("/drivers");

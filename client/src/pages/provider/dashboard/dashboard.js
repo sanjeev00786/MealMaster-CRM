@@ -14,7 +14,7 @@ import AnalyticsHeader from "./analytics-header"
 import AnchorTemporaryDrawer from "../../../components/MobileSideMenu/MobileSideMenu";
 
 // Import CustomerMap component
-import CustomerMap from "./customer-cluster-map"; // Adjust the path as per your file structure
+import CustomerMap from "./customer-cluster-map"; 
 
 const Dashboard = () => {
   return (
@@ -37,7 +37,7 @@ const Dashboard = () => {
         item
         xs={12}
         md={9}
-        style={{ overflowY: "auto", maxHeight: "calc(100vh)" }}
+        style={{  maxHeight: "calc(100vh)" }}
         paddingRight={2}
       >
         <h1 className="dashboardHeading">Dashboard</h1>
@@ -46,7 +46,7 @@ const Dashboard = () => {
           {/* Revenue Graph */}
           <Grid item xs={12} md={6}>
             <Paper elevation={0} className="graphPaper">
-              <RevenueGraph />
+              <RevenueGraph  />
             </Paper>
           </Grid>
 

@@ -16,16 +16,15 @@ import AnchorTemporaryDrawer from "../../../components/MobileSideMenu/MobileSide
 import Loader from "../../../components/Loader/Loader";
 import Button from "@mui/material/Button";
 import ConfirmationModal from "./ConfirmationModal";
-import "../../CSS/variable.css"
+import CustomizedSnackbar from "../../../components/Notification/Notification.js";
+import "../../CSS/variable.css";
 
 import "./customerPage.css";
 import SideBarMenu from "../../../components/NewSideMenu/NewSideMenu";
 import { ENDPOINTS } from "../../../apiConfig.js";
 import apiHelper from "../../../util/ApiHelper/ApiHelper";
-import { provider_id } from "../../../util/localStorage.js";
+import { getProviderIdFromLocalStorage } from "../../../util/localStorage.js";
 import { Link } from "react-router-dom";
-
-const mealPlanUrl = `${ENDPOINTS.GET_MEAL_PLAN}provider_id=${provider_id}`;
 
 export default function CustomerPage() {
   const { page } = useParams();
@@ -42,7 +41,12 @@ export default function CustomerPage() {
   const [currentFilter, setCurrentFilter] = useState("all");
   const [statusResult, setStatusResult] = useState("");
   const [totalPages, setTotalPages] = useState(1);
+  const [notificationMessage, setNotificationMessage] = useState("");
+  const [notificationMessage1, setNotificationMessage1] = useState("");
+  const [notificationTriggered, setNotificationTriggered] = useState(false);
   const navigate = useNavigate();
+  const provider_id = getProviderIdFromLocalStorage();
+  const mealPlanUrl = `${ENDPOINTS.GET_MEAL_PLAN}provider_id=${provider_id}`;
 
   const fetchData = async (pageNum, filter) => {
     setLoading(true);
@@ -73,6 +77,18 @@ export default function CustomerPage() {
   };
   useEffect(() => {
     fetchData(page, currentFilter);
+    const isCustomerAdded =
+      localStorage.getItem("is_customer_added") === "true";
+    const is_customer_update =
+      localStorage.getItem("is_customer_update") === "true";
+    if (isCustomerAdded === true) {
+      setNotification("Success!", "Customer Added Successfully!");
+      localStorage.setItem("is_customer_added", "false");
+    }
+    if (is_customer_update === true) {
+      setNotification("Success!", "Customer Updated Successfully!");
+      localStorage.setItem("is_customer_update", "false");
+    }
   }, [page, currentFilter]);
 
   const handlePageChange = (event, newPage) => {
@@ -159,6 +175,17 @@ export default function CustomerPage() {
     }
   };
 
+  const setNotification = (message, message1) => {
+    if (!notificationTriggered) {
+      setNotificationMessage(message);
+      setNotificationMessage1(message1);
+      setNotificationTriggered(true);
+      setTimeout(() => {
+        setNotificationTriggered(false);
+      }, 2000);
+    }
+  };
+
   const columns = [
     {
       name: isSmallScreen ? "Name" : "Customer Name",
@@ -188,22 +215,21 @@ export default function CustomerPage() {
       omit: isSmallScreen,
     },
     {
-      name: isSmallScreen ? "Payment": "Current Payment",
-      selector: (row) => (
+      name: isSmallScreen ? "Payment" : "Current Payment",
+      selector: (row) =>
         // <Link onClick={() => handlePaymentClick(row.customer_id, !row.payment)}>
-          row.payment ? (
-            <>
-              <img className="paidSign" src={tickmark} alt="Paid" />
-              <span> Paid </span>
-            </>
-          ) : (
-            <>
-              <img className="paidSign" src={unpaidSign} alt="Unpaid" />
-              <span className="Unpaid"> Unpaid </span>
-            </>
-          )
+        row.payment ? (
+          <>
+            <img className="paidSign" src={tickmark} alt="Paid" />
+            <span> Paid </span>
+          </>
+        ) : (
+          <>
+            <img className="paidSign" src={unpaidSign} alt="Unpaid" />
+            <span className="Unpaid"> Unpaid </span>
+          </>
+        ),
         // </Link>
-      ),
     },
     {
       name: "Actions",
@@ -216,7 +242,6 @@ export default function CustomerPage() {
       ),
     },
   ];
-
 
   // const handleFilterButtonClick = (filter) => {
   //   if (filter) {
@@ -256,7 +281,6 @@ export default function CustomerPage() {
 
   return (
     <div className="customer-page-container">
-      
       <div className="mobileSideBarMenu">
         <AnchorTemporaryDrawer />
       </div>
@@ -328,8 +352,7 @@ export default function CustomerPage() {
           </Box>
         </div>
 
-        <div
-          className="search-addButtton-container">
+        <div className="search-addButtton-container">
           <div className="search-container">
             <input
               type="text"
@@ -360,6 +383,12 @@ export default function CustomerPage() {
             <Pagination count={totalPages} onChange={handlePageChange} />
           </div>
         </div>
+        {notificationTriggered && (
+          <CustomizedSnackbar
+            decisionMessage={notificationMessage}
+            updateMessage={notificationMessage1}
+          />
+        )}
       </div>
     </div>
   );

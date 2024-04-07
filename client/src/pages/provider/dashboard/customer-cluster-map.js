@@ -5,6 +5,7 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import supabase from '../../../supabase'; // Import the Supabase client
 import { provider_id } from "../../../util/localStorage"; // Import provider_id from localStorage
+import { getProviderIdFromLocalStorage } from '../../../util/localStorage';
 
 // Custom icon with red color
 const purpleIcon = new L.Icon({
@@ -23,12 +24,13 @@ const CustomerMap = () => {
 
   useEffect(() => {
     const fetchCustomerData = async () => {
+      const id = getProviderIdFromLocalStorage();
       try {
         // Make query to fetch customer data for the specified provider_id
         const { data: customers, error } = await supabase
           .from('customers')
           .select('latitude, longitude')
-          .eq('provider_id', provider_id);
+          .eq('provider_id', id);
 
         if (error) {
           throw error;
@@ -54,22 +56,25 @@ const CustomerMap = () => {
 
   return (
     <MapContainer
-      style={{ height: '400px', width:'100%' }}
+      className="map-container"
+      style={{ height: '400px', width:'80vw' }}
       center={[49.2133447, -122.9971976]}
       zoom={10}
-      maxZoom={10} // Set the maximum zoom level
+      maxZoom={15}
       scrollWheelZoom={true}
     >
       <MarkerClusterGroup chunkedLoading>
         <TileLayer
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+          attribution='&copy; <a href="https://carto.com/attributions">CARTO</a>'
+          subdomains='abcd'
+          maxZoom={19}
         />
         {addressPoints.map((address, index) => (
           <Marker
             key={index}
             position={[address[0], address[1]]}
-            icon={purpleIcon} // Use the custom red icon
+            icon={purpleIcon}
           />
         ))}
       </MarkerClusterGroup>

@@ -1,4 +1,4 @@
-body{
+.body{
   font-family: var(--main-font);
  }
  .header {
@@ -63,7 +63,7 @@ body{
   transition: transform 0.3s ease;
 }
 
-.header__signup {
+.header__signup, .header__dashboard {
   color: var(--white-color);
   background-color: var(--primary-color);
   border-radius: 5px;
@@ -89,7 +89,7 @@ body{
   left: 0;
 }
 
-.header__signup {
+.header__signup, .header__dashboard {
   position: relative;
   overflow: hidden;
   transition: background-color 0.3s ease;
@@ -113,7 +113,7 @@ body{
   opacity: 0;
 }
 
-.header__signup:hover::after {
+.header__signup:hover::after, .header__dashboard:hover::after {
   width: 0;
   height: 0;
   top: 50%;
@@ -121,12 +121,12 @@ body{
   opacity: 1;
 }
 
-.header__signup:hover {
+.header__signup:hover, .header__dashboard:hover {
   /* background-color: #7d68e8; */
   background-color: var( --secondary-color);
 }
 
-.header__signup:hover span {
+.header__signup:hover span, , .header__dashboard:hover span {
   color:var(--white-color);
 }
 
@@ -166,10 +166,12 @@ body{
   transform: translateY(-2px);
 }
 
-@media only screen and (max-width: 450px) {
+@media only screen and (max-width: 400px) {
   .header {
     padding: 10px;
     max-width: 430px;
+  
+
   }
 
   .header__logo {

@@ -37,9 +37,10 @@ const MealPlanListPage = () => {
   const [deleteSelectedMealPlans, setDeleteSelectedMealPlans] = useState([]);
   const [finalDeleteMealPlans, setFinalDeleteMealPlans] = useState([]);
   const [CheckId, setCheckId] = useState([]);
-
+  const [totalCards, setTotalcards] = useState("");
   const [notificationTriggered, setNotificationTriggered] = useState(false);
   const [deletedPlans, SetDeletedPlans] = useState([]);
+
 
   const fetchMealPlans = () => {
     setLoading(true);
@@ -50,6 +51,7 @@ const MealPlanListPage = () => {
         const activePlans = response.data.filter((plan) => plan.is_active);
         console.log(activePlans, "heyguys");
         setCardData(activePlans);
+        setTotalcards(activePlans.length)
         console.log(cardData, "fliteredinside");
 
         setPlanNameData(response.data);
@@ -210,13 +212,13 @@ const MealPlanListPage = () => {
         await deleteMealPlan(plan_id, plan_name);
       }
       // Check if any plans were successfully deleted
-      if (planIdsToDelete.length > 0) {
-        SetDeletedPlans(deleteSelectedMealPlans);
-      }
+      // if (planIdsToDelete.length > 0) {
+      //   SetDeletedPlans(deleteSelectedMealPlans);
+      // }
       setCheckId([]);
       console.log(CheckId, "after loop");
-      console.log(deleteSelectedMealPlans, "before loop");
-
+      console.log(deleteSelectedMealPlans, "before ---loop");
+      SetDeletedPlans(deleteSelectedMealPlans);
       setDeleteSelectedMealPlans([]);
       console.log(deleteSelectedMealPlans, "after loop");
     } catch (error) {
@@ -239,7 +241,7 @@ const MealPlanListPage = () => {
       // console.log(`Meal plan with ID ${plan_id} deleted successfully`);
       setCheckId([]);
 
-      setNotificationMessage("Deleted");
+      setNotificationMessage("Deleted!");
       setNotificationMessage1(`"${plan_name}" Meal plan Sucessfully Deleted! `);
       // console.log(selectedPlans[0].plan_name, "planNamebelow");
 
@@ -367,7 +369,9 @@ const MealPlanListPage = () => {
                 }
                 // deleteSelectedMealPlans={deleteSelectedMealPlans}
                 deletedPlans={deletedPlans}
+                totalCards={totalCards} // Pass totalCards as a prop
                 checked={false}
+                index={index}
               />
             ))}
           </div>

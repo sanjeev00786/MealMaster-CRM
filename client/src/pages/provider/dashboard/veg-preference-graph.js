@@ -4,6 +4,7 @@ import supabase from '../../../supabase'; // Import your configured Supabase cli
 import { provider_id } from "../../../util/localStorage.js"; // Import provider_id from localStorage
 import "../../CSS/variable.css"
 import './graph.css'
+import { getProviderIdFromLocalStorage } from '../../../util/localStorage.js';
 
 export default function VegPieChart() {
   const [vegCustomers, setVegCustomers] = useState(0);
@@ -12,11 +13,12 @@ export default function VegPieChart() {
 
   useEffect(() => {
     async function fetchCustomerData() {
+      const id = getProviderIdFromLocalStorage();
       try {
         const { data, error } = await supabase
           .from('provider_analytics')
           .select('veg_customers, total_customers')
-          .eq('provider_id', provider_id) // Use provider_id from localStorage
+          .eq('provider_id', id) // Use provider_id from localStorage
           .order('calculation_month', { ascending: false })
           .limit(1);
 

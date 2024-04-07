@@ -122,6 +122,11 @@ export default function CustomerForm({ customerData }) {
         : await apiHelper.post(serverApiEndpoint, finalDatatoSendToDB);
 
       console.log(response.message);
+      if (!isEditMode) {
+        localStorage.setItem('is_customer_added', 'true');
+      } else {
+        localStorage.setItem('is_customer_update', 'true');
+      }
       setLoading(true)
       navigate("/customerList/1");
       setLoading(false)
@@ -145,7 +150,12 @@ export default function CustomerForm({ customerData }) {
 
         <div className="customer-page">
         <div className="meal-page-container">
-        <h2 className="customerH2">Add New Customer</h2>
+          {isEditMode ? (
+            <h2 className="customerH2">Edit Customer</h2>
+          ) : (
+            <h2 className="customerH2">Add New Customer</h2>
+          )}
+        
         <div className="customerFormContainer">
           <form onSubmit={step === 2 ? submitForm : handleNext}>
             {step === 1 && (
@@ -170,6 +180,14 @@ export default function CustomerForm({ customerData }) {
 
             {step === 1 && (
               <div className="actions">
+                 <button
+                  className={"cancelBtn Btn"}
+                  type="button"
+                  onClick={() => navigate("/customerList/1")}
+                >
+                  Cancel
+                </button>
+                
                 <button
                   className={"submitBtn Btn"}
                   type="button"
@@ -177,13 +195,7 @@ export default function CustomerForm({ customerData }) {
                 >
                   Next
                 </button>
-                <button
-                  className={"cancelBtn Btn"}
-                  type="button"
-                  onClick={() => navigate("/customerList/1")}
-                >
-                  Cancel
-                </button>
+               
               </div>
             )}
             {step === 2 && (

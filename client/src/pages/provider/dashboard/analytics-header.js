@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Grid } from "@mui/material";
 import AnalyticsCard from './analytics-card'; // Import the AnalyticsCard component
 import supabase from '../../../supabase'; // Import the Supabase client
-import { provider_id } from "../../../util/localStorage"; // Import provider_id from localStorage
+import { getProviderIdFromLocalStorage } from "../../../util/localStorage";
 
 const AnalyticsHeader = () => {
   const [revenue, setRevenue] = useState("$0");
@@ -14,6 +14,7 @@ const AnalyticsHeader = () => {
   const [newSubsIsRising, setNewSubsIsRising] = useState(false);
   const [driversCount, setDriversCount] = useState("0");
   const [driversIsRising, setDriversIsRising] = useState(false);
+  const id = getProviderIdFromLocalStorage()
 
   useEffect(() => {
     async function fetchData() {
@@ -22,7 +23,7 @@ const AnalyticsHeader = () => {
         const { data: revenueData, error: revenueError } = await supabase
           .from("provider_analytics")
           .select("total_revenue")
-          .eq("provider_id", provider_id)
+          .eq("provider_id", id)
           .order("created_at", { ascending: false })
           .limit(2);
 
@@ -35,8 +36,10 @@ const AnalyticsHeader = () => {
           const prevRevenue = revenueData[1].total_revenue;
           const revenueChange = latestRevenue - prevRevenue;
           const revenueChangePercentage = ((revenueChange / prevRevenue) * 100).toFixed(2);
-          setRevenue(`$${latestRevenue}`);
-          setRevenuePercentage(`${revenueChangePercentage}%`);
+          const formattedLatestRevenue = latestRevenue.toLocaleString('en-US');
+          setRevenue(`$${formattedLatestRevenue}`);
+    
+          setRevenuePercentage(`${revenueChangePercentage}`);
           setRevenueIsRising(revenueChange > 0);
         } else {
           setRevenue("$0");
@@ -61,7 +64,7 @@ const AnalyticsHeader = () => {
         const { data: subsData, error: subsError } = await supabase
           .from("provider_analytics")
           .select("total_customers")
-          .eq("provider_id", provider_id)
+          .eq("provider_id", id)
           .order("created_at", { ascending: false })
           .limit(2);
 
@@ -76,7 +79,7 @@ const AnalyticsHeader = () => {
           setTotalSubscriptions(`${latestSubs}`);
           setNewSubscriptions(`${newSubsCount}`);
           const subsChangePercentage = ((newSubsCount / prevSubs) * 100).toFixed(2);
-          setTotalSubsPercentage(`${subsChangePercentage}%`);
+          setTotalSubsPercentage(`${subsChangePercentage}`);
           setNewSubsIsRising(newSubsCount > 0);
         } else {
           setTotalSubscriptions("0");
@@ -101,7 +104,7 @@ const AnalyticsHeader = () => {
         const { count, error: driversError } = await supabase
         .from("drivers")
         .select("*", { count: "exact", head: true })
-        .eq("provider_id", provider_id);
+        .eq("provider_id", id);
 
         if (driversError) {
           throw driversError;

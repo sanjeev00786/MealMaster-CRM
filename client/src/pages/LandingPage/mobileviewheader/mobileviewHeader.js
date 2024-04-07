@@ -10,55 +10,32 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import { useLocation, useNavigate } from "react-router-dom";
-import "../../pages/CSS/variable.css"
-import "./MobileSideMenu.css";
-import LogoutIcon from '@mui/icons-material/Logout';
-import TransitionsModal from "../ConfirmationModal/ConfirmationModal";
+import { provider_id } from "../../../util/localStorage";
+// import "../../pages/CSS/variable.css"
+import "./mobileviewHeader.css";
+// import TransitionsModal from "../ConfirmationModal/ConfirmationModal";
 
 export default function AnchorTemporaryDrawer() {
   const [open, setOpen] = React.useState(false);
   const [selectedItem, setSelectedItem] = React.useState(null);
-  const [isModalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-
-  const handleLogoutClick = () => {
-    setModalOpen(true);
-  }
-
-  const handleClose = () => {
-    setModalOpen(false); 
-  };
-
-  const handleLogout = () => {
-    sessionStorage.clear();
-    localStorage.clear();
-    navigate("/login-page");
-  };
-
-  React.useEffect(() => {
+  const isLoggedIn = provider_id !== null; 
+  
+ React.useEffect(() => {
     const path = location.pathname;
     switch (path) {
+      case "/landing-page":
+        setSelectedItem("Features");
+        break;
+      case "/team":
+        setSelectedItem("Team");
+        break;
+      case "/login-page":
+        setSelectedItem("Login/SignUp");
+        break;
       case "/dashboard":
         setSelectedItem("Dashboard");
-        break;
-      case "/customerList/1":
-        setSelectedItem("Customers");
-        break;
-      case "/drivers":
-        setSelectedItem("Driver");
-        break;
-      case "/trackdeliveries":
-        setSelectedItem("Track Delivery");
-        break;
-      case "/delivery-schedule/1":
-        setSelectedItem("Schedule Deliveries");
-        break;
-      // case "/social-media":
-      //   setSelectedItem("Social Media");
-      //   break;
-      case "/meal-plan-list":
-        setSelectedItem("Meal Settings");
         break;
 
       default:
@@ -73,30 +50,17 @@ export default function AnchorTemporaryDrawer() {
   const handleMenuItemClick = (text) => {
     setSelectedItem(text);
     switch (text) {
+      case "Features":
+        navigate("/landing-page");
+        break;
+      case "Team":
+        navigate("/team");
+        break;
+      case "Login/SignUp":
+        navigate("/login-page");
+        break;
       case "Dashboard":
         navigate("/dashboard");
-        break;
-      case "Customers":
-        navigate("/customerList/1");
-        break;
-      case "Driver":
-        navigate("/drivers");
-        break;
-      case "Track Delivery":
-        navigate("/trackdeliveries");
-        break;
-      case "Schedule Deliveries":
-        navigate("/delivery-schedule/1");
-        break;
-      // case "Social Media":
-      //   navigate("/social-media");
-      //   break;
-      case "Meal Settings":
-        navigate("/meal-plan-list");
-        break;
-      case "Logout":
-        handleLogoutClick();
-        setSelectedItem(null);
         break;
       default:
         break;
@@ -113,14 +77,9 @@ export default function AnchorTemporaryDrawer() {
     >
       <List>
         {[
-          "Dashboard",
-          "Customers",
-          "Driver",
-          "Track Delivery",
-          "Schedule Deliveries",
-          // "Social Media",
-          "Meal Settings",
-          "Logout",
+          "Features",
+          "Team",
+          "Login/SignUp"
         ].map((text, index) => (
           <ListItem key={text} disablePadding>
             <ListItemButton
@@ -151,14 +110,6 @@ export default function AnchorTemporaryDrawer() {
       >
         <MenuIcon />
       </IconButton>
-      <TransitionsModal
-            modalTitle="Logout"
-            modalDescription="Are you sure you want to Logout?"
-            onCancel={handleClose}
-            onConfirm={handleLogout}
-            isOpen={isModalOpen}
-            setModalOpen={setModalOpen}
-          />
     </div>
   );
 }

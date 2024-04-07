@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Header from "../../../components/header/header";
 import Maps from "../../../components/Maps/Maps";
 import "../../CSS/variable.css"
 import "../../driver/driver-dashboard/driver-dashboard.css";
@@ -20,6 +19,7 @@ import DriverModalDelivery from "../../../components/DriverModal/driverModal.js"
 import DriverMenu from "../../../components/DriverMenu/DriverMenu.jsx";
 import DriverMenuIcon from '../../../component-assets/menu-icon.svg'
 import { getDriverIdFromLocalStorage } from "../../../util/localStorage.js";
+import supabase from "../../../supabase.js";
 
 const DriverDashboard = () => {
   const navigate = useNavigate();
@@ -37,7 +37,8 @@ const DriverDashboard = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDriverModal, setIsDriverModal] = useState(false);
-  const [driver_id, setDriverId] = useState(null);
+  const [driverId, setDriverId] = useState(null);
+  const driver_id = getDriverIdFromLocalStorage();
 
   /***************************************************** */
 
@@ -82,16 +83,15 @@ const DriverDashboard = () => {
       console.error("No image to upload.");
       return;
     }
-    await cloudinaryFilePath.uploadToCloudinary(imagePreview);
-    const filePath = cloudinaryFilePath.filePath;
-    console.log("Complete method", filePath);
-    if (filePath) {
-      updateDeliveryImage(filePath);
-
-    } else {
-      setLoading(false);
-      // setNotification("Alert!", "Something went wrong, please try again.");
-    }
+    cloudinaryFilePath.uploadToCloudinary(imagePreview, (filePath) => {
+      if (filePath) {
+        console.log("Complete method", filePath);
+        updateDeliveryImage(filePath);
+      } else {
+        setLoading(false);
+        setNotification("Alert!", "Something went wrong, please try again.");
+      }
+    });
   };
 
   // Call Update Driver Api
@@ -226,6 +226,7 @@ const DriverDashboard = () => {
       // Show Modal for completion of delivery
       isGetAssignTiffinApiCall = false;
       getAssignedTiffin(driver_id);
+      updateDriverLocation(true, customerData[0].name)
     } catch (error) {
       setLoading(false);
       setNotification("Error!", error.message);
@@ -297,6 +298,17 @@ const DriverDashboard = () => {
     }
   };
 
+  const updateDriverLocation = async (is_delivered, customer_name) => {
+    const { data, error } = await supabase
+      .from('driver_location')
+      .upsert({driver_id: driver_id, is_Delivered: is_delivered, customer_name: customer_name })
+      .eq('driver_id', driver_id);
+      console.log(data)
+    if (error) {
+      console.error('Error updating driver location:', error.message);
+    }
+  };
+
   return (
     <div className="dashboard-container">
 
@@ -309,7 +321,6 @@ const DriverDashboard = () => {
         </button>
       </div>
 
-
       {/* talk with designer about below line */}
 
       <div className="driver-maps">
@@ -319,6 +330,7 @@ const DriverDashboard = () => {
             setTotalRouteDistance={setTotalRouteDistance}
             driver_id={driver_id}
             isNavigationStarted={isNavigationStarted}
+            toggleNavigation={toggleNavigation}
           />
         ) : (
           <WithoutRouteMaps />
